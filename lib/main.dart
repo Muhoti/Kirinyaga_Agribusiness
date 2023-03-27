@@ -25,19 +25,23 @@ class _MyAppState extends State<MyApp> {
 
     // check for login
     getToken() async {
-      var token = await storage.read(key: "erjwt");
-      var decoded = parseJwt(token.toString());
 
-      if (decoded["error"] == "Invalid token") {
-          print("this code has executed: 2");
-        Navigator.pushReplacement(context, MaterialPageRoute(
+      Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (_) => const Home()));
 
-      } else {
-          print("this code has executed: 3");
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const Home()));
-      }
+      // var token = await storage.read(key: "erjwt");
+      // var decoded = parseJwt(token.toString());
+
+      // if (decoded["error"] == "Invalid token") {
+      //     print("this code has executed: 2");
+      //   Navigator.pushReplacement(context, MaterialPageRoute(
+      //     builder: (_) => const Home()));
+
+      // } else {
+      //     print("this code has executed: 3");
+      //   Navigator.pushReplacement(
+      //       context, MaterialPageRoute(builder: (_) => const Home()));
+      // }
     }
 
     Timer(const Duration(seconds: 2), () {
