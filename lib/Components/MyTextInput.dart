@@ -8,7 +8,8 @@ class MyTextInput extends StatefulWidget {
   MyTextInput(
       {super.key,
       required this.title,
-      required this.value, this.type,
+      required this.value, 
+      this.type,
       required this.onSubmit});
 
   @override
