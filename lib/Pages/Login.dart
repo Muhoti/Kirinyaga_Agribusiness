@@ -30,7 +30,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "EMT Login",
+      title: "Farmer Login",
       home: Scaffold(
           resizeToAvoidBottomInset: true,
           body: Stack(children: <Widget>[
@@ -116,6 +116,7 @@ Future<Message> login(String phone, String password) async {
       error: "Invalid phone number!",
     );
   }
+
   if (password.length < 5) {
     return Message(
       token: null,

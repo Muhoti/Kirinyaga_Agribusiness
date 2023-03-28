@@ -15,7 +15,7 @@ class _TextLargeState extends State<TextLarge> {
       padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
       child: Text(widget.label,
           style: const TextStyle(
-              fontSize: 30, fontWeight: FontWeight.bold, color: Colors.blue)),
+              fontSize: 30, fontWeight: FontWeight.bold, color: Colors.green)),
     );
   }
 }

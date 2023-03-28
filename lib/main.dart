@@ -1,4 +1,6 @@
 
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -8,7 +10,9 @@ import 'Pages/Home.dart';
 import 'Pages/Login.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MaterialApp(
+    home: MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -26,22 +30,17 @@ class _MyAppState extends State<MyApp> {
     // check for login
     getToken() async {
 
-      Navigator.pushReplacement(context, MaterialPageRoute(
+      var token = await storage.read(key: "erjwt");
+      var decoded = parseJwt(token.toString());
+
+      if (decoded["error"] == "Invalid token") {
+        Navigator.pushReplacement(context, MaterialPageRoute(
+          builder: (_) => const Login()));
+
+      } else {
+        Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (_) => const Home()));
-
-      // var token = await storage.read(key: "erjwt");
-      // var decoded = parseJwt(token.toString());
-
-      // if (decoded["error"] == "Invalid token") {
-      //     print("this code has executed: 2");
-      //   Navigator.pushReplacement(context, MaterialPageRoute(
-      //     builder: (_) => const Home()));
-
-      // } else {
-      //     print("this code has executed: 3");
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => const Home()));
-      // }
+      }
     }
 
     Timer(const Duration(seconds: 2), () {

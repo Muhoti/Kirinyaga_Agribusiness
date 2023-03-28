@@ -30,11 +30,11 @@ class _MyTextInputState extends State<MyTextInput> {
             decoration: InputDecoration(
                 contentPadding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
                 border: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue)),
+                    borderSide: BorderSide(color: Colors.green)),
                 filled: false,
                 label: Text(
                   widget.title.toString(),
-                  style: TextStyle(color: Colors.blue),
+                  style: TextStyle(color: Colors.green),
                 ),
                 floatingLabelBehavior: FloatingLabelBehavior.always)));
   }

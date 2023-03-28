@@ -4,7 +4,7 @@ import 'dart:convert';
 
 
 String getUrl() {
-  return "http://192.168.1.56:3003/";
+  return "http://192.168.1.133:3003/";
   // return "http://185.215.180.181:9934/api/";
 }
 
