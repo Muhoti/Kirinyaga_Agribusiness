@@ -22,7 +22,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   String phone = '';
-  String password = '';
+  String nationalId = '';
   String error = '';
   var isLoading;
   final storage = const FlutterSecureStorage();
@@ -59,12 +59,12 @@ class _LoginState extends State<Login> {
                             },
                           ),
                           MyTextInput(
-                            title: 'Password',
+                            title: 'National ID',
                             value: '',
                             type: TextInputType.visiblePassword,
                             onSubmit: (value) {
                               setState(() {
-                                password = value;
+                                nationalId = value;
                               });
                             },
                           ),
@@ -78,14 +78,17 @@ class _LoginState extends State<Login> {
                                   size: 100,
                                 );
                               });
-                              var res = await login(phone, password);
+                              var res = await login(phone, nationalId);
                               setState(() {
                                 isLoading = null;
                                 if (res.error == null) {
                                   error = res.success;
                                 } else {
+
                                   error = res.error;
+
                                 }
+
                               });
                               if (res.error == null) {
                                 await storage.write(
@@ -108,7 +111,7 @@ class _LoginState extends State<Login> {
   }
 }
 
-Future<Message> login(String phone, String password) async {
+Future<Message> login(String phone, String nationalId) async {
   if (phone.length != 10) {
     return Message(
       token: null,
@@ -117,7 +120,7 @@ Future<Message> login(String phone, String password) async {
     );
   }
 
-  if (password.length < 5) {
+  if (nationalId.length < 8) {
     return Message(
       token: null,
       success: null,
@@ -125,13 +128,18 @@ Future<Message> login(String phone, String password) async {
     );
   }
 
+    print("hey there");
+
+
   final response = await http.post(
     Uri.parse("${getUrl()}farmerdetails/login"),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
-    body: jsonEncode(<String, String>{'Phone': phone, 'Password': password}),
+    body:
+        jsonEncode(<String, String>{'Phone': phone, 'NationalID': nationalId}),
   );
+
 
   if (response.statusCode == 200 || response.statusCode == 203) {
     // If the server did return a 200 OK response,
