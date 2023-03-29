@@ -40,8 +40,18 @@ class _FarmerDetailsState extends State<FarmerDetails> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Farmer Details"),
+        actions: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: IconButton(
+              onPressed: ()=>Navigator.of(context).pop(), 
+              icon: const Icon(Icons.arrow_back),
+            ),
+          ),
+        ],
+        backgroundColor: Colors.green,
       ),
-      drawer: const NavigationDrawer2(),
+      drawer: const Drawer(child: NavigationDrawer2()),
       body: SingleChildScrollView(
         child: Form(
           child: Center(

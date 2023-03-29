@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerLogin.dart';
 import 'package:kirinyaga_agribusiness/Pages/StaffLogin.dart';
+
+import '../Components/NavigationDrawer2.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -10,22 +14,52 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  int _selectedPage = 0;
+  int _selectedItem = 0;
+  final _pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login Page'),
+        title: const Text("KIRINYAGA AGRIBUSINESS"),
+        actions: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: IconButton(
+              onPressed: () => Navigator.of(context).pop(),
+              icon: const Icon(Icons.arrow_back),
+            ),
+          ),
+        ],
+        backgroundColor: Colors.green,
       ),
+      drawer: const Drawer(child: NavigationDrawer2()),
       body: PageView(
-        children: const [FarmerLogin(), StaffLogin()],
         onPageChanged: (index) {
+          _selectedItem = index;
+        },
+        controller: _pageController,
+        children: const [FarmerLogin(), StaffLogin()],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.login_rounded), label: 'Farmer Login'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.login), label: 'Admin Login'),
+        ],
+        currentIndex: _selectedItem,
+        onTap: (index) {
           setState(() {
-            _selectedPage = index;
+            _selectedItem = index;
+            _pageController.animateToPage(_selectedItem,
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.linear);
           });
         },
+        fixedColor: Colors.green,
       ),
+
       //bottomNavigationBar: BottomNavigationBar(),
     );
   }

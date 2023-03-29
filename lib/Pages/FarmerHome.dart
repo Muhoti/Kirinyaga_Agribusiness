@@ -9,59 +9,24 @@ import '../Components/NavigationDrawer2.dart';
 import 'package:http/http.dart' as http;
 import '../Components/Utils.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class FarmerHome extends StatefulWidget {
+  const FarmerHome({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<FarmerHome> createState() => _FarmerHomeState();
 }
 
-class _HomeState extends State<Home> {
+class _FarmerHomeState extends State<FarmerHome> {
   @override
   Widget build(BuildContext context) {
-    const storage = FlutterSecureStorage();
 
-    Future<void> checkRole() async {
-      var token = await storage.read(key: "erjwt");
-      var decoded = parseJwt(token.toString());
-      var id = decoded["UserID"];
-
-      final response = await http.get(
-        Uri.parse("${getUrl()}mobile/$id"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      );
-
-      var data = json.decode(response.body);
-      String role = data["Role"];
-      print("the role is $role");
-
-      switch (role) {
-        case "Field Officer":
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (_) => const FarmerDetails()));
-          break;
-        case "Supervisor":
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (_) => const FarmerDetails()));
-          break;
-        case "Enumerator":
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (_) => const FarmerDetails()));
-          break;
-        default:
-          
-      }
-    }
-
-    checkRole();
+  
 
     return MaterialApp(
       title: 'Kirinyaga Agribusiness',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Home"),
+          title: const Text("Farmer Home"),
           actions: [
             Align(
               alignment: Alignment.centerRight,
@@ -83,7 +48,7 @@ class _HomeState extends State<Home> {
               const Padding(
                 padding: EdgeInsets.fromLTRB(24, 24, 24, 0),
                 child: Text(
-                  'Home Page',
+                  'Farmer Home Page',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 28, color: Colors.green),
                 ),

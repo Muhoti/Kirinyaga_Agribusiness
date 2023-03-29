@@ -1,3 +1,4 @@
+import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/main.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,18 @@ class NavigationDrawer2 extends StatelessWidget {
               },
             ),
             ListTile(
+              title: Text(
+                'Farmer Details',
+                style: style,
+              ),
+              onTap: () {
+                final store = new FlutterSecureStorage();
+                store.deleteAll();
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => const FarmerDetails()));
+              },
+            ),
+             ListTile(
               title: Text(
                 'Logout',
                 style: style,

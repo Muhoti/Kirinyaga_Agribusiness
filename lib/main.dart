@@ -5,11 +5,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
-import 'package:kirinyaga_agribusiness/Pages/FarmerLogin.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
-import 'package:kirinyaga_agribusiness/Pages/StaffLogin.dart';
 import 'Components/Utils.dart';
+import 'Pages/Home.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -37,11 +35,11 @@ class _MyAppState extends State<MyApp> {
 
       if (decoded["error"] == "Invalid token") {
         Navigator.pushReplacement(context, MaterialPageRoute(
-          builder: (_) => const FarmerDetails()));
+          builder: (_) => const Login()));
 
       } else {
         Navigator.pushReplacement(context, MaterialPageRoute(
-          builder: (_) => const FarmerDetails()));
+          builder: (_) => const Home()));
       }
     }
 

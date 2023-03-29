@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, prefer_typing_uninitialized_variables
+// ignore_for_file: file_names, prefer_typing_uninitialized_variables, use_build_context_synchronously
 
 import 'dart:async';
 import 'dart:convert';
@@ -12,6 +12,7 @@ import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
+import 'package:email_validator/email_validator.dart';
 
 class StaffLogin extends StatefulWidget {
   const StaffLogin({super.key});
@@ -21,10 +22,11 @@ class StaffLogin extends StatefulWidget {
 }
 
 class _StaffLoginState extends State<StaffLogin> {
-  String phone = '';
-  String nationalId = '';
+  String email = '';
+  String password = '';
   String error = '';
   var isLoading;
+  String role = '';
   final storage = const FlutterSecureStorage();
 
   @override
@@ -38,89 +40,87 @@ class _StaffLoginState extends State<StaffLogin> {
                 child: Container(
                     constraints: const BoxConstraints.tightForFinite(),
                     child: SingleChildScrollView(
-                        child: Form(
-                            child: Center(
-                                child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                          Image.asset('assets/images/logo.png'),
-                          const TextLarge(label: "EMT Login"),
-                          TextOakar(label: error),
-                          MyTextInput(
-                            title: 'Phone Number',
-                            value: '',
-                            type: TextInputType.phone,
-                            onSubmit: (value) {
-                              setState(() {
-                                phone = value;
+                      child: Form(
+                          child: Center(
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                                  Image.asset('assets/images/logo.png'),
+                                                  const TextLarge(label: "Staff Login"),
+                                                  TextOakar(label: error),
+                                                  MyTextInput(
+                                                    title: 'Email',
+                                                    value: '',
+                                                    type: TextInputType.emailAddress,
+                                                    onSubmit: (value) {
+                                                      setState(() {
+                                                        email = value;
+                                                      });
+                                                    },
+                                                  ),
+                                                  MyTextInput(
+                                                    title: 'Password',
+                                                    value: '',
+                                                    type: TextInputType.visiblePassword,
+                                                    onSubmit: (value) {
+                                                      setState(() {
+                                                        password = value;
+                                                      });
+                                                    },
+                                                  ),
+                                                  SubmitButton(
+                                                    label: "Login",
+                                                    onButtonPressed: () async {
+                                                      setState(() {
+                                                        isLoading =
+                                                            LoadingAnimationWidget.staggeredDotsWave(
+                                                          color: Colors.green,
+                                                          size: 100,
+                                                        );
+                                                      });
+                                                      var res = await login(email, password);
+                                                      setState(() {
+                                                        isLoading = null;
+                                                        if (res.error == null) {
+                                                          error = res.success;
+                                                        } else {
+                                                          error = res.error;
+                                                        }
+                                                      });
+                                                      if (res.error == null) {
+                              await storage.write(
+                                  key: 'erjwt', value: res.token);
+                              var decoded = parseJwt(res.token.toString());
+                              Timer(const Duration(seconds: 2), () {
+                                Navigator.pushReplacement(
+                                    context, MaterialPageRoute(builder: (_) => const Home()));
                               });
-                            },
-                          ),
-                          MyTextInput(
-                            title: 'National ID',
-                            value: '',
-                            type: TextInputType.visiblePassword,
-                            onSubmit: (value) {
-                              setState(() {
-                                nationalId = value;
-                              });
-                            },
-                          ),
-                          SubmitButton(
-                            label: "Login",
-                            onButtonPressed: () async {
-                              setState(() {
-                                isLoading =
-                                    LoadingAnimationWidget.staggeredDotsWave(
-                                  color: Colors.green,
-                                  size: 100,
-                                );
-                              });
-                              var res = await login(phone, nationalId);
-                              setState(() {
-                                isLoading = null;
-                                if (res.error == null) {
-                                  error = res.success;
-                                } else {
-
-                                  error = res.error;
-
-                                }
-
-                              });
-                              if (res.error == null) {
-                                await storage.write(
-                                    key: 'erjwt', value: res.token);
-                                Timer(const Duration(seconds: 2), () {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => const Home()));
-                                });
-                              }
-                            },
-                          ),
-                          const TextOakar(
-                              label: "Powered by \n Oakar Services Ltd.")
-                        ])))))),
+                              //checkRole(decoded["Password"], role, context);
+                                                      }
+                                                    },
+                                                  ),
+                                                  const TextOakar(
+                                                      label: "Powered by \n Oakar Services Ltd.")
+                                                ]))),
+                    ))),
             Center(child: isLoading),
           ])),
     );
   }
 }
 
-Future<Message> login(String phone, String nationalId) async {
-  if (phone.length != 10) {
+Future<Message> login(String email, String password) async {
+  if (email.isEmpty || !EmailValidator.validate(email)) {
     return Message(
       token: null,
       success: null,
-      error: "Invalid phone number!",
+      error: "Email is invalid!",
     );
   }
 
-  if (nationalId.length < 8) {
+  if (password.length < 6) {
     return Message(
       token: null,
       success: null,
@@ -129,15 +129,15 @@ Future<Message> login(String phone, String nationalId) async {
   }
 
   final response = await http.post(
-    Uri.parse("${getUrl()}farmerdetails/login"),
+    Uri.parse("${getUrl()}mobile/login"),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
-    body:
-        jsonEncode(<String, String>{'Phone': phone, 'NationalID': nationalId}),
+    body: jsonEncode(<String, String>{'Email': email, 'Password': password}),
   );
 
   if (response.statusCode == 200 || response.statusCode == 203) {
+    //getToken(role);
     // If the server did return a 200 OK response,
     // then parse the JSON.
     return Message.fromJson(jsonDecode(response.body));
@@ -151,6 +151,8 @@ Future<Message> login(String phone, String nationalId) async {
     );
   }
 }
+
+
 
 class Message {
   var token;

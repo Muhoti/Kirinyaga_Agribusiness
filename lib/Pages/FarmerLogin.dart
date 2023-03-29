@@ -9,7 +9,7 @@ import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
-import 'package:kirinyaga_agribusiness/Pages/Home.dart';
+import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 
@@ -38,74 +38,75 @@ class _FarmerLoginState extends State<FarmerLogin> {
                 child: Container(
                     constraints: const BoxConstraints.tightForFinite(),
                     child: SingleChildScrollView(
-                        child: Form(
-                            child: Center(
-                                child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                          Image.asset('assets/images/logo.png'),
-                          const TextLarge(label: "EMT Login"),
-                          TextOakar(label: error),
-                          MyTextInput(
-                            title: 'Phone Number',
-                            value: '',
-                            type: TextInputType.phone,
-                            onSubmit: (value) {
-                              setState(() {
-                                phone = value;
-                              });
-                            },
-                          ),
-                          MyTextInput(
-                            title: 'National ID',
-                            value: '',
-                            type: TextInputType.visiblePassword,
-                            onSubmit: (value) {
-                              setState(() {
-                                nationalId = value;
-                              });
-                            },
-                          ),
-                          SubmitButton(
-                            label: "Login",
-                            onButtonPressed: () async {
-                              setState(() {
-                                isLoading =
-                                    LoadingAnimationWidget.staggeredDotsWave(
-                                  color: Colors.green,
-                                  size: 100,
-                                );
-                              });
-                              var res = await login(phone, nationalId);
-                              
-                              setState(() {
-                                isLoading = null;
-                                if (res.error == null) {
-                                  error = res.success;
-                                } else {
-
-                                  error = res.error;
-
-                                }
-
-                              });
+                      child: Form(
+                          child: Center(
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                  children: <Widget>[
+                        Image.asset('assets/images/logo.png'),
+                        const TextLarge(label: "Farmer Login"),
+                        TextOakar(label: error),
+                        MyTextInput(
+                          title: 'Phone Number',
+                          value: '',
+                          type: TextInputType.phone,
+                          onSubmit: (value) {
+                            setState(() {
+                              phone = value;
+                            });
+                          },
+                        ),
+                        MyTextInput(
+                          title: 'National ID',
+                          value: '',
+                          type: TextInputType.visiblePassword,
+                          onSubmit: (value) {
+                            setState(() {
+                              nationalId = value;
+                            });
+                          },
+                        ),
+                        SubmitButton(
+                          label: "Login",
+                          onButtonPressed: () async {
+                            setState(() {
+                              isLoading =
+                                  LoadingAnimationWidget.staggeredDotsWave(
+                                color: Colors.green,
+                                size: 100,
+                              );
+                            });
+                            var res = await login(phone, nationalId);
+                            
+                            setState(() {
+                              isLoading = null;
                               if (res.error == null) {
-                                await storage.write(
-                                    key: 'erjwt', value: res.token);
-                                Timer(const Duration(seconds: 2), () {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => const Home()));
-                                });
+                                error = res.success;
+                              } else {
+                                  
+                                error = res.error;
+                                  
                               }
-                            },
-                          ),
-                          const TextOakar(
-                              label: "Powered by \n Oakar Services Ltd.")
-                        ])))))),
+                                  
+                            });
+                            if (res.error == null) {
+                              await storage.write(
+                                  key: 'erjwt', value: res.token);
+                              Timer(const Duration(seconds: 2), () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => const FarmerHome()));
+                              });
+                            }
+                          },
+                        ),
+                        const TextOakar(
+                            label: "Powered by \n Oakar Services Ltd.")
+                      ]))),
+                    ))),
             Center(child: isLoading),
           ])),
     );
