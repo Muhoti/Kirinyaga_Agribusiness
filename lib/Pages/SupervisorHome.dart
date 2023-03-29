@@ -3,14 +3,14 @@
 import 'package:flutter/material.dart';
 import '../Components/NavigationDrawer2.dart';
 
-class FarmerHome extends StatefulWidget {
-  const FarmerHome({super.key});
+class SupervisorHome extends StatefulWidget {
+  const SupervisorHome({super.key});
 
   @override
-  State<FarmerHome> createState() => _FarmerHomeState();
+  State<SupervisorHome> createState() => _SupervisorHomeState();
 }
 
-class _FarmerHomeState extends State<FarmerHome> {
+class _SupervisorHomeState extends State<SupervisorHome> {
   @override
   Widget build(BuildContext context) {
 
@@ -20,7 +20,7 @@ class _FarmerHomeState extends State<FarmerHome> {
       title: 'Kirinyaga Agribusiness',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Farmer Home"),
+          title: const Text("Supervisor Home"),
           actions: [
             Align(
               alignment: Alignment.centerRight,
@@ -42,7 +42,7 @@ class _FarmerHomeState extends State<FarmerHome> {
               const Padding(
                 padding: EdgeInsets.fromLTRB(24, 24, 24, 0),
                 child: Text(
-                  'Farmer Home Page',
+                  'SuperVisor Home Page',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 28, color: Colors.green),
                 ),

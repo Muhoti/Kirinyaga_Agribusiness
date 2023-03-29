@@ -1,26 +1,25 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
+import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import '../Components/NavigationDrawer2.dart';
 
-class FarmerHome extends StatefulWidget {
-  const FarmerHome({super.key});
+class EnumeratorHome extends StatefulWidget {
+  const EnumeratorHome({super.key});
 
   @override
-  State<FarmerHome> createState() => _FarmerHomeState();
+  State<EnumeratorHome> createState() => _EnumeratorHomeState();
 }
 
-class _FarmerHomeState extends State<FarmerHome> {
+class _EnumeratorHomeState extends State<EnumeratorHome> {
   @override
   Widget build(BuildContext context) {
-
-  
-
     return MaterialApp(
       title: 'Kirinyaga Agribusiness',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Farmer Home"),
+          title: const Text("Enumerator Home"),
           actions: [
             Align(
               alignment: Alignment.centerRight,
@@ -42,11 +41,20 @@ class _FarmerHomeState extends State<FarmerHome> {
               const Padding(
                 padding: EdgeInsets.fromLTRB(24, 24, 24, 0),
                 child: Text(
-                  'Farmer Home Page',
+                  'Enumerator Home Page',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 28, color: Colors.green),
                 ),
-              )
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const FarmerDetails()));
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                ),
+                child: const Text('Start Mapping!'),
+              ),
             ],
           ),
         ),
@@ -54,3 +62,12 @@ class _FarmerHomeState extends State<FarmerHome> {
     );
   }
 }
+
+// Route _createRoute() {
+//   return PageRouteBuilder(
+//     pageBuilder: (context, animation, secondaryAnimation) => const Page2(),
+//     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+//       return child;
+//     },
+//   );
+// }

@@ -1,4 +1,5 @@
 import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
+import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:kirinyaga_agribusiness/main.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,19 @@ class NavigationDrawer2 extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                     context, MaterialPageRoute(builder: (_) => const Home()));
+              },
+            ),
+            ListTile(
+              title: const Text(
+                'Farmer Home',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
+              onTap: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => const FarmerHome()));
               },
             ),
             ListTile(

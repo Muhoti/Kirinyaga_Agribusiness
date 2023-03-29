@@ -1,10 +1,11 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: file_names, use_build_context_synchronously
 
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kirinyaga_agribusiness/Pages/EnumeratorHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
+import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import '../Components/NavigationDrawer2.dart';
 import 'package:http/http.dart' as http;
 import '../Components/Utils.dart';
@@ -26,32 +27,32 @@ class _HomeState extends State<Home> {
       var decoded = parseJwt(token.toString());
       var id = decoded["UserID"];
 
-      final response = await http.get(
-        Uri.parse("${getUrl()}mobile/$id"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      );
+      final response = await http.get(Uri.parse("${getUrl()}mobile/$id"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          });
 
-      var data = json.decode(response.body);
-      String role = data["Role"];
-      print("the role is $role");
-
-      switch (role) {
-        case "Field Officer":
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (_) => const FarmerDetails()));
-          break;
-        case "Supervisor":
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (_) => const FarmerDetails()));
-          break;
-        case "Enumerator":
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (_) => const FarmerDetails()));
-          break;
-        default:
-          
+      try {
+        var data = json.decode(response.body);
+        String role = data["Role"];
+        switch (role) {
+          case "Field Officer":
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (_) => const EnumeratorHome()));
+            break;
+          case "Supervisor":
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (_) => const SupervisorHome()));
+            break;
+          case "Enumerator":
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (_) => const FarmerDetails()));
+            break;
+          default:
+            const Home();
+        }
+      } catch (e) {
+        // TO-DO
       }
     }
 
