@@ -1,5 +1,7 @@
 import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
+import 'package:kirinyaga_agribusiness/Pages/FarmerInfo.dart';
+import 'package:kirinyaga_agribusiness/Pages/Produce.dart';
 import 'package:kirinyaga_agribusiness/main.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:flutter/material.dart';
@@ -66,6 +68,30 @@ class NavigationDrawer2 extends StatelessWidget {
                 store.deleteAll();
                 Navigator.push(
                     context, MaterialPageRoute(builder: (_) => const FarmerDetails()));
+              },
+            ),
+            ListTile(
+              title: Text(
+                'Update Produce',
+                style: style,
+              ),
+              onTap: () {
+                final store = new FlutterSecureStorage();
+                store.deleteAll();
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => const Produce()));
+              },
+            ),
+            ListTile(
+              title: Text(
+                'Farmer Information',
+                style: style,
+              ),
+              onTap: () {
+                final store = new FlutterSecureStorage();
+                store.deleteAll();
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => const FarmerInfo()));
               },
             ),
              ListTile(

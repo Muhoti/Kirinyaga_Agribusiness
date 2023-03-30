@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Pages/EnumeratorHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
+import 'package:kirinyaga_agribusiness/Pages/Produce.dart';
 import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
+import 'package:kirinyaga_agribusiness/Scroll/ScrollController.dart';
 import '../Components/NavigationDrawer2.dart';
 import 'package:http/http.dart' as http;
+import '../Components/SubmitButton.dart';
 import '../Components/Utils.dart';
 
 class FarmerHome extends StatefulWidget {
@@ -127,6 +130,24 @@ class _FarmerHomeState extends State<FarmerHome> {
                 "Summary of Production",
                 style: TextStyle(fontSize: 28, color: Colors.green),
               )),
+              
+            ),
+            // const Flexible(
+            //   flex: 1,
+            //   fit: FlexFit.tight,
+            //   child: InfiniteScrollPaginatorDemo(
+            //     id: "id",
+            //     status: "status",
+            //     active: "active",
+            //   )),
+            SubmitButton(
+              label: "Update Produce",
+              onButtonPressed: () async {
+                Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const Produce()));
+              },
             ),
           ],
         ),
