@@ -48,6 +48,7 @@ class _HomeState extends State<Home> {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (_) => const FarmerDetails()));
             break;
+         
           default:
             const Home();
         }

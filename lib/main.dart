@@ -1,10 +1,10 @@
-
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'Components/Utils.dart';
 import 'Pages/Home.dart';
@@ -29,17 +29,24 @@ class _MyAppState extends State<MyApp> {
 
     // check for login
     getToken() async {
-
       var token = await storage.read(key: "erjwt");
       var decoded = parseJwt(token.toString());
+      var checkID = decoded["NationalID"];
+
+      print("verify checking $checkID");
 
       if (decoded["error"] == "Invalid token") {
-        Navigator.pushReplacement(context, MaterialPageRoute(
-          builder: (_) => const Login()));
-
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const Login()));
       } else {
-        Navigator.pushReplacement(context, MaterialPageRoute(
-          builder: (_) => const Home()));
+        if (checkID == null) {
+          Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const Home()));
+        } else {
+          Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const FarmerHome()));
+        }
+        
       }
     }
 

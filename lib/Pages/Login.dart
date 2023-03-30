@@ -20,19 +20,6 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("KIRINYAGA AGRIBUSINESS"),
-        actions: [
-          Align(
-            alignment: Alignment.centerRight,
-            child: IconButton(
-              onPressed: () => Navigator.of(context).pop(),
-              icon: const Icon(Icons.arrow_back),
-            ),
-          ),
-        ],
-        backgroundColor: Colors.green,
-      ),
       drawer: const Drawer(child: NavigationDrawer2()),
       body: PageView(
         onPageChanged: (index) {
