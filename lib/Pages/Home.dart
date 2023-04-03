@@ -3,7 +3,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:kirinyaga_agribusiness/Pages/EnumeratorHome.dart';
+import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import '../Components/NavigationDrawer2.dart';
@@ -35,10 +35,11 @@ class _HomeState extends State<Home> {
       try {
         var data = json.decode(response.body);
         String role = data["Role"];
+        print("the role is $role");
         switch (role) {
           case "Field Officer":
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (_) => const EnumeratorHome()));
+                MaterialPageRoute(builder: (_) => const FieldOfficerHome()));
             break;
           case "Supervisor":
             Navigator.pushReplacement(context,
@@ -48,7 +49,7 @@ class _HomeState extends State<Home> {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (_) => const FarmerDetails()));
             break;
-         
+
           default:
             const Home();
         }

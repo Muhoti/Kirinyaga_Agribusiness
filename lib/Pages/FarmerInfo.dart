@@ -38,7 +38,7 @@ class _FarmerInfoState extends State<FarmerInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Update FarmerInfo"),
+        title: const Text("Farmer Information"),
         actions: [
           Align(
             alignment: Alignment.centerRight,
@@ -59,7 +59,7 @@ class _FarmerInfoState extends State<FarmerInfo> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const TextLarge(
-                  label: "Update Farm FarmerInfo",
+                  label: "Farmer Profile Bio",
                 ),
                TextOakar(label: error),
                
