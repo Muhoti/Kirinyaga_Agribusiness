@@ -10,28 +10,28 @@ import 'package:kirinyaga_agribusiness/Components/NavigationDrawer2.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
-import 'package:kirinyaga_agribusiness/Pages/FarmerAddress.dart';
+import 'package:kirinyaga_agribusiness/Pages/FarmerResources.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 
 import '../Components/Utils.dart';
 
-class FarmerDetails extends StatefulWidget {
-  const FarmerDetails({super.key});
+class FarmerAddress extends StatefulWidget {
+  const FarmerAddress({super.key});
 
   @override
-  State<FarmerDetails> createState() => _FarmerDetailsState();
+  State<FarmerAddress> createState() => _FarmerAddressState();
 }
 
-class _FarmerDetailsState extends State<FarmerDetails> {
-  String user = '';
-  String nationalId = '';
-  String name = '';
-  String phoneNumber = '';
-  String gender = '';
-  String age = '';
+class _FarmerAddressState extends State<FarmerAddress> {
+  String FarmerID = '';
+  String County = '';
+  String SubCounty = '';
+  String Ward = '';
+  String Village = '';
+  String Latitude = '';
+  String Longitude = '';
   String error = '';
-  String farmingType = '';
   var isLoading;
   final storage = const FlutterSecureStorage();
 
@@ -39,12 +39,12 @@ class _FarmerDetailsState extends State<FarmerDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Farmer Details"),
+        title: const Text("Farmer Address"),
         actions: [
           Align(
             alignment: Alignment.centerRight,
             child: IconButton(
-              onPressed: ()=>Navigator.of(context).pop(), 
+              onPressed: () => Navigator.of(context).pop(),
               icon: const Icon(Icons.arrow_back),
             ),
           ),
@@ -60,63 +60,65 @@ class _FarmerDetailsState extends State<FarmerDetails> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const TextLarge(
-                  label: "Add Farmer Details",
+                  label: "Add Farmer Address",
                 ),
-               TextOakar(label: error),
+                Image.asset('assets/images/logo.png'),
+                const Padding(padding: EdgeInsets.fromLTRB(24, 24, 24, 0)),
+                TextOakar(label: error),
                 MyTextInput(
-                    title: "User",
-                    value: " ",
-                    onSubmit: (value) {
-                      setState(() {
-                        user = value;
-                      });
-                    }),
-                MyTextInput(
-                    title: "Farmer Name",
-                    value: " ",
-                    onSubmit: (value) {
-                      setState(() {
-                        name = value;
-                      });
-                    }),
-                MyTextInput(
-                    title: "National ID",
-                    value: " ",
-                    onSubmit: (value) {
-                      setState(() {
-                        nationalId = value;
-                      });
-                    }),
-                MyTextInput(
-                    title: "Phone Number",
-                    value: " ",
-                    onSubmit: (value) {
-                      setState(() {
-                        phoneNumber = value;
-                      });
-                    }),
-                MyTextInput(
-                    title: "Gender",
-                    value: " ",
-                    onSubmit: (value) {
-                      setState(() {
-                        gender = value;
-                      });
-                    }),
-                MyTextInput(
-                    title: "Age Group",
+                    title: "FarmerID",
                     value: "",
                     onSubmit: (value) {
                       setState(() {
-                        age = value;
+                        FarmerID = value;
                       });
                     }),
                 MyTextInput(
-                    title: "Farming Type",
-                    value: " ",
+                    title: "County",
+                    value: "",
                     onSubmit: (value) {
                       setState(() {
-                        farmingType = value;
+                        County = value;
+                      });
+                    }),
+                MyTextInput(
+                    title: "SubCounty",
+                    value: "",
+                    onSubmit: (value) {
+                      setState(() {
+                        SubCounty = value;
+                      });
+                    }),
+                MyTextInput(
+                    title: "Ward",
+                    value: "",
+                    onSubmit: (value) {
+                      setState(() {
+                        Ward = value;
+                      });
+                    }),
+                MyTextInput(
+                    title: "Village",
+                    value: "",
+                    onSubmit: (value) {
+                      setState(() {
+                        Village = value;
+                      });
+                    }),
+                MyTextInput(
+                    title: "Latitude",
+                    value: "",
+                    onSubmit: (value) {
+                      setState(() {
+                        Latitude = value;
+                      });
+                    }),
+                MyTextInput(
+                    title: "Longitude",
+                    value: "",
+                    onSubmit: (value) {
+                      setState(() {
+                        Longitude = value;
                       });
                     }),
                 SubmitButton(
@@ -128,12 +130,9 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                         size: 100,
                       );
                     });
-                    var res = await postFarmerDetails(user, name, nationalId,
-                        phoneNumber, gender, age, farmingType);
-      
-                    print(res);
-                    print("bingo");
-      
+                    var res = await postFarmerAddress(County, SubCounty, Ward,
+                        Village, FarmerID, Latitude, Longitude);
+
                     setState(() {
                       isLoading = null;
                       if (res.error == null) {
@@ -142,14 +141,14 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                         error = res.error;
                       }
                     });
-      
+
                     if (res.error == null) {
                       await storage.write(key: 'erjwt', value: res.token);
                       Timer(const Duration(seconds: 2), () {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const FarmerAddress()));
+                                builder: (context) => const FarmerResources()));
                       });
                     }
                   },
@@ -163,42 +162,31 @@ class _FarmerDetailsState extends State<FarmerDetails> {
   }
 }
 
-Future<Message> postFarmerDetails(String user, String name, String nationalId,
-    String phoneNumber, String gender, String age, String farmingType) async {
-  
-  if (name.isEmpty) {
-    return Message(token: null, success: null, error: "Name cannot be empty!");
+Future<Message> postFarmerAddress(String County, String SubCounty, String Ward,
+    String Village, String FarmerID, String Latitude, String Longitude) async {
+  if (FarmerID.isEmpty) {
+    return Message(
+        token: null, success: null, error: "FarmerID cannot be empty!");
   }
 
-  if (phoneNumber.length != 10) {
+  if (County.isEmpty) {
     return Message(
-      token: null,
-      success: null,
-      error: "Invalid phone number!",
-    );
-  }
-
-  if (nationalId.length < 7) {
-    return Message(
-      token: null,
-      success: null,
-      error: "National ID is too short!",
-    );
+        token: null, success: null, error: "County cannot be empty!");
   }
 
   final response = await http.post(
-    Uri.parse("${getUrl()}farmerdetails/create"),
+    Uri.parse("${getUrl()}farmeraddress/register"),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(<String, String>{
-      'User': user,
-      'Name': name,
-      'NationalID': nationalId,
-      'Phone': phoneNumber,
-      'Gender': gender,
-      'AgeGroup': age,
-      'FarmingType': farmingType
+      'FarmerID': FarmerID,
+      'County': County,
+      'SubCounty': SubCounty,
+      'Ward': Ward,
+      'Village': Village,
+      'Latitude': Latitude,
+      'Longitude': Longitude,
     }),
   );
 

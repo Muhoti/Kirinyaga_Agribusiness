@@ -155,8 +155,6 @@ class _ProduceState extends State<Produce> {
 
 Future<Message> postProduce(String valueChainID, String valueChain, String farmerID,
     String produce, String harvestDate, String farmingPeriod) async {
-  print("mango");
-  print(valueChainID);
   if (valueChainID.isEmpty || valueChain.isEmpty || farmerID.isEmpty || produce.isEmpty || harvestDate.isEmpty || farmingPeriod.isEmpty) {
     return Message(token: null, success: null, error: "Please fill all inputs!");
   }

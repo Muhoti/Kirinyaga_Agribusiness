@@ -13,9 +13,6 @@ class SupervisorHome extends StatefulWidget {
 class _SupervisorHomeState extends State<SupervisorHome> {
   @override
   Widget build(BuildContext context) {
-
-  
-
     return MaterialApp(
       title: 'Kirinyaga Agribusiness',
       home: Scaffold(
@@ -42,7 +39,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
               const Padding(
                 padding: EdgeInsets.fromLTRB(24, 24, 24, 0),
                 child: Text(
-                  'SuperVisor Home Page',
+                  'Supervisor Home Page',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 28, color: Colors.green),
                 ),

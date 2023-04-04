@@ -1,3 +1,4 @@
+import 'package:kirinyaga_agribusiness/Pages/FarmerAddress.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerInfo.dart';
@@ -54,8 +55,8 @@ class NavigationDrawer2 extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
               onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => const FarmerHome()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const FarmerHome()));
               },
             ),
             ListTile(
@@ -66,8 +67,20 @@ class NavigationDrawer2 extends StatelessWidget {
               onTap: () {
                 final store = new FlutterSecureStorage();
                 store.deleteAll();
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => const FarmerDetails()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const FarmerDetails()));
+              },
+            ),
+            ListTile(
+              title: Text(
+                'Farmer Address',
+                style: style,
+              ),
+              onTap: () {
+                final store = new FlutterSecureStorage();
+                store.deleteAll();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const FarmerAddress()));
               },
             ),
             ListTile(
@@ -78,8 +91,8 @@ class NavigationDrawer2 extends StatelessWidget {
               onTap: () {
                 final store = new FlutterSecureStorage();
                 store.deleteAll();
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => const Produce()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const Produce()));
               },
             ),
             ListTile(
@@ -90,11 +103,11 @@ class NavigationDrawer2 extends StatelessWidget {
               onTap: () {
                 final store = new FlutterSecureStorage();
                 store.deleteAll();
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => const FarmerInfo()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const FarmerInfo()));
               },
             ),
-             ListTile(
+            ListTile(
               title: Text(
                 'Logout',
                 style: style,
