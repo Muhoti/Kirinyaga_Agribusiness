@@ -85,7 +85,7 @@ class NavigationDrawer2 extends StatelessWidget {
             ),
             ListTile(
               title: Text(
-                'Update Produce',
+                'Farmer ValueChain',
                 style: style,
               ),
               onTap: () {

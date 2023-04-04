@@ -63,8 +63,8 @@ class _InfiniteScrollPaginatorDemoState
       // print("Current items are now : $databaseItemsNo");
 
       List<Item> postList = responseList
-          .map((data) => Item(data['Type'], data['Name'], data['Address'],
-              data['Landmark'], data['City'], data['ID']))
+          .map((data) => Item(data['Title'], data['Description'], data['Keywords'],
+              data['Image'], data['Lat'], data['Long'], data['ID']))
           .toList();
 
       print("the news item is now list is $postList");
@@ -93,12 +93,12 @@ class _InfiniteScrollPaginatorDemoState
             padding: const EdgeInsets.all(0),
             child: IncidentBar(
                 status: widget.status,
-                type: item.type,
-                name: item.name,
-                address: item.address,
-                landmark: item.landmark,
-                city: item.city,
-                customerID: item.customerID,
+                title: item.title,
+                description: item.description,
+                keywords: item.keywords,
+                image: item.image,
+                lat: item.lat,
+                long: item.long,
                 id: widget.id),
           ),
         ),

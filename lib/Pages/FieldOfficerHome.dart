@@ -1,11 +1,18 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/Stats.dart';
+import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
+import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Scroll/ScrollController.dart';
 import '../Components/NavigationButton.dart';
 import '../Components/NavigationDrawer2.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class FieldOfficerHome extends StatefulWidget {
   const FieldOfficerHome({super.key});
@@ -15,6 +22,7 @@ class FieldOfficerHome extends StatefulWidget {
 }
 
 class _FieldOfficerHomeState extends State<FieldOfficerHome> {
+  final storage = const FlutterSecureStorage();
   String name = '';
   String total = '';
   String pending = '';
@@ -22,6 +30,57 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
   String active = 'Pending';
   String status = 'In Progress';
   String id = '';
+
+  @override
+  void initState() {
+    getDefaultValues();
+    super.initState();
+  }
+
+  Future<void> getDefaultValues() async {
+    var token = await storage.read(key: "erjwt");
+    var decoded = parseJwt(token.toString());
+    if (decoded["error"] == "Invalid token") {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => const Login()));
+    } else {
+      setState(() {
+        name = decoded["Name"];
+        id = decoded["UserID"];
+      });
+
+      print("the id is $id and name is $name");
+      countTasks(decoded["UserID"]);
+    }
+  }
+
+  Future<void> countTasks(String id) async {
+    try {
+      final response = await http.get(
+        Uri.parse("${getUrl()}reports/fieldofficer/$id"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+
+      print(response.body);
+      print("this is being implemented");
+      print("the id is $id");
+
+      var data = json.decode(response.body);
+
+      print("the data is $data");
+      setState(() {
+        total = data["total"].toString();
+        pending = data["pending"].toString();
+        complete = data["complete"].toString();
+      });
+
+      print(
+          "the total is $total, completed are $complete, and pending is $pending");
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,18 +188,18 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                       },
                     ),
                   ),
-                  id != ''
-                      ? Flexible(
-                          flex: 1,
-                          fit: FlexFit.tight,
-                          child: InfiniteScrollPaginatorDemo(
-                            id: id,
-                            status: status,
-                            active: active,
-                          ))
-                      : const SizedBox(
-                          height: 12,
-                        ),
+                  // id != ''
+                  //     ? Flexible(
+                  //         flex: 1,
+                  //         fit: FlexFit.tight,
+                  //         child: InfiniteScrollPaginatorDemo(
+                  //           id: id,
+                  //           status: status,
+                  //           active: active,
+                  //         ))
+                  //     : const SizedBox(
+                  //         height: 12,
+                  //       ),
                   const SizedBox(
                     height: 12,
                   )
@@ -148,6 +207,14 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
               ),
             ),
             // scrollable list of work plan
+            id != ''
+                ? Flexible(
+                    flex: 1,
+                    fit: FlexFit.tight,
+                    child: InfiniteScrollPaginatorDemo(
+                        id: id, status: status, active: active),
+                  )
+                : const SizedBox(),
 
             ElevatedButton(
               onPressed: () {

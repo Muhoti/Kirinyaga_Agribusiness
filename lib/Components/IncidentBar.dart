@@ -1,28 +1,29 @@
 // import 'package:ambulex_app/Pages/Incident.dart';
 // import 'package:ambulex_app/Pages/ViewCompleted.dart';
 import 'package:flutter/material.dart';
+import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 // import 'package:kirinyaga_agribusiness/Pages/Incident.dart';
 
 class IncidentBar extends StatefulWidget {
-  final String type;
+  final String title;
   final String status;
-  final String name;
-  final String address;
-  final String landmark;
-  final String city;
+  final String description;
+  final String keywords;
+  final String image;
+  final String lat;
   final String id;
-  final String customerID;
+  final String long;
 
   const IncidentBar({
     super.key,
-    required this.type,
+    required this.title,
     required this.status,
-    required this.name,
-    required this.address,
-    required this.landmark,
-    required this.city,
+    required this.description,
+    required this.keywords,
+    required this.image,
+    required this.lat,
     required this.id,
-    required this.customerID,
+    required this.long,
   });
 
   @override
@@ -40,18 +41,18 @@ class _StatState extends State<IncidentBar> {
             clipBehavior: Clip.hardEdge,
             child: TextButton(
                 onPressed: () {
-                  // if (widget.status == "In Progress") {
-                  //   Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //           builder: (_) => Incident(id: widget.customerID)));
-                  // } else {
-                  //   Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //           builder: (_) =>
-                  //               ViewCompleted(id: widget.customerID)));
-                  // }
+                  if (widget.status == "In Progress") {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => Home()));
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) =>
+                                Home()));
+                  }
                 },
                 child: Container(
                   padding: const EdgeInsets.all(5),
@@ -59,13 +60,13 @@ class _StatState extends State<IncidentBar> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            color: widget.type == "ME"
+                            color: widget.image == "ME"
                                 ? Colors.red
                                 : Colors.orange,
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(5))),
                         padding: const EdgeInsets.fromLTRB(12, 3, 12, 3),
-                        child: Text(widget.type,
+                        child: Text(widget.title,
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 28,
@@ -79,7 +80,7 @@ class _StatState extends State<IncidentBar> {
                           fit: FlexFit.tight,
                           child: Column(children: <Widget>[
                             Text(
-                              widget.name,
+                              widget.description,
                               textAlign: TextAlign.left,
                               textWidthBasis: TextWidthBasis.parent,
                               style: const TextStyle(
@@ -91,7 +92,7 @@ class _StatState extends State<IncidentBar> {
                               height: 5,
                             ),
                             Text(
-                              "${widget.city} - ${widget.address}: Near ${widget.landmark}",
+                              "${widget.title} - ${widget.description}: Near ${widget.lat}",
                               style: const TextStyle(),
                             ),
                           ]))
