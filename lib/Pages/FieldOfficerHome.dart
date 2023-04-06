@@ -96,7 +96,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
               ),
             ),
           ],
-          backgroundColor: Color.fromRGBO(0, 128, 0, 1),
+          backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
         drawer: const Drawer(child: NavigationDrawer2()),
         floatingActionButton: ElevatedButton(
@@ -105,7 +105,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                 MaterialPageRoute(builder: (context) => const FarmerDetails()));
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: Color.fromRGBO(13, 50, 10, 1),
+            backgroundColor: const Color.fromRGBO(13, 50, 10, 1),
           ),
           child: const Text('Start Mapping!'),
         ),
@@ -200,7 +200,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
             Flexible(
               flex: 1,
               fit: FlexFit.tight,
-              child: InfiniteScrollPaginatorDemo(id: id, active: active),
+              child: id != "" ? InfiniteScrollPaginatorDemo(id: id, active: active) : const SizedBox(),
             ),
           ],
         ),

@@ -46,6 +46,7 @@ class _InfiniteScrollPaginatorDemoState
   }
 
   Future<void> _fetchPage(int pageKey) async {
+    print("widget id ${widget.id}");
     var offset = pageKey == 0 ? pageKey : pageKey + _numberOfPostsPerRequest;
     try {
       final response = await get(
