@@ -27,8 +27,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
   String total = '';
   String pending = '';
   String complete = '';
-  String active = 'Pending';
-  String status = 'In Progress';
+  String active = 'WorkPlan';
   String id = '';
 
   @override
@@ -68,7 +67,6 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
 
       var data = json.decode(response.body);
 
-      print("the data is $data");
       setState(() {
         total = data["total"].toString();
         pending = data["pending"].toString();
@@ -98,31 +96,42 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
               ),
             ),
           ],
-          backgroundColor: Colors.green,
+          backgroundColor: Color.fromRGBO(0, 128, 0, 1),
         ),
         drawer: const Drawer(child: NavigationDrawer2()),
+        floatingActionButton: ElevatedButton(
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const FarmerDetails()));
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Color.fromRGBO(13, 50, 10, 1),
+          ),
+          child: const Text('Start Mapping!'),
+        ),
         body: Column(
           children: <Widget>[
-            const Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                    padding: EdgeInsets.fromLTRB(24, 24, 24, 0),
-                    child: Text(
-                      "Welcome",
-                      style: TextStyle(fontSize: 24, color: Colors.blue),
-                    ))),
-            const SizedBox(height: 15),
-            Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 5, 24, 0),
-                    child: Text(
-                      "$name, Below is your tasks profile:",
-                      style: const TextStyle(
-                          fontSize: 18,
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold),
-                    ))),
+            
+            // Align(
+            //     alignment: Alignment.centerLeft,
+            //     child: Padding(
+            //         padding: const EdgeInsets.fromLTRB(24, 5, 24, 0),
+            //         child: Text(
+            //           "Welcome $name",
+            //           style: const TextStyle(
+            //               fontSize: 18,
+            //               color: Colors.blue,
+            //               fontWeight: FontWeight.bold),
+            //         ))),
+            // const Align(
+            //     alignment: Alignment.centerLeft,
+            //     child: Padding(
+            //         padding: EdgeInsets.fromLTRB(24, 24, 24, 0),
+            //         child: Text(
+            //           "Tasks ",
+            //           style: TextStyle(fontSize: 24, color: Colors.blue),
+            //         ))),
+            // const SizedBox(height: 15),
             Padding(
                 padding: const EdgeInsets.fromLTRB(12, 24, 12, 24),
                 child: Row(
@@ -131,29 +140,28 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                         flex: 1,
                         fit: FlexFit.tight,
                         child: Stats(
-                          label: "Total",
-                          image: 'assets/images/stat1.png',
-                          value: total,
+                          label: "Work Plan",
+                          color: Colors.blue,
+                          value: total, icon: Icons.trending_up,
                         )),
                     Flexible(
                         flex: 1,
                         fit: FlexFit.tight,
                         child: Stats(
-                          label: "Pending",
-                          image: 'assets/images/stat2.png',
-                          value: pending,
+                          label: "Farmers",
+                          color: Colors.orange,
+                          value: pending, icon: Icons.refresh,
                         )),
                     Flexible(
                         flex: 1,
                         fit: FlexFit.tight,
                         child: Stats(
                           label: "Completed",
-                          image: 'assets/images/stat3.png',
-                          value: complete,
+                         color: Colors.green,
+                          value: complete, icon: Icons.done,
                         )),
                   ],
                 )),
-            const SizedBox(height: 15),
             Padding(
               padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
               child: Row(
@@ -166,8 +174,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                         active: active,
                         buttonPressed: () {
                           setState(() {
-                            active = "Pending";
-                            status = "In Progress";
+                            active = "WorkPlan";
                           });
                         },
                       )),
@@ -182,51 +189,18 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                       active: active,
                       buttonPressed: () {
                         setState(() {
-                          active = "Completed";
-                          status = "Resolved";
+                          active = "View Reports";
                         });
                       },
                     ),
-                  ),
-                  // id != ''
-                  //     ? Flexible(
-                  //         flex: 1,
-                  //         fit: FlexFit.tight,
-                  //         child: InfiniteScrollPaginatorDemo(
-                  //           id: id,
-                  //           status: status,
-                  //           active: active,
-                  //         ))
-                  //     : const SizedBox(
-                  //         height: 12,
-                  //       ),
-                  const SizedBox(
-                    height: 12,
                   )
                 ],
               ),
             ),
-            // scrollable list of work plan
-            id != ''
-                ? Flexible(
-                    flex: 1,
-                    fit: FlexFit.tight,
-                    child: InfiniteScrollPaginatorDemo(
-                        id: id, status: status, active: active),
-                  )
-                : const SizedBox(),
-
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const FarmerDetails()));
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-              ),
-              child: const Text('Start Mapping!'),
+            Flexible(
+              flex: 1,
+              fit: FlexFit.tight,
+              child: InfiniteScrollPaginatorDemo(id: id, active: active),
             ),
           ],
         ),

@@ -35,7 +35,6 @@ class _FarmerHomeState extends State<FarmerHome> {
       setState(() {
         name = decoded["Name"].toString();
       });
-      
 
       final response = await http.get(Uri.parse("${getUrl()}farmerdetails/$id"),
           headers: <String, String>{
@@ -69,7 +68,7 @@ class _FarmerHomeState extends State<FarmerHome> {
               ),
             ),
           ],
-          backgroundColor: Colors.green,
+          backgroundColor: Color.fromRGBO(0, 128, 0, 1),
         ),
         drawer: const Drawer(child: NavigationDrawer2()),
         body: Column(
@@ -82,7 +81,8 @@ class _FarmerHomeState extends State<FarmerHome> {
                     padding: EdgeInsets.fromLTRB(24, 24, 24, 0),
                     child: Text(
                       "Welcome",
-                      style: TextStyle(fontSize: 28, color: Colors.green),
+                      style: TextStyle(
+                          fontSize: 28, color: Color.fromRGBO(0, 128, 0, 1)),
                     ),
                   ),
                 ),
@@ -116,9 +116,9 @@ class _FarmerHomeState extends State<FarmerHome> {
               child: Flexible(
                   child: Text(
                 "Summary of Production",
-                style: TextStyle(fontSize: 28, color: Colors.green),
+                style: TextStyle(
+                    fontSize: 28, color: Color.fromRGBO(0, 128, 0, 1)),
               )),
-              
             ),
             // const Flexible(
             //   flex: 1,
@@ -131,10 +131,8 @@ class _FarmerHomeState extends State<FarmerHome> {
             SubmitButton(
               label: "Update Produce",
               onButtonPressed: () async {
-                Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => const Produce()));
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (_) => const Produce()));
               },
             ),
           ],

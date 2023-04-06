@@ -11,15 +11,11 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class InfiniteScrollPaginatorDemo extends StatefulWidget {
   final String id;
-  final String status;
   final String active;
   final storage = const FlutterSecureStorage();
 
   const InfiniteScrollPaginatorDemo(
-      {super.key,
-      required this.id,
-      required this.status,
-      required this.active});
+      {super.key, required this.id, required this.active});
 
   @override
   _InfiniteScrollPaginatorDemoState createState() =>
@@ -53,8 +49,7 @@ class _InfiniteScrollPaginatorDemoState
     var offset = pageKey == 0 ? pageKey : pageKey + _numberOfPostsPerRequest;
     try {
       final response = await get(
-        Uri.parse(
-            "${getUrl()}reportsntasks/paginated/${widget.status}/${widget.id}/$offset"),
+        Uri.parse("${getUrl()}reports/paginated/${widget.id}/$offset"),
       );
 
       List responseList = json.decode(response.body);
@@ -63,8 +58,14 @@ class _InfiniteScrollPaginatorDemoState
       // print("Current items are now : $databaseItemsNo");
 
       List<Item> postList = responseList
-          .map((data) => Item(data['Title'], data['Description'], data['Keywords'],
-              data['Image'], data['Lat'], data['Long'], data['ID']))
+          .map((data) => Item(
+              data['Title'],
+              data['Description'],
+              data['Keywords'],
+              data['Image'],
+              data['Lat'],
+              data['Long'],
+              data['ID']))
           .toList();
 
       print("the news item is now list is $postList");
@@ -85,25 +86,24 @@ class _InfiniteScrollPaginatorDemoState
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () => Future.sync(() => _pagingController.refresh()),
-      child: PagedListView<int, Item>(
-        pagingController: _pagingController,
-        builderDelegate: PagedChildBuilderDelegate<Item>(
-          itemBuilder: (context, item, index) => Padding(
-            padding: const EdgeInsets.all(0),
-            child: IncidentBar(
-                status: widget.status,
-                title: item.title,
-                description: item.description,
-                keywords: item.keywords,
-                image: item.image,
-                lat: item.lat,
-                long: item.long,
-                id: widget.id),
+        onRefresh: () => Future.sync(() => _pagingController.refresh()),
+        child: PagedListView<int, Item>(
+          shrinkWrap: true,
+          pagingController: _pagingController,
+          builderDelegate: PagedChildBuilderDelegate<Item>(
+            itemBuilder: (context, item, index) => Padding(
+              padding: const EdgeInsets.all(0),
+              child: IncidentBar(
+                  title: item.title,
+                  description: item.description,
+                  keywords: item.keywords,
+                  image: item.image,
+                  lat: item.lat,
+                  long: item.long,
+                  id: widget.id),
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   @override

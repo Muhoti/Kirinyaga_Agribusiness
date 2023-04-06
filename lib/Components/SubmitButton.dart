@@ -4,7 +4,8 @@ class SubmitButton extends StatefulWidget {
   final String label;
   final onButtonPressed;
 
-  const SubmitButton({super.key, required this.label, required this.onButtonPressed});
+  const SubmitButton(
+      {super.key, required this.label, required this.onButtonPressed});
 
   @override
   State<StatefulWidget> createState() => _SubmitButton();
@@ -17,7 +18,7 @@ class _SubmitButton extends State<SubmitButton> {
       padding: const EdgeInsets.fromLTRB(54, 12, 54, 12),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.green,
+          backgroundColor: Color.fromRGBO(0, 128, 0, 1),
           minimumSize: const Size.fromHeight(50), // NEW
         ),
         onPressed: widget.onButtonPressed,

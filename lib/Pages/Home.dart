@@ -22,43 +22,8 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     const storage = FlutterSecureStorage();
 
-    Future<void> checkRole() async {
-      var token = await storage.read(key: "erjwt");
-      var decoded = parseJwt(token.toString());
-      var id = decoded["UserID"];
+   
 
-      final response = await http.get(Uri.parse("${getUrl()}mobile/$id"),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8'
-          });
-
-      try {
-        var data = json.decode(response.body);
-        String role = data["Role"];
-        print("the role is $role");
-        switch (role) {
-          case "Field Officer":
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (_) => const FieldOfficerHome()));
-            break;
-          case "Supervisor":
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (_) => const SupervisorHome()));
-            break;
-          case "Enumerator":
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (_) => const FarmerDetails()));
-            break;
-
-          default:
-            const Home();
-        }
-      } catch (e) {
-        // TO-DO
-      }
-    }
-
-    checkRole();
 
     return MaterialApp(
       title: 'Kirinyaga Agribusiness',
@@ -74,7 +39,7 @@ class _HomeState extends State<Home> {
               ),
             ),
           ],
-          backgroundColor: Colors.green,
+          backgroundColor: Color.fromRGBO(0, 128, 0, 1),
         ),
         drawer: const Drawer(child: NavigationDrawer2()),
         body: Center(
@@ -88,7 +53,8 @@ class _HomeState extends State<Home> {
                 child: Text(
                   'Home Page',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 28, color: Colors.green),
+                  style: TextStyle(
+                      fontSize: 28, color: Color.fromRGBO(0, 128, 0, 1)),
                 ),
               )
             ],

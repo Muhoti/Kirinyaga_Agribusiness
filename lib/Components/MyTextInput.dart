@@ -8,7 +8,7 @@ class MyTextInput extends StatefulWidget {
   MyTextInput(
       {super.key,
       required this.title,
-      required this.value, 
+      required this.value,
       this.type,
       required this.onSubmit});
 
@@ -31,11 +31,12 @@ class _MyTextInputState extends State<MyTextInput> {
             decoration: InputDecoration(
                 contentPadding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
                 border: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.green)),
+                    borderSide:
+                        BorderSide(color: Color.fromRGBO(0, 128, 0, 1))),
                 filled: false,
                 label: Text(
                   widget.title.toString(),
-                  style: TextStyle(color: Colors.green),
+                  style: TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
                 ),
                 floatingLabelBehavior: FloatingLabelBehavior.always)));
   }

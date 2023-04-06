@@ -43,12 +43,12 @@ class _FarmerInfoState extends State<FarmerInfo> {
           Align(
             alignment: Alignment.centerRight,
             child: IconButton(
-              onPressed: ()=>Navigator.of(context).pop(), 
+              onPressed: () => Navigator.of(context).pop(),
               icon: const Icon(Icons.arrow_back),
             ),
           ),
         ],
-        backgroundColor: Colors.green,
+        backgroundColor: Color.fromRGBO(0, 128, 0, 1),
       ),
       drawer: const Drawer(child: NavigationDrawer2()),
       body: SingleChildScrollView(
@@ -61,8 +61,7 @@ class _FarmerInfoState extends State<FarmerInfo> {
                 const TextLarge(
                   label: "Farmer Profile Bio",
                 ),
-               TextOakar(label: error),
-               
+                TextOakar(label: error),
                 MyTextInput(
                     title: "ValueChain ID",
                     value: " ",
@@ -116,13 +115,13 @@ class _FarmerInfoState extends State<FarmerInfo> {
                   onButtonPressed: () async {
                     setState(() {
                       isLoading = LoadingAnimationWidget.staggeredDotsWave(
-                        color: Colors.green,
+                        color: Color.fromRGBO(0, 128, 0, 1),
                         size: 100,
                       );
                     });
-                    var res = await postFarmerInfo(valueChainID, valueChain, farmerID,
-                        farmerInfo, harvestDate, farmingPeriod);
-      
+                    var res = await postFarmerInfo(valueChainID, valueChain,
+                        farmerID, farmerInfo, harvestDate, farmingPeriod);
+
                     setState(() {
                       isLoading = null;
                       if (res.error == null) {
@@ -131,7 +130,7 @@ class _FarmerInfoState extends State<FarmerInfo> {
                         error = res.error;
                       }
                     });
-      
+
                     if (res.error == null) {
                       await storage.write(key: 'erjwt', value: res.token);
                       Timer(const Duration(seconds: 2), () {
@@ -152,14 +151,24 @@ class _FarmerInfoState extends State<FarmerInfo> {
   }
 }
 
-Future<Message> postFarmerInfo(String valueChainID, String valueChain, String farmerID,
-    String FarmerInfo, String harvestDate, String farmingPeriod) async {
+Future<Message> postFarmerInfo(
+    String valueChainID,
+    String valueChain,
+    String farmerID,
+    String FarmerInfo,
+    String harvestDate,
+    String farmingPeriod) async {
   print("mango");
   print(valueChainID);
-  if (valueChainID.isEmpty || valueChain.isEmpty || farmerID.isEmpty || FarmerInfo.isEmpty || harvestDate.isEmpty || farmingPeriod.isEmpty) {
-    return Message(token: null, success: null, error: "Please fill all inputs!");
+  if (valueChainID.isEmpty ||
+      valueChain.isEmpty ||
+      farmerID.isEmpty ||
+      FarmerInfo.isEmpty ||
+      harvestDate.isEmpty ||
+      farmingPeriod.isEmpty) {
+    return Message(
+        token: null, success: null, error: "Please fill all inputs!");
   }
-
 
   final response = await http.post(
     Uri.parse("${getUrl()}valuechainFarmerInfo"),

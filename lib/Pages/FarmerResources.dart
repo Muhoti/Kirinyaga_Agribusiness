@@ -48,7 +48,7 @@ class _FarmerResourcesState extends State<FarmerResources> {
             ),
           ),
         ],
-        backgroundColor: Colors.green,
+        backgroundColor: Color.fromRGBO(0, 128, 0, 1),
       ),
       drawer: const Drawer(child: NavigationDrawer2()),
       body: SingleChildScrollView(
@@ -107,7 +107,7 @@ class _FarmerResourcesState extends State<FarmerResources> {
                   onButtonPressed: () async {
                     setState(() {
                       isLoading = LoadingAnimationWidget.staggeredDotsWave(
-                        color: Colors.green,
+                        color: Color.fromRGBO(0, 128, 0, 1),
                         size: 100,
                       );
                     });

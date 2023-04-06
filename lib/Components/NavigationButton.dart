@@ -15,13 +15,15 @@ class NavigationButton extends StatefulWidget {
 }
 
 class _NavigationButtonState extends State<NavigationButton> {
-  var colors = Colors.green;
+  var colors = Color.fromRGBO(0, 128, 0, 1);
 
   @override
   void initState() {
     super.initState();
     setState(() {
-      colors = widget.active == widget.label ? Colors.green : Colors.grey;
+      colors = widget.active == widget.label
+          ? Color.fromRGBO(0, 128, 0, 1)
+          : Colors.grey;
     });
   }
 
@@ -29,7 +31,9 @@ class _NavigationButtonState extends State<NavigationButton> {
   void didUpdateWidget(covariant NavigationButton oldWidget) {
     if (oldWidget.active != widget.active) {
       setState(() {
-        colors = widget.active == widget.label ? Colors.green : Colors.grey;
+        colors = widget.active == widget.label
+            ? Color.fromRGBO(0, 128, 0, 1)
+            : Colors.grey;
       });
     }
     super.didUpdateWidget(oldWidget);

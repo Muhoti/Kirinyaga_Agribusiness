@@ -27,7 +27,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
               ),
             ),
           ],
-          backgroundColor: Colors.green,
+          backgroundColor: Color.fromRGBO(0, 128, 0, 1),
         ),
         drawer: const Drawer(child: NavigationDrawer2()),
         body: Center(
@@ -41,7 +41,8 @@ class _SupervisorHomeState extends State<SupervisorHome> {
                 child: Text(
                   'Supervisor Home Page',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 28, color: Colors.green),
+                  style: TextStyle(
+                      fontSize: 28, color: Color.fromRGBO(0, 128, 0, 1)),
                 ),
               )
             ],

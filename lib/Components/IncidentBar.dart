@@ -6,7 +6,6 @@ import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 
 class IncidentBar extends StatefulWidget {
   final String title;
-  final String status;
   final String description;
   final String keywords;
   final String image;
@@ -17,7 +16,6 @@ class IncidentBar extends StatefulWidget {
   const IncidentBar({
     super.key,
     required this.title,
-    required this.status,
     required this.description,
     required this.keywords,
     required this.image,
@@ -41,61 +39,62 @@ class _StatState extends State<IncidentBar> {
             clipBehavior: Clip.hardEdge,
             child: TextButton(
                 onPressed: () {
-                  if (widget.status == "In Progress") {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => Home()));
-                  } else {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) =>
-                                Home()));
-                  }
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => const Home()));
                 },
                 child: Container(
                   padding: const EdgeInsets.all(5),
                   child: Row(
                     children: [
                       Container(
-                        decoration: BoxDecoration(
-                            color: widget.image == "ME"
-                                ? Colors.red
-                                : Colors.orange,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(5))),
-                        padding: const EdgeInsets.fromLTRB(12, 3, 12, 3),
-                        child: Text(widget.title,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold)),
+                        padding: const EdgeInsets.all(10),
+                        decoration: const BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.all(Radius.circular(5))
+                         ),
+                         child: const Text("12/4", style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 28
+                         ),),
                       ),
-                      const SizedBox(
-                        width: 12,
-                      ),
+                      const SizedBox(width: 12,),
                       Flexible(
-                          flex: 1,
-                          fit: FlexFit.tight,
-                          child: Column(children: <Widget>[
-                            Text(
-                              widget.description,
+                        flex: 1,
+                        fit: FlexFit.tight,
+                        child: Column(
+                          children: [
+                            
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(widget.title,
                               textAlign: TextAlign.left,
-                              textWidthBasis: TextWidthBasis.parent,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blue,
-                              ),
+                                textWidthBasis: TextWidthBasis.parent,
+                                  style: const TextStyle(
+                                      color: Color.fromRGBO(42, 74, 40, 1),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold)),
                             ),
                             const SizedBox(
-                              height: 5,
+                              height: 14,
                             ),
-                            Text(
-                              "${widget.title} - ${widget.description}: Near ${widget.lat}",
-                              style: const TextStyle(),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                widget.description,
+                                textAlign: TextAlign.left,
+                                textWidthBasis: TextWidthBasis.parent,
+                                 overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black54,
+                                  fontSize: 14,
+                                  
+                                ),
+                              ),
                             ),
-                          ]))
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ))));

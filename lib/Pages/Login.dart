@@ -43,7 +43,7 @@ class _LoginState extends State<Login> {
                 curve: Curves.linear);
           });
         },
-        fixedColor: Colors.green,
+        fixedColor: Color.fromRGBO(0, 128, 0, 1),
       ),
 
       //bottomNavigationBar: BottomNavigationBar(),

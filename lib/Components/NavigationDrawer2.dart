@@ -22,7 +22,7 @@ class NavigationDrawer2 extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Colors.green,
+            Color.fromRGBO(0, 128, 0, 1),
             Colors.lightGreen,
           ],
         )),
