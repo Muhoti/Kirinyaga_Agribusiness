@@ -1,13 +1,17 @@
 // import 'package:ambulex_app/Pages/Incident.dart';
 // import 'package:ambulex_app/Pages/ViewCompleted.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:kirinyaga_agribusiness/Pages/CreateReport.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
+import 'package:kirinyaga_agribusiness/Pages/WorkPlan.dart';
 // import 'package:kirinyaga_agribusiness/Pages/Incident.dart';
 
 class IncidentBar extends StatefulWidget {
   final String title;
   final String description;
+  final String status;
   final String keywords;
   final String image;
   final String lat;
@@ -18,6 +22,7 @@ class IncidentBar extends StatefulWidget {
     super.key,
     required this.title,
     required this.description,
+    required this.status,
     required this.keywords,
     required this.image,
     required this.lat,
@@ -30,6 +35,7 @@ class IncidentBar extends StatefulWidget {
 }
 
 class _StatState extends State<IncidentBar> {
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -40,9 +46,15 @@ class _StatState extends State<IncidentBar> {
             clipBehavior: Clip.hardEdge,
             child: TextButton(
                 onPressed: () {
-                  Navigator.push(
+                  if (widget.status == "Pending") {
+                    Navigator.push(
+                      context, MaterialPageRoute(
+                        builder: (_) => WorkPlan(id: widget.id,)));
+                  } else {
+                    Navigator.push(
                       context, MaterialPageRoute(
                         builder: (_) => CreateReport(id: widget.id,)));
+                  }
                 },
                 child: Container(
                   padding: const EdgeInsets.all(5),
@@ -65,7 +77,6 @@ class _StatState extends State<IncidentBar> {
                         fit: FlexFit.tight,
                         child: Column(
                           children: [
-                            
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Text(widget.title,

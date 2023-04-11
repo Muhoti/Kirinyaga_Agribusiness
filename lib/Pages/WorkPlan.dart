@@ -14,15 +14,15 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 
-class CreateReport extends StatefulWidget {
+class WorkPlan extends StatefulWidget {
   final String id;
-  const CreateReport({super.key, required this.id});
+  const WorkPlan({super.key, required this.id});
 
   @override
-  State<CreateReport> createState() => _CreateReportState();
+  State<WorkPlan> createState() => _CreateReportState();
 }
 
-class _CreateReportState extends State<CreateReport> {
+class _CreateReportState extends State<WorkPlan> {
   String userid = '';
   String title = '';
   String type = '';

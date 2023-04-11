@@ -12,10 +12,14 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class InfiniteScrollPaginatorDemo extends StatefulWidget {
   final String id;
   final String active;
+  final String status;
   final storage = const FlutterSecureStorage();
 
   const InfiniteScrollPaginatorDemo(
-      {super.key, required this.id, required this.active});
+      {super.key,
+      required this.id,
+      required this.active,
+      required this.status});
 
   @override
   _InfiniteScrollPaginatorDemoState createState() =>
@@ -47,13 +51,23 @@ class _InfiniteScrollPaginatorDemoState
 
   Future<void> _fetchPage(int pageKey) async {
     print("widget id ${widget.id}");
+    print("the status is ${widget.status}");
     var offset = pageKey == 0 ? pageKey : pageKey + _numberOfPostsPerRequest;
     try {
-      final response = await get(
-        Uri.parse("${getUrl()}reports/paginated/${widget.id}/$offset"),
-      );
+      final dynamic response;
 
-      List responseList = json.decode(response.body);
+      widget.status == "Pending" ?  response = await get(
+          Uri.parse("${getUrl()}workplan/paginated/${widget.id}/$offset"),
+        )
+
+         :
+
+        response = await get(
+          Uri.parse("${getUrl()}reports/paginated/${widget.id}/$offset"),
+        );
+
+      List responseList =  json.decode(response.body);
+
       var databaseItemsNo = responseList.length;
 
       print("Current items are now : $responseList");
@@ -97,6 +111,7 @@ class _InfiniteScrollPaginatorDemoState
               child: IncidentBar(
                   title: item.title,
                   description: item.description,
+                  status: widget.status,
                   keywords: item.keywords,
                   image: item.image,
                   lat: item.lat,

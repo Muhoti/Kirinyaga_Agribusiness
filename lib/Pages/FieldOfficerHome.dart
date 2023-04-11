@@ -29,6 +29,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
   String complete = '';
   String active = 'WorkPlan';
   String id = '';
+  String status = 'Pending';
 
   @override
   void initState() {
@@ -111,27 +112,6 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
         ),
         body: Column(
           children: <Widget>[
-            
-            // Align(
-            //     alignment: Alignment.centerLeft,
-            //     child: Padding(
-            //         padding: const EdgeInsets.fromLTRB(24, 5, 24, 0),
-            //         child: Text(
-            //           "Welcome $name",
-            //           style: const TextStyle(
-            //               fontSize: 18,
-            //               color: Colors.blue,
-            //               fontWeight: FontWeight.bold),
-            //         ))),
-            // const Align(
-            //     alignment: Alignment.centerLeft,
-            //     child: Padding(
-            //         padding: EdgeInsets.fromLTRB(24, 24, 24, 0),
-            //         child: Text(
-            //           "Tasks ",
-            //           style: TextStyle(fontSize: 24, color: Colors.blue),
-            //         ))),
-            // const SizedBox(height: 15),
             Padding(
                 padding: const EdgeInsets.fromLTRB(12, 24, 12, 24),
                 child: Row(
@@ -142,7 +122,8 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                         child: Stats(
                           label: "Work Plan",
                           color: Colors.blue,
-                          value: total, icon: Icons.trending_up,
+                          value: total,
+                          icon: Icons.trending_up,
                         )),
                     Flexible(
                         flex: 1,
@@ -150,15 +131,17 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                         child: Stats(
                           label: "Farmers",
                           color: Colors.orange,
-                          value: pending, icon: Icons.refresh,
+                          value: pending,
+                          icon: Icons.refresh,
                         )),
                     Flexible(
                         flex: 1,
                         fit: FlexFit.tight,
                         child: Stats(
                           label: "Completed",
-                         color: Colors.green,
-                          value: complete, icon: Icons.done,
+                          color: Colors.green,
+                          value: complete,
+                          icon: Icons.done,
                         )),
                   ],
                 )),
@@ -175,6 +158,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                         buttonPressed: () {
                           setState(() {
                             active = "WorkPlan";
+                            status = "Pending";
                           });
                         },
                       )),
@@ -190,17 +174,24 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                       buttonPressed: () {
                         setState(() {
                           active = "View Reports";
+                          status = "Complete";
                         });
                       },
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
             Flexible(
               flex: 1,
               fit: FlexFit.tight,
-              child: id != "" ? InfiniteScrollPaginatorDemo(id: id, active: active) : const SizedBox(),
+              child: id != ""
+                  ? InfiniteScrollPaginatorDemo(
+                    id: id, 
+                    active: active,
+                    status: status
+                    )
+                  : const SizedBox(),
             ),
           ],
         ),
