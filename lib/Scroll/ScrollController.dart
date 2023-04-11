@@ -54,9 +54,9 @@ class _InfiniteScrollPaginatorDemoState
       );
 
       List responseList = json.decode(response.body);
-      // var databaseItemsNo = responseList.length;
+      var databaseItemsNo = responseList.length;
 
-      // print("Current items are now : $databaseItemsNo");
+      print("Current items are now : $responseList");
 
       List<Item> postList = responseList
           .map((data) => Item(
@@ -64,8 +64,8 @@ class _InfiniteScrollPaginatorDemoState
               data['Description'],
               data['Keywords'],
               data['Image'],
-              data['Lat'],
-              data['Long'],
+              data['Latitude'],
+              data['Longitude'],
               data['ID']))
           .toList();
 
