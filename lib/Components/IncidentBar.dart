@@ -1,6 +1,7 @@
 // import 'package:ambulex_app/Pages/Incident.dart';
 // import 'package:ambulex_app/Pages/ViewCompleted.dart';
 import 'package:flutter/material.dart';
+import 'package:kirinyaga_agribusiness/Pages/CreateReport.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 // import 'package:kirinyaga_agribusiness/Pages/Incident.dart';
 
@@ -40,7 +41,8 @@ class _StatState extends State<IncidentBar> {
             child: TextButton(
                 onPressed: () {
                   Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => const Home()));
+                      context, MaterialPageRoute(
+                        builder: (_) => CreateReport(id: widget.id,)));
                 },
                 child: Container(
                   padding: const EdgeInsets.all(5),
