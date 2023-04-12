@@ -21,8 +21,6 @@ version: 1.0.0+1
 
 environment:
   sdk: '>=2.19.0 <3.0.0'
-
-
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
 # consider running `flutter pub upgrade --major-versions`. Alternatively,
@@ -41,6 +39,9 @@ dependencies:
   http: ^0.13.5
   email_validator: ^2.1.17
   infinite_scroll_pagination: ^3.2.0
+  webview_flutter: ^3.0.4
+  geolocator: ^9.0.2
+
 
 dev_dependencies:
   flutter_test:
