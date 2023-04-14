@@ -48,19 +48,28 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
         id = decoded["UserID"];
       });
 
-      print("the id is $id and name is $name");
       countTasks(decoded["UserID"]);
     }
   }
 
   Future<void> countTasks(String id) async {
     try {
-      final response = await http.get(
-        Uri.parse("${getUrl()}reports/fieldofficer/$id"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      );
+      final dynamic response;
+
+      active == "View Reports"
+          ? response = await http.get(
+              Uri.parse("${getUrl()}reports/stats/fieldofficer/$id"),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+              },
+            )
+            
+          : response = await http.get(
+              Uri.parse("${getUrl()}workplan/stats/fieldofficer/$id"),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+              },
+            );
 
       print(response.body);
       print("this is being implemented");
@@ -73,9 +82,6 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
         pending = data["pending"].toString();
         complete = data["complete"].toString();
       });
-
-      print(
-          "the total is $total, completed are $complete, and pending is $pending");
     } catch (e) {
       print(e);
     }
@@ -159,6 +165,8 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                           setState(() {
                             active = "WorkPlan";
                             status = "Pending";
+                            countTasks(id);
+                            print("the count task is is $id");
                           });
                         },
                       )),
@@ -175,6 +183,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                         setState(() {
                           active = "View Reports";
                           status = "Complete";
+                          countTasks(id);
                         });
                       },
                     ),
@@ -187,10 +196,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
               fit: FlexFit.tight,
               child: id != ""
                   ? InfiniteScrollPaginatorDemo(
-                    id: id, 
-                    active: active,
-                    status: status
-                    )
+                      id: id, active: active, status: status)
                   : const SizedBox(),
             ),
           ],

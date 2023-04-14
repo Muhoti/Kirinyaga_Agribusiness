@@ -19,10 +19,10 @@ class WorkPlan extends StatefulWidget {
   const WorkPlan({super.key, required this.id});
 
   @override
-  State<WorkPlan> createState() => _CreateReportState();
+  State<WorkPlan> createState() => _WorkPlanState();
 }
 
-class _CreateReportState extends State<WorkPlan> {
+class _WorkPlanState extends State<WorkPlan> {
   String userid = '';
   String title = '';
   String type = '';

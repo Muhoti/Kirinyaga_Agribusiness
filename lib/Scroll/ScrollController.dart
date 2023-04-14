@@ -57,13 +57,13 @@ class _InfiniteScrollPaginatorDemoState
       final dynamic response;
 
       widget.status == "Pending" ?  response = await get(
-          Uri.parse("${getUrl()}workplan/paginated/${widget.id}/$offset"),
+          Uri.parse("${getUrl()}workplan/fieldofficer/${widget.id}"),
         )
 
          :
 
         response = await get(
-          Uri.parse("${getUrl()}reports/paginated/${widget.id}/$offset"),
+          Uri.parse("${getUrl()}reports/fieldofficer/${widget.id}"),
         );
 
       List responseList =  json.decode(response.body);
