@@ -2,13 +2,14 @@
 
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
+import 'package:kirinyaga_agribusiness/Pages/CreateReport.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
@@ -23,6 +24,7 @@ class WorkPlan extends StatefulWidget {
 }
 
 class _WorkPlanState extends State<WorkPlan> {
+  String workid = '';
   String userid = '';
   String title = '';
   String type = '';
@@ -38,14 +40,49 @@ class _WorkPlanState extends State<WorkPlan> {
 
   @override
   void initState() {
-    print("the widget id is ${widget.id}");
+    print("the workid is ${widget.id}");
+
+    viewWork(widget.id);
+
     super.initState();
+  }
+
+  viewWork(String id) async {
+    try {
+      final response = await get(
+        Uri.parse("${getUrl()}workplan/farmerid/$id"),
+      );
+
+      var data = json.decode(response.body);
+                print("the data alone is $data");
+
+
+      print("the data is ${data[0]}");
+
+      setState(() {
+        workid = (data["ID"]);
+        title = data["Title"];
+        type = data["Type"];
+        image = data["Image"];
+        description = data["Description"];
+        status = data["Status"];
+        keywords = data["Keywords"];
+        latitude = data["Latitude"];
+        longitude = data["Longitude"];
+      });
+
+
+      print("come on $workid, $title, $type");
+    } catch (e) {
+
+      print(e);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Create Report",
+      title: "Work Plan",
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Stack(
@@ -64,130 +101,71 @@ class _WorkPlanState extends State<WorkPlan> {
                           padding: const EdgeInsets.fromLTRB(84, 24, 84, 12),
                           child: Image.asset('assets/images/logo.png'),
                         ),
-                        const TextLarge(label: "Create Report"),
+                        const TextLarge(label: "Work Plan"),
                         TextOakar(label: error),
-                        MyTextInput(
-                          title: 'Title',
-                          value: '',
-                          type: TextInputType.emailAddress,
-                          onSubmit: (value) {
-                            setState(() {
-                              title = value;
-                            });
-                          },
-                        ),
-                        MyTextInput(
-                          title: 'Type',
-                          value: '',
-                          type: TextInputType.visiblePassword,
-                          onSubmit: (value) {
-                            setState(() {
-                              type = value;
-                            });
-                          },
-                        ),
-                        MyTextInput(
-                          title: 'Image',
-                          value: '',
-                          type: TextInputType.emailAddress,
-                          onSubmit: (value) {
-                            setState(() {
-                              image = value;
-                            });
-                          },
-                        ),
-                        MyTextInput(
-                          title: 'Description',
-                          value: '',
-                          type: TextInputType.visiblePassword,
-                          onSubmit: (value) {
-                            setState(() {
-                              description = value;
-                            });
-                          },
-                        ),
-                        MyTextInput(
-                          title: 'Status',
-                          value: '',
-                          type: TextInputType.visiblePassword,
-                          onSubmit: (value) {
-                            setState(() {
-                              status = value;
-                            });
-                          },
-                        ),
-                        MyTextInput(
-                          title: 'Keywords',
-                          value: '',
-                          type: TextInputType.emailAddress,
-                          onSubmit: (value) {
-                            setState(() {
-                              keywords = value;
-                            });
-                          },
-                        ),
-                        MyTextInput(
-                          title: 'Latitude',
-                          value: '',
-                          type: TextInputType.visiblePassword,
-                          onSubmit: (value) {
-                            setState(() {
-                              latitude = value;
-                            });
-                          },
-                        ),
-                        MyTextInput(
-                          title: 'Longitude',
-                          value: '',
-                          type: TextInputType.visiblePassword,
-                          onSubmit: (value) {
-                            setState(() {
-                              longitude = value;
-                            });
-                          },
-                        ),
-                        SubmitButton(
-                            label: "Submit",
-                            onButtonPressed: () async {
-                              setState(() {
-                                isloading =
-                                    LoadingAnimationWidget.staggeredDotsWave(
-                                  color: const Color.fromRGBO(0, 128, 0, 1),
-                                  size: 100,
-                                );
-                              });
-                              var res = await sendReport(
-                                  userid = widget.id,
-                                  title,
-                                  type,
-                                  image,
-                                  description,
-                                  status,
-                                  keywords,
-                                  latitude,
-                                  longitude);
+                        TextLarge(label: "Title: $title"),
 
-                              print("the response is $res");
-
-                              setState(() {
-                                isloading = null;
-                                if (res.error == null) {
-                                  error = res.success;
-                                } else {
-                                  error = res.error;
-                                }
-                              });
-                              if (res.error == null) {
-                                await storage.write(
-                                    key: 'erjwt', value: res.token);
-                                Timer(const Duration(seconds: 2), () {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => const FarmerHome()));
-                                });
-                              }
-                            }),
+                        Text(
+                          title,
+                          textAlign: TextAlign.justify,
+                          style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        Text(
+                          "Image: $image",
+                          textAlign: TextAlign.justify,
+                          style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        Text(
+                          "Description: $description",
+                          textAlign: TextAlign.justify,
+                          style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        Text(
+                          status,
+                          textAlign: TextAlign.justify,
+                          style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        Text(
+                          "Keywords: $keywords",
+                          textAlign: TextAlign.justify,
+                          style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        Text(
+                          "Latitude: $latitude",
+                          textAlign: TextAlign.justify,
+                          style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        Text(
+                          "Longitude: $longitude",
+                          textAlign: TextAlign.justify,
+                          style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        // SubmitButton(
+                        //   label: "File Report", 
+                        //   onButtonPressed: Navigator.push(
+                        //   context, MaterialPageRoute(
+                        //     builder: (_) => CreateReport(id: widget.id))))
                       ],
                     ),
                   )),
@@ -197,81 +175,6 @@ class _WorkPlanState extends State<WorkPlan> {
           ],
         ),
       ),
-    );
-  }
-}
-
-Future<Message> sendReport(
-    String userid,
-    String title,
-    String type,
-    String image,
-    String description,
-    String status,
-    String keywords,
-    String latitude,
-    String longitude) async {
-  if (title.isEmpty ||
-      type.isEmpty ||
-      image.isEmpty ||
-      description.isEmpty ||
-      keywords.isEmpty ||
-      latitude.isEmpty ||
-      longitude.isEmpty) {
-    return Message(
-        token: null, success: null, error: "Please fill all fields!");
-  }
-
-  final response = await http.post(
-    Uri.parse("${getUrl()}reports/create"),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{
-      'UserID': userid,
-      'Title': title,
-      'Type': type,
-      'Image': image,
-      'Description': description,
-      'Status': status,
-      'Keywords': keywords,
-      'Latitude': latitude,
-      'Longitude': longitude
-    }),
-  );
-
-  if (response.statusCode == 200 || response.statusCode == 203) {
-    //getToken(role);
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return Message.fromJson(jsonDecode(response.body));
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    return Message(
-      token: null,
-      success: null,
-      error: "Connection to server failed!",
-    );
-  }
-}
-
-class Message {
-  var token;
-  var success;
-  var error;
-
-  Message({
-    required this.token,
-    required this.success,
-    required this.error,
-  });
-
-  factory Message.fromJson(Map<String, dynamic> json) {
-    return Message(
-      token: json['token'],
-      success: json['success'],
-      error: json['error'],
     );
   }
 }

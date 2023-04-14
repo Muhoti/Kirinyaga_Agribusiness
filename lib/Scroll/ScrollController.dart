@@ -116,7 +116,7 @@ class _InfiniteScrollPaginatorDemoState
                   image: item.image,
                   lat: item.lat,
                   long: item.long,
-                  id: widget.id),
+                  id: item.id),
             ),
           ),
         ));
