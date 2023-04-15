@@ -80,7 +80,9 @@ class _InfiniteScrollPaginatorDemoState
               data['Image'],
               data['Latitude'],
               data['Longitude'],
-              data['ID']))
+              data['ID'],
+              widget.status == "Pending" ?
+              data['createdAt'] : data['updatedAt']))
           .toList();
 
       print("the news item is now list is $postList");
@@ -116,7 +118,8 @@ class _InfiniteScrollPaginatorDemoState
                   image: item.image,
                   lat: item.lat,
                   long: item.long,
-                  id: item.id),
+                  id: item.id,
+                  createdat: item.createdat),
             ),
           ),
         ));

@@ -9,6 +9,7 @@ import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
+import 'package:kirinyaga_agribusiness/Components/TextView.dart';
 import 'package:kirinyaga_agribusiness/Pages/CreateReport.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -82,97 +83,70 @@ class _WorkPlanState extends State<WorkPlan> {
       title: "Work Plan",
       home: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: Stack(
-          children: [
-            Center(
-              child: Container(
-                constraints: const BoxConstraints.tightForFinite(),
-                child: SingleChildScrollView(
-                  child: Form(
-                      child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(84, 24, 84, 12),
-                          child: Image.asset('assets/images/logo.png'),
-                        ),
-                        const TextLarge(label: "Work Plan"),
-                        TextOakar(label: error),
-                        TextLarge(label: "Title: $title"),
-                        Text(
-                          title,
-                          textAlign: TextAlign.justify,
-                          style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal),
-                        ),
-                        Text(
-                          "Image: $image",
-                          textAlign: TextAlign.justify,
-                          style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal),
-                        ),
-                        Text(
-                          "Description: $description",
-                          textAlign: TextAlign.justify,
-                          style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal),
-                        ),
-                        Text(
-                          status,
-                          textAlign: TextAlign.justify,
-                          style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal),
-                        ),
-                        Text(
-                          "Keywords: $keywords",
-                          textAlign: TextAlign.justify,
-                          style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal),
-                        ),
-                        Text(
-                          "Latitude: $latitude",
-                          textAlign: TextAlign.justify,
-                          style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal),
-                        ),
-                        Text(
-                          "Longitude: $longitude",
-                          textAlign: TextAlign.justify,
-                          style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal),
-                        ),
-                        TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) =>
-                                          CreateReport(id: widget.id)));
-                            },
-                            child: const Text("Create Report"))
-                      ],
-                    ),
-                  )),
-                ),
+        appBar: AppBar(
+          title: const Center(child: Text("WORK PLAN")),
+          actions: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: IconButton(
+                onPressed: () => Navigator.of(context).pop(),
+                icon: const Icon(Icons.arrow_back),
               ),
             ),
           ],
+          backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const TextLarge(label: "Task Description"),
+                TextView(
+                  label: "Title: $title",
+                ),
+                TextView(
+                  label: "Info: $description",
+                ),
+                TextView(
+                 label: "Image: $image",
+                ),
+                
+                TextView(
+                  label: "Status: $status",
+                ),
+                TextView(
+                  label: "Keywords: $keywords",
+                ),
+                TextView(
+                  label: "Latitude: $latitude",
+                ),
+                TextView(
+                  label: "Longitude: $longitude",
+                ),
+                const SizedBox(height: 24),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    textStyle: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    )
+                  ),
+                  child: const Text("Create Report"),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) =>
+                                  CreateReport(id: widget.id)));
+                    },
+                    )
+              ],
+            ),
+          ),
         ),
       ),
     );
