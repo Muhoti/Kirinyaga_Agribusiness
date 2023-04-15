@@ -54,8 +54,7 @@ class _WorkPlanState extends State<WorkPlan> {
       );
 
       var data = json.decode(response.body);
-                print("the data alone is $data");
-
+      print("the data alone is $data");
 
       print("the data is ${data[0]}");
 
@@ -71,10 +70,8 @@ class _WorkPlanState extends State<WorkPlan> {
         longitude = data["Longitude"];
       });
 
-
       print("come on $workid, $title, $type");
     } catch (e) {
-
       print(e);
     }
   }
@@ -104,7 +101,6 @@ class _WorkPlanState extends State<WorkPlan> {
                         const TextLarge(label: "Work Plan"),
                         TextOakar(label: error),
                         TextLarge(label: "Title: $title"),
-
                         Text(
                           title,
                           textAlign: TextAlign.justify,
@@ -161,11 +157,15 @@ class _WorkPlanState extends State<WorkPlan> {
                               color: Colors.black,
                               fontWeight: FontWeight.normal),
                         ),
-                        // SubmitButton(
-                        //   label: "File Report", 
-                        //   onButtonPressed: Navigator.push(
-                        //   context, MaterialPageRoute(
-                        //     builder: (_) => CreateReport(id: widget.id))))
+                        TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) =>
+                                          CreateReport(id: widget.id)));
+                            },
+                            child: const Text("Create Report"))
                       ],
                     ),
                   )),

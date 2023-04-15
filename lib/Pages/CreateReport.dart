@@ -10,6 +10,7 @@ import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
+import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
@@ -184,7 +185,7 @@ class _CreateReportState extends State<CreateReport> {
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (_) => const FarmerHome()));
+                                          builder: (_) => const FieldOfficerHome()));
                                 });
                               }
                             }),
