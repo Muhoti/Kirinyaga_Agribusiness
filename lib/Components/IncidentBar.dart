@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:kirinyaga_agribusiness/Pages/CreateReport.dart';
+import 'package:kirinyaga_agribusiness/Pages/ViewReport.dart';
 import 'package:kirinyaga_agribusiness/Pages/WorkPlan.dart';
 // import 'package:kirinyaga_agribusiness/Pages/Incident.dart';
 
@@ -66,7 +67,7 @@ class _StatState extends State<IncidentBar> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (_) => CreateReport(
+                            builder: (_) => ViewReport(
                                   id: widget.id,
                                 )));
                   }
