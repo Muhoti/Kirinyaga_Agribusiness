@@ -59,9 +59,9 @@ class _FarmerDetailsState extends State<FarmerDetails> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const TextLarge(
-                  label: "Add Farmer Details",
-                ),
+                // const TextLarge(
+                //   label: "Add Farmer Details",
+                // ),
                 TextOakar(label: error),
                 MyTextInput(
                     title: "User",

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_typing_uninitialized_variables, unused_field, unnecessary_null_comparison
 
 import 'dart:async';
 import 'dart:convert';
@@ -15,6 +15,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerResources.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
+import 'package:kirinyaga_agribusiness/Components/counties.dart';
 
 import '../Components/Utils.dart';
 
@@ -43,6 +44,58 @@ class _FarmerAddressState extends State<FarmerAddress> {
   double long = 0.0, lat = 0.0;
   late StreamSubscription<Position> positionStream;
   final storage = const FlutterSecureStorage();
+
+  // final List<String> countyNames = [
+  //   "Baringo",
+  //   "Bomet",
+  //   "Bungoma",
+  //   "Busia",
+  //   "Elgeyo-Marakwet",
+  //   "Embu",
+  //   "Garissa",
+  //   "Homa Bay",
+  //   "Isiolo",
+  //   "Kajiado",
+  //   "Kakamega",
+  //   "Kericho",
+  //   "Kiambu",
+  //   "Kilifi",
+  //   "Kirinyaga",
+  //   "Kisii",
+  //   "Kisumu",
+  //   "Kitui",
+  //   "Kwale",
+  //   "Laikipia",
+  //   "Lamu",
+  //   "Machakos",
+  //   "Makueni",
+  //   "Mandera",
+  //   "Marsabit",
+  //   "Meru",
+  //   "Migori",
+  //   "Mombasa",
+  //   "Murang'a",
+  //   "Nairobi",
+  //   "Nakuru",
+  //   "Nandi",
+  //   "Narok",
+  //   "Nyamira",
+  //   "Nyandarua",
+  //   "Nyeri",
+  //   "Samburu",
+  //   "Siaya",
+  //   "Taita-Taveta",
+  //   "Tana River",
+  //   "Tharaka-Nithi",
+  //   "Trans-Nzoia",
+  //   "Turkana",
+  //   "Uasin Gishu",
+  //   "Vihiga",
+  //   "Wajir",
+  //   "West Pokot",
+  // ];
+  late String _selectedSubCounty = kirinyagaSubCounties.first;
+  String? _selectedWard;
 
   @override
   void initState() {
@@ -107,6 +160,12 @@ class _FarmerAddressState extends State<FarmerAddress> {
   }
 
   @override
+  void dispose() {
+    // Cancel the timer to prevent calling setState after the widget has been disposed
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -130,22 +189,20 @@ class _FarmerAddressState extends State<FarmerAddress> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const TextLarge(
-                label: "Add Farmer Address",
-              ),
-              Flexible(
-                  flex: 2,
-                  fit: FlexFit.tight,
+              // const TextLarge(
+              //   label: "Add Farmer Address",
+              // ),
+              SizedBox(
+                  height: 250,
                   child: MyMap(
                     lat: lat,
                     lon: long,
                   )),
               Text(location),
-              const SizedBox(
-                height: 10,
-              ),
-              Image.asset('assets/images/logo.png'),
-              const Padding(padding: EdgeInsets.fromLTRB(24, 24, 24, 0)),
+              // const SizedBox(
+              //   height: 10,
+              // ),
+              //const Padding(padding: EdgeInsets.fromLTRB(24, 24, 24, 0)),
               TextOakar(label: error),
               MyTextInput(
                   title: "FarmerID",
@@ -155,30 +212,87 @@ class _FarmerAddressState extends State<FarmerAddress> {
                       FarmerID = value;
                     });
                   }),
-              MyTextInput(
-                  title: "County",
-                  value: "",
-                  onSubmit: (value) {
+              SizedBox(
+                width: MediaQuery.of(context).size.width - 48,
+                child: DropdownButtonFormField(
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
+                    border: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Color.fromRGBO(0, 128, 0, 1))),
+                    labelText: 'Sub County',
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    hintStyle: TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
+                  ),
+
+                  value: _selectedSubCounty,
+                  // onChanged: (value) {
+                  //   setState(() {
+                  //     _selectedSubCounty = value!;
+                  //   });
+                  // },
+                  items: kirinyagaSubCounties.map((subCounty) {
+                    return DropdownMenuItem(
+                      value: subCounty,
+                      child: Text(subCounty),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
                     setState(() {
-                      County = value;
+                      _selectedSubCounty = value!;
+                      _selectedWard = null;
                     });
-                  }),
-              MyTextInput(
-                  title: "SubCounty",
-                  value: "",
-                  onSubmit: (value) {
-                    setState(() {
-                      SubCounty = value;
-                    });
-                  }),
-              MyTextInput(
-                  title: "Ward",
-                  value: "",
-                  onSubmit: (value) {
-                    setState(() {
-                      Ward = value;
-                    });
-                  }),
+                  },
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width - 48,
+                  child: DropdownButtonFormField(
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
+                      border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color.fromRGBO(0, 128, 0, 1))),
+                      labelText: 'Ward',
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      hintStyle: TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
+                    ),
+                    value: _selectedWard,
+                    // onChanged: (value) {
+                    //   setState(() {
+                    //     _selectedSubCounty = value!;
+                    //   });
+                    // },
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedWard = value as String?;
+                      });
+                    },
+                    items: _selectedSubCounty != null
+                        ? kirinyagaWards[_selectedSubCounty as String]!
+                            .map((ward) => DropdownMenuItem(
+                                  value: ward,
+                                  child: Text(ward),
+                                ))
+                            .toList()
+                        : [],
+                  ),
+                ),
+              ),
+
+              // MyTextInput(
+              //     title: "County",
+              //     value: "",
+              //     onSubmit: (value) {
+              //       setState(() {
+              //         County = value;
+              //       });
+              //     }),
+            
+             
               MyTextInput(
                   title: "Village",
                   value: "",
@@ -251,10 +365,10 @@ Future<Message> postFarmerAddress(String County, String SubCounty, String Ward,
         token: null, success: null, error: "FarmerID cannot be empty!");
   }
 
-  if (County.isEmpty) {
-    return Message(
-        token: null, success: null, error: "County cannot be empty!");
-  }
+  // if (County.isEmpty) {
+  //   return Message(
+  //       token: null, success: null, error: "County cannot be empty!");
+  // }
 
   final response = await http.post(
     Uri.parse("${getUrl()}farmeraddress/register"),

@@ -41,7 +41,7 @@ class _MyMapState extends State<MyMap> {
             clipBehavior: Clip.hardEdge,
             elevation: 2,
             child: WebView(
-              initialUrl: "${getUrl()}homepage",
+              initialUrl: "http://185.215.180.181:7004/api/map",
               javascriptMode: JavascriptMode.unrestricted,
               onWebViewCreated: (WebViewController webViewController) {
                 controller = webViewController;

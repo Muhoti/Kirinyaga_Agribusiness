@@ -79,8 +79,8 @@ class NavigationDrawer2 extends StatelessWidget {
               onTap: () {
                 final store = new FlutterSecureStorage();
                 store.deleteAll();
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (_) => const FarmerAddress()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const FarmerAddress()));
               },
             ),
             ListTile(

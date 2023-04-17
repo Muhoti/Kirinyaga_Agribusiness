@@ -58,9 +58,9 @@ class _FarmerResourcesState extends State<FarmerResources> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const TextLarge(
-                  label: "Add Farmer Resources",
-                ),
+                // const TextLarge(
+                //   label: "Add Farmer Resources",
+                // ),
                 TextOakar(label: error),
                 MyTextInput(
                     title: "Total Land Acreage",
