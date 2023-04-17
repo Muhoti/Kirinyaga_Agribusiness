@@ -52,7 +52,7 @@ class _ViewReportState extends State<ViewReport> {
   viewWork(String id) async {
     try {
       final response = await get(
-        Uri.parse("${getUrl()}reports/farmerid/$id"),
+        Uri.parse("${getUrl()}reports/fieldofficer/$id"),
       );
 
       var data = json.decode(response.body);
@@ -114,7 +114,6 @@ class _ViewReportState extends State<ViewReport> {
                 TextView(
                  label: "Image: $image",
                 ),
-                
                 TextView(
                   label: "Status: $status",
                 ),

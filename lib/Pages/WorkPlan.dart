@@ -57,10 +57,9 @@ class _WorkPlanState extends State<WorkPlan> {
       var data = json.decode(response.body);
       print("the data alone is $data");
 
-      print("the data is ${data[0]}");
 
       setState(() {
-        workid = (data["ID"]);
+        workid = (data["UserID"]);
         title = data["Title"];
         type = data["Type"];
         image = data["Image"];
@@ -141,7 +140,7 @@ class _WorkPlanState extends State<WorkPlan> {
                           context,
                           MaterialPageRoute(
                               builder: (_) =>
-                                  CreateReport(id: widget.id)));
+                                  CreateReport(id: workid)));
                     },
                     )
               ],
