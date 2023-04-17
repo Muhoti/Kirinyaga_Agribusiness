@@ -107,16 +107,7 @@ class _FieldOfficerHomeState extends State<SupervisorHome> {
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
         drawer: const Drawer(child: NavigationDrawer2()),
-        floatingActionButton: ElevatedButton(
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const FarmerDetails()));
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color.fromRGBO(13, 50, 10, 1),
-          ),
-          child: const Text('Start Mapping!'),
-        ),
+        
         body: Column(
           children: <Widget>[
             Padding(

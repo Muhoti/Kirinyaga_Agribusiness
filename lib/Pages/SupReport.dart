@@ -13,6 +13,7 @@ import 'package:kirinyaga_agribusiness/Components/TextView.dart';
 import 'package:kirinyaga_agribusiness/Pages/CreateReport.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
+import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
@@ -85,11 +86,11 @@ class _SupReportState extends State<SupReport> {
   Widget build(BuildContext context) {
     print(" hey you $title, $description, $image, $type");
     return MaterialApp(
-      title: "View Report",
+      title: "Supervisor Report",
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: const Center(child: Text("VIEW REPORT")),
+          title: const Center(child: Text("SUPERVISOR REPORT")),
           actions: [
             Align(
               alignment: Alignment.centerRight,
@@ -108,7 +109,7 @@ class _SupReportState extends State<SupReport> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const TextLarge(label: "View Report"),
+                const TextLarge(label: "Supervisor Report"),
                 TextView(
                   label: "Title: $title",
                 ),
@@ -143,7 +144,7 @@ class _SupReportState extends State<SupReport> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (_) => const FieldOfficerHome()));
+                            builder: (_) => const SupervisorHome()));
                   },
                 )
               ],

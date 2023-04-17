@@ -9,6 +9,7 @@ import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextView.dart';
 import 'package:kirinyaga_agribusiness/Pages/CreateReport.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
+import 'package:kirinyaga_agribusiness/Pages/SupervisorReport.dart';
 
 class FOReports extends StatefulWidget {
   final String id;
@@ -45,7 +46,7 @@ class _FOReportsState extends State<FOReports> {
   viewWork(String id) async {
     try {
       final response = await get(
-        Uri.parse("${getUrl()}FOReports/$id"),
+        Uri.parse("${getUrl()}workplan/$id"),
       );
 
       var data = json.decode(response.body);
@@ -75,11 +76,11 @@ class _FOReportsState extends State<FOReports> {
         print(" hey work $title, $description, $image, $type");
 
     return MaterialApp(
-      title: "Work Plan",
+      title: "Field Officer Report",
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: const Center(child: Text("WORK PLAN")),
+          title: const Center(child: Text("Supervisor Tasks")),
           actions: [
             Align(
               alignment: Alignment.centerRight,
@@ -98,7 +99,7 @@ class _FOReportsState extends State<FOReports> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const TextLarge(label: "Task Description"),
+                const TextLarge(label: "Field Officer Report"),
                 TextView(
                   label: "Title: $title",
                 ),
@@ -130,13 +131,13 @@ class _FOReportsState extends State<FOReports> {
                       fontWeight: FontWeight.bold,
                     )
                   ),
-                  child: const Text("Create Report"),
+                  child: const Text("Approve"),
                     onPressed: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (_) =>
-                                  CreateReport(id: workid)));
+                                  SupervisorReport(id: workid)));
                     },
                     )
               ],
