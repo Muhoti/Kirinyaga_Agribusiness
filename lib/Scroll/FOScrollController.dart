@@ -5,32 +5,30 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../Components/Utils.dart';
-import '../Model/Item.dart';
-import '../Components/IncidentBar.dart';
+import '../Model/FOItem.dart';
+import '../Components/FOIncidentBar.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class InfiniteScrollPaginatorDemo extends StatefulWidget {
+class FOScrollController extends StatefulWidget {
   final String id;
   final String active;
   final String status;
   final storage = const FlutterSecureStorage();
 
-  const InfiniteScrollPaginatorDemo(
+  const FOScrollController(
       {super.key,
       required this.id,
       required this.active,
       required this.status});
 
   @override
-  _InfiniteScrollPaginatorDemoState createState() =>
-      _InfiniteScrollPaginatorDemoState();
+  _FOScrollControllerState createState() => _FOScrollControllerState();
 }
 
-class _InfiniteScrollPaginatorDemoState
-    extends State<InfiniteScrollPaginatorDemo> {
+class _FOScrollControllerState extends State<FOScrollController> {
   final _numberOfPostsPerRequest = 5;
 
-  final PagingController<int, Item> _pagingController =
+  final PagingController<int, FOItem> _pagingController =
       PagingController(firstPageKey: 0);
 
   @override
@@ -42,7 +40,7 @@ class _InfiniteScrollPaginatorDemoState
   }
 
   @override
-  void didUpdateWidget(covariant InfiniteScrollPaginatorDemo oldWidget) {
+  void didUpdateWidget(covariant FOScrollController oldWidget) {
     if (oldWidget.active != widget.active) {
       _pagingController.refresh();
     }
@@ -56,24 +54,22 @@ class _InfiniteScrollPaginatorDemoState
     try {
       final dynamic response;
 
-      widget.status == "Pending" ?  response = await get(
-          Uri.parse("${getUrl()}workplan/fieldofficer/${widget.id}"),
-        )
+      widget.status == "Pending"
+          ? response = await get(
+              Uri.parse("${getUrl()}workplan/fieldofficer/${widget.id}"),
+            )
+          : response = await get(
+              Uri.parse("${getUrl()}reports/fieldofficer/${widget.id}"),
+            );
 
-         :
-
-        response = await get(
-          Uri.parse("${getUrl()}reports/fieldofficer/${widget.id}"),
-        );
-
-      List responseList =  json.decode(response.body);
+      List responseList = json.decode(response.body);
 
       var databaseItemsNo = responseList.length;
 
       print("Current items are now : $responseList");
 
-      List<Item> postList = responseList
-          .map((data) => Item(
+      List<FOItem> postList = responseList
+          .map((data) => FOItem(
               data['Title'],
               data['Description'],
               data['Keywords'],
@@ -81,8 +77,9 @@ class _InfiniteScrollPaginatorDemoState
               data['Latitude'],
               data['Longitude'],
               data['ID'],
-              widget.status == "Pending" ?
-              data['createdAt'] : data['updatedAt']))
+              widget.status == "Pending"
+                  ? data['createdAt']
+                  : data['updatedAt']))
           .toList();
 
       print("the news item is now list is $postList");
@@ -104,13 +101,13 @@ class _InfiniteScrollPaginatorDemoState
   Widget build(BuildContext context) {
     return RefreshIndicator(
         onRefresh: () => Future.sync(() => _pagingController.refresh()),
-        child: PagedListView<int, Item>(
+        child: PagedListView<int, FOItem>(
           shrinkWrap: true,
           pagingController: _pagingController,
-          builderDelegate: PagedChildBuilderDelegate<Item>(
+          builderDelegate: PagedChildBuilderDelegate<FOItem>(
             itemBuilder: (context, item, index) => Padding(
               padding: const EdgeInsets.all(0),
-              child: IncidentBar(
+              child: FOIncidentBar(
                   title: item.title,
                   description: item.description,
                   status: widget.status,

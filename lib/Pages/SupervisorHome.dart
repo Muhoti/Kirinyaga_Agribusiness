@@ -8,7 +8,8 @@ import 'package:kirinyaga_agribusiness/Components/Stats.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
-import 'package:kirinyaga_agribusiness/Scroll/ScrollController.dart';
+import 'package:kirinyaga_agribusiness/Scroll/FOScrollController.dart';
+import 'package:kirinyaga_agribusiness/Scroll/SupScrollController.dart';
 import '../Components/NavigationButton.dart';
 import '../Components/NavigationDrawer2.dart';
 import 'package:http/http.dart' as http;
@@ -27,7 +28,7 @@ class _FieldOfficerHomeState extends State<SupervisorHome> {
   String total = '';
   String pending = '';
   String complete = '';
-  String active = 'WorkPlan';
+  String active = 'F.O Reports';
   String id = '';
   String status = 'Pending';
 
@@ -56,7 +57,7 @@ class _FieldOfficerHomeState extends State<SupervisorHome> {
     try {
       final dynamic response;
 
-      active == "View Reports"
+      active == "My Reports"
           ? response = await http.get(
               Uri.parse("${getUrl()}reports/stats/fieldofficer/$id"),
               headers: <String, String>{
@@ -93,7 +94,7 @@ class _FieldOfficerHomeState extends State<SupervisorHome> {
       title: 'Kirinyaga Agribusiness',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Supervisor Home"),
+          title: const Text("Super Home"),
           actions: [
             Align(
               alignment: Alignment.centerRight,
@@ -159,11 +160,11 @@ class _FieldOfficerHomeState extends State<SupervisorHome> {
                       flex: 1,
                       fit: FlexFit.tight,
                       child: NavigationButton(
-                        label: "WorkPlan",
+                        label: "F.O Reports",
                         active: active,
                         buttonPressed: () {
                           setState(() {
-                            active = "WorkPlan";
+                            active = "F.O Reports";
                             status = "Pending";
                             countTasks(id);
                             print("the count task is is $id");
@@ -177,11 +178,11 @@ class _FieldOfficerHomeState extends State<SupervisorHome> {
                     flex: 1,
                     fit: FlexFit.tight,
                     child: NavigationButton(
-                      label: "View Reports",
+                      label: "My Reports",
                       active: active,
                       buttonPressed: () {
                         setState(() {
-                          active = "View Reports";
+                          active = "My Reports";
                           status = "Complete";
                           countTasks(id);
                         });
@@ -195,7 +196,7 @@ class _FieldOfficerHomeState extends State<SupervisorHome> {
               flex: 1,
               fit: FlexFit.tight,
               child: id != ""
-                  ? InfiniteScrollPaginatorDemo(
+                  ? SupScrollController(
                       id: id, active: active, status: status)
                   : const SizedBox(),
             ),
@@ -205,12 +206,3 @@ class _FieldOfficerHomeState extends State<SupervisorHome> {
     );
   }
 }
-
-// Route _createRoute() {
-//   return PageRouteBuilder(
-//     pageBuilder: (context, animation, secondaryAnimation) => const Page2(),
-//     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-//       return child;
-//     },
-//   );
-// }

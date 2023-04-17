@@ -8,7 +8,7 @@ import 'package:kirinyaga_agribusiness/Components/Stats.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
-import 'package:kirinyaga_agribusiness/Scroll/ScrollController.dart';
+import 'package:kirinyaga_agribusiness/Scroll/FOScrollController.dart';
 import '../Components/NavigationButton.dart';
 import '../Components/NavigationDrawer2.dart';
 import 'package:http/http.dart' as http;
@@ -195,7 +195,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
               flex: 1,
               fit: FlexFit.tight,
               child: id != ""
-                  ? InfiniteScrollPaginatorDemo(
+                  ? FOScrollController(
                       id: id, active: active, status: status)
                   : const SizedBox(),
             ),

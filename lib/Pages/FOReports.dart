@@ -5,27 +5,20 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
-import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
-import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
-import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Components/TextView.dart';
 import 'package:kirinyaga_agribusiness/Pages/CreateReport.dart';
-import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
-import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:http/http.dart' as http;
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 
-class ViewReport extends StatefulWidget {
+class FOReports extends StatefulWidget {
   final String id;
-  const ViewReport({super.key, required this.id});
+  const FOReports({super.key, required this.id});
 
   @override
-  State<ViewReport> createState() => _ViewReportState();
+  State<FOReports> createState() => _FOReportsState();
 }
 
-class _ViewReportState extends State<ViewReport> {
+class _FOReportsState extends State<FOReports> {
   String workid = '';
   String userid = '';
   String title = '';
@@ -42,27 +35,25 @@ class _ViewReportState extends State<ViewReport> {
 
   @override
   void initState() {
-    print("the viewreport is ${widget.id}");
+    print("the FOReports is ${widget.id}");
 
-    viewReport(widget.id);
+    viewWork(widget.id);
 
     super.initState();
   }
 
-  viewReport(String id) async {
+  viewWork(String id) async {
     try {
       final response = await get(
-        Uri.parse("${getUrl()}reports/$id"),
+        Uri.parse("${getUrl()}FOReports/$id"),
       );
 
       var data = json.decode(response.body);
-
       print("the data alone is $data");
 
-      print("the data is ${data[0]}");
 
       setState(() {
-        workid = (data["ID"]);
+        workid = (data["UserID"]);
         title = data["Title"];
         type = data["Type"];
         image = data["Image"];
@@ -74,22 +65,21 @@ class _ViewReportState extends State<ViewReport> {
       });
 
       print("come on $workid, $title, $type");
-
     } catch (e) {
       print(e);
     }
   }
 
   @override
-
   Widget build(BuildContext context) {
-    print(" hey you $title, $description, $image, $type");
+        print(" hey work $title, $description, $image, $type");
+
     return MaterialApp(
-      title: "View Report",
+      title: "Work Plan",
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: const Center(child: Text("VIEW REPORT")),
+          title: const Center(child: Text("WORK PLAN")),
           actions: [
             Align(
               alignment: Alignment.centerRight,
@@ -105,10 +95,10 @@ class _ViewReportState extends State<ViewReport> {
           padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const TextLarge(label: "View Report"),
+                const TextLarge(label: "Task Description"),
                 TextView(
                   label: "Title: $title",
                 ),
@@ -116,8 +106,9 @@ class _ViewReportState extends State<ViewReport> {
                   label: "Info: $description",
                 ),
                 TextView(
-                  label: "Image: $image",
+                 label: "Image: $image",
                 ),
+                
                 TextView(
                   label: "Status: $status",
                 ),
@@ -133,19 +124,21 @@ class _ViewReportState extends State<ViewReport> {
                 const SizedBox(height: 24),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      textStyle: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      )),
-                  child: const Text("Close"),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => const FieldOfficerHome()));
-                  },
-                )
+                    backgroundColor: Colors.green,
+                    textStyle: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    )
+                  ),
+                  child: const Text("Create Report"),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) =>
+                                  CreateReport(id: workid)));
+                    },
+                    )
               ],
             ),
           ),

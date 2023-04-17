@@ -17,15 +17,15 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 
-class ViewReport extends StatefulWidget {
+class SupReport extends StatefulWidget {
   final String id;
-  const ViewReport({super.key, required this.id});
+  const SupReport({super.key, required this.id});
 
   @override
-  State<ViewReport> createState() => _ViewReportState();
+  State<SupReport> createState() => _SupReportState();
 }
 
-class _ViewReportState extends State<ViewReport> {
+class _SupReportState extends State<SupReport> {
   String workid = '';
   String userid = '';
   String title = '';
@@ -42,14 +42,14 @@ class _ViewReportState extends State<ViewReport> {
 
   @override
   void initState() {
-    print("the viewreport is ${widget.id}");
+    print("the SupReport is ${widget.id}");
 
-    viewReport(widget.id);
+    SupReport(widget.id);
 
     super.initState();
   }
 
-  viewReport(String id) async {
+  SupReport(String id) async {
     try {
       final response = await get(
         Uri.parse("${getUrl()}reports/$id"),

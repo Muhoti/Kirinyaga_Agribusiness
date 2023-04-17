@@ -41,7 +41,7 @@ class _WorkPlanState extends State<WorkPlan> {
 
   @override
   void initState() {
-    print("the workid is ${widget.id}");
+    print("the workplan is ${widget.id}");
 
     viewWork(widget.id);
 
@@ -51,7 +51,7 @@ class _WorkPlanState extends State<WorkPlan> {
   viewWork(String id) async {
     try {
       final response = await get(
-        Uri.parse("${getUrl()}workplan/farmerid/$id"),
+        Uri.parse("${getUrl()}workplan/$id"),
       );
 
       var data = json.decode(response.body);
@@ -78,6 +78,8 @@ class _WorkPlanState extends State<WorkPlan> {
 
   @override
   Widget build(BuildContext context) {
+        print(" hey work $title, $description, $image, $type");
+
     return MaterialApp(
       title: "Work Plan",
       home: Scaffold(

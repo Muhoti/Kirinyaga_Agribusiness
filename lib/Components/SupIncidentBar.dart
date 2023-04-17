@@ -1,14 +1,9 @@
-// import 'package:ambulex_app/Pages/Incident.dart';
-// import 'package:ambulex_app/Pages/ViewCompleted.dart';
-import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:kirinyaga_agribusiness/Pages/CreateReport.dart';
-import 'package:kirinyaga_agribusiness/Pages/ViewReport.dart';
-import 'package:kirinyaga_agribusiness/Pages/WorkPlan.dart';
-// import 'package:kirinyaga_agribusiness/Pages/Incident.dart';
+import 'package:kirinyaga_agribusiness/Pages/FOReports.dart';
+import 'package:kirinyaga_agribusiness/Pages/SupReport.dart';
 
-class IncidentBar extends StatefulWidget {
+class SupIncidentBar extends StatefulWidget {
   final String title;
   final String description;
   final String status;
@@ -19,7 +14,7 @@ class IncidentBar extends StatefulWidget {
   final String long;
   final String createdat;
 
-  const IncidentBar({
+  const SupIncidentBar({
     super.key,
     required this.title,
     required this.description,
@@ -33,10 +28,10 @@ class IncidentBar extends StatefulWidget {
   });
 
   @override
-  State<StatefulWidget> createState() => _StatState();
+  State<SupIncidentBar> createState() => _SupIncidentBar();
 }
 
-class _StatState extends State<IncidentBar> {
+class _SupIncidentBar extends State<SupIncidentBar> {
   String my = '';
 
   @override
@@ -60,14 +55,14 @@ class _StatState extends State<IncidentBar> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (_) => WorkPlan(
+                            builder: (_) => FOReports(
                                   id: widget.id,
                                 )));
                   } else {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (_) => ViewReport(
+                            builder: (_) => SupReport(
                                   id: widget.id,
                                 )));
                   }
