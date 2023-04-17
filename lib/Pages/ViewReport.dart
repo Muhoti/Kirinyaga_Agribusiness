@@ -12,19 +12,20 @@ import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Components/TextView.dart';
 import 'package:kirinyaga_agribusiness/Pages/CreateReport.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
+import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 
-class WorkPlan extends StatefulWidget {
+class ViewReport extends StatefulWidget {
   final String id;
-  const WorkPlan({super.key, required this.id});
+  const ViewReport({super.key, required this.id});
 
   @override
-  State<WorkPlan> createState() => _WorkPlanState();
+  State<ViewReport> createState() => _ViewReportState();
 }
 
-class _WorkPlanState extends State<WorkPlan> {
+class _ViewReportState extends State<ViewReport> {
   String workid = '';
   String userid = '';
   String title = '';
@@ -41,25 +42,27 @@ class _WorkPlanState extends State<WorkPlan> {
 
   @override
   void initState() {
-    print("the workplan is ${widget.id}");
+    print("the viewreport is ${widget.id}");
 
-    viewWork(widget.id);
+    viewReport(widget.id);
 
     super.initState();
   }
 
-  viewWork(String id) async {
+  viewReport(String id) async {
     try {
       final response = await get(
-        Uri.parse("${getUrl()}workplan/$id"),
+        Uri.parse("${getUrl()}reports/$id"),
       );
 
       var data = json.decode(response.body);
+
       print("the data alone is $data");
 
+      print("the data is ${data[0]}");
 
       setState(() {
-        workid = (data["UserID"]);
+        workid = (data["ID"]);
         title = data["Title"];
         type = data["Type"];
         image = data["Image"];
@@ -71,21 +74,22 @@ class _WorkPlanState extends State<WorkPlan> {
       });
 
       print("come on $workid, $title, $type");
+
     } catch (e) {
       print(e);
     }
   }
 
   @override
-  Widget build(BuildContext context) {
-        print(" hey work $title, $description, $image, $type");
 
+  Widget build(BuildContext context) {
+    print(" hey you $title, $description, $image, $type");
     return MaterialApp(
-      title: "Work Plan",
+      title: "View Report",
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: const Center(child: Text("WORK PLAN")),
+          title: const Center(child: Text("VIEW REPORT")),
           actions: [
             Align(
               alignment: Alignment.centerRight,
@@ -101,10 +105,10 @@ class _WorkPlanState extends State<WorkPlan> {
           padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const TextLarge(label: "Task Description"),
+                const TextLarge(label: "View Report"),
                 TextView(
                   label: "Title: $title",
                 ),
@@ -112,9 +116,8 @@ class _WorkPlanState extends State<WorkPlan> {
                   label: "Info: $description",
                 ),
                 TextView(
-                 label: "Image: $image",
+                  label: "Image: $image",
                 ),
-                
                 TextView(
                   label: "Status: $status",
                 ),
@@ -130,21 +133,19 @@ class _WorkPlanState extends State<WorkPlan> {
                 const SizedBox(height: 24),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    textStyle: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    )
-                  ),
-                  child: const Text("Create Report"),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) =>
-                                  CreateReport(id: workid)));
-                    },
-                    )
+                      backgroundColor: Colors.green,
+                      textStyle: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  child: const Text("Close"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const FieldOfficerHome()));
+                  },
+                )
               ],
             ),
           ),

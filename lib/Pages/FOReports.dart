@@ -5,26 +5,21 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
-import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
-import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
-import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Components/TextView.dart';
 import 'package:kirinyaga_agribusiness/Pages/CreateReport.dart';
-import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:http/http.dart' as http;
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
+import 'package:kirinyaga_agribusiness/Pages/SupervisorReport.dart';
 
-class WorkPlan extends StatefulWidget {
+class FOReports extends StatefulWidget {
   final String id;
-  const WorkPlan({super.key, required this.id});
+  const FOReports({super.key, required this.id});
 
   @override
-  State<WorkPlan> createState() => _WorkPlanState();
+  State<FOReports> createState() => _FOReportsState();
 }
 
-class _WorkPlanState extends State<WorkPlan> {
+class _FOReportsState extends State<FOReports> {
   String workid = '';
   String userid = '';
   String title = '';
@@ -41,7 +36,7 @@ class _WorkPlanState extends State<WorkPlan> {
 
   @override
   void initState() {
-    print("the workplan is ${widget.id}");
+    print("the FOReports is ${widget.id}");
 
     viewWork(widget.id);
 
@@ -81,11 +76,11 @@ class _WorkPlanState extends State<WorkPlan> {
         print(" hey work $title, $description, $image, $type");
 
     return MaterialApp(
-      title: "Work Plan",
+      title: "Field Officer Report",
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: const Center(child: Text("WORK PLAN")),
+          title: const Center(child: Text("Supervisor Tasks")),
           actions: [
             Align(
               alignment: Alignment.centerRight,
@@ -104,7 +99,7 @@ class _WorkPlanState extends State<WorkPlan> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const TextLarge(label: "Task Description"),
+                const TextLarge(label: "Field Officer Report"),
                 TextView(
                   label: "Title: $title",
                 ),
@@ -136,13 +131,13 @@ class _WorkPlanState extends State<WorkPlan> {
                       fontWeight: FontWeight.bold,
                     )
                   ),
-                  child: const Text("Create Report"),
+                  child: const Text("Approve"),
                     onPressed: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (_) =>
-                                  CreateReport(id: workid)));
+                                  SupervisorReport(id: workid)));
                     },
                     )
               ],

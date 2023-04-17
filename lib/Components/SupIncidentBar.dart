@@ -1,14 +1,9 @@
-// import 'package:ambulex_app/Pages/Incident.dart';
-// import 'package:ambulex_app/Pages/ViewCompleted.dart';
-import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:kirinyaga_agribusiness/Pages/CreateReport.dart';
-import 'package:kirinyaga_agribusiness/Pages/Home.dart';
-import 'package:kirinyaga_agribusiness/Pages/WorkPlan.dart';
-// import 'package:kirinyaga_agribusiness/Pages/Incident.dart';
+import 'package:kirinyaga_agribusiness/Pages/FOReports.dart';
+import 'package:kirinyaga_agribusiness/Pages/SupReport.dart';
 
-class IncidentBar extends StatefulWidget {
+class SupIncidentBar extends StatefulWidget {
   final String title;
   final String description;
   final String status;
@@ -17,8 +12,9 @@ class IncidentBar extends StatefulWidget {
   final String lat;
   final String id;
   final String long;
+  final String createdat;
 
-  const IncidentBar({
+  const SupIncidentBar({
     super.key,
     required this.title,
     required this.description,
@@ -28,16 +24,25 @@ class IncidentBar extends StatefulWidget {
     required this.lat,
     required this.id,
     required this.long,
+    required this.createdat,
   });
 
   @override
-  State<StatefulWidget> createState() => _StatState();
+  State<SupIncidentBar> createState() => _SupIncidentBar();
 }
 
-class _StatState extends State<IncidentBar> {
+class _SupIncidentBar extends State<SupIncidentBar> {
+  String my = '';
 
   @override
   Widget build(BuildContext context) {
+
+    String date = widget.createdat;
+    List<String> dateParts = date.split("-");
+    String year = dateParts[0].substring(2);
+    String month = dateParts[1];
+     my = "$month/$year";
+
     return Padding(
         padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
         child: Card(
@@ -48,12 +53,18 @@ class _StatState extends State<IncidentBar> {
                 onPressed: () {
                   if (widget.status == "Pending") {
                     Navigator.push(
-                      context, MaterialPageRoute(
-                        builder: (_) => WorkPlan(id: widget.id,)));
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => FOReports(
+                                  id: widget.id,
+                                )));
                   } else {
                     Navigator.push(
-                      context, MaterialPageRoute(
-                        builder: (_) => CreateReport(id: widget.id,)));
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => SupReport(
+                                  id: widget.id,
+                                )));
                   }
                 },
                 child: Container(
@@ -63,15 +74,16 @@ class _StatState extends State<IncidentBar> {
                       Container(
                         padding: const EdgeInsets.all(10),
                         decoration: const BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.all(Radius.circular(5))
-                         ),
-                         child: const Text("12/4", style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 28
-                         ),),
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.all(Radius.circular(5))),
+                        child: Text(
+                          my,
+                          style: const TextStyle(color: Colors.white, fontSize: 28),
+                        ),
                       ),
-                      const SizedBox(width: 12,),
+                      const SizedBox(
+                        width: 12,
+                      ),
                       Flexible(
                         flex: 1,
                         fit: FlexFit.tight,
@@ -80,8 +92,8 @@ class _StatState extends State<IncidentBar> {
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Text(widget.title,
-                              textAlign: TextAlign.left,
-                                textWidthBasis: TextWidthBasis.parent,
+                                  textAlign: TextAlign.left,
+                                  textWidthBasis: TextWidthBasis.parent,
                                   style: const TextStyle(
                                       color: Color.fromRGBO(42, 74, 40, 1),
                                       fontSize: 18,
@@ -96,12 +108,11 @@ class _StatState extends State<IncidentBar> {
                                 widget.description,
                                 textAlign: TextAlign.left,
                                 textWidthBasis: TextWidthBasis.parent,
-                                 overflow: TextOverflow.ellipsis,
+                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black54,
                                   fontSize: 14,
-                                  
                                 ),
                               ),
                             ),

@@ -11,19 +11,20 @@ import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
+import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 
-class CreateReport extends StatefulWidget {
+class SupervisorReport extends StatefulWidget {
   final String id;
-  const CreateReport({super.key, required this.id});
+  const SupervisorReport({super.key, required this.id});
 
   @override
-  State<CreateReport> createState() => _CreateReportState();
+  State<SupervisorReport> createState() => _SupervisorReportState();
 }
 
-class _CreateReportState extends State<CreateReport> {
+class _SupervisorReportState extends State<SupervisorReport> {
   String userid = '';
   String title = '';
   String type = '';
@@ -189,7 +190,7 @@ class _CreateReportState extends State<CreateReport> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (_) =>
-                                            const FieldOfficerHome()));
+                                            const SupervisorHome()));
                               }
                             }),
                       ],
