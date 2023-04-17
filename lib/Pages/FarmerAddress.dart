@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_typing_uninitialized_variables, unused_field, unnecessary_null_comparison
+// ignore_for_file: prefer_typing_uninitialized_variables, unused_field, unnecessary_null_comparison, non_constant_identifier_names
 
 import 'dart:async';
 import 'dart:convert';
@@ -45,55 +45,6 @@ class _FarmerAddressState extends State<FarmerAddress> {
   late StreamSubscription<Position> positionStream;
   final storage = const FlutterSecureStorage();
 
-  // final List<String> countyNames = [
-  //   "Baringo",
-  //   "Bomet",
-  //   "Bungoma",
-  //   "Busia",
-  //   "Elgeyo-Marakwet",
-  //   "Embu",
-  //   "Garissa",
-  //   "Homa Bay",
-  //   "Isiolo",
-  //   "Kajiado",
-  //   "Kakamega",
-  //   "Kericho",
-  //   "Kiambu",
-  //   "Kilifi",
-  //   "Kirinyaga",
-  //   "Kisii",
-  //   "Kisumu",
-  //   "Kitui",
-  //   "Kwale",
-  //   "Laikipia",
-  //   "Lamu",
-  //   "Machakos",
-  //   "Makueni",
-  //   "Mandera",
-  //   "Marsabit",
-  //   "Meru",
-  //   "Migori",
-  //   "Mombasa",
-  //   "Murang'a",
-  //   "Nairobi",
-  //   "Nakuru",
-  //   "Nandi",
-  //   "Narok",
-  //   "Nyamira",
-  //   "Nyandarua",
-  //   "Nyeri",
-  //   "Samburu",
-  //   "Siaya",
-  //   "Taita-Taveta",
-  //   "Tana River",
-  //   "Tharaka-Nithi",
-  //   "Trans-Nzoia",
-  //   "Turkana",
-  //   "Uasin Gishu",
-  //   "Vihiga",
-  //   "Wajir",
-  //   "West Pokot",
-  // ];
   late String _selectedSubCounty = kirinyagaSubCounties.first;
   String? _selectedWard;
 
@@ -167,6 +118,7 @@ class _FarmerAddressState extends State<FarmerAddress> {
 
   @override
   Widget build(BuildContext context) {
+    print("the subcuunty is $SubCounty and ward is $Ward");
     return Scaffold(
       appBar: AppBar(
         title: const Text("Farmer Address"),
@@ -212,6 +164,40 @@ class _FarmerAddressState extends State<FarmerAddress> {
                       FarmerID = value;
                     });
                   }),
+              // Container(
+              //   decoration: BoxDecoration(
+              //     border: Border.all(
+              //       color: Colors.grey,
+              //       width: 1.0,
+              //     ),
+              //     borderRadius: BorderRadius.circular(10),
+              //   ),
+              //   child: DropdownButton(
+              //       value: SubCounty,
+              //       items: kirinyagaSubCounties.map((option) {
+              //         return DropdownMenuItem(
+              //           value: option,
+              //           child: Text(option),
+              //         );
+              //       }).toList(),
+              //       onChanged: (value) {
+              //         setState(() {
+              //           SubCounty = value!;
+              //         });
+              //       },
+              //       icon: Icon(Icons.arrow_drop_down),
+              //       iconSize: 24,
+              //       elevation: 16,
+              //       style: TextStyle(
+              //         color: Colors.black,
+              //         fontSize: 16,
+              //       ),
+              //       underline: Container(),
+              //       ),
+              // ),
+
+
+
               SizedBox(
                 width: MediaQuery.of(context).size.width - 48,
                 child: DropdownButtonFormField(
@@ -225,16 +211,16 @@ class _FarmerAddressState extends State<FarmerAddress> {
                     hintStyle: TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
                   ),
 
-                  value: _selectedSubCounty,
+                  value: SubCounty,
                   // onChanged: (value) {
                   //   setState(() {
                   //     _selectedSubCounty = value!;
                   //   });
                   // },
-                  items: kirinyagaSubCounties.map((subCounty) {
+                  items: kirinyagaSubCounties.map((SubCounty) {
                     return DropdownMenuItem(
-                      value: subCounty,
-                      child: Text(subCounty),
+                      value: SubCounty,
+                      child: Text(SubCounty),
                     );
                   }).toList(),
                   onChanged: (value) {
@@ -245,54 +231,50 @@ class _FarmerAddressState extends State<FarmerAddress> {
                   },
                 ),
               ),
-
-              Padding(
-                padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width - 48,
-                  child: DropdownButtonFormField(
-                    decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
-                      border: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Color.fromRGBO(0, 128, 0, 1))),
-                      labelText: 'Ward',
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      hintStyle: TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
-                    ),
-                    value: _selectedWard,
-                    // onChanged: (value) {
-                    //   setState(() {
-                    //     _selectedSubCounty = value!;
-                    //   });
-                    // },
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedWard = value as String?;
-                      });
-                    },
-                    items: _selectedSubCounty != null
-                        ? kirinyagaWards[_selectedSubCounty as String]!
-                            .map((ward) => DropdownMenuItem(
-                                  value: ward,
-                                  child: Text(ward),
-                                ))
-                            .toList()
-                        : [],
+              const SizedBox(height: 24),
+              SizedBox(
+                width: MediaQuery.of(context).size.width - 48,
+                child: DropdownButtonFormField(
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
+                    border: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Color.fromRGBO(0, 128, 0, 1))),
+                    labelText: 'Ward',
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    hintStyle: TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
                   ),
+                  value: Ward,
+                  // onChanged: (value) {
+                  //   setState(() {
+                  //     _selectedSubCounty = value!;
+                  //   });
+                  // },
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedWard = value as String?;
+                    });
+                  },
+                  items: _selectedSubCounty != null
+                      ? kirinyagaWards[_selectedSubCounty as String]!
+                          .map((Ward) => DropdownMenuItem(
+                                value: Ward,
+                                child: Text(Ward),
+                              ))
+                          .toList()
+                      : [],
                 ),
               ),
 
-              // MyTextInput(
-              //     title: "County",
-              //     value: "",
-              //     onSubmit: (value) {
-              //       setState(() {
-              //         County = value;
-              //       });
-              //     }),
-            
-             
+              MyTextInput(
+                  title: "County",
+                  value: "",
+                  onSubmit: (value) {
+                    setState(() {
+                      County = value;
+                    });
+                  }),
+
               MyTextInput(
                   title: "Village",
                   value: "",
@@ -306,7 +288,7 @@ class _FarmerAddressState extends State<FarmerAddress> {
                   value: "",
                   onSubmit: (value) {
                     setState(() {
-                      Latitude = value;
+                      Latitude = lat.toString();
                     });
                   }),
               MyTextInput(
@@ -314,7 +296,7 @@ class _FarmerAddressState extends State<FarmerAddress> {
                   value: "",
                   onSubmit: (value) {
                     setState(() {
-                      Longitude = value;
+                      Longitude = long.toString();
                     });
                   }),
               SubmitButton(
