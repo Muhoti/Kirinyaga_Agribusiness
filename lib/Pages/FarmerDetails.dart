@@ -188,6 +188,8 @@ Future<void> editFarmerDetails(String nationalId) async {
     var data = json.decode(response.body);
 
     print("Farmer Details data is $data");
+
+    
   } catch (e) {}
 }
 
@@ -196,6 +198,8 @@ void getNationalID(String nationalId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
      nationalId = prefs.getString("NationalID") ?? '';
     print("the national id is $nationalId");
+
+    
   } catch (e) {
     print("the natioinal id is empty: $nationalId");
   }
