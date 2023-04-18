@@ -31,6 +31,8 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
   String id = '';
   String status = 'Pending';
 
+  String nationalId = '';
+
   @override
   void initState() {
     getDefaultValues();
@@ -63,7 +65,6 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                 'Content-Type': 'application/json; charset=UTF-8',
               },
             )
-            
           : response = await http.get(
               Uri.parse("${getUrl()}workplan/stats/fieldofficer/$id"),
               headers: <String, String>{
@@ -108,8 +109,10 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
         drawer: const Drawer(child: NavigationDrawer2()),
         floatingActionButton: ElevatedButton(
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const FarmerDetails()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => FarmerDetails(nationalId)));
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromRGBO(13, 50, 10, 1),
@@ -195,8 +198,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
               flex: 1,
               fit: FlexFit.tight,
               child: id != ""
-                  ? FOScrollController(
-                      id: id, active: active, status: status)
+                  ? FOScrollController(id: id, active: active, status: status)
                   : const SizedBox(),
             ),
           ],

@@ -1,9 +1,19 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
+import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Summary extends StatefulWidget {
   const Summary({super.key});
+
+  getNationalID() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String nationalID = prefs.getString("NationalID") ?? '';
+    return nationalID;
+  }
 
   @override
   State<Summary> createState() => _SummaryState();
@@ -14,6 +24,8 @@ class _SummaryState extends State<Summary> {
   String phone = '';
   String id = '';
   String user = '';
+  
+  var nationalId;
 
   @override
   Widget build(BuildContext context) {
@@ -100,27 +112,38 @@ class _SummaryState extends State<Summary> {
               ),
               const SizedBox(height: 16),
               Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 5, 53, 92),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Farmer Details',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                      const SizedBox(width: 16),
-                      Image.asset('assets/images/stat1.png'),
-                    ],
+                child: GestureDetector(
+                  onTap: () {
+                    // Navigate to the next page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                               FarmerDetails(nationalId)),
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 5, 53, 92),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Farmer Details',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                        const SizedBox(width: 16),
+                        Image.asset('assets/images/stat1.png'),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -212,7 +235,6 @@ class _SummaryState extends State<Summary> {
               const SizedBox(
                 height: 16,
               ),
-              
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -238,7 +260,6 @@ class _SummaryState extends State<Summary> {
                   ),
                 ),
               ),
-            
               const SizedBox(
                 height: 16,
               ),

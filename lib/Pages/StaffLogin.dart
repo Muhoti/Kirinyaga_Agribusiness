@@ -31,6 +31,8 @@ class _StaffLoginState extends State<StaffLogin> {
   var isLoading;
   String role = '';
   final storage = const FlutterSecureStorage();
+  
+  String nationalId = '';
 
   Future<void> checkRole() async {
     try {
@@ -47,7 +49,7 @@ class _StaffLoginState extends State<StaffLogin> {
       switch (role) {
         case "Field Officer":
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (_) => const FieldOfficerHome()));
+              MaterialPageRoute(builder: (_) =>  const FieldOfficerHome()));
           break;
         case "Supervisor":
           Navigator.pushReplacement(context,
@@ -55,7 +57,7 @@ class _StaffLoginState extends State<StaffLogin> {
           break;
         case "Enumerator":
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (_) => const FarmerDetails()));
+              MaterialPageRoute(builder: (_) =>  FarmerDetails(nationalId)));
           break;
 
         default:

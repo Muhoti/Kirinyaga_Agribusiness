@@ -5,19 +5,20 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/NavigationDrawer2.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
-import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerAddress.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Components/Utils.dart';
 
 class FarmerDetails extends StatefulWidget {
-  const FarmerDetails({super.key});
+  const FarmerDetails(nationalID, {super.key});
 
   @override
   State<FarmerDetails> createState() => _FarmerDetailsState();
@@ -34,6 +35,20 @@ class _FarmerDetailsState extends State<FarmerDetails> {
   String farmingType = '';
   var isLoading;
   final storage = const FlutterSecureStorage();
+
+  saveNationalID() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("NationalID", nationalId);
+  }
+
+  @override
+  void initState() {
+    getNationalID(nationalId);
+    if (nationalId != '') {
+      editFarmerDetails(nationalId);
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,6 +153,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                       isLoading = null;
                       if (res.error == null) {
                         error = res.success;
+                        saveNationalID();
                       } else {
                         error = res.error;
                       }
@@ -163,13 +179,35 @@ class _FarmerDetailsState extends State<FarmerDetails> {
   }
 }
 
+Future<void> editFarmerDetails(String nationalId) async {
+  try {
+    final response = await get(
+      Uri.parse("${getUrl()}farmerdetails/farmerid/$nationalId"),
+    );
+
+    var data = json.decode(response.body);
+
+    print("Farmer Details data is $data");
+  } catch (e) {}
+}
+
+void getNationalID(String nationalId) async {
+  try {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+     nationalId = prefs.getString("NationalID") ?? '';
+    print("the national id is $nationalId");
+  } catch (e) {
+    print("the natioinal id is empty: $nationalId");
+  }
+}
+
 Future<Message> postFarmerDetails(String user, String name, String nationalId,
     String phoneNumber, String gender, String age, String farmingType) async {
   if (name.isEmpty) {
     return Message(token: null, success: null, error: "Name cannot be empty!");
   }
 
-  if (phoneNumber.length != 10) {
+  if (phoneNumber.length < 10) {
     return Message(
       token: null,
       success: null,
