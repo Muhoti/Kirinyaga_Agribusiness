@@ -3,6 +3,7 @@ import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerInfo.dart';
 import 'package:kirinyaga_agribusiness/Pages/Produce.dart';
+import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
 import 'package:kirinyaga_agribusiness/main.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:flutter/material.dart';
@@ -48,51 +49,15 @@ class NavigationDrawer2 extends StatelessWidget {
             ),
             ListTile(
               title: const Text(
-                'Farmer Home',
+                'Edit Farmer',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.bold),
               ),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const FarmerHome()));
-              },
-            ),
-            ListTile(
-              title: Text(
-                'Farmer Details',
-                style: style,
-              ),
-              onTap: () {
-                final store = new FlutterSecureStorage();
-                store.deleteAll();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const FarmerDetails()));
-              },
-            ),
-            ListTile(
-              title: Text(
-                'Farmer Address',
-                style: style,
-              ),
-              onTap: () {
-                final store = new FlutterSecureStorage();
-                store.deleteAll();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const FarmerAddress()));
-              },
-            ),
-            ListTile(
-              title: Text(
-                'Farmer ValueChain',
-                style: style,
-              ),
-              onTap: () {
-                final store = new FlutterSecureStorage();
-                store.deleteAll();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const Produce()));
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => const Summary()));
               },
             ),
             ListTile(

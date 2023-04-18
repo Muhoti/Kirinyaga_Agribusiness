@@ -196,8 +196,6 @@ class _FarmerAddressState extends State<FarmerAddress> {
               //       ),
               // ),
 
-
-
               SizedBox(
                 width: MediaQuery.of(context).size.width - 48,
                 child: DropdownButtonFormField(
