@@ -28,8 +28,8 @@ class _FarmerResourcesState extends State<FarmerResources> {
   String TotalAcreage = '';
   String CropAcreage = '';
   String LivestockAcreage = '';
-  String IrrigationType = '';
-  String FarmOwnership = '';
+  String? IrrigationType = 'None';
+  String? FarmOwnership = 'Owned';
   String error = '';
   var isLoading;
   final storage = const FlutterSecureStorage();
@@ -63,6 +63,14 @@ class _FarmerResourcesState extends State<FarmerResources> {
                 // ),
                 TextOakar(label: error),
                 MyTextInput(
+                    title: "FarmerID",
+                    value: " ",
+                    onSubmit: (value) {
+                      setState(() {
+                        FarmerID = value;
+                      });
+                    }),
+                MyTextInput(
                     title: "Total Land Acreage",
                     value: " ",
                     onSubmit: (value) {
@@ -86,22 +94,80 @@ class _FarmerResourcesState extends State<FarmerResources> {
                         LivestockAcreage = value;
                       });
                     }),
-                MyTextInput(
-                    title: "Type of Irrigation",
-                    value: " ",
-                    onSubmit: (value) {
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 48,
+                  child: DropdownButtonFormField(
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
+                      border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color.fromRGBO(0, 128, 0, 1))),
+                      labelText: 'Type of Irrigation',
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      hintStyle: TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
+                    ),
+                    value: IrrigationType,
+                    onChanged: (selectedIrrigationType) {
                       setState(() {
-                        IrrigationType = value;
+                        IrrigationType = selectedIrrigationType;
                       });
-                    }),
-                MyTextInput(
-                    title: "Farm Ownership",
-                    value: " ",
-                    onSubmit: (value) {
+                    },
+                    items: const [
+                      DropdownMenuItem(
+                        child: Text("None"),
+                        value: "None",
+                      ),
+                      DropdownMenuItem(
+                        child: Text("Flood"),
+                        value: "Flood",
+                      ),
+                      DropdownMenuItem(
+                        child: Text("Drip"),
+                        value: "Drip",
+                      ),
+                      DropdownMenuItem(
+                        child: Text("Overhead"),
+                        value: "Overhead",
+                      ),
+                      DropdownMenuItem(
+                        child: Text("Sprinkler"),
+                        value: "Sprinkler",
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 48,
+                  child: DropdownButtonFormField(
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
+                      border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color.fromRGBO(0, 128, 0, 1))),
+                      labelText: 'Farm Ownership',
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      hintStyle: TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
+                    ),
+                    value: FarmOwnership,
+                    onChanged: (selectedOwnership) {
                       setState(() {
-                        FarmOwnership = value;
+                        FarmOwnership = selectedOwnership;
                       });
-                    }),
+                    },
+                    items: const [
+                      DropdownMenuItem(
+                        child: Text("Owned"),
+                        value: "Owned",
+                      ),
+                      DropdownMenuItem(
+                        child: Text("Rented"),
+                        value: "Rented",
+                      ),
+                    ],
+                  ),
+                ),
+
                 SubmitButton(
                   label: "Submit",
                   onButtonPressed: () async {
@@ -116,8 +182,8 @@ class _FarmerResourcesState extends State<FarmerResources> {
                         TotalAcreage,
                         CropAcreage,
                         LivestockAcreage,
-                        IrrigationType,
-                        FarmOwnership);
+                        IrrigationType!,
+                        FarmOwnership!);
 
                     setState(() {
                       isLoading = null;
@@ -184,7 +250,9 @@ Future<Message> postFarmerResources(
       'FarmOwnership': FarmOwnership
     }),
   );
-
+  print('This is the response $response');
+  var myresponse = response.statusCode;
+  print('The response $myresponse');
   if (response.statusCode == 200 || response.statusCode == 203) {
     // If the server did return a 200 OK response,
     // then parse the JSON.

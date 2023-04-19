@@ -7,7 +7,7 @@ List<String> kirinyagaSubCounties = [
 ];
 
 Map<String, List<String>> kirinyagaWards = {
-   '': [
+  '': [
     '',
   ],
   'Gichugu': [

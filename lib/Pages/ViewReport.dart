@@ -74,16 +74,13 @@ class _ViewReportState extends State<ViewReport> {
       });
 
       print("come on $workid, $title, $type");
-
     } catch (e) {
       print(e);
     }
   }
 
   @override
-
   Widget build(BuildContext context) {
-    print(" hey you $title, $description, $image, $type");
     return MaterialApp(
       title: "View Report",
       home: Scaffold(

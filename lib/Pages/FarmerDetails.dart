@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_typing_uninitialized_variables, non_constant_identifier_names
 
 import 'dart:async';
 import 'dart:convert';
@@ -29,10 +29,11 @@ class _FarmerDetailsState extends State<FarmerDetails> {
   String nationalId = '';
   String name = '';
   String phoneNumber = '';
-  String gender = '';
-  String age = '';
+  String Gender = '';
+  String? selectedGender = "Male";
+  String? age = '18-35 Years';
   String error = '';
-  String farmingType = '';
+  String? farmingType = 'Crop Farming';
   var isLoading;
   final storage = const FlutterSecureStorage();
 
@@ -80,15 +81,15 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                 TextOakar(label: error),
                 MyTextInput(
                     title: "User",
-                    value: " ",
+                    value: "",
                     onSubmit: (value) {
                       setState(() {
                         user = value;
                       });
                     }),
                 MyTextInput(
-                    title: "Farmer Name",
-                    value: " ",
+                    title: "Name",
+                    value: "",
                     onSubmit: (value) {
                       setState(() {
                         name = value;
@@ -96,7 +97,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                     }),
                 MyTextInput(
                     title: "National ID",
-                    value: " ",
+                    value: "",
                     onSubmit: (value) {
                       setState(() {
                         nationalId = value;
@@ -104,36 +105,112 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                     }),
                 MyTextInput(
                     title: "Phone Number",
-                    value: " ",
+                    value: "",
                     onSubmit: (value) {
                       setState(() {
                         phoneNumber = value;
                       });
                     }),
-                MyTextInput(
-                    title: "Gender",
-                    value: " ",
-                    onSubmit: (value) {
+
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 48,
+                  child: DropdownButtonFormField(
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
+                      border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color.fromRGBO(0, 128, 0, 1))),
+                      labelText: 'Select Gender',
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      hintStyle: TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
+                    ),
+                    value: selectedGender, // use selectedGender variable
+                    onChanged: (newValue) {
                       setState(() {
-                        gender = value;
+                        selectedGender = newValue;
                       });
-                    }),
-                MyTextInput(
-                    title: "Age Group",
-                    value: "",
-                    onSubmit: (value) {
+                    },
+                    items: const [
+                      DropdownMenuItem(
+                        child: Text("Male"),
+                        value: "Male",
+                      ),
+                      DropdownMenuItem(
+                        child: Text("Female"),
+                        value: "Female",
+                      ),
+                    ],
+                  ),
+                ),
+                
+                const SizedBox(height: 24),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 48,
+                  child: DropdownButtonFormField(
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
+                      border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color.fromRGBO(0, 128, 0, 1))),
+                      labelText: 'Select Age Group',
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      hintStyle: TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
+                    ),
+                    value: age, // use selectedGender variable
+                    onChanged: (value) {
                       setState(() {
                         age = value;
                       });
-                    }),
-                MyTextInput(
-                    title: "Farming Type",
-                    value: " ",
-                    onSubmit: (value) {
+                    },
+                    items: const [
+                      DropdownMenuItem(
+                        child: Text("18-35 Years"),
+                        value: "18-35 Years",
+                      ),
+                      DropdownMenuItem(
+                        child: Text("36-65 Years"),
+                        value: "36-65 Years",
+                      ),
+                      DropdownMenuItem(
+                        child: Text("66 and above"),
+                        value: "66 and above",
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 24),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 48,
+                  child: DropdownButtonFormField(
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
+                      border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color.fromRGBO(0, 128, 0, 1))),
+                      labelText: 'Select Farming Type',
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      hintStyle: TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
+                    ),
+                    value: farmingType, // use selectedGender variable
+                    onChanged: (value) {
                       setState(() {
                         farmingType = value;
                       });
-                    }),
+                    },
+                    items: const [
+                      DropdownMenuItem(
+                        child: Text("Crop Farming"),
+                        value: "Crop Farming",
+                      ),
+                      DropdownMenuItem(
+                        child: Text("Livestock Farming"),
+                        value: "Livestock Farming",
+                      ),
+                    ],
+                  ),
+                ),
+
                 SubmitButton(
                   label: "Submit",
                   onButtonPressed: () async {
@@ -144,10 +221,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                       );
                     });
                     var res = await postFarmerDetails(user, name, nationalId,
-                        phoneNumber, gender, age, farmingType);
-
-                    print(res);
-                    print("bingo");
+                        phoneNumber, selectedGender!, age!, farmingType!);
 
                     setState(() {
                       isLoading = null;
@@ -179,6 +253,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
   }
 }
 
+
 Future<void> editFarmerDetails(String nationalId) async {
   try {
     final response = await get(
@@ -205,8 +280,19 @@ void getNationalID(String nationalId) async {
   }
 }
 
-Future<Message> postFarmerDetails(String user, String name, String nationalId,
-    String phoneNumber, String gender, String age, String farmingType) async {
+
+// Update Form
+void updateFarmerDetails() {}
+
+Future<Message> postFarmerDetails(
+    String user,
+    String name,
+    String nationalId,
+    String phoneNumber,
+    String selectedGender,
+    String age,
+    String farmingType) async {
+
   if (name.isEmpty) {
     return Message(token: null, success: null, error: "Name cannot be empty!");
   }
@@ -237,7 +323,7 @@ Future<Message> postFarmerDetails(String user, String name, String nationalId,
       'Name': name,
       'NationalID': nationalId,
       'Phone': phoneNumber,
-      'Gender': gender,
+      'Gender': selectedGender,
       'AgeGroup': age,
       'FarmingType': farmingType
     }),

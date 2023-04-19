@@ -36,6 +36,7 @@ class _StaffLoginState extends State<StaffLogin> {
 
   Future<void> checkRole() async {
     try {
+      String editing = "";
       var token = await storage.read(key: "erjwt");
       var decoded = parseJwt(token.toString());
       var id = decoded["UserID"];
@@ -45,7 +46,7 @@ class _StaffLoginState extends State<StaffLogin> {
           });
       var data = json.decode(response.body);
       String role = data["Role"];
-      print("the role is $role");
+      // print("the role is $role");
       switch (role) {
         case "Field Officer":
           Navigator.pushReplacement(context,
@@ -85,8 +86,9 @@ class _StaffLoginState extends State<StaffLogin> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
-                             Padding(
-                              padding: const EdgeInsets.fromLTRB(84, 24, 84, 12),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(84, 24, 84, 12),
                               child: Image.asset('assets/images/logo.png'),
                             ),
                             const TextLarge(label: "Staff Login"),
@@ -173,7 +175,6 @@ Future<Message> login(String email, String password) async {
     },
     body: jsonEncode(<String, String>{'Email': email, 'Password': password}),
   );
-  
 
   if (response.statusCode == 200 || response.statusCode == 203) {
     //getToken(role);
