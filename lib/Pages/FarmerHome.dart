@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerInfo.dart';
-import 'package:kirinyaga_agribusiness/Pages/Produce.dart';
+import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
 import '../Components/NavigationDrawer2.dart';
 import 'package:http/http.dart' as http;
 import '../Components/SubmitButton.dart';
@@ -129,10 +129,12 @@ class _FarmerHomeState extends State<FarmerHome> {
             //     active: "active",
             //   )),
             SubmitButton(
-              label: "Update Produce",
+              label: "Update ValueChain",
               onButtonPressed: () async {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (_) => const Produce()));
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const FarmerValueChains()));
               },
             ),
           ],

@@ -112,7 +112,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => FarmerDetails(nationalId)));
+                    builder: (context) => FarmerDetails()));
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromRGBO(13, 50, 10, 1),

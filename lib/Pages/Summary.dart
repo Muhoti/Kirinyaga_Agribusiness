@@ -24,7 +24,7 @@ class _SummaryState extends State<Summary> {
   String phone = '';
   String id = '';
   String user = '';
-  
+
   var nationalId;
 
   @override
@@ -117,9 +117,7 @@ class _SummaryState extends State<Summary> {
                     // Navigate to the next page
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                               FarmerDetails(nationalId)),
+                      MaterialPageRoute(builder: (context) => FarmerDetails()),
                     );
                   },
                   child: Container(

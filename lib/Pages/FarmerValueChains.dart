@@ -17,18 +17,23 @@ import 'package:http/http.dart' as http;
 
 import '../Components/Utils.dart';
 
-class Produce extends StatefulWidget {
-  const Produce({super.key});
+class FarmerValueChains extends StatefulWidget {
+  const FarmerValueChains({super.key});
 
   @override
-  State<Produce> createState() => _ProduceState();
+  State<FarmerValueChains> createState() => FarmerValueChainsState();
 }
 
-class _ProduceState extends State<Produce> {
+class FarmerValueChainsState extends State<FarmerValueChains> {
   String valueChainID = '';
-  String valueChain = '';
+  String? valueChain = 'Banana';
   String farmerID = '';
-  String produce = '';
+  String farmerName = '';
+  String AvgHarvestProduction = '';
+  String AvgYearlyProduction = '';
+  String approxAcreage = '';
+  String productionUnit = '';
+  String variety = '';
   String harvestDate = '';
   String farmingPeriod = '';
   String error = '';
@@ -39,7 +44,7 @@ class _ProduceState extends State<Produce> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Update Produce"),
+        title: const Text("Farmer Value Chains"),
         actions: [
           Align(
             alignment: Alignment.centerRight,
@@ -59,45 +64,121 @@ class _ProduceState extends State<Produce> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const TextLarge(
-                  label: "Update Farm Produce",
-                ),
+                // const TextLarge(
+                //   label: "Add Value Chain",
+                // ),
                 TextOakar(label: error),
                 MyTextInput(
                     title: "ValueChain ID",
-                    value: " ",
+                    value: "",
                     onSubmit: (value) {
                       setState(() {
                         valueChainID = value;
                       });
                     }),
-                MyTextInput(
-                    title: "Value Chain",
-                    value: " ",
-                    onSubmit: (value) {
+
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 48,
+                  child: DropdownButtonFormField(
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
+                      border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color.fromRGBO(0, 128, 0, 1))),
+                      labelText: 'Value Chain',
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      hintStyle: TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
+                    ),
+                    value: valueChain, // use selectedGender variable
+                    onChanged: (selectedValueChain) {
                       setState(() {
-                        valueChain = value;
+                        valueChain = selectedValueChain;
                       });
-                    }),
+                    },
+                    items: const [
+                      DropdownMenuItem(
+                        child: Text("Banana"),
+                        value: "Banana",
+                      ),
+                      DropdownMenuItem(
+                        child: Text("Beans"),
+                        value: "Beans",
+                      ),
+                      DropdownMenuItem(
+                        child: Text("Dairy"),
+                        value: "Dairy",
+                      ),
+                      DropdownMenuItem(
+                        child: Text("Vegetables"),
+                        value: "Vegetables",
+                      ),
+                      DropdownMenuItem(
+                        child: Text("Local Chicken (Kienyeji)"),
+                        value: "Local Chicken (Kienyeji)",
+                      ),
+                    ],
+                  ),
+                ),
                 MyTextInput(
                     title: "Farmer ID",
-                    value: " ",
+                    value: "",
                     onSubmit: (value) {
                       setState(() {
                         farmerID = value;
                       });
                     }),
                 MyTextInput(
-                    title: "Produce",
-                    value: " ",
+                    title: "Farmer Name",
+                    value: "",
                     onSubmit: (value) {
                       setState(() {
-                        produce = value;
+                        farmerName = value;
+                      });
+                    }),
+                MyTextInput(
+                    title: "Variety (Optional)",
+                    value: "",
+                    onSubmit: (value) {
+                      setState(() {
+                        variety = value;
+                      });
+                    }),
+
+                MyTextInput(
+                    title: "Production Unit",
+                    value: "",
+                    onSubmit: (value) {
+                      setState(() {
+                        productionUnit = value;
+                      });
+                    }),
+                MyTextInput(
+                    title: "Approximate Acreage (Acres)",
+                    value: "",
+                    onSubmit: (value) {
+                      setState(() {
+                        approxAcreage = value;
+                      });
+                    }),
+                MyTextInput(
+                    title: "Average Yearly Production",
+                    value: "",
+                    onSubmit: (value) {
+                      setState(() {
+                        AvgYearlyProduction = value;
+                      });
+                    }),
+                MyTextInput(
+                    title: "Average Harvest Production",
+                    value: "",
+                    onSubmit: (value) {
+                      setState(() {
+                        AvgHarvestProduction = value;
                       });
                     }),
                 MyTextInput(
                     title: "Harvest Date",
-                    value: " ",
+                    value: "",
                     onSubmit: (value) {
                       setState(() {
                         harvestDate = value;
@@ -120,8 +201,19 @@ class _ProduceState extends State<Produce> {
                         size: 100,
                       );
                     });
-                    var res = await postProduce(valueChainID, valueChain,
-                        farmerID, produce, harvestDate, farmingPeriod);
+                    var res = await postProduce(
+                      valueChainID,
+                      valueChain!,
+                      farmerID,
+                      farmerName,
+                      approxAcreage,
+                      variety,
+                      productionUnit,
+                      AvgHarvestProduction,
+                      AvgYearlyProduction,
+                      // harvestDate,
+                      // farmingPeriod
+                    );
 
                     setState(() {
                       isLoading = null;
@@ -153,18 +245,23 @@ class _ProduceState extends State<Produce> {
 }
 
 Future<Message> postProduce(
-    String valueChainID,
-    String valueChain,
-    String farmerID,
-    String produce,
-    String harvestDate,
-    String farmingPeriod) async {
+  String valueChainID,
+  String valueChain,
+  String farmerID,
+  String farmerName,
+  String variety,
+  String approxAcreage,
+  String productionUnit,
+  String AvgHarvestProduction,
+  String AvgYearlyProduction,
+) async {
   if (valueChainID.isEmpty ||
-      valueChain.isEmpty ||
-      farmerID.isEmpty ||
-      produce.isEmpty ||
-      harvestDate.isEmpty ||
-      farmingPeriod.isEmpty) {
+          valueChain.isEmpty ||
+          farmerID.isEmpty ||
+          AvgHarvestProduction.isEmpty
+      // harvestDate.isEmpty ||
+      // farmingPeriod.isEmpty
+      ) {
     return Message(
         token: null, success: null, error: "Please fill all inputs!");
   }
@@ -176,11 +273,17 @@ Future<Message> postProduce(
     },
     body: jsonEncode(<String, String>{
       'ValueChainID': valueChainID,
-      'ValueChain': valueChain,
       'FarmerID': farmerID,
-      'Produce': produce,
-      'HarvestDate': harvestDate,
-      'FarmingPeriod': farmingPeriod,
+      'Name': farmerName,
+      'Variety': variety,
+      'Unit': productionUnit,
+      'ApproxAcreage': approxAcreage,
+      'AvgYearlyProduction': AvgYearlyProduction,
+      'AvgHarvestProduction': AvgHarvestProduction,
+
+      // 'ValueChain': valueChain,
+      // 'HarvestDate': harvestDate,
+      // 'FarmingPeriod': farmingPeriod,
     }),
   );
 

@@ -3,7 +3,7 @@ import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerInfo.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerResources.dart';
-import 'package:kirinyaga_agribusiness/Pages/Produce.dart';
+import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
 import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
 import 'package:kirinyaga_agribusiness/main.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
@@ -57,12 +57,11 @@ class NavigationDrawer2 extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
               onTap: () {
-<<<<<<< Updated upstream
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => const Summary()));
-=======
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const FarmerHome()));
+                    MaterialPageRoute(builder: (_) => const Summary()));
+
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (_) => const FarmerHome()));
               },
             ),
             ListTile(
@@ -110,8 +109,7 @@ class NavigationDrawer2 extends StatelessWidget {
                 final store = new FlutterSecureStorage();
                 store.deleteAll();
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const Produce()));
->>>>>>> Stashed changes
+                    MaterialPageRoute(builder: (_) => const FarmerValueChains()));
               },
             ),
             ListTile(

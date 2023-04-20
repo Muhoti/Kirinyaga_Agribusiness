@@ -58,7 +58,7 @@ class _StaffLoginState extends State<StaffLogin> {
           break;
         case "Enumerator":
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (_) =>  FarmerDetails(nationalId)));
+              MaterialPageRoute(builder: (_) =>  FarmerDetails()));
           break;
 
         default:

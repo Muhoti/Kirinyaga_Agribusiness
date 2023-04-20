@@ -18,7 +18,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Components/Utils.dart';
 
 class FarmerDetails extends StatefulWidget {
-  const FarmerDetails(nationalID, {super.key});
+  const FarmerDetails(
+      // nationalId,
+      {super.key});
 
   @override
   State<FarmerDetails> createState() => _FarmerDetailsState();
@@ -37,10 +39,10 @@ class _FarmerDetailsState extends State<FarmerDetails> {
   var isLoading;
   final storage = const FlutterSecureStorage();
 
-  saveNationalID() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("NationalID", nationalId);
-  }
+  // saveNationalID() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   prefs.setString("NationalID", nationalId);
+  // }
 
   @override
   void initState() {
@@ -142,7 +144,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                     ],
                   ),
                 ),
-                
+
                 const SizedBox(height: 24),
                 SizedBox(
                   width: MediaQuery.of(context).size.width - 48,
@@ -227,7 +229,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                       isLoading = null;
                       if (res.error == null) {
                         error = res.success;
-                        saveNationalID();
+                        // saveNationalID();
                       } else {
                         error = res.error;
                       }
@@ -253,7 +255,6 @@ class _FarmerDetailsState extends State<FarmerDetails> {
   }
 }
 
-
 Future<void> editFarmerDetails(String nationalId) async {
   try {
     final response = await get(
@@ -263,23 +264,18 @@ Future<void> editFarmerDetails(String nationalId) async {
     var data = json.decode(response.body);
 
     print("Farmer Details data is $data");
-
-    
   } catch (e) {}
 }
 
 void getNationalID(String nationalId) async {
   try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-     nationalId = prefs.getString("NationalID") ?? '';
+    nationalId = prefs.getString("NationalID") ?? '';
     print("the national id is $nationalId");
-
-    
   } catch (e) {
     print("the natioinal id is empty: $nationalId");
   }
 }
-
 
 // Update Form
 void updateFarmerDetails() {}
@@ -292,7 +288,6 @@ Future<Message> postFarmerDetails(
     String selectedGender,
     String age,
     String farmingType) async {
-
   if (name.isEmpty) {
     return Message(token: null, success: null, error: "Name cannot be empty!");
   }
