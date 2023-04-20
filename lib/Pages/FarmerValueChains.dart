@@ -32,7 +32,7 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
   String AvgHarvestProduction = '';
   String AvgYearlyProduction = '';
   String approxAcreage = '';
-  String productionUnit = '';
+  String? productionUnit = 'Kilograms';
   String variety = '';
   String harvestDate = '';
   String farmingPeriod = '';
@@ -152,6 +152,44 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                         productionUnit = value;
                       });
                     }),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 48,
+                  child: DropdownButtonFormField(
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
+                      border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color.fromRGBO(0, 128, 0, 1))),
+                      labelText: 'Production Unit',
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      hintStyle: TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
+                    ),
+                    value: productionUnit, // use selectedGender variable
+                    onChanged: (selectedProductionUnit) {
+                      setState(() {
+                        valueChain = selectedProductionUnit;
+                      });
+                    },
+                    items: const [
+                      DropdownMenuItem(
+                        child: Text("Kilograms"),
+                        value: "Kilograms",
+                      ),
+                      DropdownMenuItem(
+                        child: Text("Litres"),
+                        value: "Litres",
+                      ),
+                      DropdownMenuItem(
+                        child: Text("Number"),
+                        value: "Number",
+                      ),
+                      DropdownMenuItem(
+                        child: Text("Trays"),
+                        value: "Trays",
+                      ),
+                    ],
+                  ),
+                ),
                 MyTextInput(
                     title: "Approximate Acreage (Acres)",
                     value: "",
@@ -184,6 +222,7 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                         harvestDate = value;
                       });
                     }),
+
                 MyTextInput(
                     title: "Farming Period",
                     value: "",
@@ -208,7 +247,7 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                       farmerName,
                       approxAcreage,
                       variety,
-                      productionUnit,
+                      productionUnit!,
                       AvgHarvestProduction,
                       AvgYearlyProduction,
                       // harvestDate,

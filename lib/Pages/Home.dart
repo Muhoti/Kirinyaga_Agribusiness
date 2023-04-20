@@ -16,9 +16,6 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     const storage = FlutterSecureStorage();
 
-   
-
-
     return MaterialApp(
       title: 'Kirinyaga Agribusiness',
       home: Scaffold(

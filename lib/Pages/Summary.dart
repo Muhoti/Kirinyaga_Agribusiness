@@ -2,7 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
+import 'package:kirinyaga_agribusiness/Pages/FarmerAddress.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
+import 'package:kirinyaga_agribusiness/Pages/FarmerResources.dart';
+import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -156,21 +159,31 @@ class _SummaryState extends State<Summary> {
                     color: const Color.fromARGB(255, 81, 137, 83),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Farmer Address',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                  child: GestureDetector(
+                    onTap: () {
+                      // Navigate to the next page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const FarmerAddress()),
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Farmer Address',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 16),
-                      Image.asset('assets/images/stat1.png'),
-                    ],
+                        const SizedBox(width: 16),
+                        Image.asset('assets/images/stat1.png'),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -185,20 +198,30 @@ class _SummaryState extends State<Summary> {
                     color: const Color.fromARGB(255, 174, 96, 234),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Farmer Resources',
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(width: 16),
-                      Image.asset('assets/images/stat1.png'),
-                    ],
+                  child: GestureDetector(
+                    onTap: () {
+                      // Navigate to the next page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const FarmerResources()),
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Farm Resources',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(width: 12),
+                        Image.asset('assets/images/stat1.png'),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -213,20 +236,31 @@ class _SummaryState extends State<Summary> {
                     color: const Color.fromARGB(255, 237, 82, 82),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Farmer Groups',
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(width: 16),
-                      Image.asset('assets/images/stat1.png'),
-                    ],
+                  child: GestureDetector(
+                    onTap: () {
+                      // Navigate to the next page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const FarmerDetails()), //to change to farmer group
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Farmer Groups',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(width: 16),
+                        Image.asset('assets/images/stat1.png'),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -241,20 +275,31 @@ class _SummaryState extends State<Summary> {
                     color: const Color.fromARGB(255, 221, 184, 172),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Value Chains',
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(width: 16),
-                      Image.asset('assets/images/stat1.png'),
-                    ],
+                  child: GestureDetector(
+                    onTap: () {
+                      // Navigate to the next page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const FarmerValueChains()), //to change to farmer group
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Value Chains',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(width: 16),
+                        Image.asset('assets/images/stat1.png'),
+                      ],
+                    ),
                   ),
                 ),
               ),

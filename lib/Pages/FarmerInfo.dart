@@ -12,27 +12,55 @@ import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:http/http.dart' as http;
 
+import '../Components/TextView.dart';
 import '../Components/Utils.dart';
 
 class FarmerInfo extends StatefulWidget {
-  const FarmerInfo({super.key});
+  final String id;
+  const FarmerInfo({super.key, required this.id});
 
   @override
   State<FarmerInfo> createState() => _FarmerInfoState();
 }
 
 class _FarmerInfoState extends State<FarmerInfo> {
-  String valueChainID = '';
-  String valueChain = '';
-  String farmerID = '';
-  String farmerInfo = '';
-  String harvestDate = '';
-  String farmingPeriod = '';
+  String NationalID = '';
+  String Name = '';
+  String Phone = '';
+  String Gender = '';
+  String AgeGroup = '';
+  String FarmingType = '';
   String error = '';
   var isLoading;
   final storage = const FlutterSecureStorage();
+
+  @override
+  void initState() {
+    viewFarmerInfo(widget.id);
+
+    super.initState();
+  }
+
+  viewFarmerInfo(String id) async {
+    try {
+      final response = await http.get(
+        Uri.parse("${getUrl()}farmerdetails/$id"),
+      );
+      var data = json.decode(response.body);
+      print('The response body is $data');
+
+      setState(() {
+        Name = data["Name"];
+        Phone = data["Phone"];
+        Gender = data["Gender"];
+        AgeGroup = data["AgeGroup"];
+        FarmingType = data["FarmingType"];
+      });
+    } catch (e) {}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,160 +90,26 @@ class _FarmerInfoState extends State<FarmerInfo> {
                   label: "Farmer Profile Bio",
                 ),
                 TextOakar(label: error),
-                MyTextInput(
-                    title: "ValueChain ID",
-                    value: " ",
-                    onSubmit: (value) {
-                      setState(() {
-                        valueChainID = value;
-                      });
-                    }),
-                MyTextInput(
-                    title: "Value Chain",
-                    value: " ",
-                    onSubmit: (value) {
-                      setState(() {
-                        valueChain = value;
-                      });
-                    }),
-                MyTextInput(
-                    title: "Farmer ID",
-                    value: " ",
-                    onSubmit: (value) {
-                      setState(() {
-                        farmerID = value;
-                      });
-                    }),
-                MyTextInput(
-                    title: "FarmerInfo",
-                    value: " ",
-                    onSubmit: (value) {
-                      setState(() {
-                        farmerInfo = value;
-                      });
-                    }),
-                MyTextInput(
-                    title: "Harvest Date",
-                    value: " ",
-                    onSubmit: (value) {
-                      setState(() {
-                        harvestDate = value;
-                      });
-                    }),
-                MyTextInput(
-                    title: "Farming Period",
-                    value: "",
-                    onSubmit: (value) {
-                      setState(() {
-                        farmingPeriod = value;
-                      });
-                    }),
-                SubmitButton(
-                  label: "Submit",
-                  onButtonPressed: () async {
-                    setState(() {
-                      isLoading = LoadingAnimationWidget.staggeredDotsWave(
-                        color: Color.fromRGBO(0, 128, 0, 1),
-                        size: 100,
-                      );
-                    });
-                    var res = await postFarmerInfo(valueChainID, valueChain,
-                        farmerID, farmerInfo, harvestDate, farmingPeriod);
-
-                    setState(() {
-                      isLoading = null;
-                      if (res.error == null) {
-                        error = res.success;
-                      } else {
-                        error = res.error;
-                      }
-                    });
-
-                    if (res.error == null) {
-                      await storage.write(key: 'erjwt', value: res.token);
-                      Timer(const Duration(seconds: 2), () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const FarmerHome()));
-                      });
-                    }
-                  },
+                TextView(
+                  label: "Name: $Name",
+                ),
+                TextView(
+                  label: "Number: $Phone",
+                ),
+                TextView(
+                  label: "Gender: $Gender",
+                ),
+                TextView(
+                  label: "Age: $AgeGroup",
+                ),
+                TextView(
+                  label: "Type: $FarmingType",
                 ),
               ],
             ),
           ),
         ),
       ),
-    );
-  }
-}
-
-Future<Message> postFarmerInfo(
-    String valueChainID,
-    String valueChain,
-    String farmerID,
-    String FarmerInfo,
-    String harvestDate,
-    String farmingPeriod) async {
-  print("mango");
-  print(valueChainID);
-  if (valueChainID.isEmpty ||
-      valueChain.isEmpty ||
-      farmerID.isEmpty ||
-      FarmerInfo.isEmpty ||
-      harvestDate.isEmpty ||
-      farmingPeriod.isEmpty) {
-    return Message(
-        token: null, success: null, error: "Please fill all inputs!");
-  }
-
-  final response = await http.post(
-    Uri.parse("${getUrl()}valuechainFarmerInfo"),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{
-      'ValueChainID': valueChainID,
-      'ValueChain': valueChain,
-      'FarmerID': farmerID,
-      'FarmerInfo': FarmerInfo,
-      'HarvestDate': harvestDate,
-      'FarmingPeriod': farmingPeriod,
-    }),
-  );
-
-  if (response.statusCode == 200 || response.statusCode == 203) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return Message.fromJson(jsonDecode(response.body));
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    return Message(
-      token: null,
-      success: null,
-      error: "Connection to server failed!",
-    );
-  }
-}
-
-class Message {
-  var token;
-  var success;
-  var error;
-
-  Message({
-    required this.token,
-    required this.success,
-    required this.error,
-  });
-
-  factory Message.fromJson(Map<String, dynamic> json) {
-    return Message(
-      token: json['token'],
-      success: json['success'],
-      error: json['error'],
     );
   }
 }
