@@ -48,42 +48,24 @@ class _FOScrollControllerState extends State<FOScrollController> {
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    print("widget id ${widget.id}");
-    print("the status is ${widget.status}");
     var offset = pageKey == 0 ? pageKey : pageKey + _numberOfPostsPerRequest;
     try {
       final dynamic response;
 
       widget.status == "Pending"
           ? response = await get(
-              Uri.parse("${getUrl()}workplan/fieldofficer/${widget.id}"),
+              Uri.parse("${getUrl()}workplan/fieldofficer/false/${widget.id}"),
             )
           : response = await get(
-              Uri.parse("${getUrl()}reports/fieldofficer/${widget.id}"),
+              Uri.parse("${getUrl()}workplan/fieldofficer/true/${widget.id}"),
             );
 
       List responseList = json.decode(response.body);
 
       var databaseItemsNo = responseList.length;
+      print(responseList);
 
-      print("Current items are now : $responseList");
-
-      List<FOItem> postList = responseList
-          .map((data) => FOItem(
-              data['Title'],
-              data['Description'],
-              data['Keywords'],
-              data['Image'],
-              data['Latitude'],
-              data['Longitude'],
-              data['ID'],
-              widget.status == "Pending"
-                  ? data['createdAt']
-                  : data['updatedAt']))
-          .toList();
-
-      print("the news item is now list is $postList");
-      print("erid is ${widget.id} while customer id is $responseList");
+      List<FOItem> postList = responseList.map((data) => FOItem(data)).toList();
 
       final isLastPage = postList.length < _numberOfPostsPerRequest;
       if (isLastPage) {
@@ -93,6 +75,7 @@ class _FOScrollControllerState extends State<FOScrollController> {
         _pagingController.appendPage(postList, nextPageKey);
       }
     } catch (e) {
+      print(e);
       _pagingController.error = e;
     }
   }
@@ -107,16 +90,7 @@ class _FOScrollControllerState extends State<FOScrollController> {
           builderDelegate: PagedChildBuilderDelegate<FOItem>(
             itemBuilder: (context, item, index) => Padding(
               padding: const EdgeInsets.all(0),
-              child: FOIncidentBar(
-                  title: item.title,
-                  description: item.description,
-                  status: widget.status,
-                  keywords: item.keywords,
-                  image: item.image,
-                  lat: item.lat,
-                  long: item.long,
-                  id: item.id,
-                  createdat: item.createdat),
+              child: FOIncidentBar(item: item),
             ),
           ),
         ));

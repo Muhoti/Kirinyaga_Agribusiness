@@ -24,10 +24,10 @@ class FieldOfficerHome extends StatefulWidget {
 class _FieldOfficerHomeState extends State<FieldOfficerHome> {
   final storage = const FlutterSecureStorage();
   String name = '';
-  String total = '';
-  String pending = '';
-  String complete = '';
-  String active = 'WorkPlan';
+  String total_farmers = '';
+  String reached_farmers = '';
+  String workplans = '';
+  String active = 'Pending';
   String id = '';
   String status = 'Pending';
 
@@ -49,7 +49,6 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
         name = decoded["Name"];
         id = decoded["UserID"];
       });
-
       countTasks(decoded["UserID"]);
     }
   }
@@ -57,31 +56,18 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
   Future<void> countTasks(String id) async {
     try {
       final dynamic response;
-
-      active == "View Reports"
-          ? response = await http.get(
-              Uri.parse("${getUrl()}reports/stats/fieldofficer/$id"),
-              headers: <String, String>{
-                'Content-Type': 'application/json; charset=UTF-8',
-              },
-            )
-          : response = await http.get(
-              Uri.parse("${getUrl()}workplan/stats/fieldofficer/$id"),
-              headers: <String, String>{
-                'Content-Type': 'application/json; charset=UTF-8',
-              },
-            );
-
-      print(response.body);
-      print("this is being implemented");
-      print("the id is $id");
-
+      response = await http.get(
+        Uri.parse("${getUrl()}workplan/stats/fieldofficer/$id"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
       var data = json.decode(response.body);
 
       setState(() {
-        total = data["total"].toString();
-        pending = data["pending"].toString();
-        complete = data["complete"].toString();
+        total_farmers = data["TotalFarmers"].toString();
+        reached_farmers = data["ReachedFarmers"].toString();
+        workplans = data["WorkPlan"].toString();
       });
     } catch (e) {
       print(e);
@@ -94,7 +80,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
       title: 'Kirinyaga Agribusiness',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Field Officer Home"),
+          title: const Text("Field Officer"),
           actions: [
             Align(
               alignment: Alignment.centerRight,
@@ -109,10 +95,8 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
         drawer: const Drawer(child: NavigationDrawer2()),
         floatingActionButton: ElevatedButton(
           onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => FarmerDetails()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => FarmerDetails()));
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromRGBO(13, 50, 10, 1),
@@ -129,28 +113,28 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                         flex: 1,
                         fit: FlexFit.tight,
                         child: Stats(
-                          label: "Work Plan",
+                          label: "Target Farmers",
                           color: Colors.blue,
-                          value: total,
-                          icon: Icons.trending_up,
+                          value: total_farmers,
+                          icon: Icons.person_search,
                         )),
                     Flexible(
                         flex: 1,
                         fit: FlexFit.tight,
                         child: Stats(
-                          label: "Farmers",
-                          color: Colors.orange,
-                          value: pending,
-                          icon: Icons.refresh,
-                        )),
-                    Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: Stats(
-                          label: "Completed",
+                          label: "Reached Farmers",
                           color: Colors.green,
-                          value: complete,
-                          icon: Icons.done,
+                          value: reached_farmers,
+                          icon: Icons.person_pin_circle,
+                        )),
+                    Flexible(
+                        flex: 1,
+                        fit: FlexFit.tight,
+                        child: Stats(
+                          label: "Work Plans",
+                          color: Colors.orange,
+                          value: workplans,
+                          icon: Icons.list_rounded,
                         )),
                   ],
                 )),
@@ -180,7 +164,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                     flex: 1,
                     fit: FlexFit.tight,
                     child: NavigationButton(
-                      label: "View Reports",
+                      label: "Completed",
                       active: active,
                       buttonPressed: () {
                         setState(() {
@@ -207,12 +191,3 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
     );
   }
 }
-
-// Route _createRoute() {
-//   return PageRouteBuilder(
-//     pageBuilder: (context, animation, secondaryAnimation) => const Page2(),
-//     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-//       return child;
-//     },
-//   );
-// }

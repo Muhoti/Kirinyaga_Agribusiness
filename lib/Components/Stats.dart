@@ -10,7 +10,8 @@ class Stats extends StatefulWidget {
     super.key,
     required this.label,
     required this.color,
-    required this.value, required this.icon,
+    required this.value,
+    required this.icon,
   });
 
   @override
@@ -30,15 +31,18 @@ class _StatState extends State<Stats> {
             child: Column(children: <Widget>[
               Icon(
                 widget.icon,
-                size: 34,
+                size: 30,
                 color: Colors.white,
               ),
-              Text(
-                widget.value,
-                style: const TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+              Padding(
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  widget.value,
+                  style: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
               ),
               Text(
@@ -46,12 +50,11 @@ class _StatState extends State<Stats> {
                 textAlign: TextAlign.left,
                 textWidthBasis: TextWidthBasis.parent,
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: 12,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
-              
             ]),
           ),
         ));

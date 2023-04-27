@@ -1,31 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:kirinyaga_agribusiness/Pages/ViewReport.dart';
 import 'package:kirinyaga_agribusiness/Pages/WorkPlan.dart';
 // import 'package:kirinyaga_agribusiness/Pages/Incident.dart';
 
 class FOIncidentBar extends StatefulWidget {
-  final String title;
-  final String description;
-  final String status;
-  final String keywords;
-  final String image;
-  final String lat;
-  final String id;
-  final String long;
-  final String createdat;
+  final dynamic item;
 
   const FOIncidentBar({
     super.key,
-    required this.title,
-    required this.description,
-    required this.status,
-    required this.keywords,
-    required this.image,
-    required this.lat,
-    required this.id,
-    required this.long,
-    required this.createdat,
+    required this.item,
   });
 
   @override
@@ -37,12 +20,12 @@ class _FOIncidentBar extends State<FOIncidentBar> {
 
   @override
   Widget build(BuildContext context) {
+    String date = widget.item.item['Date'];
 
-    String date = widget.createdat;
     List<String> dateParts = date.split("-");
     String year = dateParts[0].substring(2);
     String month = dateParts[1];
-     my = "$month/$year";
+    my = "$month/$year";
 
     return Padding(
         padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
@@ -52,21 +35,12 @@ class _FOIncidentBar extends State<FOIncidentBar> {
             clipBehavior: Clip.hardEdge,
             child: TextButton(
                 onPressed: () {
-                  if (widget.status == "Pending") {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => WorkPlan(
-                                  id: widget.id,
-                                )));
-                  } else {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => ViewReport(
-                                  id: widget.id,
-                                )));
-                  }
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => WorkPlan(
+                                id: widget.item.item['ID'],
+                              )));
                 },
                 child: Container(
                   padding: const EdgeInsets.all(5),
@@ -79,7 +53,8 @@ class _FOIncidentBar extends State<FOIncidentBar> {
                             borderRadius: BorderRadius.all(Radius.circular(5))),
                         child: Text(
                           my,
-                          style: const TextStyle(color: Colors.white, fontSize: 28),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 28),
                         ),
                       ),
                       const SizedBox(
@@ -92,7 +67,7 @@ class _FOIncidentBar extends State<FOIncidentBar> {
                           children: [
                             Align(
                               alignment: Alignment.centerLeft,
-                              child: Text(widget.title,
+                              child: Text(widget.item.item['Task'],
                                   textAlign: TextAlign.left,
                                   textWidthBasis: TextWidthBasis.parent,
                                   style: const TextStyle(
@@ -106,7 +81,7 @@ class _FOIncidentBar extends State<FOIncidentBar> {
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                widget.description,
+                                widget.item.item['Type'] + " - " + widget.item.item['SubCounty'] + " - " + widget.item.item['Ward'],
                                 textAlign: TextAlign.left,
                                 textWidthBasis: TextWidthBasis.parent,
                                 overflow: TextOverflow.ellipsis,
