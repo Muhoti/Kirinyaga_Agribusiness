@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_typing_uninitialized_variables, file_names
+// ignore_for_file: prefer_typing_uninitialized_variables, file_names, prefer_interpolation_to_compose_strings
 
 import 'dart:async';
 import 'dart:convert';
@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
+import 'package:kirinyaga_agribusiness/Components/NavigationButton.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
@@ -25,18 +26,8 @@ class WorkPlan extends StatefulWidget {
 }
 
 class _WorkPlanState extends State<WorkPlan> {
-  String workid = '';
-  String userid = '';
-  String title = '';
-  String type = '';
-  String image = '';
-  String description = '';
-  String status = '';
-  String keywords = '';
-  String latitude = '';
-  String longitude = '';
-  String error = '';
   var isloading;
+  dynamic data;
   final storage = const FlutterSecureStorage();
 
   @override
@@ -54,23 +45,12 @@ class _WorkPlanState extends State<WorkPlan> {
         Uri.parse("${getUrl()}workplan/$id"),
       );
 
-      var data = json.decode(response.body);
-      print("the data alone is $data");
-
+      var body = json.decode(response.body);
 
       setState(() {
-        workid = (data["UserID"]);
-        title = data["Title"];
-        type = data["Type"];
-        image = data["Image"];
-        description = data["Description"];
-        status = data["Status"];
-        keywords = data["Keywords"];
-        latitude = data["Latitude"];
-        longitude = data["Longitude"];
+        data = body;
       });
-
-      print("come on $workid, $title, $type");
+      print(data);
     } catch (e) {
       print(e);
     }
@@ -78,14 +58,12 @@ class _WorkPlanState extends State<WorkPlan> {
 
   @override
   Widget build(BuildContext context) {
-        print(" hey work $title, $description, $image, $type");
-
     return MaterialApp(
       title: "Work Plan",
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: const Center(child: Text("WORK PLAN")),
+          title: const Text("Field Officer Report"),
           actions: [
             Align(
               alignment: Alignment.centerRight,
@@ -99,55 +77,121 @@ class _WorkPlanState extends State<WorkPlan> {
         ),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-          child: SingleChildScrollView(
+          child: data != null ? SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const TextLarge(label: "Task Description"),
-                TextView(
-                  label: "Title: $title",
+                const SizedBox(
+                  height: 24,
                 ),
-                TextView(
-                  label: "Info: $description",
-                ),
-                TextView(
-                 label: "Image: $image",
-                ),
-                
-                TextView(
-                  label: "Status: $status",
-                ),
-                TextView(
-                  label: "Keywords: $keywords",
-                ),
-                TextView(
-                  label: "Latitude: $latitude",
-                ),
-                TextView(
-                  label: "Longitude: $longitude",
-                ),
-                const SizedBox(height: 24),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    textStyle: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    )
+                Container(
+                  padding: const EdgeInsets.fromLTRB(12, 24, 12, 30),
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                    gradient: LinearGradient(
+                      colors: [Colors.green, Color.fromARGB(255, 29, 221, 163)],
+                    ),
                   ),
-                  child: const Text("Create Report"),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) =>
-                                  CreateReport(id: workid)));
-                    },
-                    )
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Flexible(
+                            fit: FlexFit.tight,
+                            flex: 1,
+                            child: Text(data?["Task"],
+                              style: const TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
+                          Container(
+                              padding: const EdgeInsets.fromLTRB(14, 6, 14, 6),
+                              decoration: const BoxDecoration(
+                                  color: Colors.green,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12))),
+                              child: Text(data["Date"],
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white)))
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      Text(
+                        "Service Type: " + data["Type"] ,
+                        style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white),
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.pin_drop,
+                            size: 44,
+                            color: Colors.white,
+                          ),
+                          const SizedBox(
+                            width: 12,
+                          ),
+                          Flexible(
+                            fit: FlexFit.tight,
+                            flex: 1,
+                            child: Text(
+                              data != null
+                                  ? data["SubCounty"] + ", " + data["Ward"]
+                                  : "",
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                data?["Status"]
+                    ? Column(
+                        children: [
+                          Text(
+                            "Service Type: " +  data["Type"],
+                            style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
+                          ),
+                        ],
+                      )
+                    : SubmitButton(
+                        label: "Submit Report",
+                        onButtonPressed: () => {
+                              if (data != null)
+                                {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) =>
+                                              CreateReport(id: data["ID"],type: data["Type"])))
+                                }
+                            })
               ],
             ),
-          ),
+          ): SizedBox(),
         ),
       ),
     );

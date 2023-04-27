@@ -96,12 +96,12 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
         floatingActionButton: ElevatedButton(
           onPressed: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => FarmerDetails()));
+                MaterialPageRoute(builder: (context) => const FarmerDetails()));
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromRGBO(13, 50, 10, 1),
           ),
-          child: const Text('Start Mapping!'),
+          child: const Text('Map Farmer'),
         ),
         body: Column(
           children: <Widget>[
@@ -146,14 +146,13 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                       flex: 1,
                       fit: FlexFit.tight,
                       child: NavigationButton(
-                        label: "WorkPlan",
+                        label: "Pending",
                         active: active,
                         buttonPressed: () {
                           setState(() {
-                            active = "WorkPlan";
+                            active = "Pending";
                             status = "Pending";
                             countTasks(id);
-                            print("the count task is is $id");
                           });
                         },
                       )),
@@ -164,11 +163,11 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                     flex: 1,
                     fit: FlexFit.tight,
                     child: NavigationButton(
-                      label: "Completed",
+                      label: "Complete",
                       active: active,
                       buttonPressed: () {
                         setState(() {
-                          active = "View Reports";
+                          active = "Complete";
                           status = "Complete";
                           countTasks(id);
                         });
