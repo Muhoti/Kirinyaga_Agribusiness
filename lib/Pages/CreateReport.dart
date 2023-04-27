@@ -10,6 +10,7 @@ import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
+import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -111,6 +112,16 @@ class _CreateReportState extends State<CreateReport> {
       title: "Create Report",
       home: Scaffold(
         resizeToAvoidBottomInset: false,
+        floatingActionButton: ElevatedButton(
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const FarmerDetails()));
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color.fromRGBO(13, 50, 10, 1),
+          ),
+          child: const Text('Map Farmer'),
+        ),
         appBar: AppBar(
           title: const Text("Field Officer Report"),
           actions: [
