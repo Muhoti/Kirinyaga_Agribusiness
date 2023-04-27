@@ -65,6 +65,7 @@ class _FarmerResourcesState extends State<FarmerResources> {
                 MyTextInput(
                     title: "FarmerID",
                     value: " ",
+                    type: TextInputType.number,
                     onSubmit: (value) {
                       setState(() {
                         FarmerID = value;
@@ -73,6 +74,7 @@ class _FarmerResourcesState extends State<FarmerResources> {
                 MyTextInput(
                     title: "Total Land Acreage",
                     value: " ",
+                      type: TextInputType.number,
                     onSubmit: (value) {
                       setState(() {
                         TotalAcreage = value;
@@ -81,6 +83,7 @@ class _FarmerResourcesState extends State<FarmerResources> {
                 MyTextInput(
                     title: "Acreage under Crop Farming",
                     value: " ",
+                      type: TextInputType.text,
                     onSubmit: (value) {
                       setState(() {
                         CropAcreage = value;
@@ -89,6 +92,7 @@ class _FarmerResourcesState extends State<FarmerResources> {
                 MyTextInput(
                     title: "Acreage under Livestock Farming",
                     value: " ",
+                      type: TextInputType.text,
                     onSubmit: (value) {
                       setState(() {
                         LivestockAcreage = value;

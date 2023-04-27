@@ -82,24 +82,19 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                 // ),
                 TextOakar(label: error),
                 MyTextInput(
-                    title: "User",
-                    value: "",
-                    onSubmit: (value) {
-                      setState(() {
-                        user = value;
-                      });
-                    }),
-                MyTextInput(
-                    title: "Name",
-                    value: "",
-                    onSubmit: (value) {
-                      setState(() {
-                        name = value;
-                      });
-                    }),
+                  title: "Name",
+                  value: "",
+                  type: TextInputType.text,
+                  onSubmit: (value) {
+                    setState(() {
+                      name = value;
+                    });
+                  },
+                ),
                 MyTextInput(
                     title: "National ID",
                     value: "",
+                    type: TextInputType.number,
                     onSubmit: (value) {
                       setState(() {
                         nationalId = value;
@@ -108,6 +103,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                 MyTextInput(
                     title: "Phone Number",
                     value: "",
+                      type: TextInputType.phone,
                     onSubmit: (value) {
                       setState(() {
                         phoneNumber = value;
@@ -277,9 +273,7 @@ void getNationalID(String nationalId) async {
 }
 
 // Update Form
-void updateFarmerDetails() {
-  
-}
+void updateFarmerDetails() {}
 
 Future<Message> postFarmerDetails(
     String user,

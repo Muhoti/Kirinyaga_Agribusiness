@@ -31,7 +31,7 @@ class _StaffLoginState extends State<StaffLogin> {
   var isLoading;
   String role = '';
   final storage = const FlutterSecureStorage();
-  
+
   String nationalId = '';
 
   Future<void> checkRole() async {
@@ -50,15 +50,15 @@ class _StaffLoginState extends State<StaffLogin> {
       switch (role) {
         case "Field Officer":
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (_) =>  const FieldOfficerHome()));
+              MaterialPageRoute(builder: (_) => const FieldOfficerHome()));
           break;
         case "Supervisor":
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (_) => const SupervisorHome()));
           break;
         case "Enumerator":
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (_) =>  FarmerDetails()));
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (_) => FarmerDetails()));
           break;
 
         default:
@@ -167,23 +167,24 @@ Future<Message> login(String email, String password) async {
       error: "Password is too short!",
     );
   }
-
-  final response = await http.post(
-    Uri.parse("${getUrl()}mobile/login"),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{'Email': email, 'Password': password}),
-  );
-
-  if (response.statusCode == 200 || response.statusCode == 203) {
-    //getToken(role);
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return Message.fromJson(jsonDecode(response.body));
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
+  try {
+    final response = await http.post(
+      Uri.parse("${getUrl()}mobile/login"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{'Email': email, 'Password': password}),
+    );
+    if (response.statusCode == 200 || response.statusCode == 203) {
+      return Message.fromJson(jsonDecode(response.body));
+    } else {
+      return Message(
+        token: null,
+        success: null,
+        error: "Connection to server failed!",
+      );
+    }
+  } catch (e) {
     return Message(
       token: null,
       success: null,

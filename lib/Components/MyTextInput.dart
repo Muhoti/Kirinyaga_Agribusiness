@@ -9,7 +9,7 @@ class MyTextInput extends StatefulWidget {
       {super.key,
       required this.title,
       required this.value,
-      this.type,
+      required this.type,
       required this.onSubmit});
 
   @override
@@ -25,7 +25,8 @@ class _MyTextInputState extends State<MyTextInput> {
             initialValue: widget.value,
             onChanged: widget.onSubmit,
             keyboardType: widget.type,
-            obscureText: widget.type != "password" ? false : true,
+            obscureText:
+                widget.type == TextInputType.visiblePassword ? true : false,
             enableSuggestions: false,
             autocorrect: false,
             decoration: InputDecoration(

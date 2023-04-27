@@ -156,6 +156,7 @@ class _FarmerAddressState extends State<FarmerAddress> {
               MyTextInput(
                   title: "FarmerID",
                   value: "",
+                  type: TextInputType.number,
                   onSubmit: (value) {
                     setState(() {
                       FarmerID = value;
@@ -189,14 +190,6 @@ class _FarmerAddressState extends State<FarmerAddress> {
                 ),
               ),
 
-              // MyTextInput(
-              //   title: "County",
-              //   value: "",
-              //   onSubmit: (value) {
-              //     setState(() {
-              //       County = value;
-              //     });
-              //   }),
               const SizedBox(height: 24),
               SizedBox(
                 width: MediaQuery.of(context).size.width - 48,
@@ -263,25 +256,10 @@ class _FarmerAddressState extends State<FarmerAddress> {
               MyTextInput(
                   title: "Village",
                   value: "",
+                  type: TextInputType.text,
                   onSubmit: (value) {
                     setState(() {
                       Village = value;
-                    });
-                  }),
-              MyTextInput(
-                  title: "Latitude",
-                  value: "",
-                  onSubmit: (value) {
-                    setState(() {
-                      Latitude = lat.toString();
-                    });
-                  }),
-              MyTextInput(
-                  title: "Longitude",
-                  value: "",
-                  onSubmit: (value) {
-                    setState(() {
-                      Longitude = long.toString();
                     });
                   }),
               SubmitButton(

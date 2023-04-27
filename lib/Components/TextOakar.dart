@@ -12,11 +12,11 @@ class _TextOakarState extends State<TextOakar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+      padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
       child: Text(widget.label,
       textAlign: TextAlign.center,
           style: const TextStyle(
-              fontSize: 12, fontWeight: FontWeight.bold, color: Colors.deepOrange)),
+              fontSize: 16, fontWeight: FontWeight.bold, color: Colors.deepOrange)),
     );
   }
 }

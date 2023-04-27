@@ -68,15 +68,6 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                 //   label: "Add Value Chain",
                 // ),
                 TextOakar(label: error),
-                MyTextInput(
-                    title: "ValueChain ID",
-                    value: "",
-                    onSubmit: (value) {
-                      setState(() {
-                        valueChainID = value;
-                      });
-                    }),
-
                 SizedBox(
                   width: MediaQuery.of(context).size.width - 48,
                   child: DropdownButtonFormField(
@@ -122,6 +113,7 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                 MyTextInput(
                     title: "Farmer ID",
                     value: "",
+                      type: TextInputType.text,
                     onSubmit: (value) {
                       setState(() {
                         farmerID = value;
@@ -130,6 +122,7 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                 MyTextInput(
                     title: "Farmer Name",
                     value: "",
+                      type: TextInputType.text,
                     onSubmit: (value) {
                       setState(() {
                         farmerName = value;
@@ -138,6 +131,7 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                 MyTextInput(
                     title: "Variety (Optional)",
                     value: "",
+                      type: TextInputType.text,
                     onSubmit: (value) {
                       setState(() {
                         variety = value;
@@ -147,6 +141,7 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                 MyTextInput(
                     title: "Production Unit",
                     value: "",
+                      type: TextInputType.text,
                     onSubmit: (value) {
                       setState(() {
                         productionUnit = value;
@@ -193,6 +188,7 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                 MyTextInput(
                     title: "Approximate Acreage (Acres)",
                     value: "",
+                      type: TextInputType.number,
                     onSubmit: (value) {
                       setState(() {
                         approxAcreage = value;
@@ -201,6 +197,7 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                 MyTextInput(
                     title: "Average Yearly Production",
                     value: "",
+                      type: TextInputType.number,
                     onSubmit: (value) {
                       setState(() {
                         AvgYearlyProduction = value;
@@ -209,6 +206,7 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                 MyTextInput(
                     title: "Average Harvest Production",
                     value: "",
+                      type: TextInputType.number,
                     onSubmit: (value) {
                       setState(() {
                         AvgHarvestProduction = value;
@@ -217,6 +215,7 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                 MyTextInput(
                     title: "Harvest Date",
                     value: "",
+                      type: TextInputType.datetime,
                     onSubmit: (value) {
                       setState(() {
                         harvestDate = value;
@@ -226,6 +225,7 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                 MyTextInput(
                     title: "Farming Period",
                     value: "",
+                      type: TextInputType.text,
                     onSubmit: (value) {
                       setState(() {
                         farmingPeriod = value;
