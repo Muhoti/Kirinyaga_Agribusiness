@@ -15,12 +15,13 @@ class _SubmitButton extends State<SubmitButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(54, 12, 54, 12),
+      padding: const EdgeInsets.fromLTRB(64, 12, 64, 12),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Color.fromRGBO(0, 128, 0, 1),
-          minimumSize: const Size.fromHeight(50), // NEW
-        ),
+            backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
+            padding: const EdgeInsets.fromLTRB(44, 5, 44, 5)
+            // minimumSize: const Size.fromHeight(50), // NEW
+            ),
         onPressed: widget.onButtonPressed,
         child: Text(
           widget.label,

@@ -81,7 +81,7 @@ class _FOIncidentBar extends State<FOIncidentBar> {
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                widget.item.item['Type'] + " - " + widget.item.item['SubCounty'] + " - " + widget.item.item['Ward'],
+                                widget.item.item['Type'] + " - " + widget.item.item['SubCounty'] + ", " + widget.item.item['Ward'],
                                 textAlign: TextAlign.left,
                                 textWidthBasis: TextWidthBasis.parent,
                                 overflow: TextOverflow.ellipsis,

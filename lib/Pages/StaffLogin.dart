@@ -95,6 +95,7 @@ class _StaffLoginState extends State<StaffLogin> {
                             TextOakar(label: error),
                             MyTextInput(
                               title: 'Email',
+                               lines: 1,
                               value: '',
                               type: TextInputType.emailAddress,
                               onSubmit: (value) {
@@ -105,6 +106,7 @@ class _StaffLoginState extends State<StaffLogin> {
                             ),
                             MyTextInput(
                               title: 'Password',
+                               lines: 1,
                               value: '',
                               type: TextInputType.visiblePassword,
                               onSubmit: (value) {

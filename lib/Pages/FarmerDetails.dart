@@ -83,6 +83,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                 TextOakar(label: error),
                 MyTextInput(
                   title: "Name",
+                   lines: 1,
                   value: "",
                   type: TextInputType.text,
                   onSubmit: (value) {
@@ -93,6 +94,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                 ),
                 MyTextInput(
                     title: "National ID",
+                     lines: 1,
                     value: "",
                     type: TextInputType.number,
                     onSubmit: (value) {
@@ -102,6 +104,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                     }),
                 MyTextInput(
                     title: "Phone Number",
+                     lines: 1,
                     value: "",
                       type: TextInputType.phone,
                     onSubmit: (value) {

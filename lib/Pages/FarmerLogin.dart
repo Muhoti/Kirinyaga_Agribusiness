@@ -52,6 +52,7 @@ class _FarmerLoginState extends State<FarmerLogin> {
                             TextOakar(label: error),
                             MyTextInput(
                               title: 'Phone Number',
+                               lines: 1,
                               value: '',
                               type: TextInputType.phone,
                               onSubmit: (value) {
@@ -62,6 +63,7 @@ class _FarmerLoginState extends State<FarmerLogin> {
                             ),
                             MyTextInput(
                               title: 'National ID',
+                               lines: 1,
                               value: '',
                               type: TextInputType.visiblePassword,
                               onSubmit: (value) {

@@ -155,6 +155,7 @@ class _FarmerAddressState extends State<FarmerAddress> {
 
               MyTextInput(
                   title: "FarmerID",
+                   lines: 1,
                   value: "",
                   type: TextInputType.number,
                   onSubmit: (value) {
@@ -256,6 +257,7 @@ class _FarmerAddressState extends State<FarmerAddress> {
               MyTextInput(
                   title: "Village",
                   value: "",
+                   lines: 1,
                   type: TextInputType.text,
                   onSubmit: (value) {
                     setState(() {

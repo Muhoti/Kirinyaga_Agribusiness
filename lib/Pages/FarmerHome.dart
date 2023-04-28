@@ -29,19 +29,21 @@ class _FarmerHomeState extends State<FarmerHome> {
 
     Future<void> pickFarmerDetails() async {
       var token = await storage.read(key: "erjwt");
-      var decoded = parseJwt(token.toString());
-      var id = decoded["ID"];
-
-      setState(() {
-        name = decoded["Name"].toString();
-      });
-
-      final response = await http.get(Uri.parse("${getUrl()}farmerdetails/$id"),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8'
-          });
 
       try {
+        var decoded = parseJwt(token.toString());
+        var id = decoded["ID"];
+
+        setState(() {
+          name = decoded["Name"].toString();
+        });
+
+        final response = await http.get(
+            Uri.parse("${getUrl()}farmerdetails/$id"),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8'
+            });
+
         var data = json.decode(response.body);
         print("the data is $data");
         setState(() {

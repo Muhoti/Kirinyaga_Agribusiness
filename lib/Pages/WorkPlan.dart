@@ -7,6 +7,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/NavigationButton.dart';
+import 'package:kirinyaga_agribusiness/Components/ReportBar.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
@@ -168,6 +169,7 @@ class _WorkPlanState extends State<WorkPlan> {
                 data?["Status"]
                     ? Column(
                         children: [
+                          ReportBar(item: null),
                           Text(
                             "Service Type: " +  data["Type"],
                             style: const TextStyle(

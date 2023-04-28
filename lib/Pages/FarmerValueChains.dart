@@ -112,6 +112,7 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                 ),
                 MyTextInput(
                     title: "Farmer ID",
+                     lines: 1,
                     value: "",
                       type: TextInputType.text,
                     onSubmit: (value) {
@@ -121,6 +122,7 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                     }),
                 MyTextInput(
                     title: "Farmer Name",
+                     lines: 1,
                     value: "",
                       type: TextInputType.text,
                     onSubmit: (value) {
@@ -130,6 +132,7 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                     }),
                 MyTextInput(
                     title: "Variety (Optional)",
+                     lines: 1,
                     value: "",
                       type: TextInputType.text,
                     onSubmit: (value) {
@@ -140,6 +143,7 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
 
                 MyTextInput(
                     title: "Production Unit",
+                     lines: 1,
                     value: "",
                       type: TextInputType.text,
                     onSubmit: (value) {
@@ -187,6 +191,7 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                 ),
                 MyTextInput(
                     title: "Approximate Acreage (Acres)",
+                     lines: 1,
                     value: "",
                       type: TextInputType.number,
                     onSubmit: (value) {
@@ -196,6 +201,7 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                     }),
                 MyTextInput(
                     title: "Average Yearly Production",
+                     lines: 1,
                     value: "",
                       type: TextInputType.number,
                     onSubmit: (value) {
@@ -205,6 +211,7 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                     }),
                 MyTextInput(
                     title: "Average Harvest Production",
+                     lines: 1,
                     value: "",
                       type: TextInputType.number,
                     onSubmit: (value) {
@@ -214,6 +221,7 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                     }),
                 MyTextInput(
                     title: "Harvest Date",
+                     lines: 1,
                     value: "",
                       type: TextInputType.datetime,
                     onSubmit: (value) {
@@ -224,6 +232,7 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
 
                 MyTextInput(
                     title: "Farming Period",
+                     lines: 1,
                     value: "",
                       type: TextInputType.text,
                     onSubmit: (value) {

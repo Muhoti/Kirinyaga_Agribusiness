@@ -64,6 +64,7 @@ class _FarmerResourcesState extends State<FarmerResources> {
                 TextOakar(label: error),
                 MyTextInput(
                     title: "FarmerID",
+                     lines: 1,
                     value: " ",
                     type: TextInputType.number,
                     onSubmit: (value) {
@@ -73,6 +74,7 @@ class _FarmerResourcesState extends State<FarmerResources> {
                     }),
                 MyTextInput(
                     title: "Total Land Acreage",
+                     lines: 1,
                     value: " ",
                       type: TextInputType.number,
                     onSubmit: (value) {
@@ -82,6 +84,7 @@ class _FarmerResourcesState extends State<FarmerResources> {
                     }),
                 MyTextInput(
                     title: "Acreage under Crop Farming",
+                     lines: 1,
                     value: " ",
                       type: TextInputType.text,
                     onSubmit: (value) {
@@ -91,6 +94,7 @@ class _FarmerResourcesState extends State<FarmerResources> {
                     }),
                 MyTextInput(
                     title: "Acreage under Livestock Farming",
+                     lines: 1,
                     value: " ",
                       type: TextInputType.text,
                     onSubmit: (value) {

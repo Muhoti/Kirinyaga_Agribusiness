@@ -10,9 +10,11 @@ import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
+import 'package:kirinyaga_agribusiness/Model/SearchItem.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
+import 'package:kirinyaga_agribusiness/Pages/WorkPlan.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
@@ -29,13 +31,16 @@ class CreateReport extends StatefulWidget {
 }
 
 class _CreateReportState extends State<CreateReport> {
-  String FarmerID = 'fgghff';
+  String FarmerID = '';
+  String FarmerName = '';
   String Tally = '';
   String Remarks = '';
   double Latitude = 0.0;
   double Longitude = 0.0;
   String location = '';
   String error = '';
+  String check = '';
+  List<SearchItem> entries = <SearchItem>[];
   var isLoading;
   bool haspermission = false;
   late LocationPermission permission;
@@ -106,21 +111,50 @@ class _CreateReportState extends State<CreateReport> {
     });
   }
 
+  searchFarmer(v) async {
+    setState(() {
+      entries.clear();
+    });
+    try {
+      final response = await http.get(
+          Uri.parse("${getUrl()}workplan/searchfarmer/$v"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          });
+
+      var data = json.decode(response.body);
+
+      setState(() {
+        entries.clear();
+        for (var item in data) {
+          entries.add(SearchItem(item["Name"], item["NationalID"]));
+        }
+      });
+    } catch (e) {
+      // todo
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Create Report",
       home: Scaffold(
-        resizeToAvoidBottomInset: false,
-        floatingActionButton: ElevatedButton(
+        resizeToAvoidBottomInset: true,
+        floatingActionButton: RawMaterialButton(
           onPressed: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const FarmerDetails()));
           },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color.fromRGBO(13, 50, 10, 1),
+          elevation: 5.0,
+          fillColor: Colors.orange,
+          padding: const EdgeInsets.all(10),
+          shape: const CircleBorder(),
+          child: const Icon(
+            Icons.add_location,
+            size: 32,
+            color: Colors.white,
           ),
-          child: const Text('Map Farmer'),
         ),
         appBar: AppBar(
           title: const Text("Field Officer Report"),
@@ -137,105 +171,189 @@ class _CreateReportState extends State<CreateReport> {
         ),
         body: Stack(
           children: [
-            Container(
-              constraints: const BoxConstraints.tightForFinite(),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(24, 24, 24, 6),
-                      child: SizedBox(
-                          height: 250,
-                          child: MyMap(
-                            lat: Latitude,
-                            lon: Longitude,
-                          )),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.fromLTRB(24, 0, 24, 6),
-                        child: Text(location)),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
-                      child: Container(
-                        padding: const EdgeInsets.all(12),
-                        width: double.infinity,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.green,
-                              Color.fromARGB(255, 29, 221, 163)
-                            ],
-                          ),
+            SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 24, 24, 6),
+                    child: SizedBox(
+                        height: 250,
+                        child: MyMap(
+                          lat: Latitude,
+                          lon: Longitude,
+                        )),
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.fromLTRB(24, 0, 24, 6),
+                      child: Text(location)),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.green,
+                            Color.fromARGB(255, 29, 221, 163)
+                          ],
                         ),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Report Type: " + widget.type,
-                            style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
+                      ),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Farmer: " +
+                              FarmerName +
+                              "\n" +
+                              "National ID: " +
+                              FarmerID,
+                          style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white),
                         ),
                       ),
                     ),
-                    TextOakar(label: error),
+                  ),
+                  TextOakar(label: error),
+                  if (widget.type == "Extension Services")
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(24, 0, 24, 12),
+                      child: Column(
+                        children: [
+                          TextFormField(
+                              onChanged: (value) {
+                                if (value.characters.length >=
+                                    check.characters.length) {
+                                  searchFarmer(value);
+                                } else {
+                                  setState(() {
+                                    entries.clear();
+                                    Tally = '';
+                                    FarmerID = '';
+                                    FarmerName = '';
+                                  });
+                                }
+                                setState(() {
+                                  check = value;
+                                  error = '';
+                                });
+                              },
+                              keyboardType: TextInputType.number,
+                              enableSuggestions: false,
+                              autocorrect: false,
+                              decoration: const InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.fromLTRB(24, 8, 24, 0),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Color.fromRGBO(0, 128, 0, 1))),
+                                  filled: false,
+                                  label: Text(
+                                    "Search Farmer by National ID",
+                                    style: TextStyle(
+                                        color: Color.fromRGBO(0, 128, 0, 1)),
+                                  ),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always)),
+                          entries.isNotEmpty
+                              ? Card(
+                                  elevation: 12,
+                                  child: ListView.separated(
+                                    padding: const EdgeInsets.all(4),
+                                    scrollDirection: Axis.vertical,
+                                    shrinkWrap: true,
+                                    itemCount: entries.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return TextButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            FarmerID =
+                                                entries[index].NationalID;
+                                            FarmerName = entries[index].Name;
+                                            Tally = '1';
+                                            entries.clear();
+                                          });
+                                        },
+                                        child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                                'Name: ${entries[index].Name}, ID: ${entries[index].NationalID}')),
+                                      );
+                                    },
+                                    separatorBuilder:
+                                        (BuildContext context, int index) =>
+                                            const Divider(),
+                                  ),
+                                )
+                              : const SizedBox()
+                        ],
+                      ),
+                    )
+                  else
                     MyTextInput(
                       title: 'Farmers Reached',
+                      lines: 1,
                       value: '',
                       type: TextInputType.number,
                       onSubmit: (value) {
                         setState(() {
                           Tally = value;
+                          error = '';
                         });
                       },
                     ),
-                    MyTextInput(
-                      title: 'Remarks',
-                      value: '',
-                      type: TextInputType.text,
-                      onSubmit: (value) {
+                  MyTextInput(
+                    title: 'Remarks',
+                    lines: 8,
+                    value: '',
+                    type: TextInputType.text,
+                    onSubmit: (value) {
+                      setState(() {
+                        Remarks = value;
+                        error = '';
+                      });
+                    },
+                  ),
+                  SubmitButton(
+                      label: "Submit",
+                      onButtonPressed: () async {
                         setState(() {
-                          Remarks = value;
+                          error = '';
+                          isLoading = LoadingAnimationWidget.staggeredDotsWave(
+                            color: const Color.fromRGBO(0, 128, 0, 1),
+                            size: 100,
+                          );
                         });
-                      },
-                    ),
-                    SubmitButton(
-                        label: "Submit",
-                        onButtonPressed: () async {
-                          setState(() {
-                            isLoading =
-                                LoadingAnimationWidget.staggeredDotsWave(
-                              color: Color.fromRGBO(0, 128, 0, 1),
-                              size: 100,
-                            );
+
+                        var res = await sendReport(widget.id, Tally, Remarks,
+                            Latitude, Longitude, FarmerID);
+
+                        setState(() {
+                          isLoading = null;
+                          if (res.error == null) {
+                            error = res.success;
+                          } else {
+                            error = res.error;
+                          }
+                        });
+
+                        if (res.error == null) {
+                          Timer(const Duration(seconds: 1), () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => WorkPlan(
+                                          id: widget.id,
+                                        )));
                           });
-
-                          var res = await sendReport(widget.id, Tally, Remarks,
-                              Latitude, Longitude, FarmerID);
-
-                          print("the response is $res");
-
-                          setState(() {
-                            isLoading = null;
-                            if (res.error == null) {
-                              error = res.success;
-                            } else {
-                              error = res.error;
-                            }
-                          });
-                          // if (res.error == null) {
-                          //   Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //           builder: (_) => const FieldOfficerHome()));
-                          // }
-                        }),
-                  ],
-                ),
+                        }
+                      }),
+                ],
               ),
             ),
             Center(child: isLoading),
