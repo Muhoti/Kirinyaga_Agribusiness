@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kirinyaga_agribusiness/Components/Map.dart';
 import 'package:kirinyaga_agribusiness/Pages/ViewReport.dart';
 import 'package:kirinyaga_agribusiness/Pages/WorkPlan.dart';
 // import 'package:kirinyaga_agribusiness/Pages/Incident.dart';
@@ -19,19 +20,246 @@ class _ReportBar extends State<ReportBar> {
   String my = '';
 
   @override
+  void initState() {
+    print(widget.item["SupervisorRemarks"]);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-
-
     return Padding(
-        padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-        child: Card(
-            elevation: 5,
-            color: Colors.white,
-            clipBehavior: Clip.hardEdge,
-            child: Column(
-              children: [
-
-              ],
-            )));
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 24, 0, 6),
+              child: SizedBox(
+                  height: 250,
+                  child: MyMap(
+                    lat: widget.item["Latitude"],
+                    lon: widget.item["Longitude"],
+                  )),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  gradient: LinearGradient(
+                    colors: [Colors.green, Color.fromARGB(255, 29, 221, 163)],
+                  ),
+                ),
+                child: Column(children: [
+                  const Text(
+                    "Farmer Details",
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.yellow),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Name: " + widget.item["Name"],
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 6,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "National ID: " + widget.item["NationalID"],
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 6,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Phone: " + widget.item["Phone"],
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 6,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Age Group: " + widget.item["AgeGroup"],
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
+                    ),
+                  ),
+                ]),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(12, 12, 12, 24),
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  gradient: LinearGradient(
+                    colors: [Colors.green, Color.fromARGB(255, 29, 221, 163)],
+                  ),
+                ),
+                child: Column(children: [
+                  const Text(
+                    "Field Officer Report",
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.yellow),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Service: " + widget.item["Task"],
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 6,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Extension Service: " + widget.item["Type"],
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 6,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Date: " + widget.item["updatedAt"],
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Remarks  \n \n" + widget.item["Remarks"],
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.yellowAccent),
+                    ),
+                  ),
+                ]),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 24, 0, 24),
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  gradient: LinearGradient(
+                    colors: [Colors.green, Color.fromARGB(255, 29, 221, 163)],
+                  ),
+                ),
+                child: Column(children: [
+                  const Text(
+                    "Supervisor Remarks",
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.yellow),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Name: " + widget.item["SName"],
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 6,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Phone: " + widget.item["SPhone"],
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: widget.item["SupervisorRemarks"] == null
+                          ? Text(
+                              "Supervisor Remarks  \n \n Report has not been reviewed by your supervisor",
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.yellowAccent),
+                            )
+                          : Text(
+                              "Supervisor Remarks  \n \n ${widget.item["SupervisorRemarks"]}",
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.yellowAccent),
+                            )),
+                ]),
+              ),
+            ),
+          ],
+        ));
   }
 }
