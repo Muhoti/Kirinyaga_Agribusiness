@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kirinyaga_agribusiness/Components/Map.dart';
-import 'package:kirinyaga_agribusiness/Pages/ViewReport.dart';
-import 'package:kirinyaga_agribusiness/Pages/WorkPlan.dart';
-// import 'package:kirinyaga_agribusiness/Pages/Incident.dart';
+import 'package:kirinyaga_agribusiness/Components/ReviewMap.dart';
 
 class ReportBar extends StatefulWidget {
   final dynamic item;
@@ -18,10 +16,10 @@ class ReportBar extends StatefulWidget {
 
 class _ReportBar extends State<ReportBar> {
   String my = '';
+   var isLoading;
 
   @override
   void initState() {
-    print(widget.item["SupervisorRemarks"]);
     super.initState();
   }
 
@@ -35,9 +33,11 @@ class _ReportBar extends State<ReportBar> {
               padding: const EdgeInsets.fromLTRB(0, 24, 0, 6),
               child: SizedBox(
                   height: 250,
-                  child: MyMap(
+                  child: ReviewMap(
                     lat: widget.item["Latitude"],
                     lon: widget.item["Longitude"],
+                    flat: widget.item["FLatitude"],
+                    flon: widget.item["FLongitude"],
                   )),
             ),
             Padding(
@@ -122,7 +122,7 @@ class _ReportBar extends State<ReportBar> {
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                   gradient: LinearGradient(
-                    colors: [Colors.green, Color.fromARGB(255, 29, 221, 163)],
+                    colors: [Colors.orange, Colors.orangeAccent],
                   ),
                 ),
                 child: Column(children: [
@@ -178,7 +178,7 @@ class _ReportBar extends State<ReportBar> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Remarks  \n \n" + widget.item["Remarks"],
+                      "Remarks  \n - " + widget.item["Remarks"],
                       style: const TextStyle(
                           fontSize: 18,
                           fontStyle: FontStyle.italic,
@@ -197,7 +197,7 @@ class _ReportBar extends State<ReportBar> {
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                   gradient: LinearGradient(
-                    colors: [Colors.green, Color.fromARGB(255, 29, 221, 163)],
+                    colors: [Colors.blueAccent, Colors.blue],
                   ),
                 ),
                 child: Column(children: [
@@ -240,9 +240,9 @@ class _ReportBar extends State<ReportBar> {
                   Align(
                       alignment: Alignment.centerLeft,
                       child: widget.item["SupervisorRemarks"] == null
-                          ? Text(
-                              "Supervisor Remarks  \n \n Report has not been reviewed by your supervisor",
-                              style: const TextStyle(
+                          ? const Text(
+                              "Supervisor Remarks  \n - Report has not been reviewed by your supervisor",
+                              style: TextStyle(
                                   fontSize: 18,
                                   fontStyle: FontStyle.italic,
                                   fontWeight: FontWeight.w500,

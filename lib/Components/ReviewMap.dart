@@ -5,16 +5,23 @@ import 'dart:io';
 import 'dart:async';
 import 'Utils.dart';
 
-class MyMap extends StatefulWidget {
+class ReviewMap extends StatefulWidget {
+  final double flat;
+  final double flon;
   final double lat;
   final double lon;
-  const MyMap({super.key, required this.lat, required this.lon});
+  const ReviewMap(
+      {super.key,
+      required this.lat,
+      required this.lon,
+      required this.flat,
+      required this.flon});
 
   @override
-  State<MyMap> createState() => _MyMapState();
+  State<ReviewMap> createState() => _ReviewMapState();
 }
 
-class _MyMapState extends State<MyMap> {
+class _ReviewMapState extends State<ReviewMap> {
   var controller = null;
 
   @override
@@ -22,16 +29,8 @@ class _MyMapState extends State<MyMap> {
     if (Platform.isAndroid) {
       WebView.platform = SurfaceAndroidWebView();
     }
+    print(widget.flat);
     super.initState();
-  }
-
-  @mustCallSuper
-  @protected
-  void didUpdateWidget(covariant oldWidget) {
-    if (controller != null) {
-      controller
-          .evaluateJavascript("adjustMarker('${widget.lon}','${widget.lat}')");
-    }
   }
 
   @override
@@ -42,12 +41,17 @@ class _MyMapState extends State<MyMap> {
             clipBehavior: Clip.hardEdge,
             elevation: 2,
             child: WebView(
-              initialUrl: "${getUrl()}map",
+              initialUrl: "${getUrl()}review",
               javascriptMode: JavascriptMode.unrestricted,
               onWebViewCreated: (WebViewController webViewController) {
-                controller = webViewController;
                 webViewController.evaluateJavascript(
-                    "adjustMarker('${widget.lon}','${widget.lat}')");
+                    "adjustFarmer('${widget.flon}','${widget.flat}','${widget.lon}','${widget.lat}')");
+               
+                controller = webViewController;
+              },
+              onPageFinished: (v) {
+                controller?.evaluateJavascript(
+                    "adjustFarmer('${widget.flon}','${widget.flat}','${widget.lon}','${widget.lat}')");
               },
             )));
   }
