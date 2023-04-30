@@ -6,6 +6,7 @@ import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerInfo.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerResources.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
+import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/main.dart';
@@ -100,7 +101,7 @@ class FODrawer extends StatelessWidget {
                 final store = new FlutterSecureStorage();
                 store.deleteAll();
                 Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => const MyApp()));
+                    context, MaterialPageRoute(builder: (_) => const Login()));
               },
             ),
           ],

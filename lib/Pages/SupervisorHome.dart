@@ -9,6 +9,7 @@ import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Scroll/FOScrollController.dart';
+import 'package:kirinyaga_agribusiness/Scroll/SupScrollController.dart';
 import '../Components/NavigationButton.dart';
 import '../Components/FODrawer.dart';
 import 'package:http/http.dart' as http;
@@ -58,7 +59,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
     try {
       final dynamic response;
       response = await http.get(
-        Uri.parse("${getUrl()}workplan/stats/fieldofficer/$id"),
+        Uri.parse("${getUrl()}workplan/stats/supervisor/$id"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -81,7 +82,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
       title: 'Kirinyaga Agribusiness',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Field Officer"),
+          title: const Text("Supervisor Home"),
           actions: [
             Align(
               alignment: Alignment.centerRight,
@@ -114,7 +115,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
                         flex: 1,
                         fit: FlexFit.tight,
                         child: Stats(
-                          label: "Target Farmers",
+                          label: "Assigned Officers",
                           color: Colors.blue,
                           value: total_farmers,
                           icon: Icons.person_search,
@@ -123,7 +124,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
                         flex: 1,
                         fit: FlexFit.tight,
                         child: Stats(
-                          label: "Reached Farmers",
+                          label: "Reviewed Reports",
                           color: Colors.green,
                           value: reached_farmers,
                           icon: Icons.person_pin_circle,
@@ -132,7 +133,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
                         flex: 1,
                         fit: FlexFit.tight,
                         child: Stats(
-                          label: "Work Plans",
+                          label: "Total Reports",
                           color: Colors.orange,
                           value: workplans,
                           icon: Icons.list_rounded,
@@ -182,7 +183,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
               flex: 1,
               fit: FlexFit.tight,
               child: id != ""
-                  ? FOScrollController(id: id, active: active, status: status)
+                  ? SupScrollController(id: id, active: active, status: status)
                   : const SizedBox(),
             ),
           ],
