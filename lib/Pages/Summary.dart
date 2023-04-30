@@ -1,22 +1,17 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
+import 'package:kirinyaga_agribusiness/Components/FMItem.dart';
+import 'package:kirinyaga_agribusiness/Components/FMSummary.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerAddress.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerResources.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Summary extends StatefulWidget {
   const Summary({super.key});
-
-  getNationalID() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String nationalID = prefs.getString("NationalID") ?? '';
-    return nationalID;
-  }
 
   @override
   State<Summary> createState() => _SummaryState();
@@ -27,7 +22,6 @@ class _SummaryState extends State<Summary> {
   String phone = '';
   String id = '';
   String user = '';
-
   var nationalId;
 
   @override
@@ -47,274 +41,82 @@ class _SummaryState extends State<Summary> {
           ],
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
-        body: Container(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            children: [
-              Container(
-                height: 200,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 127, 165, 212),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Current Farmer",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        name,
-                        style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        id,
-                        style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        phone,
-                        style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        "Mapped By: $user",
-                        style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                    ],
+        body: Stack(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                children: [
+                  Flexible(
+                    fit: FlexFit.tight,
+                    flex: 10,
+                    child: FMItem(
+                        title: "Current Farmer",
+                        tally: 31226569,
+                        icon: Icons.person_pin_circle_rounded,
+                        user: "Crimson Sikolia"),
                   ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    // Navigate to the next page
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => FarmerDetails()),
-                    );
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 5, 53, 92),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Farmer Details',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                        const SizedBox(width: 16),
-                        Image.asset('assets/images/stat1.png'),
-                      ],
-                    ),
+                  const SizedBox(
+                    height: 12,
                   ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 81, 137, 83),
-                    borderRadius: BorderRadius.circular(10),
+                  Flexible(
+                      fit: FlexFit.tight,
+                      flex: 5,
+                      child: FMSummary(
+                          title: "Farmer Info",
+                          icon: Icons.person_2_rounded,
+                          mapped: true)),
+                  const SizedBox(
+                    height: 12,
                   ),
-                  child: GestureDetector(
-                    onTap: () {
-                      // Navigate to the next page
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const FarmerAddress()),
-                      );
+                  Flexible(
+                      fit: FlexFit.tight,
+                      flex: 5,
+                      child: FMSummary(
+                          title: "Farmer Address",
+                          icon: Icons.location_pin,
+                          mapped: true)),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Flexible(
+                      fit: FlexFit.tight,
+                      flex: 5,
+                      child: FMSummary(
+                          title: "Farm Resources",
+                          icon: Icons.library_books,
+                          mapped: true)),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Flexible(
+                      fit: FlexFit.tight,
+                      flex: 5,
+                      child: FMSummary(
+                          title: "Farmer Groups",
+                          icon: Icons.groups,
+                          mapped: true)),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Flexible(
+                      fit: FlexFit.tight,
+                      flex: 5,
+                      child: FMSummary(
+                          title: "Value Chains",
+                          icon: Icons.agriculture,
+                          mapped: false)),
+                  SubmitButton(
+                    label: "Finish",
+                    onButtonPressed: () async {
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (_) => const Home()));
                     },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Farmer Address',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Image.asset('assets/images/stat1.png'),
-                      ],
-                    ),
                   ),
-                ),
+                ],
               ),
-              const SizedBox(
-                height: 16,
-              ),
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 174, 96, 234),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      // Navigate to the next page
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const FarmerResources()),
-                      );
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Farm Resources',
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(width: 12),
-                        Image.asset('assets/images/stat1.png'),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 237, 82, 82),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      // Navigate to the next page
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const FarmerDetails()), //to change to farmer group
-                      );
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Farmer Groups',
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(width: 16),
-                        Image.asset('assets/images/stat1.png'),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 221, 184, 172),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      // Navigate to the next page
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const FarmerValueChains()), //to change to farmer group
-                      );
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Value Chains',
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(width: 16),
-                        Image.asset('assets/images/stat1.png'),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              SubmitButton(
-                label: "Finish",
-                onButtonPressed: () async {
-                  Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (_) => const Home()));
-                },
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

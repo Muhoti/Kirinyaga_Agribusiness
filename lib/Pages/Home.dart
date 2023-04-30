@@ -55,12 +55,9 @@ class _HomeState extends State<Home> {
       var id = await storage.read(key: "NationalID");
       if (id != null) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) =>  Summary()));
+            context, MaterialPageRoute(builder: (_) => Summary()));
       }
-    } catch (e) {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => const Login()));
-    }
+    } catch (e) {}
   }
 
   searchMapped(user) async {
