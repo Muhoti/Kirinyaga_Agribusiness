@@ -15,6 +15,8 @@ import '../Components/FODrawer.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../Components/SuDrawer.dart';
+
 class SupervisorHome extends StatefulWidget {
   const SupervisorHome({super.key});
 
@@ -94,17 +96,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
           ],
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
-        drawer: const Drawer(child: FODrawer()),
-        floatingActionButton: ElevatedButton(
-          onPressed: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const FarmerDetails()));
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color.fromRGBO(13, 50, 10, 1),
-          ),
-          child: const Text('Map Farmer'),
-        ),
+        drawer: const Drawer(child: SuDrawer()),
         body: Column(
           children: <Widget>[
             Padding(

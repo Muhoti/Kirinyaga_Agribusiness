@@ -265,9 +265,6 @@ class _SuReportBar extends State<SuReportBar> {
                             });
                           }
                         }),
-                    const SizedBox(
-                      height: 12,
-                    ),
                     Center(
                       child: TextButton(
                           onPressed: () async {

@@ -6,10 +6,10 @@ import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerInfo.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerResources.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
-import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'package:kirinyaga_agribusiness/main.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:flutter/material.dart';
@@ -22,8 +22,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'TextOakar.dart';
 
-class FODrawer extends StatelessWidget {
-  const FODrawer({super.key});
+class SuDrawer extends StatelessWidget {
+  const SuDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -57,40 +57,7 @@ class FODrawer extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => const FieldOfficerHome()));
-              },
-            ),
-            ListTile(
-              title: const Text(
-                'Map Farmer',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
-              ),
-              onTap: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const FarmerDetails()));
-              },
-            ),
-            ListTile(
-              title: const Text(
-                'Update Farmer',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
-              ),
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return SearchFarmer();
-                  },
-                );
-                Navigator.pop(context);
+                    context, MaterialPageRoute(builder: (_) => const SupervisorHome()));
               },
             ),
             ListTile(

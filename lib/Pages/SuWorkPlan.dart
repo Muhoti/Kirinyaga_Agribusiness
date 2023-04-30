@@ -61,7 +61,7 @@ class _SupWorkPlanState extends State<SupWorkPlan> {
       setState(() {
         data = body;
         isloading = null;
-        reviewed = body["SupervisorRemarks"];
+        reviewed = body["SupervisorRemarks"] == null ? false : true;
       });
       print(data);
     } catch (e) {
