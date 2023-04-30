@@ -4,7 +4,7 @@ import 'package:kirinyaga_agribusiness/Components/ReviewMap.dart';
 
 class FMItem extends StatefulWidget {
   final String title;
-  final String tally;
+  final int tally;
   final IconData icon;
   final String user;
 
@@ -43,7 +43,7 @@ class _FMItem extends State<FMItem> {
                 flex: 1,
                 child: Center(
                   child: Text(
-                    widget.tally,
+                    widget.tally.toString(),
                     style: const TextStyle(fontSize: 34, color: Colors.white),
                   ),
                 ),

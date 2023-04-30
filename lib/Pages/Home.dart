@@ -1,9 +1,16 @@
 // ignore_for_file: file_names, use_build_context_synchronously
 
+import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/FMItem.dart';
-import '../Components/FODrawer.dart';
+import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
+import 'package:kirinyaga_agribusiness/Pages/Login.dart';
+import '../Components/FMDrawer.dart';
+import 'package:http/http.dart' as http;
+
+import '../Components/Utils.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -14,6 +21,57 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   var isLoading;
+  var data = null;
+  int total = 0;
+  String name = "";
+
+  final storage = const FlutterSecureStorage();
+
+  @override
+  void initState() {
+    getToken();
+    super.initState();
+  }
+
+  getToken() async {
+    try {
+      var token = await storage.read(key: "erjwt");
+      var decoded = parseJwt(token.toString());
+
+      setState(() {
+        name = decoded["Name"];
+      });
+      searchMapped(decoded["Name"]);
+    } catch (e) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => const Login()));
+    }
+  }
+
+  searchMapped(user) async {
+    try {
+      final response = await http.get(
+          Uri.parse("${getUrl()}farmerdetails/mapped/$user"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          });
+
+      var body = json.decode(response.body);
+      print(body);
+      setState(() {
+        data = body;
+        total = [
+          int.parse(body["FD"]),
+          int.parse(body["FA"]),
+          int.parse(body["FR"]),
+          int.parse(body["FG"]),
+          int.parse(body["VC"])
+        ].reduce(min);
+      });
+    } catch (e) {
+      // todo
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +82,25 @@ class _HomeState extends State<Home> {
           title: const Text("Farmer Mapping Home"),
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
-        drawer: const Drawer(child: FODrawer()),
+        floatingActionButton: RawMaterialButton(
+          onPressed: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const FarmerDetails()));
+          },
+          elevation: 5.0,
+          fillColor: Colors.orange,
+          padding: const EdgeInsets.all(10),
+          shape: const CircleBorder(),
+          child: const Icon(
+            Icons.add_location,
+            size: 24,
+            color: Colors.white,
+          ),
+        ),
+        drawer: const Drawer(child: FMDrawer()),
         body: Stack(children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+            padding: const EdgeInsets.fromLTRB(12, 12, 12, 48),
             child: Column(
               children: [
                 Flexible(
@@ -35,12 +108,12 @@ class _HomeState extends State<Home> {
                   flex: 10,
                   child: FMItem(
                     title: "Total Farmers",
-                    tally: "1256",
+                    tally: total,
                     icon: Icons.stacked_line_chart_rounded,
-                    user: 'Duncan Muteti',
+                    user: name,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 Flexible(
@@ -53,12 +126,12 @@ class _HomeState extends State<Home> {
                         flex: 1,
                         child: FMItem(
                           title: "Farmer Info",
-                          tally: "1256",
+                          tally: data == null ? 0 : data["FD"],
                           icon: Icons.person_2_rounded,
                           user: '',
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 12,
                       ),
                       Flexible(
@@ -66,7 +139,7 @@ class _HomeState extends State<Home> {
                         flex: 1,
                         child: FMItem(
                           title: "Farmer Address",
-                          tally: "1256",
+                          tally: data == null ? 0 : data["FA"],
                           icon: Icons.location_pin,
                           user: '',
                         ),
@@ -74,7 +147,7 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 Flexible(
@@ -87,12 +160,12 @@ class _HomeState extends State<Home> {
                         flex: 1,
                         child: FMItem(
                           title: "Farm Resources",
-                          tally: "1256",
+                          tally: data == null ? 0 : data["FR"],
                           icon: Icons.library_books,
                           user: '',
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 12,
                       ),
                       Flexible(
@@ -100,7 +173,7 @@ class _HomeState extends State<Home> {
                         flex: 1,
                         child: FMItem(
                           title: "Farmer Groups",
-                          tally: "1256",
+                          tally: data == null ? 0 : data["FG"],
                           icon: Icons.groups,
                           user: '',
                         ),
@@ -108,7 +181,7 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 Flexible(
@@ -116,7 +189,7 @@ class _HomeState extends State<Home> {
                   flex: 7,
                   child: FMItem(
                     title: "Value Chains",
-                    tally: "1256",
+                    tally: data == null ? 0 : data["VC"],
                     icon: Icons.agriculture,
                     user: '',
                   ),
