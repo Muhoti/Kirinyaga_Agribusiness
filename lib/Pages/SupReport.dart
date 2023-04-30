@@ -75,14 +75,12 @@ class _SupReportState extends State<SupReport> {
       });
 
       print("come on $workid, $title, $type");
-
     } catch (e) {
       print(e);
     }
   }
 
   @override
-
   Widget build(BuildContext context) {
     print(" hey you $title, $description, $image, $type");
     return MaterialApp(
@@ -141,7 +139,7 @@ class _SupReportState extends State<SupReport> {
                       )),
                   child: const Text("Close"),
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (_) => const SupervisorHome()));

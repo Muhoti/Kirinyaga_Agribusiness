@@ -70,7 +70,7 @@ class _SupervisorReportState extends State<SupervisorReport> {
                         TextOakar(label: error),
                         MyTextInput(
                           title: 'Title',
-                           lines: 1,
+                          lines: 1,
                           value: '',
                           type: TextInputType.emailAddress,
                           onSubmit: (value) {
@@ -81,7 +81,7 @@ class _SupervisorReportState extends State<SupervisorReport> {
                         ),
                         MyTextInput(
                           title: 'Type',
-                           lines: 1,
+                          lines: 1,
                           value: '',
                           type: TextInputType.visiblePassword,
                           onSubmit: (value) {
@@ -92,7 +92,7 @@ class _SupervisorReportState extends State<SupervisorReport> {
                         ),
                         MyTextInput(
                           title: 'Image',
-                           lines: 1,
+                          lines: 1,
                           value: '',
                           type: TextInputType.emailAddress,
                           onSubmit: (value) {
@@ -103,7 +103,7 @@ class _SupervisorReportState extends State<SupervisorReport> {
                         ),
                         MyTextInput(
                           title: 'Description',
-                           lines: 1,
+                          lines: 1,
                           value: '',
                           type: TextInputType.visiblePassword,
                           onSubmit: (value) {
@@ -112,10 +112,9 @@ class _SupervisorReportState extends State<SupervisorReport> {
                             });
                           },
                         ),
-                        
                         MyTextInput(
                           title: 'Status',
-                           lines: 1,
+                          lines: 1,
                           value: '',
                           type: TextInputType.visiblePassword,
                           onSubmit: (value) {
@@ -124,10 +123,9 @@ class _SupervisorReportState extends State<SupervisorReport> {
                             });
                           },
                         ),
-
                         MyTextInput(
                           title: 'Keywords',
-                           lines: 1,
+                          lines: 1,
                           value: '',
                           type: TextInputType.emailAddress,
                           onSubmit: (value) {
@@ -136,10 +134,9 @@ class _SupervisorReportState extends State<SupervisorReport> {
                             });
                           },
                         ),
-
                         MyTextInput(
                           title: 'Latitude',
-                           lines: 1,
+                          lines: 1,
                           value: '',
                           type: TextInputType.visiblePassword,
                           onSubmit: (value) {
@@ -148,10 +145,9 @@ class _SupervisorReportState extends State<SupervisorReport> {
                             });
                           },
                         ),
-
                         MyTextInput(
                           title: 'Longitude',
-                           lines: 1,
+                          lines: 1,
                           value: '',
                           type: TextInputType.visiblePassword,
                           onSubmit: (value) {
@@ -160,7 +156,6 @@ class _SupervisorReportState extends State<SupervisorReport> {
                             });
                           },
                         ),
-
                         SubmitButton(
                             label: "Submit",
                             onButtonPressed: () async {
@@ -194,7 +189,7 @@ class _SupervisorReportState extends State<SupervisorReport> {
                                 }
                               });
                               if (res.error == null) {
-                                 Navigator.push(
+                                Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (_) =>

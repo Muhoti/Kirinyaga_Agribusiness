@@ -194,7 +194,7 @@ class _WorkPlanState extends State<WorkPlan> {
                                   onButtonPressed: () => {
                                         if (data != null)
                                           {
-                                            Navigator.push(
+                                            Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (_) =>

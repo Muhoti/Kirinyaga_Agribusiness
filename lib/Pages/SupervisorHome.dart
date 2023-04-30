@@ -9,9 +9,8 @@ import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Scroll/FOScrollController.dart';
-import 'package:kirinyaga_agribusiness/Scroll/SupScrollController.dart';
 import '../Components/NavigationButton.dart';
-import '../Components/NavigationDrawer2.dart';
+import '../Components/FODrawer.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -19,18 +18,20 @@ class SupervisorHome extends StatefulWidget {
   const SupervisorHome({super.key});
 
   @override
-  State<SupervisorHome> createState() => _FieldOfficerHomeState();
+  State<SupervisorHome> createState() => _SupervisorHomeState();
 }
 
-class _FieldOfficerHomeState extends State<SupervisorHome> {
+class _SupervisorHomeState extends State<SupervisorHome> {
   final storage = const FlutterSecureStorage();
   String name = '';
-  String total = '';
-  String pending = '';
-  String complete = '';
-  String active = 'F.O Reports';
+  String total_farmers = '';
+  String reached_farmers = '';
+  String workplans = '';
+  String active = 'Pending';
   String id = '';
   String status = 'Pending';
+
+  String nationalId = '';
 
   @override
   void initState() {
@@ -42,13 +43,13 @@ class _FieldOfficerHomeState extends State<SupervisorHome> {
     var token = await storage.read(key: "erjwt");
     var decoded = parseJwt(token.toString());
     if (decoded["error"] == "Invalid token") {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => const Login()));
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => const Login()));
     } else {
       setState(() {
         name = decoded["Name"];
         id = decoded["UserID"];
       });
-
       countTasks(decoded["UserID"]);
     }
   }
@@ -56,32 +57,18 @@ class _FieldOfficerHomeState extends State<SupervisorHome> {
   Future<void> countTasks(String id) async {
     try {
       final dynamic response;
-
-      active == "My Reports"
-          ? response = await http.get(
-              Uri.parse("${getUrl()}reports/stats/fieldofficer/$id"),
-              headers: <String, String>{
-                'Content-Type': 'application/json; charset=UTF-8',
-              },
-            )
-            
-          : response = await http.get(
-              Uri.parse("${getUrl()}workplan/stats/fieldofficer/$id"),
-              headers: <String, String>{
-                'Content-Type': 'application/json; charset=UTF-8',
-              },
-            );
-
-      print(response.body);
-      print("this is being implemented");
-      print("the id is $id");
-
+      response = await http.get(
+        Uri.parse("${getUrl()}workplan/stats/fieldofficer/$id"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
       var data = json.decode(response.body);
 
       setState(() {
-        total = data["total"].toString();
-        pending = data["pending"].toString();
-        complete = data["complete"].toString();
+        total_farmers = data["TotalFarmers"].toString();
+        reached_farmers = data["ReachedFarmers"].toString();
+        workplans = data["WorkPlan"].toString();
       });
     } catch (e) {
       print(e);
@@ -94,7 +81,7 @@ class _FieldOfficerHomeState extends State<SupervisorHome> {
       title: 'Kirinyaga Agribusiness',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Super Home"),
+          title: const Text("Field Officer"),
           actions: [
             Align(
               alignment: Alignment.centerRight,
@@ -106,8 +93,17 @@ class _FieldOfficerHomeState extends State<SupervisorHome> {
           ],
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
-        drawer: const Drawer(child: NavigationDrawer2()),
-        
+        drawer: const Drawer(child: FODrawer()),
+        floatingActionButton: ElevatedButton(
+          onPressed: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const FarmerDetails()));
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color.fromRGBO(13, 50, 10, 1),
+          ),
+          child: const Text('Map Farmer'),
+        ),
         body: Column(
           children: <Widget>[
             Padding(
@@ -118,28 +114,28 @@ class _FieldOfficerHomeState extends State<SupervisorHome> {
                         flex: 1,
                         fit: FlexFit.tight,
                         child: Stats(
-                          label: "Work Plan",
+                          label: "Target Farmers",
                           color: Colors.blue,
-                          value: total,
-                          icon: Icons.trending_up,
+                          value: total_farmers,
+                          icon: Icons.person_search,
                         )),
                     Flexible(
                         flex: 1,
                         fit: FlexFit.tight,
                         child: Stats(
-                          label: "Farmers",
-                          color: Colors.orange,
-                          value: pending,
-                          icon: Icons.refresh,
-                        )),
-                    Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: Stats(
-                          label: "Completed",
+                          label: "Reached Farmers",
                           color: Colors.green,
-                          value: complete,
-                          icon: Icons.done,
+                          value: reached_farmers,
+                          icon: Icons.person_pin_circle,
+                        )),
+                    Flexible(
+                        flex: 1,
+                        fit: FlexFit.tight,
+                        child: Stats(
+                          label: "Work Plans",
+                          color: Colors.orange,
+                          value: workplans,
+                          icon: Icons.list_rounded,
                         )),
                   ],
                 )),
@@ -151,14 +147,13 @@ class _FieldOfficerHomeState extends State<SupervisorHome> {
                       flex: 1,
                       fit: FlexFit.tight,
                       child: NavigationButton(
-                        label: "F.O Reports",
+                        label: "Pending",
                         active: active,
                         buttonPressed: () {
                           setState(() {
-                            active = "F.O Reports";
+                            active = "Pending";
                             status = "Pending";
                             countTasks(id);
-                            print("the count task is is $id");
                           });
                         },
                       )),
@@ -169,11 +164,11 @@ class _FieldOfficerHomeState extends State<SupervisorHome> {
                     flex: 1,
                     fit: FlexFit.tight,
                     child: NavigationButton(
-                      label: "My Reports",
+                      label: "Complete",
                       active: active,
                       buttonPressed: () {
                         setState(() {
-                          active = "My Reports";
+                          active = "Complete";
                           status = "Complete";
                           countTasks(id);
                         });
@@ -187,8 +182,7 @@ class _FieldOfficerHomeState extends State<SupervisorHome> {
               flex: 1,
               fit: FlexFit.tight,
               child: id != ""
-                  ? SupScrollController(
-                      id: id, active: active, status: status)
+                  ? FOScrollController(id: id, active: active, status: status)
                   : const SizedBox(),
             ),
           ],

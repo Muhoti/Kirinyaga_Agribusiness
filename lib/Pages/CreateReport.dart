@@ -18,7 +18,6 @@ import 'package:kirinyaga_agribusiness/Pages/WorkPlan.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
-
 import '../Components/Map.dart';
 
 class CreateReport extends StatefulWidget {
@@ -143,7 +142,7 @@ class _CreateReportState extends State<CreateReport> {
         resizeToAvoidBottomInset: true,
         floatingActionButton: RawMaterialButton(
           onPressed: () {
-            Navigator.push(context,
+            Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => const FarmerDetails()));
           },
           elevation: 5.0,
@@ -162,7 +161,10 @@ class _CreateReportState extends State<CreateReport> {
             Align(
               alignment: Alignment.centerRight,
               child: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (_) => FieldOfficerHome()))
+                },
                 icon: const Icon(Icons.arrow_back),
               ),
             ),

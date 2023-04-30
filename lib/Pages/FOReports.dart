@@ -52,7 +52,6 @@ class _FOReportsState extends State<FOReports> {
       var data = json.decode(response.body);
       print("the data alone is $data");
 
-
       setState(() {
         workid = (data["UserID"]);
         title = data["Title"];
@@ -73,7 +72,7 @@ class _FOReportsState extends State<FOReports> {
 
   @override
   Widget build(BuildContext context) {
-        print(" hey work $title, $description, $image, $type");
+    print(" hey work $title, $description, $image, $type");
 
     return MaterialApp(
       title: "Field Officer Report",
@@ -107,9 +106,8 @@ class _FOReportsState extends State<FOReports> {
                   label: "Info: $description",
                 ),
                 TextView(
-                 label: "Image: $image",
+                  label: "Image: $image",
                 ),
-                
                 TextView(
                   label: "Status: $status",
                 ),
@@ -125,21 +123,19 @@ class _FOReportsState extends State<FOReports> {
                 const SizedBox(height: 24),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    textStyle: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    )
-                  ),
+                      backgroundColor: Colors.green,
+                      textStyle: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      )),
                   child: const Text("Approve"),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) =>
-                                  SupervisorReport(id: workid)));
-                    },
-                    )
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => SupervisorReport(id: workid)));
+                  },
+                )
               ],
             ),
           ),

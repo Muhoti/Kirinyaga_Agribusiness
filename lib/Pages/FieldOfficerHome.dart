@@ -10,7 +10,7 @@ import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Scroll/FOScrollController.dart';
 import '../Components/NavigationButton.dart';
-import '../Components/NavigationDrawer2.dart';
+import '../Components/FODrawer.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -43,7 +43,8 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
     var token = await storage.read(key: "erjwt");
     var decoded = parseJwt(token.toString());
     if (decoded["error"] == "Invalid token") {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => const Login()));
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => const Login()));
     } else {
       setState(() {
         name = decoded["Name"];
@@ -81,21 +82,12 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text("Field Officer"),
-          actions: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                icon: const Icon(Icons.arrow_back),
-              ),
-            ),
-          ],
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
-        drawer: const Drawer(child: NavigationDrawer2()),
+        drawer: const Drawer(child: FODrawer()),
         floatingActionButton: ElevatedButton(
           onPressed: () {
-            Navigator.push(context,
+            Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => const FarmerDetails()));
           },
           style: ElevatedButton.styleFrom(

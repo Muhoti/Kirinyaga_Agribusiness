@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
-import 'package:kirinyaga_agribusiness/Components/NavigationDrawer2.dart';
+import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
@@ -132,7 +132,7 @@ class _FarmerAddressState extends State<FarmerAddress> {
         ],
         backgroundColor: Color.fromRGBO(0, 128, 0, 1),
       ),
-      drawer: const Drawer(child: NavigationDrawer2()),
+      drawer: const Drawer(child: FODrawer()),
       body: SingleChildScrollView(
         //child: Form(
         child: Center(
@@ -155,7 +155,7 @@ class _FarmerAddressState extends State<FarmerAddress> {
 
               MyTextInput(
                   title: "FarmerID",
-                   lines: 1,
+                  lines: 1,
                   value: "",
                   type: TextInputType.number,
                   onSubmit: (value) {
@@ -257,7 +257,7 @@ class _FarmerAddressState extends State<FarmerAddress> {
               MyTextInput(
                   title: "Village",
                   value: "",
-                   lines: 1,
+                  lines: 1,
                   type: TextInputType.text,
                   onSubmit: (value) {
                     setState(() {

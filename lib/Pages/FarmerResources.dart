@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
-import 'package:kirinyaga_agribusiness/Components/NavigationDrawer2.dart';
+import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
@@ -50,7 +50,7 @@ class _FarmerResourcesState extends State<FarmerResources> {
         ],
         backgroundColor: Color.fromRGBO(0, 128, 0, 1),
       ),
-      drawer: const Drawer(child: NavigationDrawer2()),
+      drawer: const Drawer(child: FODrawer()),
       body: SingleChildScrollView(
         child: Form(
           child: Center(
@@ -64,7 +64,7 @@ class _FarmerResourcesState extends State<FarmerResources> {
                 TextOakar(label: error),
                 MyTextInput(
                     title: "FarmerID",
-                     lines: 1,
+                    lines: 1,
                     value: " ",
                     type: TextInputType.number,
                     onSubmit: (value) {
@@ -74,9 +74,9 @@ class _FarmerResourcesState extends State<FarmerResources> {
                     }),
                 MyTextInput(
                     title: "Total Land Acreage",
-                     lines: 1,
+                    lines: 1,
                     value: " ",
-                      type: TextInputType.number,
+                    type: TextInputType.number,
                     onSubmit: (value) {
                       setState(() {
                         TotalAcreage = value;
@@ -84,9 +84,9 @@ class _FarmerResourcesState extends State<FarmerResources> {
                     }),
                 MyTextInput(
                     title: "Acreage under Crop Farming",
-                     lines: 1,
+                    lines: 1,
                     value: " ",
-                      type: TextInputType.text,
+                    type: TextInputType.text,
                     onSubmit: (value) {
                       setState(() {
                         CropAcreage = value;
@@ -94,9 +94,9 @@ class _FarmerResourcesState extends State<FarmerResources> {
                     }),
                 MyTextInput(
                     title: "Acreage under Livestock Farming",
-                     lines: 1,
+                    lines: 1,
                     value: " ",
-                      type: TextInputType.text,
+                    type: TextInputType.text,
                     onSubmit: (value) {
                       setState(() {
                         LivestockAcreage = value;

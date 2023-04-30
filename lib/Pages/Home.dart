@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../Components/NavigationDrawer2.dart';
+import '../Components/FODrawer.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -32,7 +32,7 @@ class _HomeState extends State<Home> {
           ],
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
-        drawer: const Drawer(child: NavigationDrawer2()),
+        drawer: const Drawer(child: FODrawer()),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

@@ -118,7 +118,7 @@ class _SummaryState extends State<Summary> {
                 child: GestureDetector(
                   onTap: () {
                     // Navigate to the next page
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => FarmerDetails()),
                     );
@@ -162,7 +162,7 @@ class _SummaryState extends State<Summary> {
                   child: GestureDetector(
                     onTap: () {
                       // Navigate to the next page
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const FarmerAddress()),
@@ -201,7 +201,7 @@ class _SummaryState extends State<Summary> {
                   child: GestureDetector(
                     onTap: () {
                       // Navigate to the next page
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const FarmerResources()),
@@ -239,7 +239,7 @@ class _SummaryState extends State<Summary> {
                   child: GestureDetector(
                     onTap: () {
                       // Navigate to the next page
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
@@ -278,7 +278,7 @@ class _SummaryState extends State<Summary> {
                   child: GestureDetector(
                     onTap: () {
                       // Navigate to the next page
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) =>

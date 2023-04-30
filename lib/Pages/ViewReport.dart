@@ -137,7 +137,7 @@ class _ViewReportState extends State<ViewReport> {
                       )),
                   child: const Text("Close"),
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (_) => const FieldOfficerHome()));

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
-import 'package:kirinyaga_agribusiness/Components/NavigationDrawer2.dart';
+import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerAddress.dart';
@@ -69,7 +69,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
         ],
         backgroundColor: Color.fromRGBO(0, 128, 0, 1),
       ),
-      drawer: const Drawer(child: NavigationDrawer2()),
+      drawer: const Drawer(child: FODrawer()),
       body: SingleChildScrollView(
         child: Form(
           child: Center(
@@ -83,7 +83,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                 TextOakar(label: error),
                 MyTextInput(
                   title: "Name",
-                   lines: 1,
+                  lines: 1,
                   value: "",
                   type: TextInputType.text,
                   onSubmit: (value) {
@@ -94,7 +94,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                 ),
                 MyTextInput(
                     title: "National ID",
-                     lines: 1,
+                    lines: 1,
                     value: "",
                     type: TextInputType.number,
                     onSubmit: (value) {
@@ -104,9 +104,9 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                     }),
                 MyTextInput(
                     title: "Phone Number",
-                     lines: 1,
+                    lines: 1,
                     value: "",
-                      type: TextInputType.phone,
+                    type: TextInputType.phone,
                     onSubmit: (value) {
                       setState(() {
                         phoneNumber = value;

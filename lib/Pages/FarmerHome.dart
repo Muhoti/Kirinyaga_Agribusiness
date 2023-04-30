@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerInfo.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
-import '../Components/NavigationDrawer2.dart';
+import '../Components/FODrawer.dart';
 import 'package:http/http.dart' as http;
 import '../Components/SubmitButton.dart';
 import '../Components/Utils.dart';
@@ -72,7 +72,7 @@ class _FarmerHomeState extends State<FarmerHome> {
           ],
           backgroundColor: Color.fromRGBO(0, 128, 0, 1),
         ),
-        drawer: const Drawer(child: NavigationDrawer2()),
+        drawer: const Drawer(child: FODrawer()),
         body: Column(
           children: <Widget>[
             Column(

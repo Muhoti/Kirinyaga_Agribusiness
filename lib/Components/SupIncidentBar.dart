@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:kirinyaga_agribusiness/Pages/FOReports.dart';
 import 'package:kirinyaga_agribusiness/Pages/SupReport.dart';
@@ -36,12 +35,11 @@ class _SupIncidentBar extends State<SupIncidentBar> {
 
   @override
   Widget build(BuildContext context) {
-
     String date = widget.createdat;
     List<String> dateParts = date.split("-");
     String year = dateParts[0].substring(2);
     String month = dateParts[1];
-     my = "$month/$year";
+    my = "$month/$year";
 
     return Padding(
         padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
@@ -52,14 +50,14 @@ class _SupIncidentBar extends State<SupIncidentBar> {
             child: TextButton(
                 onPressed: () {
                   if (widget.status == "Pending") {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (_) => FOReports(
                                   id: widget.id,
                                 )));
                   } else {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (_) => SupReport(
@@ -78,7 +76,8 @@ class _SupIncidentBar extends State<SupIncidentBar> {
                             borderRadius: BorderRadius.all(Radius.circular(5))),
                         child: Text(
                           my,
-                          style: const TextStyle(color: Colors.white, fontSize: 28),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 28),
                         ),
                       ),
                       const SizedBox(

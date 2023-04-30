@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerLogin.dart';
 import 'package:kirinyaga_agribusiness/Pages/StaffLogin.dart';
-import '../Components/NavigationDrawer2.dart';
+import '../Components/FODrawer.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -19,7 +19,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Drawer(child: NavigationDrawer2()),
+      drawer: const Drawer(child: FODrawer()),
       body: PageView(
         onPageChanged: (index) {
           _selectedItem = index;

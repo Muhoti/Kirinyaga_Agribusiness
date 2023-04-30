@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
-import 'package:kirinyaga_agribusiness/Components/NavigationDrawer2.dart';
+import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
@@ -56,7 +56,7 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
         ],
         backgroundColor: Color.fromRGBO(0, 128, 0, 1),
       ),
-      drawer: const Drawer(child: NavigationDrawer2()),
+      drawer: const Drawer(child: FODrawer()),
       body: SingleChildScrollView(
         child: Form(
           child: Center(
@@ -112,9 +112,9 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                 ),
                 MyTextInput(
                     title: "Farmer ID",
-                     lines: 1,
+                    lines: 1,
                     value: "",
-                      type: TextInputType.text,
+                    type: TextInputType.text,
                     onSubmit: (value) {
                       setState(() {
                         farmerID = value;
@@ -122,9 +122,9 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                     }),
                 MyTextInput(
                     title: "Farmer Name",
-                     lines: 1,
+                    lines: 1,
                     value: "",
-                      type: TextInputType.text,
+                    type: TextInputType.text,
                     onSubmit: (value) {
                       setState(() {
                         farmerName = value;
@@ -132,9 +132,9 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                     }),
                 MyTextInput(
                     title: "Variety (Optional)",
-                     lines: 1,
+                    lines: 1,
                     value: "",
-                      type: TextInputType.text,
+                    type: TextInputType.text,
                     onSubmit: (value) {
                       setState(() {
                         variety = value;
@@ -143,9 +143,9 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
 
                 MyTextInput(
                     title: "Production Unit",
-                     lines: 1,
+                    lines: 1,
                     value: "",
-                      type: TextInputType.text,
+                    type: TextInputType.text,
                     onSubmit: (value) {
                       setState(() {
                         productionUnit = value;
@@ -191,9 +191,9 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                 ),
                 MyTextInput(
                     title: "Approximate Acreage (Acres)",
-                     lines: 1,
+                    lines: 1,
                     value: "",
-                      type: TextInputType.number,
+                    type: TextInputType.number,
                     onSubmit: (value) {
                       setState(() {
                         approxAcreage = value;
@@ -201,9 +201,9 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                     }),
                 MyTextInput(
                     title: "Average Yearly Production",
-                     lines: 1,
+                    lines: 1,
                     value: "",
-                      type: TextInputType.number,
+                    type: TextInputType.number,
                     onSubmit: (value) {
                       setState(() {
                         AvgYearlyProduction = value;
@@ -211,9 +211,9 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                     }),
                 MyTextInput(
                     title: "Average Harvest Production",
-                     lines: 1,
+                    lines: 1,
                     value: "",
-                      type: TextInputType.number,
+                    type: TextInputType.number,
                     onSubmit: (value) {
                       setState(() {
                         AvgHarvestProduction = value;
@@ -221,9 +221,9 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
                     }),
                 MyTextInput(
                     title: "Harvest Date",
-                     lines: 1,
+                    lines: 1,
                     value: "",
-                      type: TextInputType.datetime,
+                    type: TextInputType.datetime,
                     onSubmit: (value) {
                       setState(() {
                         harvestDate = value;
@@ -232,9 +232,9 @@ class FarmerValueChainsState extends State<FarmerValueChains> {
 
                 MyTextInput(
                     title: "Farming Period",
-                     lines: 1,
+                    lines: 1,
                     value: "",
-                      type: TextInputType.text,
+                    type: TextInputType.text,
                     onSubmit: (value) {
                       setState(() {
                         farmingPeriod = value;
