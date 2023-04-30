@@ -45,8 +45,6 @@ class _LoginState extends State<Login> {
         },
         fixedColor: Color.fromRGBO(0, 128, 0, 1),
       ),
-
-      //bottomNavigationBar: BottomNavigationBar(),
     );
   }
 }
