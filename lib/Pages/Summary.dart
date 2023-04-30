@@ -115,6 +115,7 @@ class _SummaryState extends State<Summary> {
                         title: "Farmer Info",
                         icon: Icons.person_2_rounded,
                         mapped: data == null ? false : data["FD"] > 0,
+                        page: const FarmerDetails(),
                       )),
                   const SizedBox(
                     height: 12,
@@ -126,6 +127,7 @@ class _SummaryState extends State<Summary> {
                         title: "Farmer Address",
                         icon: Icons.location_pin,
                         mapped: data == null ? false : data["FA"] > 0,
+                        page: const FarmerAddress(),
                       )),
                   const SizedBox(
                     height: 12,
@@ -137,6 +139,7 @@ class _SummaryState extends State<Summary> {
                         title: "Farm Resources",
                         icon: Icons.library_books,
                         mapped: data == null ? false : data["FR"] > 0,
+                        page: const FarmerResources(),
                       )),
                   const SizedBox(
                     height: 12,
@@ -148,6 +151,7 @@ class _SummaryState extends State<Summary> {
                         title: "Farmer Groups",
                         icon: Icons.groups,
                         mapped: data == null ? false : data["FG"] > 0,
+                        page: const FarmerValueChains(),
                       )),
                   const SizedBox(
                     height: 12,
@@ -159,6 +163,7 @@ class _SummaryState extends State<Summary> {
                         title: "Value Chains",
                         icon: Icons.agriculture,
                         mapped: data == null ? false : data["VC"] > 0,
+                        page: const FarmerValueChains(),
                       )),
                   SubmitButton(
                     label: "Finish",
