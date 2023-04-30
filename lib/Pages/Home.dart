@@ -7,6 +7,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/FMItem.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
+import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
 import '../Components/FMDrawer.dart';
 import 'package:http/http.dart' as http;
 
@@ -30,6 +31,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     getToken();
+    checkMapping();
     super.initState();
   }
 
@@ -48,6 +50,19 @@ class _HomeState extends State<Home> {
     }
   }
 
+  checkMapping() async {
+    try {
+      var id = await storage.read(key: "NationalID");
+      if (id != null) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) =>  Summary()));
+      }
+    } catch (e) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => const Login()));
+    }
+  }
+
   searchMapped(user) async {
     try {
       final response = await http.get(
@@ -57,7 +72,6 @@ class _HomeState extends State<Home> {
           });
 
       var body = json.decode(response.body);
-      print(body);
       setState(() {
         data = body;
         total = [
