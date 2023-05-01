@@ -58,8 +58,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
       });
     } catch (e) {
       print(e);
-      // Navigator.pushReplacement(
-      //     context, MaterialPageRoute(builder: (_) => const Login()));
+     
     }
   }
 
@@ -252,7 +251,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const FarmerAddress()));
+                                        const FarmerAddress(editing: false,)));
                           }
                         });
                       }

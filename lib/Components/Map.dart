@@ -49,6 +49,10 @@ class _MyMapState extends State<MyMap> {
                 webViewController.evaluateJavascript(
                     "adjustMarker('${widget.lon}','${widget.lat}')");
               },
+              onPageFinished: (v) {
+               controller.evaluateJavascript(
+                    "adjustMarker('${widget.lon}','${widget.lat}')");
+              },
             )));
   }
 }

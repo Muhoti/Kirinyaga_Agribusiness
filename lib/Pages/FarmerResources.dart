@@ -11,6 +11,7 @@ import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
+import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 
@@ -43,7 +44,10 @@ class _FarmerResourcesState extends State<FarmerResources> {
           Align(
             alignment: Alignment.centerRight,
             child: IconButton(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => {
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (context) => Home()))
+              },
               icon: const Icon(Icons.arrow_back),
             ),
           ),
@@ -58,9 +62,6 @@ class _FarmerResourcesState extends State<FarmerResources> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // const TextLarge(
-                //   label: "Add Farmer Resources",
-                // ),
                 TextOakar(label: error),
                 MyTextInput(
                     title: "FarmerID",

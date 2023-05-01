@@ -2,9 +2,10 @@
 
 import 'dart:async';
 import 'dart:convert';
-
+import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kirinyaga_agribusiness/Components/MySelectInput.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
@@ -13,32 +14,48 @@ import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Components/Map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerResources.dart';
+import 'package:kirinyaga_agribusiness/Pages/Login.dart';
+import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:kirinyaga_agribusiness/Components/counties.dart';
-
 import '../Components/Utils.dart';
+import '../Model/SubCounty.dart';
 import 'Home.dart';
 
 class FarmerAddress extends StatefulWidget {
-  const FarmerAddress({super.key});
+  final bool editing;
+  const FarmerAddress({super.key, required this.editing});
 
   @override
   State<FarmerAddress> createState() => _FarmerAddressState();
 }
 
 class _FarmerAddressState extends State<FarmerAddress> {
+  var subc = {
+    "Mwea": [
+      "Mutithi",
+      "Kangai",
+      "Wamumu",
+      "Nyangati",
+      "Murindiko",
+      "Gathigiririr",
+      "Teberer"
+    ],
+    "Gichugu": ["Kabare Baragwi", "Njukiini", "Ngariama", "Karumandi"],
+    "Ndia": ["Mukure", "Kiine", "Kariti"],
+    "Kirinyaga Central": ["Mutira", "Kanyekini", "Kerugoya", "Inoi"]
+  };
+  List<String> wrds = [];
   String FarmerID = '';
-  String? County = 'Kirinyaga';
   String SubCounty = '';
   String Ward = '';
   String Village = '';
-  String Latitude = '';
-  String Longitude = '';
   String error = '';
   String location = '';
   bool servicestatus = false;
   var isLoading;
+  var data = null;
   bool haspermission = false;
   late LocationPermission permission;
   late Position position;
@@ -46,13 +63,71 @@ class _FarmerAddressState extends State<FarmerAddress> {
   late StreamSubscription<Position> positionStream;
   final storage = const FlutterSecureStorage();
 
-  late String _selectedSubCounty = kirinyagaSubCounties.first;
-  String? _selectedWard;
-
   @override
   void initState() {
-    checkGps();
+    setState(() {
+      var v = subc.keys.toList()[0];
+      SubCounty = v;
+      wrds = subc[v]!.toList();
+      Ward = subc[v]!.toList()[0];
+    });
+    checkMapping();
+    if (!widget.editing) {
+      checkGps();
+    } else {
+      setState(() {
+        location = 'Coordinates cannot be updated!. Contact adminstrator';
+      });
+    }
     super.initState();
+  }
+
+  updateWards(v) {
+    setState(() {
+      Ward = subc[v]!.toList()[0];
+      wrds = subc[v]!.toList();
+    });
+  }
+
+  checkMapping() async {
+    try {
+      var id = await storage.read(key: "NationalID");
+      if (id != null) {
+        setState(() {
+          FarmerID = id;
+        });
+        editFarmer(id);
+      } else {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => Home()));
+      }
+    } catch (e) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => Home()));
+    }
+  }
+
+  editFarmer(String id) async {
+    try {
+      final response = await get(
+        Uri.parse("${getUrl()}farmeraddress/$id"),
+      );
+
+      var body = json.decode(response.body);
+      print(body);
+
+      if (body.length > 0) {
+        updateWards(body[0]["SubCounty"]);
+        setState(() {
+          data = body[0];
+          SubCounty = body[0]["SubCounty"];
+          Ward = body[0]["Ward"];
+          Village = body[0]["Village"];
+          long = double.parse(body[0]["Longitude"]);
+          lat = double.parse(body[0]["Latitude"]);
+        });
+      }
+    } catch (e) {}
   }
 
   checkGps() async {
@@ -63,9 +138,9 @@ class _FarmerAddressState extends State<FarmerAddress> {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          print('Location permissions are denied');
+          permission = await Geolocator.requestPermission();
         } else if (permission == LocationPermission.deniedForever) {
-          print("'Location permissions are permanently denied");
+          permission = await Geolocator.requestPermission();
         } else {
           haspermission = true;
         }
@@ -77,12 +152,15 @@ class _FarmerAddressState extends State<FarmerAddress> {
         getLocation();
       }
     } else {
-      print("GPS Service is not enabled, turn on GPS location");
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+            "Location is required! We will log you out untill you turn on your location"),
+      ));
+      Timer(Duration(seconds: 2), () {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const Login()));
+      });
     }
-
-    setState(() {
-      //refresh the UI
-    });
   }
 
   getLocation() async {
@@ -90,17 +168,13 @@ class _FarmerAddressState extends State<FarmerAddress> {
         desiredAccuracy: LocationAccuracy.high);
     long = position.longitude;
     lat = position.latitude;
-
     setState(() {
       location = 'Current location Lat: $lat Lon: $long';
     });
-
     LocationSettings locationSettings = const LocationSettings(
-      accuracy: LocationAccuracy.high, //accuracy of the location data
-      distanceFilter: 1, //minimum distance (measured in meters) a
-      //device must move horizontally before an update event is generated;
+      accuracy: LocationAccuracy.high,
+      distanceFilter: 1,
     );
-
     StreamSubscription<Position> positionStream =
         Geolocator.getPositionStream(locationSettings: locationSettings)
             .listen((Position position) {
@@ -113,7 +187,6 @@ class _FarmerAddressState extends State<FarmerAddress> {
 
   @override
   void dispose() {
-    // Cancel the timer to prevent calling setState after the widget has been disposed
     super.dispose();
   }
 
@@ -128,230 +201,184 @@ class _FarmerAddressState extends State<FarmerAddress> {
             child: IconButton(
               onPressed: () => {
                 Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => Home()))
+                    context, MaterialPageRoute(builder: (_) => const Home()))
               },
               icon: const Icon(Icons.arrow_back),
             ),
           ),
         ],
-        backgroundColor: Color.fromRGBO(0, 128, 0, 1),
+        backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
       ),
       drawer: const Drawer(child: FODrawer()),
-      body: SingleChildScrollView(
-        //child: Form(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                  height: 250,
-                  child: MyMap(
-                    lat: lat,
-                    lon: long,
-                  )),
-              Text(location),
-              // const SizedBox(
-              //   height: 10,
-              // ),
-              //const Padding(padding: EdgeInsets.fromLTRB(24, 24, 24, 0)),
-              TextOakar(label: error),
-
-              MyTextInput(
-                  title: "FarmerID",
-                  lines: 1,
-                  value: "",
-                  type: TextInputType.number,
-                  onSubmit: (value) {
-                    setState(() {
-                      FarmerID = value;
-                    });
-                  }),
-
-              SizedBox(
-                width: MediaQuery.of(context).size.width - 48,
-                child: DropdownButtonFormField(
-                  decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
-                    border: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Color.fromRGBO(0, 128, 0, 1))),
-                    labelText: 'County',
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintStyle: TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
-                  ),
-                  value: County, // use selectedGender variable
-                  onChanged: (value) {
-                    setState(() {
-                      County = value;
-                    });
-                  },
-                  items: const [
-                    DropdownMenuItem(
-                      child: Text("Kirinyaga"),
-                      value: "Kirinyaga",
-                    ),
-                  ],
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
+                  child: SizedBox(
+                      height: 250,
+                      child: MyMap(
+                        lat: lat,
+                        lon: long,
+                      )),
                 ),
-              ),
-
-              const SizedBox(height: 24),
-              SizedBox(
-                width: MediaQuery.of(context).size.width - 48,
-                child: DropdownButtonFormField(
-                  decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
-                    border: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Color.fromRGBO(0, 128, 0, 1)),
-                    ),
-                    hintText: 'Select the subcounty',
-                    labelText: 'Sub County',
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintStyle: TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
-                  ),
-                  value: _selectedSubCounty,
-                  items: kirinyagaSubCounties.map((subCounty) {
-                    return DropdownMenuItem(
-                      value: subCounty,
-                      child: Text(subCounty),
-                    );
-                  }).toList(),
-                  onChanged: (newValue) {
-                    setState(() {
-                      _selectedSubCounty = newValue!;
-                      _selectedWard = null;
-                    });
-                  },
+                Text(location),
+                const SizedBox(height: 24),
+                MySelectInput(
+                    title: "Sub County",
+                    onSubmit: (value) {
+                      setState(() {
+                        SubCounty = value;
+                      });
+                      updateWards(value);
+                    },
+                    entries: subc.keys.toList(),
+                    value: data == null ? SubCounty : data["SubCounty"]),
+                const SizedBox(
+                  height: 10,
                 ),
-              ),
-              const SizedBox(height: 24),
-              SizedBox(
-                width: MediaQuery.of(context).size.width - 48,
-                child: DropdownButtonFormField(
-                  decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
-                    border: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Color.fromRGBO(0, 128, 0, 1)),
-                    ),
-                    hintText: 'Select the Ward',
-                    labelText: 'Ward',
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintStyle: TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
-                  ),
-                  value: _selectedWard,
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedWard = value as String?;
-                    });
-                  },
-                  items: _selectedSubCounty != null
-                      ? kirinyagaWards[_selectedSubCounty as String]!
-                          .toSet() // Ensure uniqueness of ward values
-                          .map((ward) => DropdownMenuItem(
-                                value: ward,
-                                child: Text(ward),
-                              ))
-                          .toList()
-                      : [],
+                MySelectInput(
+                    title: "Ward",
+                    onSubmit: (value) {
+                      setState(() {
+                        Ward = value;
+                      });
+                    },
+                    entries: wrds,
+                    value: data == null ? Ward : data["Ward"]),
+                const SizedBox(
+                  height: 10,
                 ),
-              ),
-
-              MyTextInput(
-                  title: "Village",
-                  value: "",
-                  lines: 1,
-                  type: TextInputType.text,
-                  onSubmit: (value) {
+                MyTextInput(
+                    title: "Village",
+                    value: Village,
+                    lines: 1,
+                    type: TextInputType.text,
+                    onSubmit: (value) {
+                      setState(() {
+                        Village = value;
+                      });
+                    }),
+                TextOakar(label: error),
+                SubmitButton(
+                  label: widget.editing ? "Update" : "Submit",
+                  onButtonPressed: () async {
                     setState(() {
-                      Village = value;
+                      isLoading = LoadingAnimationWidget.staggeredDotsWave(
+                        color: const Color.fromRGBO(0, 128, 0, 1),
+                        size: 100,
+                      );
                     });
-                  }),
-              SubmitButton(
-                label: "Submit",
-                onButtonPressed: () async {
-                  setState(() {
-                    isLoading = LoadingAnimationWidget.staggeredDotsWave(
-                      color: Color.fromRGBO(0, 128, 0, 1),
-                      size: 100,
-                    );
-                  });
-                  var res = await postFarmerAddress(County!, _selectedSubCounty,
-                      _selectedWard!, Village, FarmerID, Latitude, Longitude);
+                    var res = await submitData(widget.editing, FarmerID,
+                        SubCounty, Ward, Village, lat, long);
 
-                  setState(() {
-                    isLoading = null;
+                    setState(() {
+                      isLoading = null;
+                      if (res.error == null) {
+                        error = res.success;
+                      } else {
+                        error = res.error;
+                      }
+                    });
+
                     if (res.error == null) {
-                      error = res.success;
-                    } else {
-                      error = res.error;
+                      await storage.write(key: 'erjwt', value: res.token);
+                      Timer(const Duration(seconds: 2), () {
+                        if (widget.editing) {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Summary()));
+                        } else {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const FarmerResources()));
+                        }
+                      });
                     }
-                  });
-
-                  if (res.error == null) {
-                    await storage.write(key: 'erjwt', value: res.token);
-                    Timer(const Duration(seconds: 2), () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const FarmerResources()));
-                    });
-                  }
-                },
-              ),
-            ],
+                  },
+                ),
+              ],
+            ),
           ),
-        ),
-        //),
+          Center(
+            child: isLoading,
+          )
+        ],
       ),
     );
   }
 }
 
-Future<Message> postFarmerAddress(
-    String County,
-    String _selectedSubCounty,
-    String _selectedWard,
-    // String SubCounty,
-    // String Ward,
-    String Village,
-    String FarmerID,
-    String Latitude,
-    String Longitude) async {
-  if (FarmerID.isEmpty) {
+Future<Message> submitData(bool type, String FarmerID, String SubCounty,
+    String Ward, String Village, double Latitude, double Longitude) async {
+  if (FarmerID.isEmpty ||
+      Village.isEmpty ||
+      SubCounty.isEmpty ||
+      Ward.isEmpty) {
     return Message(
-        token: null, success: null, error: "FarmerID cannot be empty!");
+        token: null, success: null, error: "All fields are required");
   }
 
-  // if (County.isEmpty) {
-  //   return Message(
-  //       token: null, success: null, error: "County cannot be empty!");
-  // }
+  if (Latitude == 0.0 || Latitude == 0.0) {
+    print(Latitude);
+    return Message(
+        token: null,
+        success: null,
+        error: "Wrong location. Turn on device location");
+  }
 
-  final response = await http.post(
-    Uri.parse("${getUrl()}farmeraddress/register"),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{
-      'FarmerID': FarmerID,
-      'County': County,
-      'SubCounty': _selectedSubCounty,
-      'Ward': _selectedWard,
-      'Village': Village,
-      'Latitude': Latitude,
-      'Longitude': Longitude,
-    }),
-  );
+  try {
+    var response;
+    if (type) {
+      response = await http.put(
+        Uri.parse("${getUrl()}farmeraddress/${FarmerID}"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'County': "Kirinyaga",
+          'SubCounty': SubCounty,
+          'Ward': Ward,
+          'Village': Village,
+          'Latitude': Latitude.toString(),
+          'Longitude': Longitude.toString(),
+        }),
+      );
+    } else {
+      response = await http.post(
+        Uri.parse("${getUrl()}farmeraddress/register"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'FarmerID': FarmerID,
+          'County': "Kirinyaga",
+          'SubCounty': SubCounty,
+          'Ward': Ward,
+          'Village': Village,
+          'Latitude': Latitude.toString(),
+          'Longitude': Longitude.toString(),
+        }),
+      );
+    }
 
-  if (response.statusCode == 200 || response.statusCode == 203) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return Message.fromJson(jsonDecode(response.body));
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
+    if (response.statusCode == 200 || response.statusCode == 203) {
+      return Message.fromJson(jsonDecode(response.body));
+    } else {
+      return Message(
+        token: null,
+        success: null,
+        error: "Connection to server failed!",
+      );
+    }
+  } catch (e) {
     return Message(
       token: null,
       success: null,

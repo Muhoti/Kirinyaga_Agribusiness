@@ -13,6 +13,7 @@ import 'package:kirinyaga_agribusiness/Pages/FarmerResources.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:http/http.dart' as http;
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../Components/Utils.dart';
 
 class Summary extends StatefulWidget {
@@ -28,6 +29,7 @@ class _SummaryState extends State<Summary> {
   String id = '';
   String user = '';
   var nationalId;
+  var isLoading;
   var data = null;
   final storage = const FlutterSecureStorage();
 
@@ -47,6 +49,12 @@ class _SummaryState extends State<Summary> {
   }
 
   searchMapped(id) async {
+    setState(() {
+      isLoading = LoadingAnimationWidget.staggeredDotsWave(
+        color: const Color.fromRGBO(0, 128, 0, 1),
+        size: 100,
+      );
+    });
     try {
       final response = await http.get(
           Uri.parse("${getUrl()}farmerdetails/mobile/forms/check/$id"),
@@ -55,12 +63,16 @@ class _SummaryState extends State<Summary> {
           });
 
       var body = json.decode(response.body);
-      print(body);
+      setState(() {
+        isLoading = null;
+      });
       setState(() {
         data = body;
       });
     } catch (e) {
-      // todo
+      setState(() {
+        isLoading = null;
+      });
     }
   }
 
@@ -129,7 +141,9 @@ class _SummaryState extends State<Summary> {
                         title: "Farmer Address",
                         icon: Icons.location_pin,
                         mapped: data == null ? false : data["FA"] > 0,
-                        page: const FarmerAddress(),
+                        page: FarmerAddress(
+                          editing: data == null ? false : data["FA"] > 0,
+                        ),
                       )),
                   const SizedBox(
                     height: 12,
@@ -185,6 +199,9 @@ class _SummaryState extends State<Summary> {
                 ],
               ),
             ),
+            Center(
+              child: isLoading,
+            )
           ],
         ),
       ),
