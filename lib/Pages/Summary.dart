@@ -115,7 +115,9 @@ class _SummaryState extends State<Summary> {
                         title: "Farmer Info",
                         icon: Icons.person_2_rounded,
                         mapped: data == null ? false : data["FD"] > 0,
-                        page: const FarmerDetails(),
+                        page: const FarmerDetails(
+                          editing: true,
+                        ),
                       )),
                   const SizedBox(
                     height: 12,

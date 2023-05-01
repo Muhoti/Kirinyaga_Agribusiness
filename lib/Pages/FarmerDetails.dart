@@ -2,15 +2,18 @@
 
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
+import 'package:kirinyaga_agribusiness/Components/MySelectInput.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerAddress.dart';
+import 'package:kirinyaga_agribusiness/Pages/Home.dart';
+import 'package:kirinyaga_agribusiness/Pages/Login.dart';
+import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,9 +21,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Components/Utils.dart';
 
 class FarmerDetails extends StatefulWidget {
-  const FarmerDetails(
-      // nationalId,
-      {super.key});
+  final bool editing;
+  const FarmerDetails({super.key, required this.editing});
 
   @override
   State<FarmerDetails> createState() => _FarmerDetailsState();
@@ -31,21 +33,65 @@ class _FarmerDetailsState extends State<FarmerDetails> {
   String nationalId = '';
   String name = '';
   String phoneNumber = '';
-  String Gender = '';
-  String? selectedGender = "Male";
-  String? age = '18-35 Years';
+  String gender = "Male";
+  String age = '18-35 Years';
   String error = '';
-  String? farmingType = 'Crop Farming';
+  String farmingType = 'Crop Farming';
   var isLoading;
+  var data = null;
   final storage = const FlutterSecureStorage();
 
   @override
   void initState() {
-    getNationalID(nationalId);
-    if (nationalId != '') {
-      editFarmerDetails(nationalId);
-    }
+    getToken();
+    checkMapping();
     super.initState();
+  }
+
+  getToken() async {
+    try {
+      var token = await storage.read(key: "erjwt");
+      var decoded = parseJwt(token.toString());
+      print(decoded);
+      setState(() {
+        user = decoded["Name"];
+      });
+    } catch (e) {
+      print(e);
+      // Navigator.pushReplacement(
+      //     context, MaterialPageRoute(builder: (_) => const Login()));
+    }
+  }
+
+  checkMapping() async {
+    try {
+      var id = await storage.read(key: "NationalID");
+      if (id != null) {
+        editFarmerDetails(id);
+      }
+    } catch (e) {}
+  }
+
+  editFarmerDetails(String id) async {
+    try {
+      final response = await get(
+        Uri.parse("${getUrl()}farmerdetails/farmerid/$id"),
+      );
+
+      var body = json.decode(response.body);
+
+      if (body.length > 0) {
+        setState(() {
+          data = body[0];
+          name = body[0]["Name"];
+          nationalId = body[0]["NationalID"];
+          phoneNumber = body[0]["Phone"];
+          gender = body[0]["Gender"];
+          age = body[0]["AgeGroup"];
+          farmingType = body[0]["FarmingType"];
+        });
+      }
+    } catch (e) {}
   }
 
   @override
@@ -57,203 +103,162 @@ class _FarmerDetailsState extends State<FarmerDetails> {
           Align(
             alignment: Alignment.centerRight,
             child: IconButton(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => {
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (_) => Home()))
+              },
               icon: const Icon(Icons.arrow_back),
             ),
           ),
         ],
-        backgroundColor: Color.fromRGBO(0, 128, 0, 1),
+        backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
       ),
-      drawer: const Drawer(child: FODrawer()),
       body: Stack(
         children: [
           SingleChildScrollView(
             child: Form(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    MyTextInput(
-                      title: "Name",
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  MyTextInput(
+                    title: "Name",
+                    lines: 1,
+                    value: data == null ? "" : data["Name"],
+                    type: TextInputType.text,
+                    onSubmit: (value) {
+                      setState(() {
+                        error = "";
+                        name = value;
+                      });
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  MyTextInput(
+                      title: "National ID",
                       lines: 1,
-                      value: "",
-                      type: TextInputType.text,
+                      value: data == null ? "" : data["NationalID"],
+                      type: TextInputType.number,
                       onSubmit: (value) {
                         setState(() {
                           error = "";
-                          name = value;
+                          nationalId = value;
                         });
-                      },
-                    ),
-                    MyTextInput(
-                        title: "National ID",
-                        lines: 1,
-                        value: "",
-                        type: TextInputType.number,
-                        onSubmit: (value) {
-                          setState(() {
-                            error = "";
-                            nationalId = value;
-                          });
-                        }),
-                    MyTextInput(
-                        title: "Phone Number",
-                        lines: 1,
-                        value: "",
-                        type: TextInputType.phone,
-                        onSubmit: (value) {
-                          setState(() {
-                            error = "";
-                            phoneNumber = value;
-                          });
-                        }),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width - 48,
-                      child: DropdownButtonFormField(
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromRGBO(0, 128, 0, 1))),
-                          labelText: 'Select Gender',
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          hintStyle:
-                              TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
-                        ),
-                        value: selectedGender, // use selectedGender variable
-                        onChanged: (newValue) {
-                          setState(() {
-                            error = "";
-                            selectedGender = newValue;
-                          });
-                        },
-                        items: const [
-                          DropdownMenuItem(
-                            child: Text("Male"),
-                            value: "Male",
-                          ),
-                          DropdownMenuItem(
-                            child: Text("Female"),
-                            value: "Female",
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width - 48,
-                      child: DropdownButtonFormField(
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromRGBO(0, 128, 0, 1))),
-                          labelText: 'Select Age Group',
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          hintStyle:
-                              TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
-                        ),
-                        value: age, // use selectedGender variable
-                        onChanged: (value) {
-                          setState(() {
-                            error = "";
-                            age = value;
-                          });
-                        },
-                        items: const [
-                          DropdownMenuItem(
-                            child: Text("18-35 Years"),
-                            value: "18-35 Years",
-                          ),
-                          DropdownMenuItem(
-                            child: Text("36-65 Years"),
-                            value: "36-65 Years",
-                          ),
-                          DropdownMenuItem(
-                            child: Text("66 and above"),
-                            value: "66 and above",
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width - 48,
-                      child: DropdownButtonFormField(
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromRGBO(0, 128, 0, 1))),
-                          labelText: 'Select Farming Type',
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          hintStyle:
-                              TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
-                        ),
-                        value: farmingType, // use selectedGender variable
-                        onChanged: (value) {
-                          setState(() {
-                            error = "";
-                            farmingType = value;
-                          });
-                        },
-                        items: const [
-                          DropdownMenuItem(
-                            child: Text("Crop Farming"),
-                            value: "Crop Farming",
-                          ),
-                          DropdownMenuItem(
-                            child: Text("Livestock Farming"),
-                            value: "Livestock Farming",
-                          ),
-                        ],
-                      ),
-                    ),
-                    TextOakar(label: error),
-                    SubmitButton(
-                      label: "Submit",
-                      onButtonPressed: () async {
+                      }),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  MyTextInput(
+                      title: "Phone Number",
+                      lines: 1,
+                      value: data == null ? "" : data["Phone"],
+                      type: TextInputType.phone,
+                      onSubmit: (value) {
                         setState(() {
                           error = "";
-                          isLoading = LoadingAnimationWidget.staggeredDotsWave(
-                            color: Color.fromRGBO(0, 128, 0, 1),
-                            size: 100,
-                          );
+                          phoneNumber = value;
                         });
-                        var res = await postFarmerDetails(
-                            user,
-                            name,
-                            nationalId,
-                            phoneNumber,
-                            selectedGender!,
-                            age!,
-                            farmingType!);
-
+                      }),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  MySelectInput(
+                    title: "Gender",
+                    onSubmit: (newValue) {
+                      setState(() {
+                        error = "";
+                        gender = newValue;
+                      });
+                    },
+                    entries: const ["Male", "Female"],
+                    value: data == null ? "Male" : data["Gender"],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  MySelectInput(
+                    title: "Age Group",
+                    onSubmit: (value) {
+                      setState(() {
+                        error = "";
+                        age = value;
+                      });
+                    },
+                    entries: const [
+                      "18-35 Years",
+                      "36-45 Years",
+                      "46-65 Years",
+                      "66 and Above"
+                    ],
+                    value: data == null ? "18-35 Years" : data["AgeGroup"],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  MySelectInput(
+                      title: "Farming Type",
+                      onSubmit: (value) {
                         setState(() {
-                          isLoading = null;
-                          if (res.error == null) {
-                            error = res.success;
-                            storage.write(key: "NationalID", value: nationalId);
-                          } else {
-                            error = res.error;
-                          }
+                          error = "";
+                          age = value;
                         });
+                      },
+                      entries: const [
+                        "Crop Farming",
+                        "Livestock Farming",
+                        "Mixed Farming",
+                      ],
+                      value:
+                          data == null ? "Crop Farming" : data["FarmingType"]),
+                  TextOakar(label: error),
+                  SubmitButton(
+                    label: widget.editing ? "Update" : "Submit",
+                    onButtonPressed: () async {
+                      setState(() {
+                        error = "";
+                        isLoading = LoadingAnimationWidget.staggeredDotsWave(
+                          color: const Color.fromRGBO(0, 128, 0, 1),
+                          size: 100,
+                        );
+                      });
+                      var res = await submitData(widget.editing, user, name,
+                          nationalId, phoneNumber, gender, age, farmingType);
 
+                      setState(() {
+                        isLoading = null;
                         if (res.error == null) {
-                          await storage.write(key: 'erjwt', value: res.token);
-                          Timer(const Duration(seconds: 2), () {
+                          error = res.success;
+                          storage.write(key: "NationalID", value: nationalId);
+                        } else {
+                          error = res.error;
+                        }
+                      });
+
+                      if (res.error == null) {
+                        await storage.write(key: 'erjwt', value: res.token);
+                        Timer(const Duration(seconds: 2), () {
+                          if (widget.editing) {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Summary()));
+                          } else {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         const FarmerAddress()));
-                          });
-                        }
-                      },
-                    ),
-                  ],
-                ),
+                          }
+                        });
+                      }
+                    },
+                  ),
+                ],
               ),
             ),
           ),
@@ -266,31 +271,8 @@ class _FarmerDetailsState extends State<FarmerDetails> {
   }
 }
 
-Future<void> editFarmerDetails(String nationalId) async {
-  try {
-    final response = await get(
-      Uri.parse("${getUrl()}farmerdetails/farmerid/$nationalId"),
-    );
-
-    var data = json.decode(response.body);
-    print("Farmer Details data is $data");
-  } catch (e) {}
-}
-
-void getNationalID(String nationalId) async {
-  try {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    nationalId = prefs.getString("NationalID") ?? '';
-    print("the national id is $nationalId");
-  } catch (e) {
-    print("the national id is empty: $nationalId");
-  }
-}
-
-// Update Form
-void updateFarmerDetails() {}
-
-Future<Message> postFarmerDetails(
+Future<Message> submitData(
+    bool type,
     String user,
     String name,
     String nationalId,
@@ -319,21 +301,39 @@ Future<Message> postFarmerDetails(
   }
 
   try {
-    final response = await http.post(
-      Uri.parse("${getUrl()}farmerdetails/create"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'User': user,
-        'Name': name,
-        'NationalID': nationalId,
-        'Phone': phoneNumber,
-        'Gender': selectedGender,
-        'AgeGroup': age,
-        'FarmingType': farmingType
-      }),
-    );
+    var response;
+    if (type) {
+      response = await http.put(
+        Uri.parse("${getUrl()}farmerdetails/${nationalId}"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'User': user,
+          'Name': name,
+          'Phone': phoneNumber,
+          'Gender': selectedGender,
+          'AgeGroup': age,
+          'FarmingType': farmingType
+        }),
+      );
+    } else {
+      response = await http.post(
+        Uri.parse("${getUrl()}farmerdetails/create"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'User': user,
+          'Name': name,
+          'NationalID': nationalId,
+          'Phone': phoneNumber,
+          'Gender': selectedGender,
+          'AgeGroup': age,
+          'FarmingType': farmingType
+        }),
+      );
+    }
     if (response.statusCode == 200 || response.statusCode == 203) {
       return Message.fromJson(jsonDecode(response.body));
     } else {

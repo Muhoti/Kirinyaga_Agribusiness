@@ -72,7 +72,7 @@ class FODrawer extends StatelessWidget {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const FarmerDetails()));
+                        builder: (context) => const FarmerDetails(editing: false,)));
               },
             ),
             ListTile(

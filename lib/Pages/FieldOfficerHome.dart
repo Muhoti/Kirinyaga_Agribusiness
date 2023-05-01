@@ -88,7 +88,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
         floatingActionButton: ElevatedButton(
           onPressed: () {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const FarmerDetails()));
+                MaterialPageRoute(builder: (context) => const FarmerDetails(editing: false,)));
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromRGBO(13, 50, 10, 1),

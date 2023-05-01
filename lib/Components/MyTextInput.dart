@@ -19,14 +19,44 @@ class MyTextInput extends StatefulWidget {
 }
 
 class _MyTextInputState extends State<MyTextInput> {
+  String value = "";
+  TextEditingController _controller = new TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant MyTextInput oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.value != oldWidget.value) {
+      setState(() {
+        value = widget.value;
+        _controller.text = widget.value;
+      });
+      print(value);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
-        child: TextFormField(
-            initialValue: widget.value,
-            onChanged: widget.onSubmit,
+        child: TextField(
+            onChanged: (value) {
+              setState(() {
+                _controller.value = TextEditingValue(
+                  text: value,
+                  selection: TextSelection.fromPosition(
+                    TextPosition(offset: value.length),
+                  ),
+                );
+              });
+              widget.onSubmit(value);
+            },
             keyboardType: widget.type,
+            controller: _controller,
             maxLines: widget.lines,
             obscureText:
                 widget.type == TextInputType.visiblePassword ? true : false,

@@ -18,6 +18,7 @@ import 'package:http/http.dart' as http;
 import 'package:kirinyaga_agribusiness/Components/counties.dart';
 
 import '../Components/Utils.dart';
+import 'Home.dart';
 
 class FarmerAddress extends StatefulWidget {
   const FarmerAddress({super.key});
@@ -125,7 +126,10 @@ class _FarmerAddressState extends State<FarmerAddress> {
           Align(
             alignment: Alignment.centerRight,
             child: IconButton(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => {
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (_) => Home()))
+              },
               icon: const Icon(Icons.arrow_back),
             ),
           ),

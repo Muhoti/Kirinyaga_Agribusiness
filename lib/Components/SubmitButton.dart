@@ -19,7 +19,7 @@ class _SubmitButton extends State<SubmitButton> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
-            padding: const EdgeInsets.fromLTRB(44, 5, 44, 5)
+            padding: const EdgeInsets.fromLTRB(64, 10, 64, 10)
             // minimumSize: const Size.fromHeight(50), // NEW
             ),
         onPressed: widget.onButtonPressed,

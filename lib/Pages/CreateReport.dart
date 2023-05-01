@@ -143,7 +143,7 @@ class _CreateReportState extends State<CreateReport> {
         floatingActionButton: RawMaterialButton(
           onPressed: () {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const FarmerDetails()));
+                MaterialPageRoute(builder: (context) => const FarmerDetails(editing: false,)));
           },
           elevation: 5.0,
           fillColor: Colors.orange,
