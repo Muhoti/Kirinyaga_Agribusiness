@@ -9,6 +9,7 @@ import 'package:kirinyaga_agribusiness/Components/FMSummary.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerAddress.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
+import 'package:kirinyaga_agribusiness/Pages/FarmerGroups.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerResources.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
@@ -169,7 +170,7 @@ class _SummaryState extends State<Summary> {
                         title: "Farmer Groups",
                         icon: Icons.groups,
                         mapped: data == null ? false : data["FG"] > 0,
-                        page: const FarmerValueChains(),
+                        page: const FarmerGroups(),
                       )),
                   const SizedBox(
                     height: 12,

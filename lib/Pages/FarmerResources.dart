@@ -10,6 +10,7 @@ import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
+import 'package:kirinyaga_agribusiness/Pages/FarmerGroups.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
@@ -265,7 +266,7 @@ class _FarmerResourcesState extends State<FarmerResources> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const FarmerValueChains()));
+                                      const FarmerGroups()));
                         }
                       });
                     }
