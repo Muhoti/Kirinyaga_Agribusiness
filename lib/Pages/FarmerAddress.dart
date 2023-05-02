@@ -297,8 +297,9 @@ class _FarmerAddressState extends State<FarmerAddress> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const FarmerResources()));
+                                  builder: (context) => const FarmerResources(
+                                        editing: false,
+                                      )));
                         }
                       });
                     }

@@ -19,7 +19,7 @@ class MyTextInput extends StatefulWidget {
 }
 
 class _MyTextInputState extends State<MyTextInput> {
-  String value = "";
+
   TextEditingController _controller = new TextEditingController();
 
   @override
@@ -30,12 +30,15 @@ class _MyTextInputState extends State<MyTextInput> {
   @override
   void didUpdateWidget(covariant MyTextInput oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.value != oldWidget.value) {
+    if (widget.value != "") {
       setState(() {
-        value = widget.value;
-        _controller.text = widget.value;
+        _controller.value = TextEditingValue(
+                  text: widget.value,
+                  selection: TextSelection.fromPosition(
+                    TextPosition(offset: widget.value.length),
+                  ),
+                );
       });
-      print(value);
     }
   }
 

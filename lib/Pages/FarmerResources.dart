@@ -12,13 +12,15 @@ import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
+import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 
 import '../Components/Utils.dart';
 
 class FarmerResources extends StatefulWidget {
-  const FarmerResources({super.key});
+  final bool editing;
+  const FarmerResources({super.key, required this.editing});
 
   @override
   State<FarmerResources> createState() => _FarmerResourcesState();
@@ -32,8 +34,53 @@ class _FarmerResourcesState extends State<FarmerResources> {
   String? IrrigationType = 'None';
   String? FarmOwnership = 'Owned';
   String error = '';
+  var data = null;
   var isLoading;
   final storage = const FlutterSecureStorage();
+
+  @override
+  void initState() {
+    checkMapping();
+    super.initState();
+  }
+
+  checkMapping() async {
+    try {
+      var id = await storage.read(key: "NationalID");
+      if (id != null) {
+        setState(() {
+          FarmerID = id;
+          print("FARMER RESOURCES ID IS $FarmerID");
+        });
+        editFarmerResources(id);
+      }
+    } catch (e) {}
+  }
+
+  editFarmerResources(String id) async {
+    try {
+      final response = await http.get(
+        Uri.parse("${getUrl()}farmerresources/$id"),
+      );
+
+      var body = json.decode(response.body);
+    print("farmer resources body is ${body}");
+
+
+      if (body.length > 0) {
+        setState(() {
+          data = body[0];
+          TotalAcreage = body[0]["TotalAcreage"];
+          CropAcreage = body[0]["CropAcreage"];
+          LivestockAcreage = body[0]["LivestockAcreage"];
+          IrrigationType = body[0]["IrrigationType"];
+          FarmOwnership = body[0]["FarmOwnership"];
+        });
+      }
+
+      print("farmer resources body is $body");
+    } catch (e) {}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,47 +109,49 @@ class _FarmerResourcesState extends State<FarmerResources> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const SizedBox(
+                  height: 10,
+                ),
                 TextOakar(label: error),
-                MyTextInput(
-                    title: "FarmerID",
-                    lines: 1,
-                    value: " ",
-                    type: TextInputType.number,
-                    onSubmit: (value) {
-                      setState(() {
-                        FarmerID = value;
-                      });
-                    }),
                 MyTextInput(
                     title: "Total Land Acreage",
                     lines: 1,
-                    value: " ",
+                    value: data == null ? "" : data["LivestockAcreage"],
                     type: TextInputType.number,
                     onSubmit: (value) {
                       setState(() {
                         TotalAcreage = value;
                       });
                     }),
+                const SizedBox(
+                  height: 10,
+                ),
                 MyTextInput(
                     title: "Acreage under Crop Farming",
                     lines: 1,
-                    value: " ",
+                    value: data == null ? "" : data["TotalAcreage"],
                     type: TextInputType.text,
                     onSubmit: (value) {
                       setState(() {
                         CropAcreage = value;
                       });
                     }),
+                const SizedBox(
+                  height: 10,
+                ),
                 MyTextInput(
                     title: "Acreage under Livestock Farming",
                     lines: 1,
-                    value: " ",
+                    value: data == null ? "" : data["CropAcreage"],
                     type: TextInputType.text,
                     onSubmit: (value) {
                       setState(() {
                         LivestockAcreage = value;
                       });
                     }),
+                const SizedBox(
+                  height: 10,
+                ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width - 48,
                   child: DropdownButtonFormField(
@@ -176,9 +225,8 @@ class _FarmerResourcesState extends State<FarmerResources> {
                     ],
                   ),
                 ),
-
                 SubmitButton(
-                  label: "Submit",
+                  label: widget.editing ? "Update" : "Submit",
                   onButtonPressed: () async {
                     setState(() {
                       isLoading = LoadingAnimationWidget.staggeredDotsWave(
@@ -186,7 +234,8 @@ class _FarmerResourcesState extends State<FarmerResources> {
                         size: 100,
                       );
                     });
-                    var res = await postFarmerResources(
+                    var res = await submitData(
+                        widget.editing,
                         FarmerID,
                         TotalAcreage,
                         CropAcreage,
@@ -206,11 +255,18 @@ class _FarmerResourcesState extends State<FarmerResources> {
                     if (res.error == null) {
                       await storage.write(key: 'erjwt', value: res.token);
                       Timer(const Duration(seconds: 2), () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const FarmerValueChains()));
+                        if (widget.editing) {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Summary()));
+                        } else {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const FarmerValueChains()));
+                        }
                       });
                     }
                   },
@@ -224,7 +280,8 @@ class _FarmerResourcesState extends State<FarmerResources> {
   }
 }
 
-Future<Message> postFarmerResources(
+Future<Message> submitData(
+    bool type,
     String FarmerID,
     String TotalAcreage,
     String LivestockAcreage,
@@ -246,30 +303,53 @@ Future<Message> postFarmerResources(
         token: null, success: null, error: "Farm Ownership cannot be empty!");
   }
 
-  final response = await http.post(
-    Uri.parse("${getUrl()}farmerresources/"),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{
-      'FarmerID': FarmerID,
-      'TotalAcreage': TotalAcreage,
-      'CropAcreage': CropAcreage,
-      'LivestockAcreage': LivestockAcreage,
-      'IrrigationType': IrrigationType,
-      'FarmOwnership': FarmOwnership
-    }),
-  );
-  print('This is the response $response');
-  var myresponse = response.statusCode;
-  print('The response $myresponse');
-  if (response.statusCode == 200 || response.statusCode == 203) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return Message.fromJson(jsonDecode(response.body));
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
+  try {
+    var response;
+    if (type) {
+      response = await http.put(
+        Uri.parse("${getUrl()}farmerresources/$FarmerID"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'TotalAcreage': TotalAcreage,
+          'CropAcreage': CropAcreage,
+          'LivestockAcreage': LivestockAcreage,
+          'IrrigationType': IrrigationType,
+          'FarmOwnership': FarmOwnership
+        }),
+      );
+    } else {
+      response = await http.post(
+        Uri.parse("${getUrl()}farmerresources/"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'FarmerID': FarmerID,
+          'TotalAcreage': TotalAcreage,
+          'CropAcreage': CropAcreage,
+          'LivestockAcreage': LivestockAcreage,
+          'IrrigationType': IrrigationType,
+          'FarmOwnership': FarmOwnership
+        }),
+      );
+    }
+
+    if (response.statusCode == 200 || response.statusCode == 203) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      return Message.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      return Message(
+        token: null,
+        success: null,
+        error: "Connection to server failed!",
+      );
+    }
+  } catch (e) {
     return Message(
       token: null,
       success: null,

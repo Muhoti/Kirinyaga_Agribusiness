@@ -58,7 +58,6 @@ class _FarmerDetailsState extends State<FarmerDetails> {
       });
     } catch (e) {
       print(e);
-     
     }
   }
 
@@ -78,6 +77,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
       );
 
       var body = json.decode(response.body);
+      print("farmer details body is ${body}");
 
       if (body.length > 0) {
         setState(() {
@@ -250,8 +250,9 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const FarmerAddress(editing: false,)));
+                                    builder: (context) => const FarmerAddress(
+                                          editing: false,
+                                        )));
                           }
                         });
                       }

@@ -93,34 +93,37 @@ class _SearchFarmer extends State<SearchFarmer> {
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: Card(
                   elevation: 12,
-                  child: ListView.separated(
-                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: entries.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return TextButton(
-                        onPressed: () {
-                          setState(() {
-                            storage.write(
-                                key: "NationalID",
-                                value: entries[index].NationalID);
-                            entries.clear();
-                          });
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Home()));
-                        },
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                                'Name: ${entries[index].Name} \n ID: ${entries[index].NationalID}')),
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const Divider(
-                      height: 1,
+                  child: SizedBox(
+                    width: double.maxFinite,
+                    child: ListView.separated(
+                      padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: entries.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return TextButton(
+                          onPressed: () {
+                            setState(() {
+                              storage.write(
+                                  key: "NationalID",
+                                  value: entries[index].NationalID);
+                              entries.clear();
+                            });
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Home()));
+                          },
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                  'Name: ${entries[index].Name} \n ID: ${entries[index].NationalID}')),
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const Divider(
+                        height: 1,
+                      ),
                     ),
                   ),
                 ),

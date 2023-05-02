@@ -89,14 +89,19 @@ class _HomeState extends State<Home> {
     return MaterialApp(
       title: 'Kirinyaga Agribusiness',
       home: Scaffold(
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
           title: const Text("Farmer Mapping Home"),
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
         floatingActionButton: RawMaterialButton(
           onPressed: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const FarmerDetails(editing: false,)));
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const FarmerDetails(
+                          editing: false,
+                        )));
           },
           elevation: 5.0,
           fillColor: Colors.orange,

@@ -152,10 +152,12 @@ class _SummaryState extends State<Summary> {
                       fit: FlexFit.tight,
                       flex: 5,
                       child: FMSummary(
-                        title: "Farm Resources",
+                        title: "Farmer Resources",
                         icon: Icons.library_books,
                         mapped: data == null ? false : data["FR"] > 0,
-                        page: const FarmerResources(),
+                        page: FarmerResources(
+                           editing: data == null ? false : data["FR"] > 0,
+                          ),
                       )),
                   const SizedBox(
                     height: 12,
