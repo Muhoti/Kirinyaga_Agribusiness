@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -42,7 +44,6 @@ class _CreateFarmerGroup extends State<CreateFarmerGroup> {
       if (id != null) {
         setState(() {
           farmerID = id;
-          print("FARMER GROUPS ID IS $farmerID");
         });
       }
     } catch (e) {}
@@ -87,42 +88,41 @@ class _CreateFarmerGroup extends State<CreateFarmerGroup> {
                 entries: const ["CIG", "SACCO", "P.O", "Cohort", "Other"],
                 value: data == null ? "CIG" : data["Gender"],
               ),
-              SubmitButton(
-                  label: "Submit",
-                  onButtonPressed: () async {
-                    setState(() {
-                      error = "";
-                      isLoading = LoadingAnimationWidget.staggeredDotsWave(
-                        color: const Color.fromRGBO(0, 128, 0, 1),
-                        size: 100,
-                      );
-                    });
-
-                    var res = await postFarmerGroups(
-                      farmerID, 
-                      groupname, 
-                      grouptype
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
+                ),
+                onPressed: () async {
+                  setState(() {
+                    error = "";
+                    isLoading = LoadingAnimationWidget.staggeredDotsWave(
+                      color: const Color.fromRGBO(0, 128, 0, 1),
+                      size: 100,
                     );
+                  });
 
-                    setState(() {
-                      isLoading = null;
-                      if (res.error == null) {
-                        error = res.success;
-                      } else {
-                        error = res.error;
-                      }
-                    });
+                  var res =
+                      await postFarmerGroups(farmerID, groupname, grouptype);
 
+                  setState(() {
+                    isLoading = null;
                     if (res.error == null) {
-                      await storage.write(key: 'erjwt', value: res.token);
-                      Timer(const Duration(seconds: 2), () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const FarmerGroups()));
-                      });
+                      error = res.success;
+                    } else {
+                      error = res.error;
                     }
-                  }),
+                  });
+
+                  if (res.error == null) {
+                    await storage.write(key: 'erjwt', value: res.token);
+                    Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const FarmerGroups()));
+                  }
+                },
+                child: const Text('Submit'),
+              ),
             ],
           ),
         ),
@@ -132,11 +132,8 @@ class _CreateFarmerGroup extends State<CreateFarmerGroup> {
   }
 }
 
-Future<Message>postFarmerGroups(
-  String farmerID, 
-  String groupname, 
-  String grouptype
-  ) async {
+Future<Message> postFarmerGroups(
+    String farmerID, String groupname, String grouptype) async {
   if (groupname.isEmpty) {
     return Message(
         token: null, success: null, error: "Farmer Group cannot be empty!");
@@ -144,7 +141,7 @@ Future<Message>postFarmerGroups(
   try {
     var response;
     response = await http.post(
-      Uri.parse("${getUrl()}farmergroups/"),
+      Uri.parse("${getUrl()}farmergroups"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -168,7 +165,7 @@ Future<Message>postFarmerGroups(
         error: "Connection to server failed!",
       );
     }
-  }  catch (e) {
+  } catch (e) {
     return Message(
       token: null,
       success: null,

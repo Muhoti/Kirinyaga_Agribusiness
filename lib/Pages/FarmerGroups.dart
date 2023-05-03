@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/CreateFarmerGroup.dart';
-import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
-import 'package:kirinyaga_agribusiness/Components/Map.dart';
-import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
-import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
-import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
-import 'package:kirinyaga_agribusiness/Pages/Home.dart';
+import 'package:kirinyaga_agribusiness/Scroll/FGScrollController.dart';
+import '../Components/FODrawer.dart';
 
 class FarmerGroups extends StatefulWidget {
   const FarmerGroups({super.key});
@@ -17,61 +14,77 @@ class FarmerGroups extends StatefulWidget {
 }
 
 class _FarmerGroupsState extends State<FarmerGroups> {
+  final storage = const FlutterSecureStorage();
+  String name = '';
+  String FarmerID = '';
+  String nationalId = '';
+
+  @override
+  void initState() {
+    checkMapping();
+    super.initState();
+  }
+
+  checkMapping() async {
+    try {
+      var id = await storage.read(key: "NationalID");
+      if (id != null) {
+        setState(() {
+          FarmerID = id;
+        });
+        print("FARMER GROUPS ID IS $FarmerID");
+        // editFarmerResources(id);
+      }
+    } catch (e) {}
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Farmer Associations"),
-        actions: [
-          Align(
-            alignment: Alignment.centerRight,
-            child: IconButton(
-              onPressed: () => {
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => const Home()))
-              },
-              icon: const Icon(Icons.arrow_back),
+    return MaterialApp(
+      title: 'Kirinyaga Agribusiness',
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text("Farmer Associatons"),
+          backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
+        ),
+        drawer: const Drawer(child: FODrawer()),
+        body: Column(
+          children: <Widget>[
+            Flexible(
+              flex: 1,
+              fit: FlexFit.tight,
+              child: FarmerID != ""
+                  ? FGScrollController(id: FarmerID)
+                  : const SizedBox(),
             ),
-          ),
-        ],
-        backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
-      ),
-      drawer: const Drawer(child: FODrawer()),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  height: 400,
-                ),
-                SubmitButton(
-                  label: "Add Farmer Group",
-                  onButtonPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return CreateFarmerGroup();
+            Padding(
+                padding: const EdgeInsets.fromLTRB(12, 24, 12, 24),
+                child: Column(
+                  children: [
+                    SubmitButton(
+                      label: "Add Farmer Group",
+                      onButtonPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return CreateFarmerGroup();
+                          },
+                        );
                       },
-                    );
-                  },
-                ),
-                SubmitButton(
-                  label: "Proceed",
-                  onButtonPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => const FarmerValueChains()));
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
+                    ),
+                    SubmitButton(
+                      label: "Proceed",
+                      onButtonPressed: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const FarmerValueChains()));
+                      },
+                    ),
+                  ],
+                )),
+          ],
+        ),
       ),
     );
   }

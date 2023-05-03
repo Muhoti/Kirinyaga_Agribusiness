@@ -30,7 +30,6 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
   String active = 'Pending';
   String id = '';
   String status = 'Pending';
-
   String nationalId = '';
 
   @override
