@@ -35,7 +35,7 @@ class _FGIncidentBar extends State<FGIncidentBar> {
                     child: Text(
                       widget.item.item['Type'],
                       style: const TextStyle(
-                          color: Colors.white, fontSize: 28),
+                          color: Colors.white, fontSize: 20),
                     ),
                   ),
                   const SizedBox(
@@ -55,23 +55,6 @@ class _FGIncidentBar extends State<FGIncidentBar> {
                                   color: Color.fromRGBO(42, 74, 40, 1),
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold)),
-                        ),
-                        const SizedBox(
-                          height: 14,
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            widget.item.item['Type'],
-                            textAlign: TextAlign.left,
-                            textWidthBasis: TextWidthBasis.parent,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black54,
-                              fontSize: 14,
-                            ),
-                          ),
                         ),
                       ],
                     ),

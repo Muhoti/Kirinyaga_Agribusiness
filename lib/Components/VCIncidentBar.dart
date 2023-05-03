@@ -6,24 +6,32 @@ class VCIncidentBar extends StatefulWidget {
   final dynamic item;
   final String id;
 
-  const VCIncidentBar({
-    super.key,
-    required this.item,
-    required this.id
-  });
+  const VCIncidentBar({super.key, required this.item, required this.id});
 
   @override
   State<VCIncidentBar> createState() => _VCIncidentBarState();
 }
 
 class _VCIncidentBarState extends State<VCIncidentBar> {
+  var dt = '';
+
   @override
   Widget build(BuildContext context) {
+    String dateString  = widget.item.item['updatedAt'];
+
+    DateTime date = DateTime.parse(dateString );
+    String year = date.year.toString();
+    String month = date.month.toString();
+    String day = date.day.toString();
+
+    dt = "$year-$month-$day";
+    print("the day is $dt");
+
     return Padding(
         padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
         child: Card(
             elevation: 5,
-            color: Colors.white,
+            color: Colors.lightGreen,
             clipBehavior: Clip.hardEdge,
             child: TextButton(
                 onPressed: () {
@@ -41,7 +49,7 @@ class _VCIncidentBarState extends State<VCIncidentBar> {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: const BoxDecoration(
-                            color: Colors.blue,
+                            color: Color.fromRGBO(0, 128, 0, 1),
                             borderRadius: BorderRadius.all(Radius.circular(5))),
                         child: Text(
                           widget.item.item['Name'],
@@ -59,11 +67,12 @@ class _VCIncidentBarState extends State<VCIncidentBar> {
                           children: [
                             Align(
                               alignment: Alignment.centerLeft,
-                              child: Text(widget.item.item['Name'],
+                              child: Text(
+                                  "Yearly Produce is: ${widget.item.item["AvgYearlyProduction"]}",
                                   textAlign: TextAlign.left,
                                   textWidthBasis: TextWidthBasis.parent,
                                   style: const TextStyle(
-                                      color: Color.fromRGBO(42, 74, 40, 1),
+                                      color: Color.fromARGB(255, 243, 227, 6),
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold)),
                             ),
@@ -73,13 +82,13 @@ class _VCIncidentBarState extends State<VCIncidentBar> {
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                widget.item.item['Name'],
+                                dt,
                                 textAlign: TextAlign.left,
                                 textWidthBasis: TextWidthBasis.parent,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black54,
+                                  color: Color.fromARGB(255, 243, 227, 6),
                                   fontSize: 14,
                                 ),
                               ),

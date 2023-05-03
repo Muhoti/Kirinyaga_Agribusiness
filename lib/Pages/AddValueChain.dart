@@ -4,51 +4,62 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_calendar_carousel/classes/event.dart';
-import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
-import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
-import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 
 import '../Components/Utils.dart';
 
-class ValueChainProduce extends StatefulWidget {
-  const ValueChainProduce({super.key, required id});
+class AddValueChain extends StatefulWidget {
+  const AddValueChain({super.key, required id});
 
   @override
-  State<ValueChainProduce> createState() => _ValueChainProduceState();
+  State<AddValueChain> createState() => _AddValueChainState();
 }
 
-class _ValueChainProduceState extends State<ValueChainProduce> {
+class _AddValueChainState extends State<AddValueChain> {
   String valueChainID = '';
-  String valueChain = '';
+  String? valueChain = 'Banana';
   String farmerID = '';
-  String produceAmount = '';
-  String harvestYear = '';
-  String harvestMonth = '';
-  String season = '';
-
-  String farmingPeriod = 'Annually';
+  String farmerName = '';
+  String AvgHarvestProduction = '';
+  String AvgYearlyProduction = '';
+  String approxAcreage = '';
+  String? productionUnit = 'Kilograms';
+  String variety = '';
   String error = '';
-  // late DateTime _selectedDate;
   var isLoading;
   final storage = const FlutterSecureStorage();
 
   @override
-  Widget build(BuildContext context) {
-    // String harvestDate = _selectedDate.toString();
+  void initState() {
+    checkMapping();
+    super.initState();
+  }
 
+  checkMapping() async {
+    try {
+      var id = await storage.read(key: "NationalID");
+      if (id != null) {
+        setState(() {
+          farmerID = id;
+          print("VALUE CHAINS ID IS $farmerID");
+        });
+      }
+    } catch (e) {}
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Update Valuechain Produce"),
+        title: const Text("Add Value Chain"),
         actions: [
           Align(
             alignment: Alignment.centerRight,
@@ -68,84 +79,10 @@ class _ValueChainProduceState extends State<ValueChainProduce> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                TextOakar(label: error),
-                MyTextInput(
-                    title: "Value Chain",
-                    lines: 1,
-                    value: "",
-                    type: TextInputType.text,
-                    onSubmit: (value) {
-                      setState(() {
-                        valueChain = value;
-                      });
-                    }),
-                MyTextInput(
-                    title: "Produce",
-                    lines: 1,
-                    value: "",
-                    type: TextInputType.text,
-                    onSubmit: (value) {
-                      setState(() {
-                        produceAmount = value;
-                      });
-                    }),
-
-                MyTextInput(
-                    title: "Harvest Year",
-                    lines: 1,
-                    value: "",
-                    type: TextInputType.text,
-                    onSubmit: (value) {
-                      setState(() {
-                        harvestYear = value;
-                      });
-                    }),
-                MyTextInput(
-                    title: "Harvest Month",
-                    lines: 1,
-                    value: "",
-                    type: TextInputType.text,
-                    onSubmit: (value) {
-                      setState(() {
-                        harvestMonth = value;
-                      });
-                    }),
-                MyTextInput(
-                    title: "Harvest Year",
-                    lines: 1,
-                    value: "",
-                    type: TextInputType.text,
-                    onSubmit: (value) {
-                      setState(() {
-                        season = value;
-                      });
-                    }),
-                // SizedBox(
-                //   width: double.infinity,
-                //   height: 200,
-                //   child: GestureDetector(
-                //     onTap: () async {
-                //       DateTime? selectedDate = await showCalendar(context);
-                //       if (selectedDate != null) {
-                //         setState(() {
-                //           _selectedDate = selectedDate;
-                //         });
-                //       }
-                //     },
-                //     child: TextFormField(
-                //       decoration: const InputDecoration(
-                //         labelText: 'Date',
-                //       ),
-                //       readOnly: true,
-                //       controller: TextEditingController(
-                //         text:
-                //             '${_selectedDate.year}-${_selectedDate.month}-${_selectedDate.day}',
-                //       ),
-                //     ),
-                //   ),
+                // const TextLarge(
+                //   label: "Add Value Chain",
                 // ),
-
-                const SizedBox(height: 12),
+                TextOakar(label: error),
                 SizedBox(
                   width: MediaQuery.of(context).size.width - 48,
                   child: DropdownButtonFormField(
@@ -154,44 +91,119 @@ class _ValueChainProduceState extends State<ValueChainProduce> {
                       border: OutlineInputBorder(
                           borderSide:
                               BorderSide(color: Color.fromRGBO(0, 128, 0, 1))),
-                      labelText: 'Farming Period',
+                      labelText: 'Value Chain',
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                       hintStyle: TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
                     ),
-                    value: farmingPeriod, // use selectedGender variable
-                    onChanged: (selectedFarmingPeriod) {
+                    value: valueChain, // use selectedGender variable
+                    onChanged: (selectedValueChain) {
                       setState(() {
-                        farmingPeriod = selectedFarmingPeriod!;
+                        valueChain = selectedValueChain;
                       });
                     },
                     items: const [
                       DropdownMenuItem(
-                        child: Text("Annually"),
-                        value: "Annually",
+                        child: Text("Banana"),
+                        value: "Banana",
                       ),
                       DropdownMenuItem(
-                        child: Text("Bi-Annually"),
-                        value: "Bi-Annually",
+                        child: Text("Beans"),
+                        value: "Beans",
                       ),
                       DropdownMenuItem(
-                        child: Text("Quarterly"),
-                        value: "Quarterly",
+                        child: Text("Dairy"),
+                        value: "Dairy",
                       ),
                       DropdownMenuItem(
-                        child: Text("Monthly"),
-                        value: "Monthly",
+                        child: Text("Vegetables"),
+                        value: "Vegetables",
                       ),
                       DropdownMenuItem(
-                        child: Text("Weekly"),
-                        value: "Weekly",
-                      ),
-                      DropdownMenuItem(
-                        child: Text("Daily"),
-                        value: "Daily",
+                        child: Text("Local Chicken (Kienyeji)"),
+                        value: "Local Chicken (Kienyeji)",
                       ),
                     ],
                   ),
                 ),
+                MyTextInput(
+                    title: "Variety (Optional)",
+                    lines: 1,
+                    value: "",
+                    type: TextInputType.text,
+                    onSubmit: (value) {
+                      setState(() {
+                        variety = value;
+                      });
+                    }),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 48,
+                  child: DropdownButtonFormField(
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
+                      border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color.fromRGBO(0, 128, 0, 1))),
+                      labelText: 'Production Unit',
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      hintStyle: TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
+                    ),
+                    value: productionUnit, // use selectedGender variable
+                    onChanged: (selectedProductionUnit) {
+                      setState(() {
+                        productionUnit = selectedProductionUnit;
+                      });
+                    },
+                    items: const [
+                      DropdownMenuItem(
+                        value: "Kilograms",
+                        child: Text("Kilograms"),
+                      ),
+                      DropdownMenuItem(
+                        child: Text("Litres"),
+                        value: "Litres",
+                      ),
+                      DropdownMenuItem(
+                        value: "Number",
+                        child: Text("Number"),
+                      ),
+                      DropdownMenuItem(
+                        value: "Trays",
+                        child: Text("Trays"),
+                      ),
+                    ],
+                  ),
+                ),
+                
+                MyTextInput(
+                    title: "Approximate Acreage (Acres)",
+                    lines: 1,
+                    value: "",
+                    type: TextInputType.number,
+                    onSubmit: (value) {
+                      setState(() {
+                        approxAcreage = value;
+                      });
+                    }),
+                MyTextInput(
+                    title: "Average Yearly Production",
+                    lines: 1,
+                    value: "",
+                    type: TextInputType.number,
+                    onSubmit: (value) {
+                      setState(() {
+                        AvgYearlyProduction = value;
+                      });
+                    }),
+                MyTextInput(
+                    title: "Average Harvest Production",
+                    lines: 1,
+                    value: "",
+                    type: TextInputType.number,
+                    onSubmit: (value) {
+                      setState(() {
+                        AvgHarvestProduction = value;
+                      });
+                    }),
                 SubmitButton(
                   label: "Submit",
                   onButtonPressed: () async {
@@ -201,8 +213,15 @@ class _ValueChainProduceState extends State<ValueChainProduce> {
                         size: 100,
                       );
                     });
-                    var res = await postProduce(valueChainID, valueChain,
-                        farmerID, produceAmount, harvestYear, harvestMonth, season);
+                    var res = await postProduce(
+                        farmerID,
+                        valueChain!,
+                        variety,
+                        productionUnit!,
+                        approxAcreage,
+                        AvgHarvestProduction,
+                        AvgYearlyProduction);
+
                     setState(() {
                       isLoading = null;
                       if (res.error == null) {
@@ -231,49 +250,35 @@ class _ValueChainProduceState extends State<ValueChainProduce> {
       ),
     );
   }
-
-  // Future<DateTime?> showCalendar(BuildContext context) async {
-  //   return await showDialog<DateTime>(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return CalendarCarousel(
-  //         onDayPressed: (DateTime date, List events) {
-  //           Navigator.pop(context, date);
-  //         },
-  //         selectedDateTime: _selectedDate,
-  //       );
-  //     },
-  //   );
-  // }
 }
 
 Future<Message> postProduce(
-  String valueChainID,
-  String valueChain,
   String farmerID,
-  String produceAmount,
-  String harvestYear,
-  String harvestMonth,
-  String season,
+  String valueChain,
+  String variety,
+  String productionUnit,
+  String approxAcreage,
+  String AvgHarvestProduction,
+  String AvgYearlyProduction,
 ) async {
-  if (produceAmount.isEmpty) {
+  if (AvgHarvestProduction.isEmpty) {
     return Message(
         token: null, success: null, error: "Please fill all inputs!");
   }
 
   final response = await http.post(
-    Uri.parse("${getUrl()}valuechainproduce/"),
+    Uri.parse("${getUrl()}farmervaluechains"),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(<String, String>{
-      'ValueChainID': valueChainID,
-      'Name': valueChain,
       'FarmerID': farmerID,
-      'Produce': produceAmount,
-      'HarvestYear': harvestYear,
-      'HarvestMonth': harvestMonth,
-      'season': season,
+      'Name': valueChain,
+      'Variety': variety,
+      'Unit': productionUnit,
+      'ApproxAcreage': approxAcreage,
+      'AvgYearlyProduction': AvgYearlyProduction,
+      'AvgHarvestProduction': AvgHarvestProduction,
     }),
   );
 
