@@ -5,10 +5,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kirinyaga_agribusiness/Components/MySelectInput.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
-import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerGroups.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
@@ -50,7 +50,6 @@ class _FarmerResourcesState extends State<FarmerResources> {
       if (id != null) {
         setState(() {
           FarmerID = id;
-
         });
         editFarmerResources(id);
       }
@@ -65,8 +64,6 @@ class _FarmerResourcesState extends State<FarmerResources> {
 
       var body = json.decode(response.body);
 
-
-
       if (body.length > 0) {
         setState(() {
           data = body[0];
@@ -77,7 +74,6 @@ class _FarmerResourcesState extends State<FarmerResources> {
           FarmOwnership = body[0]["FarmOwnership"];
         });
       }
-
     } catch (e) {}
   }
 
@@ -115,7 +111,7 @@ class _FarmerResourcesState extends State<FarmerResources> {
                 MyTextInput(
                     title: "Total Land Acreage",
                     lines: 1,
-                    value: data == null ? "" : data["LivestockAcreage"],
+                    value: data == null ? "" : data["TotalAcreage"],
                     type: TextInputType.number,
                     onSubmit: (value) {
                       setState(() {
@@ -128,8 +124,8 @@ class _FarmerResourcesState extends State<FarmerResources> {
                 MyTextInput(
                     title: "Acreage under Crop Farming",
                     lines: 1,
-                    value: data == null ? "" : data["TotalAcreage"],
-                    type: TextInputType.text,
+                    value: data == null ? "" : data["CropAcreage"],
+                    type: TextInputType.number,
                     onSubmit: (value) {
                       setState(() {
                         CropAcreage = value;
@@ -141,8 +137,8 @@ class _FarmerResourcesState extends State<FarmerResources> {
                 MyTextInput(
                     title: "Acreage under Livestock Farming",
                     lines: 1,
-                    value: data == null ? "" : data["CropAcreage"],
-                    type: TextInputType.text,
+                    value: data == null ? "" : data["LivestockAcreage"],
+                    type: TextInputType.number,
                     onSubmit: (value) {
                       setState(() {
                         LivestockAcreage = value;
@@ -151,79 +147,31 @@ class _FarmerResourcesState extends State<FarmerResources> {
                 const SizedBox(
                   height: 10,
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width - 48,
-                  child: DropdownButtonFormField(
-                    decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
-                      border: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Color.fromRGBO(0, 128, 0, 1))),
-                      labelText: 'Type of Irrigation',
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      hintStyle: TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
-                    ),
-                    value: IrrigationType,
-                    onChanged: (selectedIrrigationType) {
+                MySelectInput(
+                    title: "Irrigation Type",
+                    onSubmit: (selectedIrrigationType) {
                       setState(() {
                         IrrigationType = selectedIrrigationType;
                       });
                     },
-                    items: const [
-                      DropdownMenuItem(
-                        child: Text("None"),
-                        value: "None",
-                      ),
-                      DropdownMenuItem(
-                        child: Text("Flood"),
-                        value: "Flood",
-                      ),
-                      DropdownMenuItem(
-                        child: Text("Drip"),
-                        value: "Drip",
-                      ),
-                      DropdownMenuItem(
-                        child: Text("Overhead"),
-                        value: "Overhead",
-                      ),
-                      DropdownMenuItem(
-                        child: Text("Sprinkler"),
-                        value: "Sprinkler",
-                      ),
+                    entries: const [
+                      "None",
+                      "Flood",
+                      "Drip",
+                      "Overhead",
+                      "Sprinkler"
                     ],
-                  ),
-                ),
+                    value: IrrigationType!),
                 const SizedBox(height: 24),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width - 48,
-                  child: DropdownButtonFormField(
-                    decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
-                      border: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Color.fromRGBO(0, 128, 0, 1))),
-                      labelText: 'Farm Ownership',
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      hintStyle: TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
-                    ),
-                    value: FarmOwnership,
-                    onChanged: (selectedOwnership) {
+                MySelectInput(
+                    title: "Farm Ownership",
+                    onSubmit: (selectedOwnership) {
                       setState(() {
                         FarmOwnership = selectedOwnership;
                       });
                     },
-                    items: const [
-                      DropdownMenuItem(
-                        child: Text("Owned"),
-                        value: "Owned",
-                      ),
-                      DropdownMenuItem(
-                        child: Text("Rented"),
-                        value: "Rented",
-                      ),
-                    ],
-                  ),
-                ),
+                    entries: const ["Owned", "Rented"],
+                    value: FarmOwnership!),
                 SubmitButton(
                   label: widget.editing ? "Update" : "Submit",
                   onButtonPressed: () async {
@@ -263,8 +211,7 @@ class _FarmerResourcesState extends State<FarmerResources> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const FarmerGroups()));
+                                  builder: (context) => const FarmerGroups()));
                         }
                       });
                     }

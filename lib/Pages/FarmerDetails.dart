@@ -190,8 +190,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                     },
                     entries: const [
                       "18-35 Years",
-                      "36-45 Years",
-                      "46-65 Years",
+                      "36-65 Years",
                       "66 and Above"
                     ],
                     value: data == null ? "18-35 Years" : data["AgeGroup"],

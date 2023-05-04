@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kirinyaga_agribusiness/Components/FarmerReportBar.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
 import '../Components/FODrawer.dart';
 import 'package:http/http.dart' as http;
@@ -19,6 +20,7 @@ class FarmerHome extends StatefulWidget {
 class _FarmerHomeState extends State<FarmerHome> {
   String name = '';
   String farmerid = '';
+  dynamic data;
 
   String valueChain = '';
   var storage = const FlutterSecureStorage();
@@ -34,20 +36,18 @@ class _FarmerHomeState extends State<FarmerHome> {
         var decoded = parseJwt(token.toString());
         var id = decoded["ID"];
 
-        setState(() {
-          name = decoded["Name"].toString();
-        });
-
+       
         final response = await http.get(
             Uri.parse("${getUrl()}farmerdetails/$id"),
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8'
             });
 
-        var data = json.decode(response.body);
+        var body = json.decode(response.body);
 
         setState(() {
-          valueChain = data["FarmingType"];
+          data = body;
+          print("the farmer data is $data");
           farmerid = data["NationalID"];
         });
       } catch (e) {
@@ -60,81 +60,26 @@ class _FarmerHomeState extends State<FarmerHome> {
     return MaterialApp(
       title: 'Kirinyaga Agribusiness',
       home: Scaffold(
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
           title: const Text("Home"),
           backgroundColor: Color.fromRGBO(0, 128, 0, 1),
         ),
         drawer: const Drawer(child: FODrawer()),
-        body: Column(
-          children: <Widget>[
-            Column(
-              children: [
-                const Align(
-                  alignment: Alignment.center,
+        body: Stack(
+          children: [
+            // const SizedBox(height: 40),
+            Padding(
+                padding: const EdgeInsets.fromLTRB(12, 24, 12, 0),
+                child: SingleChildScrollView(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(24, 24, 24, 0),
-                    child: Text(
-                      "Welcome",
-                      style: TextStyle(
-                          fontSize: 28, color: Color.fromRGBO(0, 128, 0, 1)),
-                    ),
+                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+                    child: data != null
+                        ? SingleChildScrollView(
+                            child: FarmerReportBar(item: data))
+                        : const SizedBox(),
                   ),
-                ),
-                const SizedBox(height: 15),
-                Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 5, 24, 0),
-                    child: Text(
-                      name,
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Align(
-                    alignment: Alignment.center,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(24, 5, 24, 0),
-                      child: Text(
-                        valueChain,
-                        style:
-                            const TextStyle(fontSize: 18, color: Colors.black),
-                      ),
-                    )),
-              ],
-            ),
-            const SizedBox(height: 15),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
-              child: Flexible(
-                  child: Text(
-                "Summary of Production",
-                style: TextStyle(
-                    fontSize: 28, color: Color.fromRGBO(0, 128, 0, 1)),
-              )),
-            ),
-            // const Flexible(
-            //   flex: 1,
-            //   fit: FlexFit.tight,
-            //   child: InfiniteScrollPaginatorDemo(
-            //     id: "id",
-            //     status: "status",
-            //     active: "active",
-            //   )),
-            SubmitButton(
-              label: "Update ValueChain",
-              onButtonPressed: () async {
-                setState(() {
-                  storage.write(key: "NationalID", value: farmerid);
-                });
-
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const FarmerValueChains()));
-              },
-            ),
+                )),
           ],
         ),
       ),

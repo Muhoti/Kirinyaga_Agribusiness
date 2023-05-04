@@ -176,9 +176,9 @@ class _SupervisorReportState extends State<SupervisorReport> {
                                   status,
                                   keywords,
                                   latitude,
-                                  longitude);
+                                  longitude
+                                );
 
-                        
 
                               setState(() {
                                 isloading = null;

@@ -7,7 +7,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../Components/SuIncidentBar.dart';
 import '../Components/Utils.dart';
 import '../Model/FOItem.dart';
-import '../Components/FOIncidentBar.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SupScrollController extends StatefulWidget {

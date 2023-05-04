@@ -19,7 +19,6 @@ import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
-
 import '../Components/SuReportBar.dart';
 
 class SupWorkPlan extends StatefulWidget {
@@ -45,6 +44,7 @@ class _SupWorkPlanState extends State<SupWorkPlan> {
         size: 100,
       );
     });
+    
     viewWork(widget.id);
 
     super.initState();
