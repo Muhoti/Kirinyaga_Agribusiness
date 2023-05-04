@@ -53,7 +53,7 @@ class _SupWorkPlanState extends State<SupWorkPlan> {
   viewWork(String id) async {
     try {
       final response = await get(
-        Uri.parse("${getUrl()}workplan/$id"),
+        Uri.parse("${getUrl()}workplan/supervisor/$id"),
       );
 
       var body = json.decode(response.body);

@@ -2,8 +2,8 @@
 import 'dart:convert';
 
 String getUrl() {
-  // return "http://192.168.1.136:3003/api/";
-  return "http://185.215.180.181:7705/api/";
+   return "http://192.168.1.136:3003/api/";
+ // return "http://185.215.180.181:7705/api/";
 }
 
 Map<String, dynamic> parseJwt(String token) {

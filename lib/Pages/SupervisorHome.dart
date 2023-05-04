@@ -6,12 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/Stats.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
-import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
-import 'package:kirinyaga_agribusiness/Scroll/FOScrollController.dart';
 import 'package:kirinyaga_agribusiness/Scroll/SupScrollController.dart';
 import '../Components/NavigationButton.dart';
-import '../Components/FODrawer.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
