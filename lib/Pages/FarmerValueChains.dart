@@ -29,6 +29,7 @@ class _FarmerValueChainsState extends State<FarmerValueChains> {
   checkMapping() async {
     try {
       var id = await storage.read(key: "NationalID");
+      print("the farmervaluechain id is $id");
       if (id != null) {
         setState(() {
           FarmerID = id;
@@ -66,7 +67,9 @@ class _FarmerValueChainsState extends State<FarmerValueChains> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => const AddValueChain(id: null,)));
+                                builder: (_) => const AddValueChain(
+                                      id: null,
+                                    )));
                       },
                     ),
                     SubmitButton(

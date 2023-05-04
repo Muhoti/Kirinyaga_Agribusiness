@@ -18,6 +18,7 @@ class FarmerHome extends StatefulWidget {
 
 class _FarmerHomeState extends State<FarmerHome> {
   String name = '';
+  String farmerid = '';
 
   String valueChain = '';
   var storage = const FlutterSecureStorage();
@@ -44,9 +45,10 @@ class _FarmerHomeState extends State<FarmerHome> {
             });
 
         var data = json.decode(response.body);
-        print("the data is $data");
+        print("the farmerhome is $data");
         setState(() {
           valueChain = data["FarmingType"];
+          farmerid = data["NationalID"];
         });
       } catch (e) {
         // todo
@@ -132,6 +134,10 @@ class _FarmerHomeState extends State<FarmerHome> {
             SubmitButton(
               label: "Update ValueChain",
               onButtonPressed: () async {
+                setState(() {
+                  storage.write(key: "NationalID", value: farmerid);
+                });
+
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
