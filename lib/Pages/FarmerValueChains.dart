@@ -19,7 +19,6 @@ class _FarmerValueChainsState extends State<FarmerValueChains> {
   final storage = const FlutterSecureStorage();
   String name = '';
   String FarmerID = '';
-  String nationalId = '';
 
   @override
   void initState() {

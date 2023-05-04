@@ -21,7 +21,15 @@ import 'package:http/http.dart' as http;
 import '../Components/Utils.dart';
 
 class ValueChainProduce extends StatefulWidget {
-  const ValueChainProduce({super.key, required id});
+  final String vcid;
+  final String farmerID;
+  final String valuechain;
+
+  const ValueChainProduce(
+      {super.key,
+      required this.vcid,
+      required this.farmerID,
+      required this.valuechain});
 
   @override
   State<ValueChainProduce> createState() => _ValueChainProduceState();
@@ -35,16 +43,57 @@ class _ValueChainProduceState extends State<ValueChainProduce> {
   String harvestYear = '';
   String harvestMonth = '';
   String season = '';
-
-  String farmingPeriod = 'Annually';
   String error = '';
   // late DateTime _selectedDate;
   var isLoading;
   final storage = const FlutterSecureStorage();
 
   @override
+  void initState() {
+    //checkMapping();
+    super.initState();
+  }
+
+  // checkMapping() async {
+  //   try {
+  //      farmerID = (await storage.read(key: "NationalID"))!;
+  //     editValueChains(farmerID);
+  //   } catch (e) {}
+  // }
+
+  //  editValueChains(String id) async {
+  //   try {
+  //     final response = await http.get(
+  //       Uri.parse("${getUrl()}valuechainproduce/$id"),
+  //     );
+
+  //     var body = json.decode(response.body);
+  //     print("farmer valuechain body is ${body}");
+
+  //     if (body.length > 0) {
+  //       setState(() {
+  //         data = body[0];
+  //         name = body[0]["Name"];
+  //         nationalId = body[0]["NationalID"];
+  //         phoneNumber = body[0]["Phone"];
+  //         gender = body[0]["Gender"];
+  //         age = body[0]["AgeGroup"];
+  //         farmingType = body[0]["FarmingType"];
+  //       });
+  //     }
+  //   } catch (e) {}
+  // }
+
+  @override
   Widget build(BuildContext context) {
     // String harvestDate = _selectedDate.toString();
+
+    valueChainID = widget.vcid;
+    farmerID = widget.farmerID;
+    valueChain = widget.valuechain;
+
+    print(
+        "the value chain produce id is $valueChainID AND farmer id is $farmerID and valuechain is $valueChain");
 
     return Scaffold(
       appBar: AppBar(
@@ -70,17 +119,7 @@ class _ValueChainProduceState extends State<ValueChainProduce> {
               children: [
                 TextOakar(label: error),
                 MyTextInput(
-                    title: "Value Chain",
-                    lines: 1,
-                    value: "",
-                    type: TextInputType.text,
-                    onSubmit: (value) {
-                      setState(() {
-                        valueChain = value;
-                      });
-                    }),
-                MyTextInput(
-                    title: "Produce",
+                    title: "Produce Amount",
                     lines: 1,
                     value: "",
                     type: TextInputType.text,
@@ -111,7 +150,7 @@ class _ValueChainProduceState extends State<ValueChainProduce> {
                       });
                     }),
                 MyTextInput(
-                    title: "Harvest Year",
+                    title: "Season",
                     lines: 1,
                     value: "",
                     type: TextInputType.text,
@@ -146,52 +185,6 @@ class _ValueChainProduceState extends State<ValueChainProduce> {
                 // ),
 
                 const SizedBox(height: 12),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width - 48,
-                  child: DropdownButtonFormField(
-                    decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
-                      border: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Color.fromRGBO(0, 128, 0, 1))),
-                      labelText: 'Farming Period',
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      hintStyle: TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
-                    ),
-                    value: farmingPeriod, // use selectedGender variable
-                    onChanged: (selectedFarmingPeriod) {
-                      setState(() {
-                        farmingPeriod = selectedFarmingPeriod!;
-                      });
-                    },
-                    items: const [
-                      DropdownMenuItem(
-                        child: Text("Annually"),
-                        value: "Annually",
-                      ),
-                      DropdownMenuItem(
-                        child: Text("Bi-Annually"),
-                        value: "Bi-Annually",
-                      ),
-                      DropdownMenuItem(
-                        child: Text("Quarterly"),
-                        value: "Quarterly",
-                      ),
-                      DropdownMenuItem(
-                        child: Text("Monthly"),
-                        value: "Monthly",
-                      ),
-                      DropdownMenuItem(
-                        child: Text("Weekly"),
-                        value: "Weekly",
-                      ),
-                      DropdownMenuItem(
-                        child: Text("Daily"),
-                        value: "Daily",
-                      ),
-                    ],
-                  ),
-                ),
                 SubmitButton(
                   label: "Submit",
                   onButtonPressed: () async {
@@ -201,8 +194,15 @@ class _ValueChainProduceState extends State<ValueChainProduce> {
                         size: 100,
                       );
                     });
-                    var res = await postProduce(valueChainID, valueChain,
-                        farmerID, produceAmount, harvestYear, harvestMonth, season);
+                    var res = await postProduce(
+                        valueChainID,
+                        valueChain,
+                        farmerID,
+                        produceAmount,
+                        harvestYear,
+                        harvestMonth,
+                        season);
+
                     setState(() {
                       isLoading = null;
                       if (res.error == null) {
@@ -268,9 +268,9 @@ Future<Message> postProduce(
     },
     body: jsonEncode(<String, String>{
       'ValueChainID': valueChainID,
-      'Name': valueChain,
+      'ValueChain': valueChain,
       'FarmerID': farmerID,
-      'Produce': produceAmount,
+      'ProduceAmount': produceAmount,
       'HarvestYear': harvestYear,
       'HarvestMonth': harvestMonth,
       'season': season,

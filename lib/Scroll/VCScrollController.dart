@@ -13,9 +13,7 @@ class VCScrollController extends StatefulWidget {
   final String id;
   final storage = const FlutterSecureStorage();
 
-  const VCScrollController(
-      {super.key,
-      required this.id});
+  const VCScrollController({super.key, required this.id});
 
   @override
   _VCScrollControllerState createState() => _VCScrollControllerState();
@@ -23,6 +21,8 @@ class VCScrollController extends StatefulWidget {
 
 class _VCScrollControllerState extends State<VCScrollController> {
   final _numberOfPostsPerRequest = 5;
+  String vcid = '';
+  String valuechain = '';
 
   final PagingController<int, VCItem> _pagingController =
       PagingController(firstPageKey: 0);
@@ -40,13 +40,23 @@ class _VCScrollControllerState extends State<VCScrollController> {
     try {
       final dynamic response;
 
+      print("the VCS FARMER ID IS ${widget.id}");
+
       response = await get(
         Uri.parse("${getUrl()}farmervaluechains/${widget.id}"),
       );
 
       List responseList = json.decode(response.body);
+      print("valuechain response lise $responseList");
 
-      print("The list is $responseList");
+      if (responseList.isNotEmpty) {
+        setState(() {
+          vcid = responseList[0]["ValueChainID"];
+          valuechain = responseList[0]["Name"];
+        });
+      }
+
+      print("The vcid is $vcid WIDGET ID IS ${widget.id} and valuechain is $valuechain");
 
       List<VCItem> postList = responseList.map((data) => VCItem(data)).toList();
       print("farmer groups data is $postList");
@@ -73,7 +83,7 @@ class _VCScrollControllerState extends State<VCScrollController> {
           builderDelegate: PagedChildBuilderDelegate<VCItem>(
             itemBuilder: (context, item, index) => Padding(
               padding: const EdgeInsets.all(0),
-              child: VCIncidentBar(item: item, id: widget.id,),
+              child: VCIncidentBar(item: item, id: widget.id, vcid: vcid, valuechain: valuechain),
             ),
           ),
         ));

@@ -5,8 +5,11 @@ import 'package:kirinyaga_agribusiness/Pages/ValueChainProduce.dart';
 class VCIncidentBar extends StatefulWidget {
   final dynamic item;
   final String id;
+  final String vcid;
+  final String valuechain;
 
-  const VCIncidentBar({super.key, required this.item, required this.id});
+  const VCIncidentBar(
+      {super.key, required this.item, required this.id, required this.vcid, required this.valuechain});
 
   @override
   State<VCIncidentBar> createState() => _VCIncidentBarState();
@@ -17,15 +20,15 @@ class _VCIncidentBarState extends State<VCIncidentBar> {
 
   @override
   Widget build(BuildContext context) {
-    String dateString  = widget.item.item['updatedAt'];
+    String dateString = widget.item.item['updatedAt'];
 
-    DateTime date = DateTime.parse(dateString );
+    DateTime date = DateTime.parse(dateString);
     String year = date.year.toString();
     String month = date.month.toString();
     String day = date.day.toString();
 
     dt = "$year-$month-$day";
-    print("the day is $dt");
+    print("the incident bar is ${widget.vcid}");
 
     return Padding(
         padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
@@ -39,8 +42,7 @@ class _VCIncidentBarState extends State<VCIncidentBar> {
                       context,
                       MaterialPageRoute(
                           builder: (_) => ValueChainProduce(
-                                id: widget.item.item['ID'],
-                              )));
+                              vcid: widget.vcid, farmerID: widget.id, valuechain: widget.valuechain)));
                 },
                 child: Container(
                   padding: const EdgeInsets.all(2),
