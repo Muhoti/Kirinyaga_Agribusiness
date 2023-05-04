@@ -33,17 +33,16 @@ class FarmerAddress extends StatefulWidget {
 
 class _FarmerAddressState extends State<FarmerAddress> {
   var subc = {
-    "Mwea": [
-      "Mutithi",
-      "Kangai",
-      "Wamumu",
-      "Nyangati",
-      "Murindiko",
-      "Gathigiririr",
-      "Teberer"
+    "Mwea West": ["Mutithi", "Kangai", "Thiba", "Wamumu"],
+    "Mwea East": ["Nyangati", "Murinduko", "Gathigiriri", "Tebere"],
+    "Kirinyaga East": [
+      "Kabare",
+      "Baragwi",
+      "Njukiine",
+      "Ngariama",
+      "Karumandi"
     ],
-    "Gichugu": ["Kabare Baragwi", "Njukiini", "Ngariama", "Karumandi"],
-    "Ndia": ["Mukure", "Kiine", "Kariti"],
+    "Kirinyaga West": ["Mukure", "Kiine", "Kariti"],
     "Kirinyaga Central": ["Mutira", "Kanyekini", "Kerugoya", "Inoi"]
   };
   List<String> wrds = [];
@@ -114,7 +113,6 @@ class _FarmerAddressState extends State<FarmerAddress> {
       );
 
       var body = json.decode(response.body);
-
 
       if (body.length > 0) {
         updateWards(body[0]["SubCounty"]);
@@ -328,7 +326,6 @@ Future<Message> submitData(bool type, String FarmerID, String SubCounty,
   }
 
   if (Latitude == 0.0 || Latitude == 0.0) {
-
     return Message(
         token: null,
         success: null,
