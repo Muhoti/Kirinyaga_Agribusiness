@@ -55,6 +55,9 @@ class _FarmerValueChainsState extends State<FarmerValueChains> {
           drawer: const Drawer(child: FODrawer()),
           body: Column(
             children: <Widget>[
+              const SizedBox(
+                height: 24,
+              ),
               Flexible(
                 flex: 1,
                 fit: FlexFit.tight,

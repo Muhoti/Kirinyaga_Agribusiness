@@ -82,15 +82,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text("Supervisor Home"),
-          actions: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                icon: const Icon(Icons.arrow_back),
-              ),
-            ),
-          ],
+          
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
         drawer: const Drawer(child: SuDrawer()),

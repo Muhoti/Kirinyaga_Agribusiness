@@ -70,7 +70,8 @@ class _FarmerInfoState extends State<FarmerInfo> {
           Align(
             alignment: Alignment.centerRight,
             child: IconButton(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => {Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (_) => const FarmerHome()))},
               icon: const Icon(Icons.arrow_back),
             ),
           ),

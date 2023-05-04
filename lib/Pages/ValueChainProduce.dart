@@ -12,6 +12,7 @@ import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
+import 'package:kirinyaga_agribusiness/Pages/AddValueChain.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
@@ -71,7 +72,8 @@ class _ValueChainProduceState extends State<ValueChainProduce> {
           Align(
             alignment: Alignment.centerRight,
             child: IconButton(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => {Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (_) => const FarmerValueChains()))},
               icon: const Icon(Icons.arrow_back),
             ),
           ),

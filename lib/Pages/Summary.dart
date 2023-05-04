@@ -99,14 +99,12 @@ class _SummaryState extends State<Summary> {
         ),
         body: Stack(
           children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                children: [
-                  Flexible(
-                    fit: FlexFit.tight,
-                    flex: 10,
-                    child: FMItem(
+            SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  children: [
+                    FMItem(
                         title: data == null
                             ? "Farmer not found!"
                             : data["Data"]["Name"],
@@ -117,89 +115,74 @@ class _SummaryState extends State<Summary> {
                         user: data == null
                             ? "Farmer not found!"
                             : data["Data"]["User"]),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  Flexible(
-                      fit: FlexFit.tight,
-                      flex: 5,
-                      child: FMSummary(
-                        title: "Farmer Info",
-                        icon: Icons.person_2_rounded,
-                        mapped: data == null ? false : data["FD"] > 0,
-                        page: const FarmerDetails(
-                          editing: true,
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    FMSummary(
+                      title: "Farmer Info",
+                      icon: Icons.person_2_rounded,
+                      mapped: data == null ? false : data["FD"] > 0,
+                      page: const FarmerDetails(
+                        editing: true,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    FMSummary(
+                      title: "Farmer Address",
+                      icon: Icons.location_pin,
+                      mapped: data == null ? false : data["FA"] > 0,
+                      page: FarmerAddress(
+                        editing: data == null ? false : data["FA"] > 0,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    FMSummary(
+                      title: "Farmer Resources",
+                      icon: Icons.library_books,
+                      mapped: data == null ? false : data["FR"] > 0,
+                      page: FarmerResources(
+                         editing: data == null ? false : data["FR"] > 0,
                         ),
-                      )),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  Flexible(
-                      fit: FlexFit.tight,
-                      flex: 5,
-                      child: FMSummary(
-                        title: "Farmer Address",
-                        icon: Icons.location_pin,
-                        mapped: data == null ? false : data["FA"] > 0,
-                        page: FarmerAddress(
-                          editing: data == null ? false : data["FA"] > 0,
-                        ),
-                      )),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  Flexible(
-                      fit: FlexFit.tight,
-                      flex: 5,
-                      child: FMSummary(
-                        title: "Farmer Resources",
-                        icon: Icons.library_books,
-                        mapped: data == null ? false : data["FR"] > 0,
-                        page: FarmerResources(
-                           editing: data == null ? false : data["FR"] > 0,
-                          ),
-                      )),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  Flexible(
-                      fit: FlexFit.tight,
-                      flex: 5,
-                      child: FMSummary(
-                        title: "Farmer Groups",
-                        icon: Icons.groups,
-                        mapped: data == null ? false : data["FG"] > 0,
-                        page: const FarmerGroups(),
-                      )),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  Flexible(
-                      fit: FlexFit.tight,
-                      flex: 5,
-                      child: FMSummary(
-                        title: "Value Chains",
-                        icon: Icons.agriculture,
-                        mapped: data == null ? false : data["VC"] > 0,
-                        page: const FarmerValueChains(),
-                      )),
-                  SubmitButton(
-                    label: "Finish",
-                    onButtonPressed: () async {
-                      if (data != null &&
-                          data["FD"] > 0 &&
-                          data["FA"] > 0 &&
-                          data["FR"] > 0 &&
-                          data["FG"] > 0 &&
-                          data["VC"] > 0) {
-                        storage.write(key: "NationalID", value: null);
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (_) => const Home()));
-                      }
-                    },
-                  ),
-                ],
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    FMSummary(
+                      title: "Farmer Groups",
+                      icon: Icons.groups,
+                      mapped: data == null ? false : data["FG"] > 0,
+                      page: const FarmerGroups(),
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    FMSummary(
+                      title: "Value Chains",
+                      icon: Icons.agriculture,
+                      mapped: data == null ? false : data["VC"] > 0,
+                      page: const FarmerValueChains(),
+                    ),
+                    SubmitButton(
+                      label: "Finish",
+                      onButtonPressed: () async {
+                        if (data != null &&
+                            data["FD"] > 0 &&
+                            data["FA"] > 0 &&
+                            data["FR"] > 0 &&
+                            data["FG"] > 0 &&
+                            data["VC"] > 0) {
+                          storage.write(key: "NationalID", value: null);
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (_) => const Home()));
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
             Center(

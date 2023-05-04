@@ -91,7 +91,8 @@ class _SupReportState extends State<SupReport> {
             Align(
               alignment: Alignment.centerRight,
               child: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => {Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (_) => const SupervisorHome()))},
                 icon: const Icon(Icons.arrow_back),
               ),
             ),

@@ -62,15 +62,6 @@ class _FarmerHomeState extends State<FarmerHome> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text("Home"),
-          actions: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                icon: const Icon(Icons.arrow_back),
-              ),
-            ),
-          ],
           backgroundColor: Color.fromRGBO(0, 128, 0, 1),
         ),
         drawer: const Drawer(child: FODrawer()),

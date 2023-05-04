@@ -36,8 +36,6 @@ class _FOReportsState extends State<FOReports> {
 
   @override
   void initState() {
-
-
     viewWork(widget.id);
 
     super.initState();
@@ -51,7 +49,6 @@ class _FOReportsState extends State<FOReports> {
 
       var data = json.decode(response.body);
 
-
       setState(() {
         workid = (data["UserID"]);
         title = data["Title"];
@@ -63,32 +60,17 @@ class _FOReportsState extends State<FOReports> {
         latitude = data["Latitude"];
         longitude = data["Longitude"];
       });
-
-  
-    } catch (e) {
-  
-    }
+    } catch (e) {}
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     return MaterialApp(
       title: "Field Officer Report",
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Center(child: Text("Supervisor Tasks")),
-          actions: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                icon: const Icon(Icons.arrow_back),
-              ),
-            ),
-          ],
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
         body: Padding(

@@ -86,7 +86,8 @@ class _ViewReportState extends State<ViewReport> {
             Align(
               alignment: Alignment.centerRight,
               child: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => {Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (_) => const FieldOfficerHome()))},
                 icon: const Icon(Icons.arrow_back),
               ),
             ),

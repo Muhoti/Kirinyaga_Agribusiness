@@ -65,7 +65,7 @@ class _FarmerLoginState extends State<FarmerLogin> {
                               title: 'National ID',
                                lines: 1,
                               value: '',
-                              type: TextInputType.visiblePassword,
+                              type: TextInputType.number,
                               onSubmit: (value) {
                                 setState(() {
                                   nationalId = value;
@@ -122,7 +122,7 @@ Future<Message> login(String phone, String nationalId) async {
     );
   }
 
-  if (nationalId.length < 7) {
+  if (nationalId.length < 6) {
     return Message(
       token: null,
       success: null,
