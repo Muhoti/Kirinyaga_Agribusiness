@@ -63,7 +63,7 @@ class _FOScrollControllerState extends State<FOScrollController> {
       List responseList = json.decode(response.body);
 
       var databaseItemsNo = responseList.length;
-      print(responseList);
+  
 
       List<FOItem> postList = responseList.map((data) => FOItem(data)).toList();
 
@@ -75,7 +75,7 @@ class _FOScrollControllerState extends State<FOScrollController> {
         _pagingController.appendPage(postList, nextPageKey);
       }
     } catch (e) {
-      print(e);
+
       _pagingController.error = e;
     }
   }

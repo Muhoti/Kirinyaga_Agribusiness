@@ -52,12 +52,12 @@ class _FarmerDetailsState extends State<FarmerDetails> {
     try {
       var token = await storage.read(key: "erjwt");
       var decoded = parseJwt(token.toString());
-      print(decoded);
+  
       setState(() {
         user = decoded["Name"];
       });
     } catch (e) {
-      print(e);
+
     }
   }
 
@@ -77,7 +77,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
       );
 
       var body = json.decode(response.body);
-      print("farmer details body is ${body}");
+   
 
       if (body.length > 0) {
         setState(() {

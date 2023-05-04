@@ -31,22 +31,12 @@ class _StaffLoginState extends State<StaffLogin> {
   var isLoading;
   String role = '';
   final storage = const FlutterSecureStorage();
-
   String nationalId = '';
 
-  Future<void> checkRole() async {
+  checkRole(token) async {
     try {
-      String editing = "";
-      var token = await storage.read(key: "erjwt");
-      var decoded = parseJwt(token.toString());
-      var id = decoded["UserID"];
-      final response = await http.get(Uri.parse("${getUrl()}mobile/$id"),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8'
-          });
-      var data = json.decode(response.body);
+      var data = parseJwt(token);
       String role = data["Role"];
-      // print("the role is $role");
       switch (role) {
         case "Field Officer":
           Navigator.pushReplacement(context,
@@ -65,7 +55,7 @@ class _StaffLoginState extends State<StaffLogin> {
           const FieldOfficerHome();
       }
     } catch (e) {
-      // TO-DO
+   
     }
   }
 
@@ -95,7 +85,7 @@ class _StaffLoginState extends State<StaffLogin> {
                             TextOakar(label: error),
                             MyTextInput(
                               title: 'Email',
-                               lines: 1,
+                              lines: 1,
                               value: '',
                               type: TextInputType.emailAddress,
                               onSubmit: (value) {
@@ -106,7 +96,7 @@ class _StaffLoginState extends State<StaffLogin> {
                             ),
                             MyTextInput(
                               title: 'Password',
-                               lines: 1,
+                              lines: 1,
                               value: '',
                               type: TextInputType.visiblePassword,
                               onSubmit: (value) {
@@ -137,9 +127,7 @@ class _StaffLoginState extends State<StaffLogin> {
                                 if (res.error == null) {
                                   await storage.write(
                                       key: 'erjwt', value: res.token);
-                                  var decoded = parseJwt(res.token.toString());
-                                  checkRole();
-                                  //checkRole(decoded["Password"], role, context);
+                                  checkRole(res.token);
                                 }
                               },
                             ),

@@ -71,7 +71,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
         workplans = data["WorkPlan"].toString();
       });
     } catch (e) {
-      print(e);
+   
     }
   }
 

@@ -28,7 +28,7 @@ class _VCIncidentBarState extends State<VCIncidentBar> {
     String day = date.day.toString();
 
     dt = "$year-$month-$day";
-    print("the incident bar is ${widget.vcid}");
+
 
     return Padding(
         padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),

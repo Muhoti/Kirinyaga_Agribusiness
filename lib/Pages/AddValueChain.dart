@@ -49,7 +49,6 @@ class _AddValueChainState extends State<AddValueChain> {
       if (id != null) {
         setState(() {
           farmerID = id;
-          print("VALUE CHAINS ID IS $farmerID");
         });
       }
     } catch (e) {}

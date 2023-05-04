@@ -50,7 +50,7 @@ class _FarmerResourcesState extends State<FarmerResources> {
       if (id != null) {
         setState(() {
           FarmerID = id;
-          print("FARMER RESOURCES ID IS $FarmerID");
+
         });
         editFarmerResources(id);
       }
@@ -64,7 +64,7 @@ class _FarmerResourcesState extends State<FarmerResources> {
       );
 
       var body = json.decode(response.body);
-    print("farmer resources body is ${body}");
+
 
 
       if (body.length > 0) {
@@ -78,7 +78,6 @@ class _FarmerResourcesState extends State<FarmerResources> {
         });
       }
 
-      print("farmer resources body is $body");
     } catch (e) {}
   }
 

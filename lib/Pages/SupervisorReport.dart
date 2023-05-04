@@ -40,7 +40,7 @@ class _SupervisorReportState extends State<SupervisorReport> {
 
   @override
   void initState() {
-    print("the widget id is ${widget.id}");
+
     super.initState();
   }
 
@@ -178,7 +178,7 @@ class _SupervisorReportState extends State<SupervisorReport> {
                                   latitude,
                                   longitude);
 
-                              print("the response is $res");
+                        
 
                               setState(() {
                                 isloading = null;

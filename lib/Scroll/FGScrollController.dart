@@ -46,10 +46,10 @@ class _FGScrollControllerState extends State<FGScrollController> {
 
       List responseList = json.decode(response.body);
 
-      print("The list is $responseList");
+  
 
       List<FGItem> postList = responseList.map((data) => FGItem(data)).toList();
-      print("farmer groups data is $postList");
+    
       final isLastPage = postList.length < _numberOfPostsPerRequest;
       if (isLastPage) {
         _pagingController.appendLastPage(postList);
@@ -58,7 +58,7 @@ class _FGScrollControllerState extends State<FGScrollController> {
         _pagingController.appendPage(postList, nextPageKey);
       }
     } catch (e) {
-      print(e);
+  
       _pagingController.error = e;
     }
   }

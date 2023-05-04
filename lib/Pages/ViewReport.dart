@@ -42,7 +42,6 @@ class _ViewReportState extends State<ViewReport> {
 
   @override
   void initState() {
-    print("the viewreport is ${widget.id}");
 
     viewReport(widget.id);
 
@@ -57,9 +56,6 @@ class _ViewReportState extends State<ViewReport> {
 
       var data = json.decode(response.body);
 
-      print("the data alone is $data");
-
-      print("the data is ${data[0]}");
 
       setState(() {
         workid = (data["ID"]);
@@ -73,9 +69,8 @@ class _ViewReportState extends State<ViewReport> {
         longitude = data["Longitude"];
       });
 
-      print("come on $workid, $title, $type");
     } catch (e) {
-      print(e);
+    
     }
   }
 

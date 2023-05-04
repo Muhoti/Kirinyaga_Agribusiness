@@ -57,7 +57,7 @@ class _WorkPlanState extends State<WorkPlan> {
         data = body;
         isloading = null;
       });
-      print(data);
+  
     } catch (e) {
       setState(() {
         isloading = null;

@@ -52,7 +52,7 @@ class _SupScrollControllerState extends State<SupScrollController> {
     var offset = pageKey == 0 ? pageKey : pageKey + _numberOfPostsPerRequest;
     try {
       final dynamic response;
-      print(widget.status == "Pending");
+   
 
       widget.status == "Pending"
           ? response = await get(
@@ -65,7 +65,7 @@ class _SupScrollControllerState extends State<SupScrollController> {
       List responseList = json.decode(response.body);
 
       var databaseItemsNo = responseList.length;
-      print(responseList);
+    
 
       List<FOItem> postList = responseList.map((data) => FOItem(data)).toList();
 
@@ -77,7 +77,7 @@ class _SupScrollControllerState extends State<SupScrollController> {
         _pagingController.appendPage(postList, nextPageKey);
       }
     } catch (e) {
-      print(e);
+  
       _pagingController.error = e;
     }
   }

@@ -24,7 +24,6 @@ class _SuIncidentBar extends State<SuIncidentBar> {
     String date = widget.item.item['updatedAt'];
     List<String> dateParts = date.split("T");
     my = widget.item.item?['OName'] + "\n" + dateParts[0];
-    print(my);
     super.initState();
   }
 

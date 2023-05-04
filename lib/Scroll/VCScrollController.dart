@@ -40,15 +40,13 @@ class _VCScrollControllerState extends State<VCScrollController> {
     try {
       final dynamic response;
 
-      print("the VCS FARMER ID IS ${widget.id}");
-
+   
       response = await get(
         Uri.parse("${getUrl()}farmervaluechains/${widget.id}"),
       );
 
       List responseList = json.decode(response.body);
-      print("valuechain response lise $responseList");
-
+     
       if (responseList.isNotEmpty) {
         setState(() {
           vcid = responseList[0]["ValueChainID"];
@@ -56,10 +54,9 @@ class _VCScrollControllerState extends State<VCScrollController> {
         });
       }
 
-      print("The vcid is $vcid WIDGET ID IS ${widget.id} and valuechain is $valuechain");
-
+     
       List<VCItem> postList = responseList.map((data) => VCItem(data)).toList();
-      print("farmer groups data is $postList");
+     
       final isLastPage = postList.length < _numberOfPostsPerRequest;
       if (isLastPage) {
         _pagingController.appendLastPage(postList);
@@ -68,7 +65,6 @@ class _VCScrollControllerState extends State<VCScrollController> {
         _pagingController.appendPage(postList, nextPageKey);
       }
     } catch (e) {
-      print(e);
       _pagingController.error = e;
     }
   }

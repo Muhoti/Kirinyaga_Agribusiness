@@ -25,7 +25,6 @@ class _MySelectInputState extends State<MySelectInput> {
 
   @override
   void initState() {
-    print(widget.entries);
     if (widget.entries.length > 0) {
       setState(() {
         if (widget.entries.contains(widget.value)) {

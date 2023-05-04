@@ -14,6 +14,7 @@ import 'package:kirinyaga_agribusiness/Model/SearchItem.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
+import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Pages/WorkPlan.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
@@ -62,9 +63,9 @@ class _CreateReportState extends State<CreateReport> {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          print('Location permissions are denied');
+          permission = await Geolocator.requestPermission();
         } else if (permission == LocationPermission.deniedForever) {
-          print("'Location permissions are permanently denied");
+          permission = await Geolocator.requestPermission();
         } else {
           haspermission = true;
         }
@@ -76,12 +77,15 @@ class _CreateReportState extends State<CreateReport> {
         getLocation();
       }
     } else {
-      print("GPS Service is not enabled, turn on GPS location");
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+            "Location is required! You will be logged out. Please turn on your location"),
+      ));
+      Timer(Duration(seconds: 2), () {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const Login()));
+      });
     }
-
-    setState(() {
-      //refresh the UI
-    });
   }
 
   getLocation() async {
@@ -142,8 +146,12 @@ class _CreateReportState extends State<CreateReport> {
         resizeToAvoidBottomInset: true,
         floatingActionButton: RawMaterialButton(
           onPressed: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const FarmerDetails(editing: false,)));
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const FarmerDetails(
+                          editing: false,
+                        )));
           },
           elevation: 5.0,
           fillColor: Colors.orange,
@@ -221,94 +229,93 @@ class _CreateReportState extends State<CreateReport> {
                     ),
                   ),
                   TextOakar(label: error),
-                  if (widget.type == "Extension Services")
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(24, 0, 24, 12),
-                      child: Column(
-                        children: [
-                          TextFormField(
-                              onChanged: (value) {
-                                if (value.characters.length >=
-                                    check.characters.length) {
-                                  searchFarmer(value);
-                                } else {
-                                  setState(() {
-                                    entries.clear();
-                                    Tally = '';
-                                    FarmerID = '';
-                                    FarmerName = '';
-                                  });
-                                }
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 12),
+                    child: Column(
+                      children: [
+                        TextFormField(
+                            onChanged: (value) {
+                              if (value.characters.length >=
+                                  check.characters.length) {
+                                searchFarmer(value);
+                              } else {
                                 setState(() {
-                                  check = value;
-                                  error = '';
+                                  entries.clear();
+                                  Tally = '';
+                                  FarmerID = '';
+                                  FarmerName = '';
                                 });
-                              },
-                              keyboardType: TextInputType.number,
-                              enableSuggestions: false,
-                              autocorrect: false,
-                              decoration: const InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.fromLTRB(24, 8, 24, 0),
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Color.fromRGBO(0, 128, 0, 1))),
-                                  filled: false,
-                                  label: Text(
-                                    "Search Farmer by National ID",
-                                    style: TextStyle(
-                                        color: Color.fromRGBO(0, 128, 0, 1)),
-                                  ),
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always)),
-                          entries.isNotEmpty
-                              ? Card(
-                                  elevation: 12,
-                                  child: ListView.separated(
-                                    padding: const EdgeInsets.all(4),
-                                    scrollDirection: Axis.vertical,
-                                    shrinkWrap: true,
-                                    itemCount: entries.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return TextButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            FarmerID =
-                                                entries[index].NationalID;
-                                            FarmerName = entries[index].Name;
-                                            Tally = '1';
-                                            entries.clear();
-                                          });
-                                        },
-                                        child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Text(
-                                                'Name: ${entries[index].Name}, ID: ${entries[index].NationalID}')),
-                                      );
-                                    },
-                                    separatorBuilder:
-                                        (BuildContext context, int index) =>
-                                            const Divider(),
-                                  ),
-                                )
-                              : const SizedBox()
-                        ],
-                      ),
-                    )
-                  else
-                    MyTextInput(
-                      title: 'Farmers Reached',
-                      lines: 1,
-                      value: '',
-                      type: TextInputType.number,
-                      onSubmit: (value) {
-                        setState(() {
-                          Tally = value;
-                          error = '';
-                        });
-                      },
+                              }
+                              setState(() {
+                                check = value;
+                                error = '';
+                              });
+                            },
+                            keyboardType: TextInputType.number,
+                            enableSuggestions: false,
+                            autocorrect: false,
+                            decoration: const InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(24, 8, 24, 0),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(0, 128, 0, 1))),
+                                filled: false,
+                                label: Text(
+                                  "Search Farmer by National ID",
+                                  style: TextStyle(
+                                      color: Color.fromRGBO(0, 128, 0, 1)),
+                                ),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always)),
+                        entries.isNotEmpty
+                            ? Card(
+                                elevation: 12,
+                                child: ListView.separated(
+                                  padding: const EdgeInsets.all(4),
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemCount: entries.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          FarmerID = entries[index].NationalID;
+                                          FarmerName = entries[index].Name;
+                                          Tally = '1';
+                                          entries.clear();
+                                        });
+                                      },
+                                      child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                              'Name: ${entries[index].Name}, ID: ${entries[index].NationalID}')),
+                                    );
+                                  },
+                                  separatorBuilder:
+                                      (BuildContext context, int index) =>
+                                          const Divider(),
+                                ),
+                              )
+                            : const SizedBox()
+                      ],
                     ),
+                  ),
+                  widget.type != "Extension Services"
+                      ? MyTextInput(
+                          title: 'Farmers Reached',
+                          lines: 1,
+                          value: '',
+                          type: TextInputType.number,
+                          onSubmit: (value) {
+                            setState(() {
+                              Tally = value;
+                              error = '';
+                            });
+                          },
+                        )
+                      : SizedBox(),
                   MyTextInput(
                     title: 'Remarks',
                     lines: 8,

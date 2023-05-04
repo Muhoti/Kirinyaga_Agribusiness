@@ -50,7 +50,6 @@ class _FarmerInfoState extends State<FarmerInfo> {
         Uri.parse("${getUrl()}farmerdetails/$id"),
       );
       var data = json.decode(response.body);
-      print('The response body is $data');
 
       setState(() {
         Name = data["Name"];

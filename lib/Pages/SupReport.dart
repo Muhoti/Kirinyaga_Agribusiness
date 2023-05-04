@@ -43,7 +43,7 @@ class _SupReportState extends State<SupReport> {
 
   @override
   void initState() {
-    print("the SupReport is ${widget.id}");
+  
 
     SupReport(widget.id);
 
@@ -58,9 +58,7 @@ class _SupReportState extends State<SupReport> {
 
       var data = json.decode(response.body);
 
-      print("the data alone is $data");
 
-      print("the data is ${data[0]}");
 
       setState(() {
         workid = (data["ID"]);
@@ -74,15 +72,15 @@ class _SupReportState extends State<SupReport> {
         longitude = data["Longitude"];
       });
 
-      print("come on $workid, $title, $type");
+
     } catch (e) {
-      print(e);
+    
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    print(" hey you $title, $description, $image, $type");
+  
     return MaterialApp(
       title: "Supervisor Report",
       home: Scaffold(

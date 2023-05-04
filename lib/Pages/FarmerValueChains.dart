@@ -29,7 +29,7 @@ class _FarmerValueChainsState extends State<FarmerValueChains> {
   checkMapping() async {
     try {
       var id = await storage.read(key: "NationalID");
-      print("the farmervaluechain id is $id");
+
       if (id != null) {
         setState(() {
           FarmerID = id;
@@ -42,46 +42,54 @@ class _FarmerValueChainsState extends State<FarmerValueChains> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Kirinyaga Agribusiness',
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text("Farmer ValueChains"),
-          backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
-        ),
-        drawer: const Drawer(child: FODrawer()),
-        body: Column(
-          children: <Widget>[
-            Flexible(
-              flex: 1,
-              fit: FlexFit.tight,
-              child: FarmerID != ""
-                  ? VCScrollController(id: FarmerID)
-                  : const SizedBox(),
-            ),
-            Padding(
-                padding: const EdgeInsets.fromLTRB(12, 24, 12, 24),
-                child: Column(
-                  children: [
-                    SubmitButton(
-                      label: "Add ValueChain",
-                      onButtonPressed: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const AddValueChain(
-                                      id: null,
-                                    )));
-                      },
-                    ),
-                    SubmitButton(
-                      label: "Proceed",
-                      onButtonPressed: () {
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (_) => const Summary()));
-                      },
-                    ),
-                  ],
-                )),
-          ],
+      home: WillPopScope(
+        onWillPop: () {
+          Navigator.pop(context);
+          return Future.value(true);
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text("Farmer ValueChains"),
+            backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
+          ),
+          drawer: const Drawer(child: FODrawer()),
+          body: Column(
+            children: <Widget>[
+              Flexible(
+                flex: 1,
+                fit: FlexFit.tight,
+                child: FarmerID != ""
+                    ? VCScrollController(id: FarmerID)
+                    : const SizedBox(),
+              ),
+              Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 24, 12, 24),
+                  child: Column(
+                    children: [
+                      SubmitButton(
+                        label: "Add ValueChain",
+                        onButtonPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => const AddValueChain(
+                                        id: null,
+                                      )));
+                        },
+                      ),
+                      SubmitButton(
+                        label: "Proceed",
+                        onButtonPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => const Summary()));
+                        },
+                      ),
+                    ],
+                  )),
+            ],
+          ),
         ),
       ),
     );

@@ -70,7 +70,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
         workplans = data["WorkPlan"].toString();
       });
     } catch (e) {
-      print(e);
+
     }
   }
 

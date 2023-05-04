@@ -44,56 +44,25 @@ class _ValueChainProduceState extends State<ValueChainProduce> {
   String harvestMonth = '';
   String season = '';
   String error = '';
-  // late DateTime _selectedDate;
+ 
   var isLoading;
   final storage = const FlutterSecureStorage();
 
   @override
   void initState() {
-    //checkMapping();
+ 
     super.initState();
   }
 
-  // checkMapping() async {
-  //   try {
-  //      farmerID = (await storage.read(key: "NationalID"))!;
-  //     editValueChains(farmerID);
-  //   } catch (e) {}
-  // }
-
-  //  editValueChains(String id) async {
-  //   try {
-  //     final response = await http.get(
-  //       Uri.parse("${getUrl()}valuechainproduce/$id"),
-  //     );
-
-  //     var body = json.decode(response.body);
-  //     print("farmer valuechain body is ${body}");
-
-  //     if (body.length > 0) {
-  //       setState(() {
-  //         data = body[0];
-  //         name = body[0]["Name"];
-  //         nationalId = body[0]["NationalID"];
-  //         phoneNumber = body[0]["Phone"];
-  //         gender = body[0]["Gender"];
-  //         age = body[0]["AgeGroup"];
-  //         farmingType = body[0]["FarmingType"];
-  //       });
-  //     }
-  //   } catch (e) {}
-  // }
+  
 
   @override
   Widget build(BuildContext context) {
-    // String harvestDate = _selectedDate.toString();
+    
 
     valueChainID = widget.vcid;
     farmerID = widget.farmerID;
     valueChain = widget.valuechain;
-
-    print(
-        "the value chain produce id is $valueChainID AND farmer id is $farmerID and valuechain is $valueChain");
 
     return Scaffold(
       appBar: AppBar(

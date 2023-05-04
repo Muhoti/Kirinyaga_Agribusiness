@@ -45,7 +45,7 @@ class _FarmerHomeState extends State<FarmerHome> {
             });
 
         var data = json.decode(response.body);
-        print("the farmerhome is $data");
+
         setState(() {
           valueChain = data["FarmingType"];
           farmerid = data["NationalID"];

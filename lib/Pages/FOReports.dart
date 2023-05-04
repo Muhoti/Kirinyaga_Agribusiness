@@ -36,7 +36,7 @@ class _FOReportsState extends State<FOReports> {
 
   @override
   void initState() {
-    print("the FOReports is ${widget.id}");
+
 
     viewWork(widget.id);
 
@@ -50,7 +50,7 @@ class _FOReportsState extends State<FOReports> {
       );
 
       var data = json.decode(response.body);
-      print("the data alone is $data");
+
 
       setState(() {
         workid = (data["UserID"]);
@@ -64,15 +64,15 @@ class _FOReportsState extends State<FOReports> {
         longitude = data["Longitude"];
       });
 
-      print("come on $workid, $title, $type");
+  
     } catch (e) {
-      print(e);
+  
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    print(" hey work $title, $description, $image, $type");
+
 
     return MaterialApp(
       title: "Field Officer Report",

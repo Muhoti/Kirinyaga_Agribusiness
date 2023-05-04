@@ -29,7 +29,6 @@ class _ReviewMapState extends State<ReviewMap> {
     if (Platform.isAndroid) {
       WebView.platform = SurfaceAndroidWebView();
     }
-    print(widget.flat);
     super.initState();
   }
 

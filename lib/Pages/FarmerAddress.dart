@@ -114,7 +114,7 @@ class _FarmerAddressState extends State<FarmerAddress> {
       );
 
       var body = json.decode(response.body);
-      print(body);
+
 
       if (body.length > 0) {
         updateWards(body[0]["SubCounty"]);
@@ -154,7 +154,7 @@ class _FarmerAddressState extends State<FarmerAddress> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text(
-            "Location is required! We will log you out untill you turn on your location"),
+            "Location is required! You will be logged out. Please turn on your location"),
       ));
       Timer(Duration(seconds: 2), () {
         Navigator.pushReplacement(
@@ -328,7 +328,7 @@ Future<Message> submitData(bool type, String FarmerID, String SubCounty,
   }
 
   if (Latitude == 0.0 || Latitude == 0.0) {
-    print(Latitude);
+
     return Message(
         token: null,
         success: null,

@@ -32,8 +32,6 @@ class _FarmerGroupsState extends State<FarmerGroups> {
         setState(() {
           FarmerID = id;
         });
-        print("FARMER GROUPS ID IS $FarmerID");
-        // editFarmerResources(id);
       }
     } catch (e) {}
   }

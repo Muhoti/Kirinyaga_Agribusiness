@@ -38,14 +38,10 @@ class _FMItem extends State<FMItem> {
                 size: 44,
                 color: Colors.orange,
               ),
-              Flexible(
-                fit: FlexFit.tight,
-                flex: 1,
-                child: Center(
-                  child: Text(
-                    widget.tally.toString(),
-                    style: const TextStyle(fontSize: 34, color: Colors.white),
-                  ),
+              Center(
+                child: Text(
+                  widget.tally.toString(),
+                  style: const TextStyle(fontSize: 34, color: Colors.white),
                 ),
               ),
               Text(

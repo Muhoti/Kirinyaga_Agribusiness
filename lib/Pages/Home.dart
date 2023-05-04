@@ -115,27 +115,23 @@ class _HomeState extends State<Home> {
         ),
         drawer: const Drawer(child: FMDrawer()),
         body: Stack(children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(12, 12, 12, 48),
-            child: Column(
-              children: [
-                Flexible(
-                  fit: FlexFit.tight,
-                  flex: 10,
-                  child: FMItem(
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(12, 12, 12, 48),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  FMItem(
                     title: "Total Farmers",
                     tally: total,
                     icon: Icons.stacked_line_chart_rounded,
                     user: name,
                   ),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                Flexible(
-                  fit: FlexFit.tight,
-                  flex: 7,
-                  child: Row(
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Row(
                     children: [
                       Flexible(
                         fit: FlexFit.tight,
@@ -162,14 +158,10 @@ class _HomeState extends State<Home> {
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                Flexible(
-                  fit: FlexFit.tight,
-                  flex: 7,
-                  child: Row(
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Row(
                     children: [
                       Flexible(
                         fit: FlexFit.tight,
@@ -196,21 +188,17 @@ class _HomeState extends State<Home> {
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                Flexible(
-                  fit: FlexFit.tight,
-                  flex: 7,
-                  child: FMItem(
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  FMItem(
                     title: "Value Chains",
                     tally: data == null ? 0 : data["VC"],
                     icon: Icons.agriculture,
                     user: '',
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           Center(child: isLoading),
