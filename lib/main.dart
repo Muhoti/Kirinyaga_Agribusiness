@@ -68,7 +68,7 @@ class _MyAppState extends State<MyApp> {
           const Home();
       }
     } else {
-      const Login();
+      const MyApp();
     }
   }
 
@@ -82,10 +82,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     const storage = FlutterSecureStorage();
 
-    // Timer(const Duration(seconds: 2), () {
-    //   Navigator.pushReplacement(
-    //       context, MaterialPageRoute(builder: (_) => const Login()));
-    // });
+    Timer(const Duration(seconds: 2), () {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => const Login()));
+    });
 
     return MaterialApp(
       title: 'Kirinyaga Agribusiness',
