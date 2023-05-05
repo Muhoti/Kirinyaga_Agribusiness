@@ -6,11 +6,17 @@ import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
 
 class FarmerReportBar extends StatefulWidget {
-  final dynamic item;
+  final dynamic fditem;
+  final dynamic faitem;
+  final dynamic fritem;
+  final dynamic fgitem;
 
   const FarmerReportBar({
     super.key,
-    required this.item,
+    required this.fditem,
+    required this.faitem,
+    required this.fritem,
+    required this.fgitem,
   });
 
   @override
@@ -29,8 +35,7 @@ class _FarmerReportBar extends State<FarmerReportBar> {
 
   @override
   Widget build(BuildContext context) {
-
-    var farmerid = widget.item["NationalID"];
+    var farmerid = widget.fditem["NationalID"];
 
     return Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
@@ -61,7 +66,7 @@ class _FarmerReportBar extends State<FarmerReportBar> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Name: " + widget.item["Name"],
+                      "Name: " + widget.fditem["Name"],
                       style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
@@ -74,7 +79,7 @@ class _FarmerReportBar extends State<FarmerReportBar> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "National ID: " + widget.item["NationalID"],
+                      "National ID: " + widget.fditem["NationalID"],
                       style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
@@ -87,7 +92,7 @@ class _FarmerReportBar extends State<FarmerReportBar> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Phone: " + widget.item["Phone"],
+                      "Phone: " + widget.fditem["Phone"],
                       style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
@@ -100,7 +105,7 @@ class _FarmerReportBar extends State<FarmerReportBar> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Age Group: " + widget.item["AgeGroup"],
+                      "Age Group: " + widget.fditem["AgeGroup"],
                       style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
@@ -136,7 +141,7 @@ class _FarmerReportBar extends State<FarmerReportBar> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Name: " + widget.item["Name"],
+                      "County: " + widget.faitem["County"],
                       style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
@@ -149,7 +154,7 @@ class _FarmerReportBar extends State<FarmerReportBar> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "National ID: " + widget.item["NationalID"],
+                      "SubCounty: " + widget.faitem["SubCounty"],
                       style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
@@ -162,7 +167,7 @@ class _FarmerReportBar extends State<FarmerReportBar> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Phone: " + widget.item["Phone"],
+                      "Ward: " + widget.faitem["Ward"],
                       style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
@@ -171,16 +176,6 @@ class _FarmerReportBar extends State<FarmerReportBar> {
                   ),
                   const SizedBox(
                     height: 6,
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Age Group: " + widget.item["AgeGroup"],
-                      style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white),
-                    ),
                   ),
                 ]),
               ),
@@ -211,7 +206,7 @@ class _FarmerReportBar extends State<FarmerReportBar> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Name: " + widget.item["Name"],
+                      "TotalAcreage: " + widget.fritem["TotalAcreage"],
                       style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
@@ -224,7 +219,7 @@ class _FarmerReportBar extends State<FarmerReportBar> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "National ID: " + widget.item["NationalID"],
+                      "CropAcreage: " + widget.fritem["CropAcreage"],
                       style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
@@ -237,7 +232,7 @@ class _FarmerReportBar extends State<FarmerReportBar> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Phone: " + widget.item["Phone"],
+                      "LivestockAcreage: " + widget.fritem["LivestockAcreage"],
                       style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
@@ -250,7 +245,7 @@ class _FarmerReportBar extends State<FarmerReportBar> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Age Group: " + widget.item["AgeGroup"],
+                      "IrrigationType: " + widget.fritem["IrrigationType"],
                       style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,

@@ -4,10 +4,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/FarmerReportBar.dart';
-import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
 import '../Components/FODrawer.dart';
 import 'package:http/http.dart' as http;
-import '../Components/SubmitButton.dart';
 import '../Components/Utils.dart';
 
 class FarmerHome extends StatefulWidget {
@@ -20,7 +18,10 @@ class FarmerHome extends StatefulWidget {
 class _FarmerHomeState extends State<FarmerHome> {
   String name = '';
   String farmerid = '';
-  dynamic data;
+  dynamic fddata;
+  dynamic fadata;
+  dynamic frdata;
+  dynamic fgdata;
 
   String valueChain = '';
   var storage = const FlutterSecureStorage();
@@ -29,33 +30,54 @@ class _FarmerHomeState extends State<FarmerHome> {
   Widget build(BuildContext context) {
     const storage = FlutterSecureStorage();
 
-    Future<void> pickFarmerDetails() async {
+    Future<void> loadFarmerInfo() async {
       var token = await storage.read(key: "erjwt");
+      var id = await storage.read(key: "NationalID");
+
+      setState(() {
+        farmerid = id!;
+      });
 
       try {
         var decoded = parseJwt(token.toString());
         var id = decoded["ID"];
 
-       
-        final response = await http.get(
-            Uri.parse("${getUrl()}farmerdetails/$id"),
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8'
-            });
+        final fdresponse = await http.get(
+          Uri.parse("${getUrl()}farmerdetails/$id"),
+        );
 
-        var body = json.decode(response.body);
+        final faresponse = await http.get(
+          Uri.parse("${getUrl()}farmeraddress/$farmerid"),
+        );
+
+        final frresponse = await http.get(
+          Uri.parse("${getUrl()}farmerresources/$farmerid"),
+        );
+
+        final fgresponse = await http.get(
+          Uri.parse("${getUrl()}farmergroups/farmerid/$farmerid"),
+        );
+
+        var fdbody = json.decode(fdresponse.body);
+        var fabody = json.decode(faresponse.body);
+        var frbody = json.decode(frresponse.body);
+        var fgbody = json.decode(fgresponse.body);
 
         setState(() {
-          data = body;
-          print("the farmer data is $data");
-          farmerid = data["NationalID"];
+          fddata = fdbody;
+          fadata = fabody;
+          frdata = frbody;
+          fgdata = fgbody;
+
+          print(
+              "Farmer details info: $fddata, Farmer addresses info: $fadata, Farmer resources info: $frbody, Farmer groups info: $fgbody");
         });
       } catch (e) {
         // todo
       }
     }
 
-    pickFarmerDetails();
+    loadFarmerInfo();
 
     return MaterialApp(
       title: 'Kirinyaga Agribusiness',
@@ -74,9 +96,9 @@ class _FarmerHomeState extends State<FarmerHome> {
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-                    child: data != null
+                    child: fddata != null
                         ? SingleChildScrollView(
-                            child: FarmerReportBar(item: data))
+                            child: FarmerReportBar(fditem: fddata, faitem: fadata, fritem: frdata, fgitem: fgdata))
                         : const SizedBox(),
                   ),
                 )),
