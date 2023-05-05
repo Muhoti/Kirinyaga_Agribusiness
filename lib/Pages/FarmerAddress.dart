@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_typing_uninitialized_variables, unused_field, unnecessary_null_comparison, non_constant_identifier_names, avoid_print
+// ignore_for_file: prefer_typing_uninitialized_variables, unused_field, unnecessary_null_comparison, non_constant_identifier_names, avoid_print, use_build_context_synchronously
 
 import 'dart:async';
 import 'dart:convert';
@@ -9,7 +9,6 @@ import 'package:kirinyaga_agribusiness/Components/MySelectInput.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
-import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Components/Map.dart';
 import 'package:geolocator/geolocator.dart';
@@ -18,9 +17,7 @@ import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
-import 'package:kirinyaga_agribusiness/Components/counties.dart';
 import '../Components/Utils.dart';
-import '../Model/SubCounty.dart';
 import 'Home.dart';
 
 class FarmerAddress extends StatefulWidget {
@@ -98,11 +95,11 @@ class _FarmerAddressState extends State<FarmerAddress> {
         editFarmer(id);
       } else {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => Home()));
+            context, MaterialPageRoute(builder: (_) => const Home()));
       }
     } catch (e) {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => Home()));
+          context, MaterialPageRoute(builder: (_) => const Home()));
     }
   }
 

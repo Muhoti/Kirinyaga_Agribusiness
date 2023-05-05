@@ -36,7 +36,7 @@ class SuDrawer extends StatelessWidget {
           end: Alignment.bottomCenter,
           colors: [
             Color.fromRGBO(0, 128, 0, 1),
-            Colors.lightGreen,
+            Color.fromRGBO(0, 128, 0, 1),
           ],
         )),
         child: ListView(

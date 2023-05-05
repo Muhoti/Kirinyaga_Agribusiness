@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kirinyaga_agribusiness/Components/FarmerDrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/FarmerReportBar.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
@@ -32,6 +33,7 @@ class _FarmerHomeState extends State<FarmerHome> {
   @override
   Widget build(BuildContext context) {
     const storage = FlutterSecureStorage();
+    var type = "farmer";
 
     Future<void> loadFarmerInfo() async {
       var token = await storage.read(key: "erjwt");
@@ -69,6 +71,8 @@ class _FarmerHomeState extends State<FarmerHome> {
         var fgbody = json.decode(fgresponse.body);
         var vcbody = json.decode(vcresponse.body);
 
+        print("the farmer info now is vdbody");
+
         setState(() {
           fddata = fdbody;
           fadata = fabody[0];
@@ -91,7 +95,7 @@ class _FarmerHomeState extends State<FarmerHome> {
           title: const Text("Farmer Summary"),
           backgroundColor: Color.fromRGBO(0, 128, 0, 1),
         ),
-        drawer: const Drawer(child: FODrawer()),
+        drawer: const Drawer(child: FarmerDrawer()),
         body: Stack(
           children: [
             // const SizedBox(height: 40),

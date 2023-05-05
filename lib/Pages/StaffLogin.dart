@@ -54,9 +54,7 @@ class _StaffLoginState extends State<StaffLogin> {
         default:
           const FieldOfficerHome();
       }
-    } catch (e) {
-   
-    }
+    } catch (e) {}
   }
 
   @override
@@ -127,6 +125,8 @@ class _StaffLoginState extends State<StaffLogin> {
                                 if (res.error == null) {
                                   await storage.write(
                                       key: 'erjwt', value: res.token);
+                                  await storage.write(
+                                      key: 'Type', value: 'Staff');
                                   checkRole(res.token);
                                 }
                               },

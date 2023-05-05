@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Pages/AddValueChain.dart';
+import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/ValueChainProduce.dart';
 import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
 import 'package:kirinyaga_agribusiness/Scroll/FGScrollController.dart';
@@ -9,7 +10,9 @@ import 'package:kirinyaga_agribusiness/Scroll/VCScrollController.dart';
 import '../Components/FODrawer.dart';
 
 class FarmerValueChains extends StatefulWidget {
-  const FarmerValueChains({super.key});
+  const FarmerValueChains({
+    super.key,
+  });
 
   @override
   State<FarmerValueChains> createState() => _FarmerValueChainsState();
@@ -19,6 +22,7 @@ class _FarmerValueChainsState extends State<FarmerValueChains> {
   final storage = const FlutterSecureStorage();
   String name = '';
   String FarmerID = '';
+  String type = '';
 
   @override
   void initState() {
@@ -29,6 +33,11 @@ class _FarmerValueChainsState extends State<FarmerValueChains> {
   checkMapping() async {
     try {
       var id = await storage.read(key: "NationalID");
+      var usertype = await storage.read(key: "Type");
+
+      type = usertype!;
+
+      print("farmertype is $type");
 
       if (id != null) {
         setState(() {
@@ -83,10 +92,15 @@ class _FarmerValueChainsState extends State<FarmerValueChains> {
                       SubmitButton(
                         label: "Proceed",
                         onButtonPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => const Summary()));
+                          type == "Farmer"
+                              ? Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => const FarmerHome()))
+                              : Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => const Summary()));
                         },
                       ),
                     ],

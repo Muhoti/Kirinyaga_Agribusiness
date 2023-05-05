@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, prefer_typing_uninitialized_variables
+// ignore_for_file: file_names, prefer_typing_uninitialized_variables, use_build_context_synchronously
 
 import 'dart:async';
 import 'dart:convert';
@@ -10,6 +10,7 @@ import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
+import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 
@@ -26,6 +27,24 @@ class _FarmerLoginState extends State<FarmerLogin> {
   String error = '';
   var isLoading;
   final storage = const FlutterSecureStorage();
+
+  Future<void> verifyFarmer() async {
+    var token = await storage.read(key: "erjwt");
+
+    if (token != null) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => const FarmerHome()));
+    } else {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => const Login()));
+    }
+  }
+
+  @override
+  void initState() {
+    //verifyFarmer();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +64,15 @@ class _FarmerLoginState extends State<FarmerLogin> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(84, 24, 84, 12),
+                              padding:
+                                  const EdgeInsets.fromLTRB(84, 24, 84, 12),
                               child: Image.asset('assets/images/logo.png'),
                             ),
                             const TextLarge(label: "Farmer Login"),
                             TextOakar(label: error),
                             MyTextInput(
                               title: 'Phone Number',
-                               lines: 1,
+                              lines: 1,
                               value: '',
                               type: TextInputType.phone,
                               onSubmit: (value) {
@@ -63,7 +83,7 @@ class _FarmerLoginState extends State<FarmerLogin> {
                             ),
                             MyTextInput(
                               title: 'National ID',
-                               lines: 1,
+                              lines: 1,
                               value: '',
                               type: TextInputType.number,
                               onSubmit: (value) {
@@ -94,11 +114,14 @@ class _FarmerLoginState extends State<FarmerLogin> {
                                 if (res.error == null) {
                                   await storage.write(
                                       key: 'erjwt', value: res.token);
+                                  await storage.write(
+                                      key: 'Type', value: 'Farmer');
                                   Timer(const Duration(seconds: 2), () {
                                     Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (_) => const FarmerHome()));
+                                            builder: (_) =>
+                                                const FarmerHome()));
                                   });
                                 }
                               },

@@ -7,6 +7,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
+import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'Components/Utils.dart';
 import 'Pages/Home.dart';
 
@@ -24,14 +25,67 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final storage = const FlutterSecureStorage();
+
+  Future<void> isUserLoggedIn() async {
+    var type = await storage.read(key: "Type");
+
+    print("the user type is $type");
+
+    if (type == "Farmer") {
+      // Verify Farmer is logged in
+      var token = await storage.read(key: "erjwt");
+      if (token != null) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const FarmerHome()));
+      }
+    } else if (type == "Staff") {
+      // verify staff
+      var token = await storage.read(key: "erjwt");
+      var decoded = parseJwt(token.toString());
+
+      switch (decoded["Role"]) {
+        case "Field Officer":
+          Timer(const Duration(seconds: 2), () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (_) => const FieldOfficerHome()));
+          });
+          break;
+        case "Supervisor":
+          Timer(const Duration(seconds: 2), () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (_) => const SupervisorHome()));
+          });
+          break;
+        case "Enumerator":
+          Timer(const Duration(seconds: 2), () {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (_) => const Home()));
+          });
+          break;
+
+        default:
+          const Home();
+      }
+    } else {
+      const Login();
+    }
+  }
+
+  @override
+  void initState() {
+    isUserLoggedIn();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     const storage = FlutterSecureStorage();
 
-    Timer(const Duration(seconds: 2), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => const Login()));
-    });
+    // Timer(const Duration(seconds: 2), () {
+    //   Navigator.pushReplacement(
+    //       context, MaterialPageRoute(builder: (_) => const Login()));
+    // });
 
     return MaterialApp(
       title: 'Kirinyaga Agribusiness',
