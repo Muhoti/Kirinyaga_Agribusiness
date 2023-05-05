@@ -10,6 +10,7 @@ class FarmerReportBar extends StatefulWidget {
   final dynamic faitem;
   final dynamic fritem;
   final dynamic fgitem;
+  final dynamic vcitem;
 
   const FarmerReportBar({
     super.key,
@@ -17,6 +18,7 @@ class FarmerReportBar extends StatefulWidget {
     required this.faitem,
     required this.fritem,
     required this.fgitem,
+    required this.vcitem,
   });
 
   @override
@@ -36,6 +38,9 @@ class _FarmerReportBar extends State<FarmerReportBar> {
   @override
   Widget build(BuildContext context) {
     var farmerid = widget.fditem["NationalID"];
+
+    var fgitem2 = widget.fgitem;
+    var vcitem2 = widget.vcitem;
 
     return Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
@@ -219,7 +224,7 @@ class _FarmerReportBar extends State<FarmerReportBar> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "CropAcreage: " + widget.fritem["CropAcreage"],
+                      "CropAcreage: ${widget.fritem["CropAcreage"]}",
                       style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
@@ -232,7 +237,7 @@ class _FarmerReportBar extends State<FarmerReportBar> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "LivestockAcreage: " + widget.fritem["LivestockAcreage"],
+                      "LivestockAcreage: ${widget.fritem["LivestockAcreage"]}",
                       style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
@@ -245,7 +250,7 @@ class _FarmerReportBar extends State<FarmerReportBar> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "IrrigationType: " + widget.fritem["IrrigationType"],
+                      "IrrigationType: ${widget.fritem["IrrigationType"]}",
                       style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
@@ -256,19 +261,95 @@ class _FarmerReportBar extends State<FarmerReportBar> {
               ),
             ),
             const SizedBox(height: 15),
-            SubmitButton(
-              label: "Update ValueChain",
-              onButtonPressed: () async {
-                setState(() {
-                  storage.write(key: "NationalID", value: farmerid);
-                });
-
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const FarmerValueChains()));
-              },
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  gradient: LinearGradient(
+                    colors: [Colors.green, Color.fromARGB(255, 29, 221, 163)],
+                  ),
+                ),
+                child: Column(children: [
+                  const Text(
+                    "Farmer Groups",
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.yellow),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  SizedBox(
+                    height: 100,
+                    child: ListView.builder(
+                      itemCount: fgitem2.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ListTile(
+                          title: Text(
+                            "${fgitem2[index]['Name']} - ${fgitem2[index]['Type']}",
+                            style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ]),
+              ),
             ),
+            const SizedBox(height: 15),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  gradient: LinearGradient(
+                    colors: [Colors.green, Color.fromARGB(255, 29, 221, 163)],
+                  ),
+                ),
+                child: Column(children: [
+                  const Text(
+                    "Value Chains",
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.yellow),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  SizedBox(
+                    height: 100,
+                    child: ListView.builder(
+                      itemCount: vcitem2.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ListTile(
+                          title: Text(
+                            "${vcitem2[index]['Name']} - ${vcitem2[index]['Variety']} : LastHarvest - ${vcitem2[index]['AvgHarvestProduction']}",
+                            style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                ]),
+              ),
+            ),
+            const SizedBox(height: 15),
           ],
         ));
   }

@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/FarmerReportBar.dart';
+import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
+import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
 import '../Components/FODrawer.dart';
 import 'package:http/http.dart' as http;
 import '../Components/Utils.dart';
@@ -22,6 +24,7 @@ class _FarmerHomeState extends State<FarmerHome> {
   dynamic fadata;
   dynamic frdata;
   dynamic fgdata;
+  dynamic vcdata;
 
   String valueChain = '';
   var storage = const FlutterSecureStorage();
@@ -32,11 +35,7 @@ class _FarmerHomeState extends State<FarmerHome> {
 
     Future<void> loadFarmerInfo() async {
       var token = await storage.read(key: "erjwt");
-      var id = await storage.read(key: "NationalID");
-
-      setState(() {
-        farmerid = id!;
-      });
+      var id2 = await storage.read(key: "NationalID");
 
       try {
         var decoded = parseJwt(token.toString());
@@ -45,6 +44,9 @@ class _FarmerHomeState extends State<FarmerHome> {
         final fdresponse = await http.get(
           Uri.parse("${getUrl()}farmerdetails/$id"),
         );
+
+        var fdbody = json.decode(fdresponse.body);
+        farmerid = fdbody["NationalID"];
 
         final faresponse = await http.get(
           Uri.parse("${getUrl()}farmeraddress/$farmerid"),
@@ -58,19 +60,21 @@ class _FarmerHomeState extends State<FarmerHome> {
           Uri.parse("${getUrl()}farmergroups/farmerid/$farmerid"),
         );
 
-        var fdbody = json.decode(fdresponse.body);
+        final vcresponse = await http.get(
+          Uri.parse("${getUrl()}farmervaluechains/$farmerid"),
+        );
+
         var fabody = json.decode(faresponse.body);
         var frbody = json.decode(frresponse.body);
         var fgbody = json.decode(fgresponse.body);
+        var vcbody = json.decode(vcresponse.body);
 
         setState(() {
           fddata = fdbody;
-          fadata = fabody;
-          frdata = frbody;
+          fadata = fabody[0];
+          frdata = frbody[0];
           fgdata = fgbody;
-
-          print(
-              "Farmer details info: $fddata, Farmer addresses info: $fadata, Farmer resources info: $frbody, Farmer groups info: $fgbody");
+          vcdata = vcbody;
         });
       } catch (e) {
         // todo
@@ -84,7 +88,7 @@ class _FarmerHomeState extends State<FarmerHome> {
       home: Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
-          title: const Text("Home"),
+          title: const Text("Farmer Summary"),
           backgroundColor: Color.fromRGBO(0, 128, 0, 1),
         ),
         drawer: const Drawer(child: FODrawer()),
@@ -92,16 +96,41 @@ class _FarmerHomeState extends State<FarmerHome> {
           children: [
             // const SizedBox(height: 40),
             Padding(
-                padding: const EdgeInsets.fromLTRB(12, 24, 12, 0),
+                padding: const EdgeInsets.fromLTRB(12, 12, 12, 64),
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+                    padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
                     child: fddata != null
                         ? SingleChildScrollView(
-                            child: FarmerReportBar(fditem: fddata, faitem: fadata, fritem: frdata, fgitem: fgdata))
+                            child: FarmerReportBar(
+                                fditem: fddata,
+                                faitem: fadata,
+                                fritem: frdata,
+                                fgitem: fgdata,
+                                vcitem: vcdata))
                         : const SizedBox(),
                   ),
                 )),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Center(
+                child: SubmitButton(
+                  label: "Update ValueChain",
+                  onButtonPressed: () async {
+                    setState(() {
+                      storage.write(key: "NationalID", value: farmerid);
+                    });
+
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const FarmerValueChains()));
+                  },
+                ),
+              ),
+            ),
           ],
         ),
       ),
