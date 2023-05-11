@@ -38,6 +38,7 @@ class _FGScrollControllerState extends State<FGScrollController> {
   Future<void> _fetchPage(int pageKey) async {
     var offset = pageKey == 0 ? pageKey : pageKey + _numberOfPostsPerRequest;
     try {
+      
       final dynamic response;
 
       response = await get(
@@ -45,8 +46,6 @@ class _FGScrollControllerState extends State<FGScrollController> {
       );
 
       List responseList = json.decode(response.body);
-
-  
 
       List<FGItem> postList = responseList.map((data) => FGItem(data)).toList();
     

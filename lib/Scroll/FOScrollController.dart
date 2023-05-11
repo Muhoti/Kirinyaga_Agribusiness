@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, library_private_types_in_public_api
+// ignore_for_file: file_names, library_private_types_in_public_api, unused_local_variable
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -54,16 +54,15 @@ class _FOScrollControllerState extends State<FOScrollController> {
 
       widget.status == "Pending"
           ? response = await get(
-              Uri.parse("${getUrl()}workplan/fieldofficer/false/${widget.id}"),
+              Uri.parse("${getUrl()}workplan/fieldofficer/false/${widget.id}/$offset"),
             )
           : response = await get(
-              Uri.parse("${getUrl()}workplan/fieldofficer/true/${widget.id}"),
+              Uri.parse("${getUrl()}workplan/fieldofficer/true/${widget.id}/$offset"),
             );
 
       List responseList = json.decode(response.body);
 
       var databaseItemsNo = responseList.length;
-  
 
       List<FOItem> postList = responseList.map((data) => FOItem(data)).toList();
 
