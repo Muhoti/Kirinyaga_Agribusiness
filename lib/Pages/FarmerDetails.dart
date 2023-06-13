@@ -76,8 +76,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
         Uri.parse("${getUrl()}farmerdetails/farmerid/$id"),
       );
 
-      var body = json.decode(response.body);
-   
+      var body = await json.decode(response.body);
 
       if (body.length > 0) {
         setState(() {

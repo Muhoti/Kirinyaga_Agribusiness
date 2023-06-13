@@ -110,6 +110,7 @@ class _FarmerAddressState extends State<FarmerAddress> {
       );
 
       var body = json.decode(response.body);
+      print("the addresss is ${body[0]["Village"]}");
 
       if (body.length > 0) {
         updateWards(body[0]["SubCounty"]);

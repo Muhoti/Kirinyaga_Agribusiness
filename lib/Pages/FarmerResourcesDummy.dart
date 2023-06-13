@@ -49,45 +49,38 @@ class _FarmerResourcesState extends State<FarmerResources> {
   checkMapping() async {
     try {
       var id = await storage.read(key: "NationalID");
-      print("the farmer resources id is $id");
       if (id != null) {
-        editFarmerResources(id);
+        editFarmerDetails(id);
       }
     } catch (e) {}
   }
 
-  editFarmerResources(String id) async {
+  editFarmerDetails(String id) async {
     try {
       final response = await get(
-        Uri.parse("${getUrl()}farmerresources/$id"),
+        Uri.parse("${getUrl()}farmerdetails/farmerid/$id"),
       );
 
-      var body = await json.decode(response.body);
-      print("the resources body is $body");
+      var body = json.decode(response.body);
 
       if (body.length > 0) {
         setState(() {
-          farmerID = id;
           data = body[0];
           totalAcreage = body[0]["TotalAcreage"];
-          cropAcreage = body[0]["CropAcreage"].toString();
-          livestockAcreage = body[0]["LivestockAcreage"].toString();
+          cropAcreage = body[0]["CropAcreage"];
+          livestockAcreage = body[0]["LivestockAcreage"];
           irrigationType = body[0]["IrrigationType"];
           farmOwnership = body[0]["FarmOwnership"];
         });
       }
-
-      print("the resources body is $body");
     } catch (e) {}
-    print(
-        "resources data is $totalAcreage, $cropAcreage, $livestockAcreage, $irrigationType, $farmOwnership");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Farmer Resources"),
+        title: const Text("Farmer Details"),
         actions: [
           Align(
             alignment: Alignment.centerRight,
@@ -165,8 +158,7 @@ class _FarmerResourcesState extends State<FarmerResources> {
                       });
                     },
                     entries: const ["None", "Flood", "Drip"],
-                    value:
-                        data == null ? irrigationType : data["IrrigationType"],
+                    value: data == null ? irrigationType : data["IrrigationType"],
                   ),
                   const SizedBox(
                     height: 10,
@@ -256,14 +248,11 @@ Future<Message> submitData(
     String irrigationType,
     String farmOwnership) async {
   if (totalAcreage.isEmpty) {
-    return Message(
-        token: null, success: null, error: "Total Acreage cannot be empty!");
+    return Message(token: null, success: null, error: "Total Acreage cannot be empty!");
   }
 
   try {
     var response;
-    print(
-        "put data is $farmerID, $totalAcreage, $cropAcreage, $livestockAcreage, $irrigationType, $farmOwnership");
     if (type) {
       response = await http.put(
         Uri.parse("${getUrl()}farmerresources/$farmerID"),
@@ -293,7 +282,6 @@ Future<Message> submitData(
         }),
       );
     }
-
     if (response.statusCode == 200 || response.statusCode == 203) {
       return Message.fromJson(jsonDecode(response.body));
     } else {

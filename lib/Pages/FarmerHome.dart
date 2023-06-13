@@ -127,7 +127,7 @@ class _FarmerHomeState extends State<FarmerHome> {
                       storage.write(key: "NationalID", value: farmerid);
                     });
 
-                    Navigator.pushReplacement(
+                    Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (_) => const FarmerValueChains()));

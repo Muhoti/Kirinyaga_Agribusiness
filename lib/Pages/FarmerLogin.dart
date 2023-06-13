@@ -137,7 +137,7 @@ class _FarmerLoginState extends State<FarmerLogin> {
 }
 
 Future<Message> login(String phone, String nationalId) async {
-  if (phone.length != 10) {
+  if (phone.length != 9) {
     return Message(
       token: null,
       success: null,
