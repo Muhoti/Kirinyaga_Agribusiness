@@ -9,6 +9,7 @@ import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kirinyaga_agribusiness/Pages/ValueChainForm.dart';
 import 'package:kirinyaga_agribusiness/main.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:flutter/material.dart';
@@ -90,6 +91,22 @@ class FODrawer extends StatelessWidget {
                   },
                 );
                 Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text(
+                'Value Chain Dummy',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
+              onTap: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ValueChainForm(
+                            )));
               },
             ),
             ListTile(

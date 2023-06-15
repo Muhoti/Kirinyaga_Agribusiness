@@ -29,6 +29,7 @@ class FarmerAddress extends StatefulWidget {
 }
 
 class _FarmerAddressState extends State<FarmerAddress> {
+
   var subc = {
     "Mwea West": ["Mutithi", "Kangai", "Thiba", "Wamumu"],
     "Mwea East": ["Nyangati", "Murinduko", "Gathigiriri", "Tebere"],
@@ -42,6 +43,7 @@ class _FarmerAddressState extends State<FarmerAddress> {
     "Kirinyaga West": ["Mukure", "Kiine", "Kariti"],
     "Kirinyaga Central": ["Mutira", "Kanyekini", "Kerugoya", "Inoi"]
   };
+
   List<String> wrds = [];
   String FarmerID = '';
   String SubCounty = '';
@@ -234,6 +236,7 @@ class _FarmerAddressState extends State<FarmerAddress> {
                     },
                     entries: subc.keys.toList(),
                     value: data == null ? SubCounty : data["SubCounty"]),
+                
                 const SizedBox(
                   height: 10,
                 ),
