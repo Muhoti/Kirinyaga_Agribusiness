@@ -47,6 +47,123 @@ class _ValueChainFormState extends State<ValueChainForm> {
   String? tomatoQ16;
   String? tomatoQ17;
 
+  // Avocado Answers
+  String? avocadoQ1;
+  String? avocadoQ2;
+  String? avocadoQ3;
+  String? avocadoQ4;
+  String? avocadoQ5;
+  String? avocadoQ6;
+  String? avocadoQ7;
+  String? avocadoQ8;
+  String? avocadoQ9;
+
+  // Tomato Seedling answers
+  String? tomSeedlingQ1;
+  String? tomSeedlingQ2;
+  String? tomSeedlingQ3;
+  String? tomSeedlingQ4;
+  String? tomSeedlingQ5;
+  String? tomSeedlingQ6;
+  String? tomSeedlingQ7;
+  String? tomSeedlingQ8;
+
+  // Chicken Eggs & Meat answers
+  String? cemQ1;
+  String? cemQ2;
+  String? cemQ3;
+  String? cemQ4;
+  String? cemQ5;
+  String? cemQ6;
+  String? cemQ7;
+  String? cemQ8;
+  String? cemQ9;
+  String? cemQ10;
+  String? cemQ11;
+  String? cemQ12;
+  String? cemQ13;
+  String? cemQ14;
+
+  // Chicken Egg Incubation answers
+  String? ceiQ1;
+  String? ceiQ2;
+  String? ceiQ3;
+  String? ceiQ4;
+  String? ceiQ5;
+  String? ceiQ6;
+  String? ceiQ7;
+  String? ceiQ8;
+  String? ceiQ9;
+  String? ceiQ10;
+
+  // Dairy answers
+  String? dairyQ1;
+  String? dairyQ2;
+  String? dairyQ3;
+  String? dairyQ4;
+  String? dairyQ5;
+  String? dairyQ6;
+  String? dairyQ7;
+  String? dairyQ8;
+  String? dairyQ9;
+  String? dairyQ10;
+
+  // Dairy Goat answers
+  String? dGoatQ1;
+  String? dGoatQ2;
+  String? dGoatQ3;
+  String? dGoatQ4;
+  String? dGoatQ5;
+  String? dGoatQ6;
+  String? dGoatQ7;
+  String? dGoatQ8;
+  String? dGoatQ9;
+  String? dGoatQ10;
+
+  // Apiculture answers
+  String? apicQ1;
+  String? apicQ2;
+  String? apicQ3;
+  String? apicQ4;
+  String? apicQ5;
+  String? apicQ6;
+  String? apicQ7;
+  String? apicQ8;
+  String? apicQ9;
+  String? apicQ10;
+
+  // Pigs answers
+  String? pigQ1;
+  String? pigQ2;
+  String? pigQ3;
+  String? pigQ4;
+  String? pigQ5;
+  String? pigQ6;
+  String? pigQ7;
+  String? pigQ8;
+  String? pigQ9;
+  String? pigQ10;
+  String? pig11;
+  String? pigQ12;
+
+  // Fish answers
+  String? fishQ1;
+  String? fishQ2;
+  String? fishQ3;
+  String? fishQ4;
+  String? fishQ5;
+  String? fishQ6;
+  String? fishQ7;
+  String? fishQ8;
+  String? fishQ9;
+  String? fish10;
+  String? fish11;
+  String? fish12;
+  String? fish13;
+  String? fish14;
+  String? fish15;
+  String? fish16;
+
   List<Widget> buildQuestionFields() {
     questionMap = initializeQuestionMap();
     List<String> questions = questionMap[selectedValueChain]!;
@@ -58,101 +175,156 @@ class _ValueChainFormState extends State<ValueChainForm> {
       }
 
       if (selectedValueChain == 'Tomato') {
-        if (question ==
-            questionMap['Tomato']![0]) {
+        if (question == questionMap['Tomato']![0]) {
           tomatoQ1 = textControllers[question]!.text;
-        } else if (question ==
-            questionMap['Tomato']![1]) {
+        } else if (question == questionMap['Tomato']![1]) {
           tomatoQ2 = textControllers[question]!.text;
-        } else if (question ==
-            questionMap['Tomato']![2]) {
+        } else if (question == questionMap['Tomato']![2]) {
           tomatoQ3 = textControllers[question]!.text;
-        } else if (question ==
-            questionMap['Tomato']![3]) {
+        } else if (question == questionMap['Tomato']![3]) {
           tomatoQ4 = textControllers[question]!.text;
-        } else if (question ==
-            'If open field,What is the area under cultivation for tomatoes?') {
+        } else if (question == questionMap['Tomato']![4]) {
           tomatoQ5 = textControllers[question]!.text;
-        } else if (question ==
-            'If green house; how many green hosues &  what is the size of your green house?') {
+        } else if (question == questionMap['Tomato']![5]) {
           tomatoQ6 = textControllers[question]!.text;
-        } else if (question == 'Do you use irrigation?') {
+        } else if (question == questionMap['Tomato']![6]) {
           tomatoQ7 = textControllers[question]!.text;
-        } else if (question == 'Type of irrigation used?') {
+        } else if (question == questionMap['Tomato']![7]) {
           tomatoQ8 = textControllers[question]!.text;
-        } else if (question == 'Varieties') {
+        } else if (question == questionMap['Tomato']![8]) {
           tomatoQ9 = textControllers[question]!.text;
-        } else if (question == 'What is the cost of inputs used?') {
+        } else if (question == questionMap['Tomato']![9]) {
           tomatoQ10 = textControllers[question]!.text;
-        } else if (question == 'What are the Kgs of tomatoes produced?') {
+        } else if (question == questionMap['Tomato']![10]) {
           tomatoQ11 = textControllers[question]!.text;
-        } else if (question == 'What are the Kgs of spoilt tomatoes?') {
+        } else if (question == questionMap['Tomato']![11]) {
           tomatoQ12 = textControllers[question]!.text;
-        } else if (question ==
-            'What are the Kgs of tomatoes consumed at home?') {
+        } else if (question == questionMap['Tomato']![12]) {
           tomatoQ13 = textControllers[question]!.text;
-        } else if (question == 'What are the Kgs of tomatoes sold?') {
+        } else if (question == questionMap['Tomato']![13]) {
           tomatoQ14 = textControllers[question]!.text;
-        } else if (question ==
-            'What is the average price of 1kg of tomatoes?') {
+        } else if (question == questionMap['Tomato']![15]) {
           tomatoQ15 = textControllers[question]!.text;
-        } else if (question == 'What is the income from tomatoes?') {
+        } else if (question == questionMap['Tomato']![16]) {
           tomatoQ16 = textControllers[question]!.text;
-        } else if (question ==
-            'Did you sell your tomatoes through PO? If not whom did you sell to?') {
+        } else if (question == questionMap['Tomato']![17]) {
           tomatoQ17 = textControllers[question]!.text;
         }
       }
 
-      if (selectedValueChain == 'Banana' &&
-          (question == questionMap['Banana']![0] ||
-              question == questionMap['Banana']![1])) {
-        List<String> options;
+      switch (selectedValueChain) {
+        case 'Banana':
+          if (question == questionMap['Banana']![0] ||
+              question == questionMap['Banana']![1]) {
+            List<String> options;
 
-        if (question == questionMap['Banana']![0]) {
-          options = ['Option 1', 'Option 2', 'Option 3'];
-        } else {
-          options = ['Option A', 'Option B', 'Option C'];
-        }
+            if (question == questionMap['Banana']![0]) {
+              options = ['Option 1', 'Option 2', 'Option 3'];
+            } else {
+              options = ['Option A', 'Option B', 'Option C'];
+            }
 
-        questionFields.add(
-          DropdownButtonFormField(
-            value: textControllers[question]!.text.isNotEmpty
-                ? textControllers[question]!.text
-                : null,
-            items: options.map((option) {
-              return DropdownMenuItem(
-                value: option,
-                child: Text(option),
-              );
-            }).toList(),
-            onChanged: (value) {
-              setState(() {
-                textControllers[question]!.text = value.toString();
-              });
-            },
-            decoration: InputDecoration(labelText: question),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please select an option';
-              }
-              return null;
-            },
-          ),
-        );
-      } else {
-        questionFields.add(
-          TextFormField(
-            controller: textControllers[question],
-            decoration: InputDecoration(labelText: question),
-            validator: (value) {
-              if (value!.isEmpty) {
-                return 'Please enter a value';
-              }
-              return null;
-            },
-          ),
-        );
+            questionFields.add(
+              DropdownButtonFormField(
+                value: textControllers[question]!.text.isNotEmpty
+                    ? textControllers[question]!.text
+                    : null,
+                items: options.map((option) {
+                  return DropdownMenuItem(
+                    value: option,
+                    child: Text(option),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    textControllers[question]!.text = value.toString();
+                  });
+                },
+                decoration: InputDecoration(labelText: question),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please select an option';
+                  }
+                  return null;
+                },
+              ),
+            );
+          } else {
+            questionFields.add(
+              TextFormField(
+                controller: textControllers[question],
+                decoration: InputDecoration(labelText: question),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter a value';
+                  }
+                  return null;
+                },
+              ),
+            );
+          }
+          break;
+
+        case 'Tomato':
+          if (question == questionMap['Tomato']![0]) {
+            List<String> options;
+            options = ['Open Field', 'Green House'];
+
+            questionFields.add(
+              DropdownButtonFormField(
+                value: textControllers[question]!.text.isNotEmpty
+                    ? textControllers[question]!.text
+                    : null,
+                items: options.map((option) {
+                  return DropdownMenuItem(
+                    value: option,
+                    child: Text(option),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    textControllers[question]!.text = value.toString();
+                  });
+                },
+                decoration: InputDecoration(labelText: question),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please select an option';
+                  }
+                  return null;
+                },
+              ),
+            );
+          } else {
+            questionFields.add(
+              TextFormField(
+                controller: textControllers[question],
+                decoration: InputDecoration(labelText: question),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter a value';
+                  }
+                  return null;
+                },
+              ),
+            );
+          }
+          break;
+
+        default:
+          questionFields.add(
+            TextFormField(
+              controller: textControllers[question],
+              decoration: InputDecoration(labelText: question),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter a value';
+                }
+                return null;
+              },
+            ),
+          );
+          break;
       }
     }
 
@@ -212,7 +384,7 @@ class _ValueChainFormState extends State<ValueChainForm> {
                       for (String question
                           in questionMap[selectedValueChain]!) {
                         String answer = textControllers[question]!.text;
-                        print('Nyanya ni: $tomatoQ3');
+                        print('Nyanya ni: $tomatoQ3, $tomatoQ17');
                       }
 
                       // Reset the form
