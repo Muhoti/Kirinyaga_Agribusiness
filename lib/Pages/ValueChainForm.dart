@@ -8,7 +8,10 @@ class ValueChainForm extends StatefulWidget {
 
 class _ValueChainFormState extends State<ValueChainForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  
+
+  String? selectedValueChain;
+  late Map questionMap;
+
   List<String> valueChains = [
     'Tomato',
     'Banana',
@@ -23,161 +26,29 @@ class _ValueChainFormState extends State<ValueChainForm> {
     'Fish'
   ];
 
-  String? selectedValueChain;
-  String? tomatoVarieties;
-  Map<String, List<String>> questionMap = {
-
-    'Tomato': [
-      'How do you grow your tomatoes (open field or green house?)',
-      'If open field,What is the area under cultivation for tomatoes?',
-      'If green house; how many green hosues &  what is the size of your green house?',
-      'Do you use irrigation?',
-      'Type of irrigation used?',
-      'Varieties',
-      'What is the cost of inputs used?',
-      'What are the Kgs of tomatoes produced?',
-      'What are the Kgs of spoilt tomatoes?',
-      'What are the Kgs of tomatoes consumed at home?',
-      'What are the Kgs of tomatoes sold?',
-      'What is the average price of 1kg of tomatoes?',
-      'What is the income from tomatoes?',
-      'Did you sell your tomatoes through PO? If not whom did you sell to?',
-    ],
-
-    'Banana': ['Question 4', 'Question 5'],
-
-    'Avocado': [
-      'What is the area under avocado (in acres)?',
-      'How many trees do you have?',
-      'How many Kgs of avocado produced?',
-      'How many Kgs of spoiled avocado?',
-      'What is the number of avocado consumed at home in Kg?',
-      'What is the average price per Kg?',
-      'What is the income from Avocado?',
-      'Which PO do you sell through?',
-      'Whom did you sell the avocado to?'
-    ],
-
-    'Tomato Seedlings': [
-      'What is the capacity of your nursery?',
-      'What is the Initial cost of Investment?',
-      'What is the cost of input used?',
-      'What is the number of seedlings produced?',
-      'What is the number of spoilt seedlings?',
-      'What is the number of seedlings sold?',
-      'What is the average price of a seedling?',
-      'Whom do you sell your seedlings to?'
-    ],
-
-    'Chicken (Eggs & Meat)': [
-      'How many birds do you have?',
-      'What is the number of birds in egg production?',
-      'What is the number of eggs produced?',
-      'What is the number of spoilt eggs?',
-      'What is the number off eggs Sold?',
-      'What is the average price per egg sold?',
-      'What is the income from eggs sold?',
-      'What is the number of birds consumed at home?',
-      'What is the number of dead birds?',
-      'What is the number of Birds Sold?',
-      'What is the average price per bird sold?',
-      'What is the income from Birds sold?',
-      'Who do you sell eggs to?',
-      'Whom do you sell chicken to?'
-    ],
-
-    'Chicken (Egg Incubation)': [
-      'What is the Initial cost of investment?',
-      'How many incubators do you have?',
-      'What is the capacity of the incubator?',
-      'What is the number of eggs incubated?',
-      'What is the number of spoilt eggs?',
-      'What is the number of chicks hatched?',
-      'What is the number of dead chicks?',
-      'What is the number of chicks sold?',
-      'What is the average price per chick sold?',
-      'What is the income from the chicks sold?'
-    ],
-
-    'Dairy': [
-      'How many cows do you have?',
-      'What is the number of cows in production?',
-      'How many liter do the cow(s) produce (total)?',
-      'How many liters are consumed at home (total for the reporting period?',
-      'What is the average price of 1 liter of milk sold?',
-      'How many liters of milk were Sold?',
-      'What is the number of calves?',
-      'What is the number of calves sold?',
-      'What is the average price per calf sold?',
-      'What is the income from calves sold?'
-    ],
-
-    'Dairy Goat': [
-      'How many does do you have?',
-      'What is the number of does in milk production?',
-      'How many liters of milk does the doe(s) produce in total?',
-      'How many liters are consumed at home for the reporting period',
-      'What is the average price of 1 liter of milk sold?',
-      'How many liters of milk were Sold?',
-      'What is the number of kids kidded? (Factor in those that give birth twins, triplets)',
-      'What is the number of kids sold?',
-      'What is the average price per kid sold?',
-      'What is the income from kids sold?'
-    ],
-
-    'Apiculture': [
-      'What type and no. of hive per do you have?',
-      'How many hives have been colonized?',
-      'Have you harvested honey during the reporting period?',
-      'How many Kgs of crude honey?',
-      'How many Kgs of refined honey?',
-      'How many Kgs have you sold during the reporting period?',
-      'How much did you sell a Kg at?',
-      'What is the income gained from sale of honey?',
-      'Is there any other hive product you sell apart from honey?',
-      'What is the income generated from the same?'
-    ],
-
-    'Pigs': [
-      'How many pigs do you have excluding piglets?',
-      'How many sows do you have?',
-      'How many sows are in production?',
-      'How many piglets do you have?',
-      'How many piglets have you sold during the reporting period?',
-      'How much did you sell per piglet?',
-      'How many mature pigs have you sold during the reporting period?',
-      'Whom did you sell the mature pigs to?',
-      'What’s the income gained from the sale of both mature pigs and piglets?',
-      'How many pigs have you slaughtered for meat?',
-      'What’s the income from sale of meat?',
-      'Where did you sell meat or to whom?'
-    ],
-
-    'Fish': [
-      'How many ponds do you have?',
-      'What’s the capacity of each pond?',
-      'What fish species are you currently rearing?',
-      'What was the initial stocking of fingerlings?',
-      'How many kgs have you harvested during the reporting period?',
-      'What feed do you use?',
-      'Where do you source your feeds?',
-      'How much have you spent on feeds during the reporting period?',
-      'How much did you sell the fish per Kg?',
-      'How many pieces have you sold during the reporting period (for ornamental fish)',
-      'Do you have an organized market structure?',
-      'Whats the income from sale of fish during the reporting period?',
-      'Are you a breeder?',
-      'If yes are you licensed?',
-      'What is the selling cost of your fingerlings?',
-      'How many have you sold during the reporting period?',
-      'What’s the income from the sale of fingerlings?'
-    ],
-
-  };
-
   Map<String, TextEditingController> textControllers = {};
 
+  // Tomato answers
+  String? tomatoQ1;
+  String? tomatoQ2;
+  String? tomatoQ3;
+  String? tomatoQ4;
+  String? tomatoQ5;
+  String? tomatoQ6;
+  String? tomatoQ7;
+  String? tomatoQ8;
+  String? tomatoQ9;
+  String? tomatoQ10;
+  String? tomatoQ11;
+  String? tomatoQ12;
+  String? tomatoQ13;
+  String? tomatoQ14;
+  String? tomatoQ15;
+  String? tomatoQ16;
+  String? tomatoQ17;
+
   List<Widget> buildQuestionFields() {
+    questionMap = initializeQuestionMap();
     List<String> questions = questionMap[selectedValueChain]!;
     List<Widget> questionFields = [];
 
@@ -186,10 +57,59 @@ class _ValueChainFormState extends State<ValueChainForm> {
         textControllers[question] = TextEditingController();
       }
 
+      if (selectedValueChain == 'Tomato') {
+        if (question ==
+            questionMap['Tomato']![0]) {
+          tomatoQ1 = textControllers[question]!.text;
+        } else if (question ==
+            questionMap['Tomato']![1]) {
+          tomatoQ2 = textControllers[question]!.text;
+        } else if (question ==
+            questionMap['Tomato']![2]) {
+          tomatoQ3 = textControllers[question]!.text;
+        } else if (question ==
+            questionMap['Tomato']![3]) {
+          tomatoQ4 = textControllers[question]!.text;
+        } else if (question ==
+            'If open field,What is the area under cultivation for tomatoes?') {
+          tomatoQ5 = textControllers[question]!.text;
+        } else if (question ==
+            'If green house; how many green hosues &  what is the size of your green house?') {
+          tomatoQ6 = textControllers[question]!.text;
+        } else if (question == 'Do you use irrigation?') {
+          tomatoQ7 = textControllers[question]!.text;
+        } else if (question == 'Type of irrigation used?') {
+          tomatoQ8 = textControllers[question]!.text;
+        } else if (question == 'Varieties') {
+          tomatoQ9 = textControllers[question]!.text;
+        } else if (question == 'What is the cost of inputs used?') {
+          tomatoQ10 = textControllers[question]!.text;
+        } else if (question == 'What are the Kgs of tomatoes produced?') {
+          tomatoQ11 = textControllers[question]!.text;
+        } else if (question == 'What are the Kgs of spoilt tomatoes?') {
+          tomatoQ12 = textControllers[question]!.text;
+        } else if (question ==
+            'What are the Kgs of tomatoes consumed at home?') {
+          tomatoQ13 = textControllers[question]!.text;
+        } else if (question == 'What are the Kgs of tomatoes sold?') {
+          tomatoQ14 = textControllers[question]!.text;
+        } else if (question ==
+            'What is the average price of 1kg of tomatoes?') {
+          tomatoQ15 = textControllers[question]!.text;
+        } else if (question == 'What is the income from tomatoes?') {
+          tomatoQ16 = textControllers[question]!.text;
+        } else if (question ==
+            'Did you sell your tomatoes through PO? If not whom did you sell to?') {
+          tomatoQ17 = textControllers[question]!.text;
+        }
+      }
+
       if (selectedValueChain == 'Banana' &&
-          (question == 'Question 4' || question == 'Question 5')) {
+          (question == questionMap['Banana']![0] ||
+              question == questionMap['Banana']![1])) {
         List<String> options;
-        if (question == 'Question 4') {
+
+        if (question == questionMap['Banana']![0]) {
           options = ['Option 1', 'Option 2', 'Option 3'];
         } else {
           options = ['Option A', 'Option B', 'Option C'];
@@ -239,7 +159,6 @@ class _ValueChainFormState extends State<ValueChainForm> {
     return questionFields;
   }
 
- 
   @override
   void dispose() {
     // Dispose of the text controllers
@@ -293,7 +212,7 @@ class _ValueChainFormState extends State<ValueChainForm> {
                       for (String question
                           in questionMap[selectedValueChain]!) {
                         String answer = textControllers[question]!.text;
-                        print('$question: $answer');
+                        print('Nyanya ni: $tomatoQ3');
                       }
 
                       // Reset the form
@@ -311,5 +230,228 @@ class _ValueChainFormState extends State<ValueChainForm> {
         ),
       ),
     );
+  }
+
+  Map<String, List<String>> initializeQuestionMap() {
+    // Tomato Questions
+    String tq1 = "How do you grow your tomatoes (open field or green house?)";
+    String tq2 =
+        "If open field,What is the area under cultivation for tomatoes?";
+    String tq3 =
+        'If green house; how many green hosues &  what is the size of your green house?';
+    String tq4 = 'Do you use irrigation?';
+    String tq5 = 'Type of irrigation used?';
+    String tq6 = 'Varieties';
+    String tq7 = 'What is the cost of inputs used?';
+    String tq8 = 'What are the Kgs of tomatoes produced?';
+    String tq9 = 'What are the Kgs of spoilt tomatoes?';
+    String tq10 = 'What are the Kgs of tomatoes consumed at home?';
+    String tq11 = 'What are the Kgs of tomatoes sold?';
+    String tq12 = 'What is the average price of 1kg of tomatoes?';
+    String tq13 = 'What is the income from tomatoes?';
+    String tq14 =
+        'Did you sell your tomatoes through PO? If not whom did you sell to?';
+
+    // Banana Questions
+    String bq1 = "Question 1";
+    String bq2 = "Question 2";
+
+    // Avocado Questions
+    String aq1 = "What is the area under avocado (in acres)?";
+    String aq2 = "How many trees do you have?";
+    String aq3 = "How many Kgs of avocado produced?";
+    String aq4 = "How many Kgs of spoiled avocado?";
+    String aq5 = "What is the number of avocado consumed at home in Kg?";
+    String aq6 = "What is the average price per Kg?";
+    String aq7 = "What is the income from Avocado?";
+    String aq8 = "Which PO do you sell through?";
+    String aq9 = "Whom did you sell the avocado to?";
+
+    // Tomato Seedling Questions
+    String tsq1 = "What is the capacity of your nursery?";
+    String tsq2 = "What is the Initial cost of Investment?";
+    String tsq3 = "What is the cost of input used?";
+    String tsq4 = "What is the number of seedlings produced?";
+    String tsq5 = "What is the number of spoilt seedlings?";
+    String tsq6 = "What is the number of seedlings sold?";
+    String tsq7 = "What is the average price of a seedling?";
+    String tsq8 = "Whom do you sell your seedlings to?";
+
+    // Chicken Eggs & Meat questions
+    String ceq1 = "How many birds do you have?";
+    String ceq2 = "What is the number of birds in egg production?";
+    String ceq3 = "What is the number of eggs produced?";
+    String ceq4 = "What is the number of spoilt eggs?";
+    String ceq5 = "What is the number off eggs Sold?";
+    String ceq6 = "What is the average price per egg sold?";
+    String ceq7 = "What is the income from eggs sold?";
+    String ceq8 = "What is the number of birds consumed at home?";
+    String ceq9 = "What is the number of dead birds?";
+    String ceq10 = "What is the number of Birds Sold?";
+    String ceq11 = "What is the average price per bird sold?";
+    String ceq12 = "What is the income from Birds sold?";
+    String ceq13 = "Who do you sell eggs to?";
+    String ceq14 = "Whom do you sell chicken to?";
+
+    // Chicken for Meat questions
+    String cei1 = 'What is the Initial cost of investment?';
+    String cei2 = 'How many incubators do you have?';
+    String cei3 = 'What is the capacity of the incubator?';
+    String cei4 = 'What is the number of eggs incubated?';
+    String cei5 = 'What is the number of spoilt eggs?';
+    String cei6 = 'What is the number of chicks hatched?';
+    String cei7 = 'What is the number of dead chicks?';
+    String cei8 = 'What is the number of chicks sold?';
+    String cei9 = 'What is the average price per chick sold?';
+    String cei10 = 'What is the income from the chicks sold?';
+
+    // Questions for dairy
+    String d1 = "How many cows do you have?";
+    String d2 = "What is the number of cows in production?";
+    String d3 = "How many liters do the cow(s) produce (total)?";
+    String d4 =
+        "How many liters are consumed at home (total for the reporting period)?";
+    String d5 = "What is the average price of 1 liter of milk sold?";
+    String d6 = "How many liters of milk were sold?";
+    String d7 = "What is the number of calves?";
+    String d8 = "What is the number of calves sold?";
+    String d9 = "What is the average price per calf sold?";
+    String d10 = "What is the income from calves sold?";
+
+    // Questions for dairy goat
+    String dg1 = "How many does do you have?";
+    String dg2 = "What is the number of does in milk production?";
+    String dg3 = "How many liters of milk does the doe(s) produce in total?";
+    String dg4 =
+        "How many liters are consumed at home for the reporting period?";
+    String dg5 = "What is the average price of 1 liter of milk sold?";
+    String dg6 = "How many liters of milk were Sold?";
+    String dg7 =
+        "What is the number of kids kidded? (Factor in those that give birth twins, triplets)";
+    String dg8 = "What is the number of kids sold?";
+    String dg9 = "What is the average price per kid sold?";
+    String dg10 = "What is the income from kids sold?";
+
+// Questions for bees
+    String ap1 = "What type and no. of hive per do you have?";
+    String ap2 = "How many hives have been colonized?";
+    String ap3 = "Have you harvested honey during the reporting period?";
+    String ap4 = "How many Kgs of crude honey?";
+    String ap5 = "How many Kgs of refined honey?";
+    String ap6 = "How many Kgs have you sold during the reporting period?";
+    String ap7 = "How much did you sell a Kg at?";
+    String ap8 = "What is the income gained from sale of honey?";
+    String ap9 = "Is there any other hive product you sell apart from honey?";
+    String ap10 = "What is the income generated from the same?";
+
+// Questions for pigs
+    String p1 = "How many pigs do you have excluding piglets?";
+    String p2 = "How many sows do you have?";
+    String p3 = "How many sows are in production?";
+    String p4 = "How many piglets do you have?";
+    String p5 = "How many piglets have you sold during the reporting period?";
+    String p6 = "How much did you sell per piglet?";
+    String p7 =
+        "How many mature pigs have you sold during the reporting period?";
+    String p8 = "Whom did you sell the mature pigs to?";
+    String p9 =
+        "What's the income gained from the sale of both mature pigs and piglets?";
+    String p10 = "How many pigs have you slaughtered for meat?";
+    String p11 = "What's the income from the sale of meat?";
+    String p12 = "Where did you sell meat or to whom?";
+
+    // Questions for fish
+    String f1 = "How many ponds do you have?";
+    String f2 = "What's the capacity of each pond?";
+    String f3 = "What fish species are you currently rearing?";
+    String f4 = "What was the initial stocking of fingerlings?";
+    String f5 = "How many kgs have you harvested during the reporting period?";
+    String f6 = "What feed do you use?";
+    String f7 = "Where do you source your feeds?";
+    String f8 = "How much have you spent on feeds during the reporting period?";
+    String f9 = "How much did you sell the fish per Kg?";
+    String f10 =
+        "How many pieces have you sold during the reporting period (for ornamental fish)?";
+    String f11 = "Do you have an organized market structure?";
+    String f12 =
+        "What's the income from sale of fish during the reporting period?";
+    String f13 = "Are you a breeder?";
+    String f14 = "If yes, are you licensed?";
+    String f15 = "What is the selling cost of your fingerlings?";
+    String f16 = "How many have you sold during the reporting period?";
+    String f17 = "What's the income from the sale of fingerlings?";
+
+    return {
+      "Tomato": [
+        tq1,
+        tq2,
+        tq3,
+        tq4,
+        tq5,
+        tq6,
+        tq7,
+        tq8,
+        tq9,
+        tq10,
+        tq11,
+        tq12,
+        tq13,
+        tq14
+      ],
+      "Banana": [bq1, bq2],
+      "Avocado": [aq1, aq2, aq3, aq4, aq5, aq6, aq7, aq8, aq9],
+      "Tomato Seedlings": [tsq1, tsq2, tsq3, tsq4, tsq5, tsq6, tsq7, tsq8],
+      "Chicken (Eggs & Meat)": [
+        ceq1,
+        ceq2,
+        ceq3,
+        ceq4,
+        ceq5,
+        ceq6,
+        ceq7,
+        ceq8,
+        ceq9,
+        ceq10,
+        ceq11,
+        ceq12,
+        ceq13,
+        ceq14
+      ],
+      "Chicken (Egg Incubation)": [
+        cei1,
+        cei2,
+        cei3,
+        cei4,
+        cei5,
+        cei6,
+        cei7,
+        cei8,
+        cei9,
+        cei10
+      ],
+      "Dairy": [d1, d2, d3, d4, d5, d6, d7, d8, d9, d10],
+      "Dairy Goat": [dg1, dg2, dg3, dg4, dg5, dg6, dg7, dg8, dg9, dg10],
+      "Apiculture": [ap1, ap2, ap3, ap4, ap5, ap6, ap7, ap8, ap9, ap10],
+      "Pigs": [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12],
+      "Fish": [
+        f1,
+        f2,
+        f3,
+        f4,
+        f5,
+        f6,
+        f7,
+        f8,
+        f9,
+        f10,
+        f11,
+        f12,
+        f13,
+        f14,
+        f15,
+        f16,
+        f17
+      ],
+    };
   }
 }
