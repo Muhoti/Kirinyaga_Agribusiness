@@ -143,7 +143,7 @@ class _ValueChainFormState extends State<ValueChainForm> {
   String? pigQ8;
   String? pigQ9;
   String? pigQ10;
-  String? pig11;
+  String? pigQ11;
   String? pigQ12;
 
   // Fish answers
@@ -174,6 +174,7 @@ class _ValueChainFormState extends State<ValueChainForm> {
         textControllers[question] = TextEditingController();
       }
 
+      // Tomato
       if (selectedValueChain == 'Tomato') {
         if (question == questionMap['Tomato']![0]) {
           tomatoQ1 = textControllers[question]!.text;
@@ -209,6 +210,231 @@ class _ValueChainFormState extends State<ValueChainForm> {
           tomatoQ16 = textControllers[question]!.text;
         } else if (question == questionMap['Tomato']![17]) {
           tomatoQ17 = textControllers[question]!.text;
+        }
+      } 
+      // Tomato Seedlings
+      else if (selectedValueChain == 'Tomato Seedlings') {
+        if (question == questionMap['Tomato Seedlings']![0]) {
+          tomSeedlingQ1 = textControllers[question]!.text;
+        } else if (question == questionMap['Tomato Seedlings']![1]) {
+          tomSeedlingQ2 = textControllers[question]!.text;
+        } else if (question == questionMap['Tomato Seedlings']![2]) {
+          tomSeedlingQ3 = textControllers[question]!.text;
+        } else if (question == questionMap['Tomato Seedlings']![3]) {
+          tomSeedlingQ4 = textControllers[question]!.text;
+        } else if (question == questionMap['Tomato Seedlings']![4]) {
+          tomSeedlingQ5 = textControllers[question]!.text;
+        } else if (question == questionMap['Tomato Seedlings']![5]) {
+          tomSeedlingQ6 = textControllers[question]!.text;
+        } else if (question == questionMap['Tomato Seedlings']![6]) {
+          tomSeedlingQ7 = textControllers[question]!.text;
+        } else if (question == questionMap['Tomato Seedlings']![7]) {
+          tomSeedlingQ8 = textControllers[question]!.text;
+        } 
+      } 
+      // Avocado
+      else if (selectedValueChain == 'Avocado') {
+        // Avocado
+        if (question == questionMap['Avocado']![0]) {
+          avocadoQ1 = textControllers[question]!.text;
+        } else if (question == questionMap['Avocado']![1]) {
+          avocadoQ2 = textControllers[question]!.text;
+        } else if (question == questionMap['Avocado']![2]) {
+          avocadoQ3 = textControllers[question]!.text;
+        } else if (question == questionMap['Avocado']![3]) {
+          avocadoQ4 = textControllers[question]!.text;
+        } else if (question == questionMap['Avocado']![4]) {
+          avocadoQ5 = textControllers[question]!.text;
+        } else if (question == questionMap['Avocado']![5]) {
+          avocadoQ6 = textControllers[question]!.text;
+        } else if (question == questionMap['Avocado']![6]) {
+          avocadoQ7 = textControllers[question]!.text;
+        } else if (question == questionMap['Avocado']![7]) {
+          avocadoQ8 = textControllers[question]!.text;
+        } else if (question == questionMap['Avocado']![8]) {
+          avocadoQ9 = textControllers[question]!.text;
+        }
+      } 
+      // Chicken for Eggs and Meat
+      else if (selectedValueChain == 'Chicken (Eggs & Meat)') {
+        if (question == questionMap['Chicken (Eggs & Meat)']![0]) {
+          cemQ1 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Eggs & Meat)']![1]) {
+          cemQ2 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Eggs & Meat)']![2]) {
+          cemQ3 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Eggs & Meat)']![3]) {
+          cemQ4 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Eggs & Meat)']![4]) {
+          cemQ5 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Eggs & Meat)']![5]) {
+          cemQ6 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Eggs & Meat)']![6]) {
+          cemQ7 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Eggs & Meat)']![7]) {
+          cemQ8 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Eggs & Meat)']![8]) {
+          cemQ9 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Eggs & Meat)']![9]) {
+          cemQ10 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Eggs & Meat)']![10]) {
+          cemQ11 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Eggs & Meat)']![11]) {
+          cemQ12 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Eggs & Meat)']![12]) {
+          cemQ13 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Eggs & Meat)']![13]) {
+          cemQ14 = textControllers[question]!.text;
+        } 
+      } else if (selectedValueChain == 'Chicken (Egg Incubation)') {
+        if (question == questionMap['Chicken (Egg Incubation)']![0]) {
+          ceiQ1 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Egg Incubation)']![1]) {
+          ceiQ2 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Egg Incubation)']![2]) {
+          ceiQ3 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Egg Incubation)']![3]) {
+          ceiQ3 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Egg Incubation)']![4]) {
+          ceiQ4 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Egg Incubation)']![5]) {
+          ceiQ5 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Egg Incubation)']![6]) {
+          ceiQ6 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Egg Incubation)']![7]) {
+          ceiQ7 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Egg Incubation)']![8]) {
+          ceiQ8 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Egg Incubation)']![9]) {
+          ceiQ9 = textControllers[question]!.text;
+        } else if (question == questionMap['Chicken (Egg Incubation)']![9]) {
+          ceiQ10 = textControllers[question]!.text;
+        } 
+      } else if (selectedValueChain == 'Dairy') {
+        if (question == questionMap['Dairy']![0]) {
+          dairyQ1 = textControllers[question]!.text;
+        } else if (question == questionMap['Dairy']![1]) {
+          dairyQ2 = textControllers[question]!.text;
+        } else if (question == questionMap['Dairy']![2]) {
+          dairyQ3 = textControllers[question]!.text;
+        } else if (question == questionMap['Dairy']![3]) {
+          dairyQ4 = textControllers[question]!.text;
+        } else if (question == questionMap['Dairy']![4]) {
+          dairyQ5 = textControllers[question]!.text;
+        } else if (question == questionMap['Dairy']![5]) {
+          dairyQ6 = textControllers[question]!.text;
+        } else if (question == questionMap['Dairy']![6]) {
+          dairyQ7 = textControllers[question]!.text;
+        } else if (question == questionMap['Dairy']![7]) {
+          dairyQ8 = textControllers[question]!.text;
+        } else if (question == questionMap['Dairy']![8]) {
+          dairyQ9 = textControllers[question]!.text;
+        } else if (question == questionMap['Dairy']![9]) {
+          dairyQ10 = textControllers[question]!.text;
+        }
+      } else if (selectedValueChain == 'Dairy Goat') {
+        if (question == questionMap['Dairy Goat']![0]) {
+          dGoatQ1 = textControllers[question]!.text;
+        } else if (question == questionMap['Dairy Goat']![1]) {
+          dGoatQ2 = textControllers[question]!.text;
+        } else if (question == questionMap['Dairy Goat']![2]) {
+          dGoatQ3 = textControllers[question]!.text;
+        } else if (question == questionMap['Dairy Goat']![3]) {
+          dGoatQ4 = textControllers[question]!.text;
+        } else if (question == questionMap['Dairy Goat']![4]) {
+          dGoatQ5 = textControllers[question]!.text;
+        } else if (question == questionMap['Dairy Goat']![5]) {
+          dGoatQ6 = textControllers[question]!.text;
+        } else if (question == questionMap['Dairy Goat']![6]) {
+          dGoatQ7 = textControllers[question]!.text;
+        } else if (question == questionMap['Dairy Goat']![7]) {
+          dGoatQ8 = textControllers[question]!.text;
+        } else if (question == questionMap['Dairy Goat']![8]) {
+          dGoatQ9 = textControllers[question]!.text;
+        } else if (question == questionMap['Dairy Goat']![9]) {
+          dGoatQ10 = textControllers[question]!.text;
+        }
+      } else if (selectedValueChain == 'Apiculture') {
+        if (question == questionMap['Apiculture']![0]) {
+          apicQ1 = textControllers[question]!.text;
+        } else if (question == questionMap['Apiculture']![1]) {
+          apicQ2 = textControllers[question]!.text;
+        } else if (question == questionMap['Apiculture']![2]) {
+          apicQ3 = textControllers[question]!.text;
+        } else if (question == questionMap['Apiculture']![3]) {
+          apicQ4 = textControllers[question]!.text;
+        } else if (question == questionMap['Apiculture']![4]) {
+          apicQ5 = textControllers[question]!.text;
+        } else if (question == questionMap['Apiculture']![5]) {
+          apicQ6 = textControllers[question]!.text;
+        } else if (question == questionMap['Apiculture']![6]) {
+          apicQ7 = textControllers[question]!.text;
+        } else if (question == questionMap['Apiculture']![7]) {
+          apicQ8 = textControllers[question]!.text;
+        } else if (question == questionMap['Apiculture']![8]) {
+          apicQ9 = textControllers[question]!.text;
+        } else if (question == questionMap['Apiculture']![9]) {
+          apicQ10 = textControllers[question]!.text;
+        }
+      } else if (selectedValueChain == 'Pigs') {
+        if (question == questionMap['Pigs']![0]) {
+          pigQ1 = textControllers[question]!.text;
+        } else if (question == questionMap['Pigs']![1]) {
+          pigQ2 = textControllers[question]!.text;
+        } else if (question == questionMap['Pigs']![2]) {
+          pigQ3 = textControllers[question]!.text;
+        } else if (question == questionMap['Pigs']![3]) {
+          pigQ4 = textControllers[question]!.text;
+        } else if (question == questionMap['Pigs']![4]) {
+          pigQ5 = textControllers[question]!.text;
+        } else if (question == questionMap['Pigs']![5]) {
+          pigQ6 = textControllers[question]!.text;
+        } else if (question == questionMap['Pigs']![6]) {
+          pigQ7 = textControllers[question]!.text;
+        } else if (question == questionMap['Pigs']![7]) {
+          pigQ8 = textControllers[question]!.text;
+        } else if (question == questionMap['Pigs']![8]) {
+          pigQ9 = textControllers[question]!.text;
+        } else if (question == questionMap['Pigs']![9]) {
+          pigQ10 = textControllers[question]!.text;
+        } else if (question == questionMap['Pigs']![10]) {
+          pigQ11 = textControllers[question]!.text;
+        } else if (question == questionMap['Pigs']![11]) {
+          pigQ12 = textControllers[question]!.text;
+        }
+      } else if (selectedValueChain == 'Fish') {
+        if (question == questionMap['Fish']![0]) {
+          fishQ1 = textControllers[question]!.text;
+        } else if (question == questionMap['Fish']![1]) {
+          fishQ2 = textControllers[question]!.text;
+        } else if (question == questionMap['Fish']![2]) {
+          fishQ3 = textControllers[question]!.text;
+        } else if (question == questionMap['Fish']![3]) {
+          fishQ4 = textControllers[question]!.text;
+        } else if (question == questionMap['Fish']![4]) {
+          fishQ5 = textControllers[question]!.text;
+        } else if (question == questionMap['Fish']![5]) {
+          fishQ6 = textControllers[question]!.text;
+        } else if (question == questionMap['Fish']![6]) {
+          fishQ7 = textControllers[question]!.text;
+        } else if (question == questionMap['Fish']![7]) {
+          fishQ8 = textControllers[question]!.text;
+        } else if (question == questionMap['Fish']![8]) {
+          fishQ9 = textControllers[question]!.text;
+        } else if (question == questionMap['Fish']![9]) {
+          fish10 = textControllers[question]!.text;
+        } else if (question == questionMap['Fish']![10]) {
+          fish11 = textControllers[question]!.text;
+        } else if (question == questionMap['Fish']![11]) {
+          fish12 = textControllers[question]!.text;
+        } else if (question == questionMap['Fish']![12]) {
+          fish13 = textControllers[question]!.text;
+        } else if (question == questionMap['Fish']![13]) {
+          fish14 = textControllers[question]!.text;
+        } else if (question == questionMap['Fish']![14]) {
+          fish15 = textControllers[question]!.text;
+        } else if (question == questionMap['Fish']![15]) {
+          fish16 = textControllers[question]!.text;
         }
       }
 
