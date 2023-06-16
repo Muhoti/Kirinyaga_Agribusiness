@@ -211,7 +211,7 @@ class _ValueChainFormState extends State<ValueChainForm> {
         } else if (question == questionMap['Tomato']![17]) {
           tomatoQ17 = textControllers[question]!.text;
         }
-      } 
+      }
       // Tomato Seedlings
       else if (selectedValueChain == 'Tomato Seedlings') {
         if (question == questionMap['Tomato Seedlings']![0]) {
@@ -230,8 +230,8 @@ class _ValueChainFormState extends State<ValueChainForm> {
           tomSeedlingQ7 = textControllers[question]!.text;
         } else if (question == questionMap['Tomato Seedlings']![7]) {
           tomSeedlingQ8 = textControllers[question]!.text;
-        } 
-      } 
+        }
+      }
       // Avocado
       else if (selectedValueChain == 'Avocado') {
         // Avocado
@@ -254,7 +254,7 @@ class _ValueChainFormState extends State<ValueChainForm> {
         } else if (question == questionMap['Avocado']![8]) {
           avocadoQ9 = textControllers[question]!.text;
         }
-      } 
+      }
       // Chicken for Eggs and Meat
       else if (selectedValueChain == 'Chicken (Eggs & Meat)') {
         if (question == questionMap['Chicken (Eggs & Meat)']![0]) {
@@ -285,7 +285,7 @@ class _ValueChainFormState extends State<ValueChainForm> {
           cemQ13 = textControllers[question]!.text;
         } else if (question == questionMap['Chicken (Eggs & Meat)']![13]) {
           cemQ14 = textControllers[question]!.text;
-        } 
+        }
       } else if (selectedValueChain == 'Chicken (Egg Incubation)') {
         if (question == questionMap['Chicken (Egg Incubation)']![0]) {
           ceiQ1 = textControllers[question]!.text;
@@ -309,7 +309,7 @@ class _ValueChainFormState extends State<ValueChainForm> {
           ceiQ9 = textControllers[question]!.text;
         } else if (question == questionMap['Chicken (Egg Incubation)']![9]) {
           ceiQ10 = textControllers[question]!.text;
-        } 
+        }
       } else if (selectedValueChain == 'Dairy') {
         if (question == questionMap['Dairy']![0]) {
           dairyQ1 = textControllers[question]!.text;
@@ -610,7 +610,8 @@ class _ValueChainFormState extends State<ValueChainForm> {
                       for (String question
                           in questionMap[selectedValueChain]!) {
                         String answer = textControllers[question]!.text;
-                        print('Nyanya ni: $dGoatQ4, $dGoatQ7');
+                        print(' $selectedValueChain, ${textControllers[question]!.text}');
+                        submitValueChainsData(selectedValueChain, answer);
                       }
                       // Reset the form
                       _formKey.currentState!.reset();
@@ -851,4 +852,8 @@ class _ValueChainFormState extends State<ValueChainForm> {
       ],
     };
   }
+}
+
+void submitValueChainsData(String selectedValueChain, String answer) {
+
 }
