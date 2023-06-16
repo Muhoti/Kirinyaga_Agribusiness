@@ -610,9 +610,8 @@ class _ValueChainFormState extends State<ValueChainForm> {
                       for (String question
                           in questionMap[selectedValueChain]!) {
                         String answer = textControllers[question]!.text;
-                        print('Nyanya ni: $tomatoQ3, $tomatoQ17');
+                        print('Nyanya ni: $dGoatQ4, $dGoatQ7');
                       }
-
                       // Reset the form
                       _formKey.currentState!.reset();
                       setState(() {
