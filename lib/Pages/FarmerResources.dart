@@ -285,11 +285,14 @@ Future<Message> submitData(
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(<String, String>{
-          'TotalAcreage': totalAcreage,
-          'CropAcreage': cropAcreage,
-          'LivestockAcreage': livestockAcreage,
-          'IrrigationType': irrigationType,
-          'FarmOwnership': farmOwnership
+          'ValueChainName': totalAcreage,
+          'AvocadoArea': cropAcreage,
+          'NumberOfTrees': livestockAcreage,
+          'SpoiledAvocadoes': farmOwnership,
+          'AvocadoPrice': totalAcreage,
+          'AvocadoIncome': cropAcreage,
+          'PO_Sales': livestockAcreage,
+          'AvocadoBuyers': irrigationType
         }),
       );
     }

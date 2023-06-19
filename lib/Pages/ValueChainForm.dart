@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
+import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 
 class ValueChainForm extends StatefulWidget {
   @override
@@ -7,10 +12,17 @@ class ValueChainForm extends StatefulWidget {
 }
 
 class _ValueChainFormState extends State<ValueChainForm> {
+  @override
+  void initState() {
+    fetchFarmerID();
+    super.initState();
+  }
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String? selectedValueChain;
   late Map questionMap;
+  String? farmerID;
 
   List<String> valueChains = [
     'Tomato',
@@ -43,9 +55,6 @@ class _ValueChainFormState extends State<ValueChainForm> {
   String? tomatoQ12;
   String? tomatoQ13;
   String? tomatoQ14;
-  String? tomatoQ15;
-  String? tomatoQ16;
-  String? tomatoQ17;
 
   // Avocado Answers
   String? avocadoQ1;
@@ -204,12 +213,6 @@ class _ValueChainFormState extends State<ValueChainForm> {
           tomatoQ13 = textControllers[question]!.text;
         } else if (question == questionMap['Tomato']![13]) {
           tomatoQ14 = textControllers[question]!.text;
-        } else if (question == questionMap['Tomato']![15]) {
-          tomatoQ15 = textControllers[question]!.text;
-        } else if (question == questionMap['Tomato']![16]) {
-          tomatoQ16 = textControllers[question]!.text;
-        } else if (question == questionMap['Tomato']![17]) {
-          tomatoQ17 = textControllers[question]!.text;
         }
       }
       // Tomato Seedlings
@@ -521,6 +524,36 @@ class _ValueChainFormState extends State<ValueChainForm> {
                 },
               ),
             );
+          } else if (question == questionMap['Tomato']![4]) {
+            List<String> options;
+
+            options = ['None', 'Drip', 'Flood', 'Sprinkle'];
+
+            questionFields.add(
+              DropdownButtonFormField(
+                value: textControllers[question]!.text.isNotEmpty
+                    ? textControllers[question]!.text
+                    : null,
+                items: options.map((option) {
+                  return DropdownMenuItem(
+                    value: option,
+                    child: Text(option),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    textControllers[question]!.text = value.toString();
+                  });
+                },
+                decoration: InputDecoration(labelText: question),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please select an option';
+                  }
+                  return null;
+                },
+              ),
+            );
           } else {
             questionFields.add(
               TextFormField(
@@ -607,20 +640,200 @@ class _ValueChainFormState extends State<ValueChainForm> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       // Process the form data here
-                      for (String question
-                          in questionMap[selectedValueChain]!) {
-                        String answer = textControllers[question]!.text;
-                        print(' $selectedValueChain, ${textControllers[question]!.text}');
-                        submitValueChainsData(selectedValueChain, answer);
+
+                      print(questionMap[selectedValueChain]);
+
+                      switch (selectedValueChain) {
+                        case 'Tomato':
+                          submitTomatoData(
+                            farmerID,
+                            selectedValueChain,
+                            tomatoQ1,
+                            tomatoQ2,
+                            tomatoQ3,
+                            tomatoQ4,
+                            tomatoQ5,
+                            tomatoQ6,
+                            tomatoQ7,
+                            tomatoQ8,
+                            tomatoQ9,
+                            tomatoQ10,
+                            tomatoQ11,
+                            tomatoQ12,
+                            tomatoQ13,
+                            tomatoQ14,
+                          );
+                          break;
+
+                        case 'Avocado':
+                          submitAvocadoData(
+                            farmerID,
+                            selectedValueChain,
+                            avocadoQ1,
+                            avocadoQ2,
+                            avocadoQ3,
+                            avocadoQ4,
+                            avocadoQ5,
+                            avocadoQ6,
+                            avocadoQ7,
+                            avocadoQ8,
+                            avocadoQ9,
+                          );
+                          break;
+
+                        case 'Tomato Seedlings':
+                          submitTomatoSeedlingsData(
+                              farmerID,
+                              selectedValueChain,
+                              tomSeedlingQ1,
+                              tomSeedlingQ2,
+                              tomSeedlingQ3,
+                              tomSeedlingQ4,
+                              tomSeedlingQ5,
+                              tomSeedlingQ6,
+                              tomSeedlingQ7,
+                              tomSeedlingQ8);
+                          break;
+
+                        case 'Chicken (Eggs & Meat)':
+                          submitChickenEggsAndMeatData(
+                              farmerID,
+                              selectedValueChain,
+                              cemQ1,
+                              cemQ2,
+                              cemQ3,
+                              cemQ4,
+                              cemQ5,
+                              cemQ6,
+                              cemQ7,
+                              cemQ8,
+                              cemQ9,
+                              cemQ10,
+                              cemQ11,
+                              cemQ12,
+                              cemQ13,
+                              cemQ14);
+                          break;
+
+                        case 'Chicken (Egg Incubation)':
+                          submitChickenEggsIncubation(
+                              farmerID,
+                              selectedValueChain,
+                              ceiQ1,
+                              ceiQ2,
+                              ceiQ3,
+                              ceiQ4,
+                              ceiQ5,
+                              ceiQ6,
+                              ceiQ7,
+                              ceiQ8,
+                              ceiQ9,
+                              ceiQ10);
+                          break;
+
+                        case 'Dairy':
+                          submitDairy(
+                              farmerID,
+                              selectedValueChain,
+                              dairyQ1,
+                              dairyQ2,
+                              dairyQ3,
+                              dairyQ4,
+                              dairyQ5,
+                              dairyQ6,
+                              dairyQ7,
+                              dairyQ8,
+                              dairyQ9,
+                              dairyQ10);
+                          break;
+
+                        case 'Dairy Goat':
+                          submitDairyGoat(
+                              farmerID,
+                              selectedValueChain,
+                              dGoatQ1,
+                              dGoatQ2,
+                              dGoatQ3,
+                              dGoatQ4,
+                              dGoatQ5,
+                              dGoatQ6,
+                              dGoatQ7,
+                              dGoatQ8,
+                              dGoatQ9,
+                              dGoatQ10);
+                          break;
+
+                        case 'Apiculture':
+                          submitApiculture(
+                              farmerID,
+                              selectedValueChain,
+                              apicQ1,
+                              apicQ2,
+                              apicQ3,
+                              apicQ4,
+                              apicQ5,
+                              apicQ6,
+                              apicQ7,
+                              apicQ8,
+                              apicQ9,
+                              apicQ10);
+                          break;
+
+                        case 'Pigs':
+                          submitPigs(
+                            farmerID,
+                            selectedValueChain,
+                            pigQ1,
+                            pigQ2,
+                            pigQ3,
+                            pigQ4,
+                            pigQ5,
+                            pigQ6,
+                            pigQ7,
+                            pigQ8,
+                            pigQ9,
+                            pigQ10,
+                            pigQ11,
+                            pigQ12,
+                          );
+                          break;
+
+                        case 'Fish':
+                          submitFish(
+                            farmerID,
+                            selectedValueChain,
+                            fishQ1,
+                            fishQ2,
+                            fishQ3,
+                            fishQ4,
+                            fishQ5,
+                            fishQ6,
+                            fishQ7,
+                            fishQ8,
+                            fishQ9,
+                            fish10,
+                            fish11,
+                            fish12,
+                            fish13,
+                            fish14,
+                            fish15,
+                            fish16,
+                          );
+                          break;
+
+                        default:
+                          // Handle the case when selectedValueChain does not match any of the known options
+                          break;
                       }
-                      // Reset the form
+
+                      // Reseting the form
                       _formKey.currentState!.reset();
                       setState(() {
                         selectedValueChain = null;
                       });
                     }
                   },
-                  child: Text('Submit'),
+                  child: const Text('Submit'),
                 ),
               ],
             ),
@@ -635,11 +848,10 @@ class _ValueChainFormState extends State<ValueChainForm> {
     String tq1 = "How do you grow your tomatoes (open field or green house?)";
     String tq2 =
         "If open field,What is the area under cultivation for tomatoes?";
-    String tq3 =
-        'If green house; how many green hosues &  what is the size of your green house?';
-    String tq4 = 'Do you use irrigation?';
-    String tq5 = 'Type of irrigation used?';
-    String tq6 = 'Varieties';
+    String tq3 = 'How many green houses do you have?';
+    String tq4 = 'What is the size of your green houses?';
+    String tq5 = 'Which Irrigation method do you use?';
+    String tq6 = 'What varieties are you growing?';
     String tq7 = 'What is the cost of inputs used?';
     String tq8 = 'What are the Kgs of tomatoes produced?';
     String tq9 = 'What are the Kgs of spoilt tomatoes?';
@@ -852,8 +1064,367 @@ class _ValueChainFormState extends State<ValueChainForm> {
       ],
     };
   }
+
+  Future<void> fetchFarmerID() async {
+    const storage = FlutterSecureStorage();
+    farmerID = await storage.read(key: "NationalID");
+    print("the enum id is $farmerID");
+  }
 }
 
-void submitValueChainsData(String selectedValueChain, String answer) {
+Future<void> submitFish(
+    String? farmerID,
+    String? selectedValueChain,
+    String? fishQ1,
+    String? fishQ2,
+    String? fishQ3,
+    String? fishQ4,
+    String? fishQ5,
+    String? fishQ6,
+    String? fishQ7,
+    String? fishQ8,
+    String? fishQ9,
+    String? fish10,
+    String? fish11,
+    String? fish12,
+    String? fish13,
+    String? fish14,
+    String? fish15,
+    String? fish16) async {
+  var response = await http.post(Uri.parse("${getUrl()}fish"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'FarmerID': farmerID!,
+        'ValueChainName': selectedValueChain!,
+        'Capacity': fishQ1!,
+        'InitialCost': fishQ2!,
+        'InputCost': fishQ3!,
+        'Seedlings': fishQ4!,
+        'SpoiltSeedlings': fishQ5!,
+        'SeedlingSold': fishQ6!,
+        'SeedlingPrice': fishQ7!,
+        'SeedlingBuyers': fishQ8!,
+        'SpoiltSeedlings': fishQ9!,
+        'SeedlingSold': fish10!,
+        'SeedlingPrice': fish11!,
+        'SeedlingBuyers': fish12!,
+        'SeedlingBuyers': fish13!,
+        'SpoiltSeedlings': fish14!,
+        'SeedlingSold': fish15!,
+        'SeedlingPrice': fish16!
+      }));
+}
 
+Future<void> submitPigs(
+    String? farmerID,
+    String? selectedValueChain,
+    String? pigQ1,
+    String? pigQ2,
+    String? pigQ3,
+    String? pigQ4,
+    String? pigQ5,
+    String? pigQ6,
+    String? pigQ7,
+    String? pigQ8,
+    String? pigQ9,
+    String? pigQ10,
+    String? pigQ11,
+    String? pigQ12) async {
+  var response = await http.post(Uri.parse("${getUrl()}pigs"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'FarmerID': farmerID!,
+        'ValueChainName': selectedValueChain!,
+        'Capacity': pigQ1!,
+        'InitialCost': pigQ2!,
+        'InputCost': pigQ3!,
+        'Seedlings': pigQ4!,
+        'SpoiltSeedlings': pigQ5!,
+        'SeedlingSold': pigQ6!,
+        'SeedlingPrice': pigQ7!,
+        'SeedlingBuyers': pigQ8!,
+        'SpoiltSeedlings': pigQ9!,
+        'SeedlingSold': pigQ10!,
+        'SeedlingPrice': pigQ11!,
+        'SeedlingBuyers': pigQ12!
+      }));
+}
+
+Future<void> submitApiculture(
+    String? farmerID,
+    String? selectedValueChain,
+    String? apicQ1,
+    String? apicQ2,
+    String? apicQ3,
+    String? apicQ4,
+    String? apicQ5,
+    String? apicQ6,
+    String? apicQ7,
+    String? apicQ8,
+    String? apicQ9,
+    String? apicQ10) async {
+  var response = await http.post(Uri.parse("${getUrl()}apiculture"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'FarmerID': farmerID!,
+        'ValueChainName': selectedValueChain!,
+        'Capacity': apicQ1!,
+        'InitialCost': apicQ2!,
+        'InputCost': apicQ3!,
+        'Seedlings': apicQ4!,
+        'SpoiltSeedlings': apicQ5!,
+        'SeedlingSold': apicQ6!,
+        'SeedlingPrice': apicQ7!,
+        'SeedlingBuyers': apicQ8!,
+        'SpoiltSeedlings': apicQ9!,
+        'SeedlingSold': apicQ10!
+      }));
+}
+
+Future<void> submitDairyGoat(
+    String? farmerID,
+    String? selectedValueChain,
+    String? dGoatQ1,
+    String? dGoatQ2,
+    String? dGoatQ3,
+    String? dGoatQ4,
+    String? dGoatQ5,
+    String? dGoatQ6,
+    String? dGoatQ7,
+    String? dGoatQ8,
+    String? dGoatQ9,
+    String? dGoatQ10) async {
+  var response = await http.post(Uri.parse("${getUrl()}dairygoat"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'FarmerID': farmerID!,
+        'ValueChainName': selectedValueChain!,
+        'Capacity': dGoatQ1!,
+        'InitialCost': dGoatQ2!,
+        'InputCost': dGoatQ3!,
+        'Seedlings': dGoatQ4!,
+        'SpoiltSeedlings': dGoatQ5!,
+        'SeedlingSold': dGoatQ6!,
+        'SeedlingPrice': dGoatQ7!,
+        'SeedlingBuyers': dGoatQ8!,
+        'SpoiltSeedlings': dGoatQ9!,
+        'SeedlingSold': dGoatQ10!
+      }));
+}
+
+Future<void> submitDairy(
+    String? farmerID,
+    String? selectedValueChain,
+    String? dairyQ1,
+    String? dairyQ2,
+    String? dairyQ3,
+    String? dairyQ4,
+    String? dairyQ5,
+    String? dairyQ6,
+    String? dairyQ7,
+    String? dairyQ8,
+    String? dairyQ9,
+    String? dairyQ10) async {
+  var response = await http.post(Uri.parse("${getUrl()}dairy"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'FarmerID': farmerID!,
+        'ValueChainName': selectedValueChain!,
+        'Capacity': dairyQ1!,
+        'InitialCost': dairyQ2!,
+        'InputCost': dairyQ3!,
+        'Seedlings': dairyQ4!,
+        'SpoiltSeedlings': dairyQ5!,
+        'SeedlingSold': dairyQ6!,
+        'SeedlingPrice': dairyQ7!,
+        'SeedlingBuyers': dairyQ8!,
+        'SpoiltSeedlings': dairyQ9!,
+        'SeedlingSold': dairyQ10!
+      }));
+}
+
+Future<void> submitChickenEggsIncubation(
+    String? farmerID,
+    String? selectedValueChain,
+    String? ceiQ1,
+    String? ceiQ2,
+    String? ceiQ3,
+    String? ceiQ4,
+    String? ceiQ5,
+    String? ceiQ6,
+    String? ceiQ7,
+    String? ceiQ8,
+    String? ceiQ9,
+    String? ceiQ10) async {
+  var response = await http.post(Uri.parse("${getUrl()}chickeneggsincubation"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'FarmerID': farmerID!,
+        'ValueChainName': selectedValueChain!,
+        'Capacity': ceiQ1!,
+        'InitialCost': ceiQ2!,
+        'InputCost': ceiQ3!,
+        'Seedlings': ceiQ4!,
+        'SpoiltSeedlings': ceiQ5!,
+        'SeedlingSold': ceiQ6!,
+        'SeedlingPrice': ceiQ7!,
+        'SeedlingBuyers': ceiQ8!,
+        'SpoiltSeedlings': ceiQ9!,
+        'SeedlingSold': ceiQ10!
+      }));
+}
+
+Future<void> submitChickenEggsAndMeatData(
+    String? farmerID,
+    String? selectedValueChain,
+    String? cemQ1,
+    String? cemQ2,
+    String? cemQ3,
+    String? cemQ4,
+    String? cemQ5,
+    String? cemQ6,
+    String? cemQ7,
+    String? cemQ8,
+    String? cemQ9,
+    String? cemQ10,
+    String? cemQ11,
+    String? cemQ12,
+    String? cemQ13,
+    String? cemQ14) async {
+  var response = await http.post(Uri.parse("${getUrl()}chickeneggsmeat"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'FarmerID': farmerID!,
+        'ValueChainName': selectedValueChain!,
+        'Capacity': cemQ1!,
+        'InitialCost': cemQ2!,
+        'InputCost': cemQ3!,
+        'Seedlings': cemQ4!,
+        'SpoiltSeedlings': cemQ5!,
+        'SeedlingSold': cemQ6!,
+        'SeedlingPrice': cemQ7!,
+        'SeedlingBuyers': cemQ8!,
+        'InputCost': cemQ9!,
+        'Seedlings': cemQ10!,
+        'SpoiltSeedlings': cemQ11!,
+        'SeedlingSold': cemQ12!,
+        'SeedlingPrice': cemQ13!,
+        'SeedlingBuyers': cemQ14!
+      }));
+}
+
+Future<void> submitTomatoSeedlingsData(
+    String? farmerID,
+    String? selectedValueChain,
+    String? tomSeedlingQ1,
+    String? tomSeedlingQ2,
+    String? tomSeedlingQ3,
+    String? tomSeedlingQ4,
+    String? tomSeedlingQ5,
+    String? tomSeedlingQ6,
+    String? tomSeedlingQ7,
+    String? tomSeedlingQ8) async {
+  var response = await http.post(Uri.parse("${getUrl()}tomatoseedlings"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'FarmerID': farmerID!,
+        'ValueChainName': selectedValueChain!,
+        'Capacity': tomSeedlingQ1!,
+        'InitialCost': tomSeedlingQ2!,
+        'InputCost': tomSeedlingQ3!,
+        'Seedlings': tomSeedlingQ4!,
+        'SpoiltSeedlings': tomSeedlingQ5!,
+        'SeedlingSold': tomSeedlingQ6!,
+        'SeedlingPrice': tomSeedlingQ7!,
+        'SeedlingBuyers': tomSeedlingQ8!
+      }));
+}
+
+Future<void> submitAvocadoData(
+    String? farmerID,
+    String? selectedValueChain,
+    String? avocadoQ1,
+    String? avocadoQ2,
+    String? avocadoQ3,
+    String? avocadoQ4,
+    String? avocadoQ5,
+    String? avocadoQ6,
+    String? avocadoQ7,
+    String? avocadoQ8,
+    String? avocadoQ9) async {
+  var response = await http.post(Uri.parse("${getUrl()}avocadoes"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'FarmerID': farmerID!,
+        'ValueChainName': selectedValueChain!,
+        'AvocadoArea': avocadoQ1!,
+        'NumberOfTrees': avocadoQ2!,
+        'ProductionVolume': avocadoQ3!,
+        'SpoiledAvocadoes': avocadoQ4!,
+        'HomeConsumption': avocadoQ5!,
+        'AvocadoPrice': avocadoQ6!,
+        'AvocadoIncome': avocadoQ7!,
+        'PO_Sales': avocadoQ8!,
+        'AvocadoBuyers': avocadoQ9!
+      }));
+}
+
+Future<void> submitTomatoData(
+  String? farmerId,
+  String? selectedValueChain,
+  String? tomatoQ1,
+  String? tomatoQ2,
+  String? tomatoQ3,
+  String? tomatoQ4,
+  String? tomatoQ5,
+  String? tomatoQ6,
+  String? tomatoQ7,
+  String? tomatoQ8,
+  String? tomatoQ9,
+  String? tomatoQ10,
+  String? tomatoQ11,
+  String? tomatoQ12,
+  String? tomatoQ13,
+  String? tomatoQ14,
+) async {
+  var response = await http.post(Uri.parse("${getUrl()}tomatoes"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'FarmerID': farmerId!,
+        'ValueChainName': selectedValueChain!,
+        'GrowingMethod': tomatoQ1!,
+        'OpenField': tomatoQ2!,
+        'NoOfGreenhouses': tomatoQ3!,
+        'GreenhouseSize': tomatoQ4!,
+        'IrrigationType': tomatoQ5!,
+        'Variety': tomatoQ6!,
+        'InputCost': tomatoQ7!,
+        'ProductionVolume': tomatoQ8!,
+        'SpoiledTomatoes': tomatoQ9!,
+        'HomeConsumption': tomatoQ10!,
+        'TomatoesSold': tomatoQ11!,
+        'TomatoPrice': tomatoQ12!,
+        'TomatoIncome': tomatoQ13!,
+        'SalesChannel': tomatoQ14!
+      }));
 }
