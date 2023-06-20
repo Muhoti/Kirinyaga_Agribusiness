@@ -11,6 +11,7 @@ import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerAddress.dart';
+import 'package:kirinyaga_agribusiness/Pages/FarmerGroups.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
@@ -226,8 +227,8 @@ class _FarmerResourcesState extends State<FarmerResources> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const FarmerAddress(
-                                          editing: false,
+                                    builder: (context) => const FarmerGroups(
+                                          
                                         )));
                           }
                         });
@@ -285,14 +286,12 @@ Future<Message> submitData(
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(<String, String>{
-          'ValueChainName': totalAcreage,
-          'AvocadoArea': cropAcreage,
-          'NumberOfTrees': livestockAcreage,
-          'SpoiledAvocadoes': farmOwnership,
-          'AvocadoPrice': totalAcreage,
-          'AvocadoIncome': cropAcreage,
-          'PO_Sales': livestockAcreage,
-          'AvocadoBuyers': irrigationType
+          'FarmerID': farmerID,
+          'TotalAcreage': totalAcreage,
+          'CropAcreage': cropAcreage,
+          'LivestockAcreage': livestockAcreage,
+          'IrrigationType': irrigationType,
+          'FarmOwnership': farmOwnership
         }),
       );
     }

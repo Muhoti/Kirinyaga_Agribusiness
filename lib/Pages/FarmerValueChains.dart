@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Pages/AddValueChain.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
+import 'package:kirinyaga_agribusiness/Pages/ValueChainForm.dart';
 import 'package:kirinyaga_agribusiness/Pages/ValueChainProduce.dart';
 import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
 import 'package:kirinyaga_agribusiness/Scroll/FGScrollController.dart';
@@ -84,9 +85,7 @@ class _FarmerValueChainsState extends State<FarmerValueChains> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => const AddValueChain(
-                                        id: null,
-                                      )));
+                                  builder: (_) => const ValueChainForm()));
                         },
                       ),
                       SubmitButton(

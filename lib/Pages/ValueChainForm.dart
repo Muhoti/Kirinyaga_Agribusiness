@@ -1,12 +1,18 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
+import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
+import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 
 class ValueChainForm extends StatefulWidget {
+  const ValueChainForm({super.key});
+
   @override
   _ValueChainFormState createState() => _ValueChainFormState();
 }
@@ -140,6 +146,7 @@ class _ValueChainFormState extends State<ValueChainForm> {
   String? apicQ8;
   String? apicQ9;
   String? apicQ10;
+  String? apicQ11;
 
   // Pigs answers
   String? pigQ1;
@@ -172,6 +179,7 @@ class _ValueChainFormState extends State<ValueChainForm> {
   String? fish14;
   String? fish15;
   String? fish16;
+  String? fish17;
 
   List<Widget> buildQuestionFields() {
     questionMap = initializeQuestionMap();
@@ -297,18 +305,16 @@ class _ValueChainFormState extends State<ValueChainForm> {
         } else if (question == questionMap['Chicken (Egg Incubation)']![2]) {
           ceiQ3 = textControllers[question]!.text;
         } else if (question == questionMap['Chicken (Egg Incubation)']![3]) {
-          ceiQ3 = textControllers[question]!.text;
-        } else if (question == questionMap['Chicken (Egg Incubation)']![4]) {
           ceiQ4 = textControllers[question]!.text;
-        } else if (question == questionMap['Chicken (Egg Incubation)']![5]) {
+        } else if (question == questionMap['Chicken (Egg Incubation)']![4]) {
           ceiQ5 = textControllers[question]!.text;
-        } else if (question == questionMap['Chicken (Egg Incubation)']![6]) {
+        } else if (question == questionMap['Chicken (Egg Incubation)']![5]) {
           ceiQ6 = textControllers[question]!.text;
-        } else if (question == questionMap['Chicken (Egg Incubation)']![7]) {
+        } else if (question == questionMap['Chicken (Egg Incubation)']![6]) {
           ceiQ7 = textControllers[question]!.text;
-        } else if (question == questionMap['Chicken (Egg Incubation)']![8]) {
+        } else if (question == questionMap['Chicken (Egg Incubation)']![7]) {
           ceiQ8 = textControllers[question]!.text;
-        } else if (question == questionMap['Chicken (Egg Incubation)']![9]) {
+        } else if (question == questionMap['Chicken (Egg Incubation)']![8]) {
           ceiQ9 = textControllers[question]!.text;
         } else if (question == questionMap['Chicken (Egg Incubation)']![9]) {
           ceiQ10 = textControllers[question]!.text;
@@ -378,6 +384,8 @@ class _ValueChainFormState extends State<ValueChainForm> {
           apicQ9 = textControllers[question]!.text;
         } else if (question == questionMap['Apiculture']![9]) {
           apicQ10 = textControllers[question]!.text;
+        } else if (question == questionMap['Apiculture']![10]) {
+          apicQ11 = textControllers[question]!.text;
         }
       } else if (selectedValueChain == 'Pigs') {
         if (question == questionMap['Pigs']![0]) {
@@ -438,6 +446,8 @@ class _ValueChainFormState extends State<ValueChainForm> {
           fish15 = textControllers[question]!.text;
         } else if (question == questionMap['Fish']![15]) {
           fish16 = textControllers[question]!.text;
+        } else if (question == questionMap['Fish']![16]) {
+          fish17 = textControllers[question]!.text;
         }
       }
 
@@ -603,8 +613,22 @@ class _ValueChainFormState extends State<ValueChainForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Value Chain Form'),
+        title: const Text("Add Value Chain"),
+        actions: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: IconButton(
+              onPressed: () => {
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (_) => const Home()))
+              },
+              icon: const Icon(Icons.arrow_back),
+            ),
+          ),
+        ],
+        backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
       ),
+      drawer: const Drawer(child: FODrawer()),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -636,8 +660,9 @@ class _ValueChainFormState extends State<ValueChainForm> {
                 const SizedBox(height: 16.0),
                 if (selectedValueChain != null) ...buildQuestionFields(),
                 const SizedBox(height: 16.0),
-                ElevatedButton(
-                  onPressed: () {
+                SubmitButton(
+                  label: "Submit",
+                  onButtonPressed: () {
                     if (_formKey.currentState!.validate()) {
                       // Process the form data here
 
@@ -776,7 +801,8 @@ class _ValueChainFormState extends State<ValueChainForm> {
                               apicQ7,
                               apicQ8,
                               apicQ9,
-                              apicQ10);
+                              apicQ10,
+                              apicQ11);
                           break;
 
                         case 'Pigs':
@@ -800,25 +826,25 @@ class _ValueChainFormState extends State<ValueChainForm> {
 
                         case 'Fish':
                           submitFish(
-                            farmerID,
-                            selectedValueChain,
-                            fishQ1,
-                            fishQ2,
-                            fishQ3,
-                            fishQ4,
-                            fishQ5,
-                            fishQ6,
-                            fishQ7,
-                            fishQ8,
-                            fishQ9,
-                            fish10,
-                            fish11,
-                            fish12,
-                            fish13,
-                            fish14,
-                            fish15,
-                            fish16,
-                          );
+                              farmerID,
+                              selectedValueChain,
+                              fishQ1,
+                              fishQ2,
+                              fishQ3,
+                              fishQ4,
+                              fishQ5,
+                              fishQ6,
+                              fishQ7,
+                              fishQ8,
+                              fishQ9,
+                              fish10,
+                              fish11,
+                              fish12,
+                              fish13,
+                              fish14,
+                              fish15,
+                              fish16,
+                              fish17);
                           break;
 
                         default:
@@ -833,7 +859,7 @@ class _ValueChainFormState extends State<ValueChainForm> {
                       });
                     }
                   },
-                  child: const Text('Submit'),
+                  
                 ),
               ],
             ),
@@ -943,16 +969,17 @@ class _ValueChainFormState extends State<ValueChainForm> {
     String dg10 = "What is the income from kids sold?";
 
 // Questions for bees
-    String ap1 = "What type and no. of hive per do you have?";
-    String ap2 = "How many hives have been colonized?";
-    String ap3 = "Have you harvested honey during the reporting period?";
-    String ap4 = "How many Kgs of crude honey?";
-    String ap5 = "How many Kgs of refined honey?";
-    String ap6 = "How many Kgs have you sold during the reporting period?";
-    String ap7 = "How much did you sell a Kg at?";
-    String ap8 = "What is the income gained from sale of honey?";
-    String ap9 = "Is there any other hive product you sell apart from honey?";
-    String ap10 = "What is the income generated from the same?";
+    String ap1 = "What type of hive do you have?";
+    String ap2 = "How many hives of them are there?";
+    String ap3 = "How many hives have been colonized?";
+    String ap4 = "Have you harvested honey during the reporting period?";
+    String ap5 = "How many Kgs of crude honey?";
+    String ap6 = "How many Kgs of refined honey?";
+    String ap7 = "How many Kgs have you sold during the reporting period?";
+    String ap8 = "How much did you sell a Kg at?";
+    String ap9 = "What is the income gained from sale of honey?";
+    String ap10 = "Is there any other hive product you sell apart from honey?";
+    String ap11 = "What is the income generated from the same?";
 
 // Questions for pigs
     String p1 = "How many pigs do you have excluding piglets?";
@@ -1041,7 +1068,7 @@ class _ValueChainFormState extends State<ValueChainForm> {
       ],
       "Dairy": [d1, d2, d3, d4, d5, d6, d7, d8, d9, d10],
       "Dairy Goat": [dg1, dg2, dg3, dg4, dg5, dg6, dg7, dg8, dg9, dg10],
-      "Apiculture": [ap1, ap2, ap3, ap4, ap5, ap6, ap7, ap8, ap9, ap10],
+      "Apiculture": [ap1, ap2, ap3, ap4, ap5, ap6, ap7, ap8, ap9, ap10, ap11],
       "Pigs": [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12],
       "Fish": [
         f1,
@@ -1090,7 +1117,8 @@ Future<void> submitFish(
     String? fish13,
     String? fish14,
     String? fish15,
-    String? fish16) async {
+    String? fish16,
+    String? fish17) async {
   var response = await http.post(Uri.parse("${getUrl()}fish"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -1098,22 +1126,23 @@ Future<void> submitFish(
       body: jsonEncode(<String, String>{
         'FarmerID': farmerID!,
         'ValueChainName': selectedValueChain!,
-        'Capacity': fishQ1!,
-        'InitialCost': fishQ2!,
-        'InputCost': fishQ3!,
-        'Seedlings': fishQ4!,
-        'SpoiltSeedlings': fishQ5!,
-        'SeedlingSold': fishQ6!,
-        'SeedlingPrice': fishQ7!,
-        'SeedlingBuyers': fishQ8!,
-        'SpoiltSeedlings': fishQ9!,
-        'SeedlingSold': fish10!,
-        'SeedlingPrice': fish11!,
-        'SeedlingBuyers': fish12!,
-        'SeedlingBuyers': fish13!,
-        'SpoiltSeedlings': fish14!,
-        'SeedlingSold': fish15!,
-        'SeedlingPrice': fish16!
+        'Ponds': fishQ1!,
+        'Capacity': fishQ2!,
+        'FishSpecies': fishQ3!,
+        'InitialFingerlings': fishQ4!,
+        'TotalHarvested': fishQ5!,
+        'Feeds': fishQ6!,
+        'FeedsSource': fishQ7!,
+        'FeedsCost': fishQ8!,
+        'FishPrice': fishQ9!,
+        'FishSold': fish10!,
+        'MarketStructure': fish11!,
+        'Income': fish12!,
+        'Breeder': fish13!,
+        'License': fish14!,
+        'FingerlingsCost': fish15!,
+        'FingerlingsSold': fish16!,
+        'FingerlingsIncome': fish17!
       }));
 }
 
@@ -1139,18 +1168,18 @@ Future<void> submitPigs(
       body: jsonEncode(<String, String>{
         'FarmerID': farmerID!,
         'ValueChainName': selectedValueChain!,
-        'Capacity': pigQ1!,
-        'InitialCost': pigQ2!,
-        'InputCost': pigQ3!,
-        'Seedlings': pigQ4!,
-        'SpoiltSeedlings': pigQ5!,
-        'SeedlingSold': pigQ6!,
-        'SeedlingPrice': pigQ7!,
-        'SeedlingBuyers': pigQ8!,
-        'SpoiltSeedlings': pigQ9!,
-        'SeedlingSold': pigQ10!,
-        'SeedlingPrice': pigQ11!,
-        'SeedlingBuyers': pigQ12!
+        'Pigs': pigQ1!,
+        'Sows': pigQ2!,
+        'SowsInProduction': pigQ3!,
+        'Piglests': pigQ4!,
+        'PigletsSold': pigQ5!,
+        'PigletPrice': pigQ6!,
+        'PigsSold': pigQ7!,
+        'PigCustomers': pigQ8!,
+        'Income': pigQ9!,
+        'PigsSlaughtered': pigQ10!,
+        'PorkIncome': pigQ11!,
+        'PorkCustomers': pigQ12!
       }));
 }
 
@@ -1166,7 +1195,8 @@ Future<void> submitApiculture(
     String? apicQ7,
     String? apicQ8,
     String? apicQ9,
-    String? apicQ10) async {
+    String? apicQ10,
+    String? apicQ11) async {
   var response = await http.post(Uri.parse("${getUrl()}apiculture"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -1174,16 +1204,17 @@ Future<void> submitApiculture(
       body: jsonEncode(<String, String>{
         'FarmerID': farmerID!,
         'ValueChainName': selectedValueChain!,
-        'Capacity': apicQ1!,
-        'InitialCost': apicQ2!,
-        'InputCost': apicQ3!,
-        'Seedlings': apicQ4!,
-        'SpoiltSeedlings': apicQ5!,
-        'SeedlingSold': apicQ6!,
-        'SeedlingPrice': apicQ7!,
-        'SeedlingBuyers': apicQ8!,
-        'SpoiltSeedlings': apicQ9!,
-        'SeedlingSold': apicQ10!
+        'HiveType': apicQ1!,
+        'NoHives': apicQ2!,
+        'HivesColonized': apicQ3!,
+        'HarvestedQuery': apicQ4!,
+        'CrudeHoney': apicQ5!,
+        'RefinedHoney': apicQ6!,
+        'HoneySold': apicQ7!,
+        'HoneyCost': apicQ8!,
+        'TotalIncome': apicQ9!,
+        'OtherHiveProducts': apicQ10!,
+        'OtherHiveIncome': apicQ11!
       }));
 }
 
@@ -1200,23 +1231,23 @@ Future<void> submitDairyGoat(
     String? dGoatQ8,
     String? dGoatQ9,
     String? dGoatQ10) async {
-  var response = await http.post(Uri.parse("${getUrl()}dairygoat"),
+  var response = await http.post(Uri.parse("${getUrl()}dairygoats"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
         'FarmerID': farmerID!,
         'ValueChainName': selectedValueChain!,
-        'Capacity': dGoatQ1!,
-        'InitialCost': dGoatQ2!,
-        'InputCost': dGoatQ3!,
-        'Seedlings': dGoatQ4!,
-        'SpoiltSeedlings': dGoatQ5!,
-        'SeedlingSold': dGoatQ6!,
-        'SeedlingPrice': dGoatQ7!,
-        'SeedlingBuyers': dGoatQ8!,
-        'SpoiltSeedlings': dGoatQ9!,
-        'SeedlingSold': dGoatQ10!
+        'Goats': dGoatQ1!,
+        'MilkedGoats': dGoatQ2!,
+        'TotalMilk': dGoatQ3!,
+        'HomeMilk': dGoatQ4!,
+        'MilkCost': dGoatQ5!,
+        'MilkSold': dGoatQ6!,
+        'Kids': dGoatQ7!,
+        'KidsSold': dGoatQ8!,
+        'KidPrice': dGoatQ9!,
+        'KidsIncome': dGoatQ10!
       }));
 }
 
@@ -1240,16 +1271,16 @@ Future<void> submitDairy(
       body: jsonEncode(<String, String>{
         'FarmerID': farmerID!,
         'ValueChainName': selectedValueChain!,
-        'Capacity': dairyQ1!,
-        'InitialCost': dairyQ2!,
-        'InputCost': dairyQ3!,
-        'Seedlings': dairyQ4!,
-        'SpoiltSeedlings': dairyQ5!,
-        'SeedlingSold': dairyQ6!,
-        'SeedlingPrice': dairyQ7!,
-        'SeedlingBuyers': dairyQ8!,
-        'SpoiltSeedlings': dairyQ9!,
-        'SeedlingSold': dairyQ10!
+        'Cows': dairyQ1!,
+        'MilkedCows': dairyQ2!,
+        'TotalMilk': dairyQ3!,
+        'HomeMilk': dairyQ4!,
+        'MilkCost': dairyQ5!,
+        'MilkSold': dairyQ6!,
+        'Calves': dairyQ7!,
+        'CalvesSold': dairyQ8!,
+        'CalfPrice': dairyQ9!,
+        'CalvesIncome': dairyQ10!
       }));
 }
 
@@ -1273,16 +1304,16 @@ Future<void> submitChickenEggsIncubation(
       body: jsonEncode(<String, String>{
         'FarmerID': farmerID!,
         'ValueChainName': selectedValueChain!,
-        'Capacity': ceiQ1!,
-        'InitialCost': ceiQ2!,
-        'InputCost': ceiQ3!,
-        'Seedlings': ceiQ4!,
-        'SpoiltSeedlings': ceiQ5!,
-        'SeedlingSold': ceiQ6!,
-        'SeedlingPrice': ceiQ7!,
-        'SeedlingBuyers': ceiQ8!,
-        'SpoiltSeedlings': ceiQ9!,
-        'SeedlingSold': ceiQ10!
+        'InitialInvestment': ceiQ1!,
+        'Incubators': ceiQ2!,
+        'IncubatorCapacity': ceiQ3!,
+        'EggsIncubated': ceiQ4!,
+        'SpoiltEggs': ceiQ5!,
+        'ChicksHatched': ceiQ6!,
+        'DiedChicks': ceiQ7!,
+        'ChicksSold': ceiQ8!,
+        'ChickCost': ceiQ9!,
+        'TotalIncome': ceiQ10!
       }));
 }
 
@@ -1303,27 +1334,27 @@ Future<void> submitChickenEggsAndMeatData(
     String? cemQ12,
     String? cemQ13,
     String? cemQ14) async {
-  var response = await http.post(Uri.parse("${getUrl()}chickeneggsmeat"),
+  var response = await http.post(Uri.parse("${getUrl()}chickenmeateggs"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
         'FarmerID': farmerID!,
         'ValueChainName': selectedValueChain!,
-        'Capacity': cemQ1!,
-        'InitialCost': cemQ2!,
-        'InputCost': cemQ3!,
-        'Seedlings': cemQ4!,
-        'SpoiltSeedlings': cemQ5!,
-        'SeedlingSold': cemQ6!,
-        'SeedlingPrice': cemQ7!,
-        'SeedlingBuyers': cemQ8!,
-        'InputCost': cemQ9!,
-        'Seedlings': cemQ10!,
-        'SpoiltSeedlings': cemQ11!,
-        'SeedlingSold': cemQ12!,
-        'SeedlingPrice': cemQ13!,
-        'SeedlingBuyers': cemQ14!
+        'TotalBirds': cemQ1!,
+        'EggBirds': cemQ2!,
+        'NoEggs': cemQ3!,
+        'SpoiltEggs': cemQ4!,
+        'EggsSold': cemQ5!,
+        'EggPrice': cemQ6!,
+        'EggsIncome': cemQ7!,
+        'EatenBirds': cemQ8!,
+        'DiedBirds': cemQ9!,
+        'BirdsSold': cemQ10!,
+        'BirdPrice': cemQ11!,
+        'BirdsIncome': cemQ12!,
+        'EggsCustomers': cemQ13!,
+        'ChickenCustomers': cemQ14!
       }));
 }
 
