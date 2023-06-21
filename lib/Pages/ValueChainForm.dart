@@ -18,17 +18,11 @@ class ValueChainForm extends StatefulWidget {
 }
 
 class _ValueChainFormState extends State<ValueChainForm> {
-  @override
-  void initState() {
-    fetchFarmerID();
-    super.initState();
-  }
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String? selectedValueChain;
   late Map questionMap;
-  String? farmerID = "11111111";
+  String farmerID = '';
 
   List<String> valueChains = [
     'Tomato',
@@ -43,8 +37,6 @@ class _ValueChainFormState extends State<ValueChainForm> {
     'Pigs',
     'Fish'
   ];
-
-  Map<String, TextEditingController> textControllers = {};
 
   // Tomato answers
   String? tomatoQ1;
@@ -180,6 +172,298 @@ class _ValueChainFormState extends State<ValueChainForm> {
   String? fish15;
   String? fish16;
   String? fish17;
+
+  Map<String, TextEditingController> textControllers = {};
+
+  @override
+  void initState() {
+    //fetchFarmerID();
+    super.initState();
+  }
+
+  Future<void> fetchFarmerID() async {
+    const storage = FlutterSecureStorage();
+    String? id = await storage.read(key: "NationalID");
+    setState(() {
+      farmerID = id!;
+    });
+    print("the valuchain id is $farmerID");
+  }
+
+  // @override
+  // void dispose() {
+  //   // Dispose of the text controllers
+  //   for (TextEditingController controller in textControllers.values) {
+  //     controller.dispose();
+  //   }
+  //   super.dispose();
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Add Value Chain"),
+        actions: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: IconButton(
+              onPressed: () => {
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (_) => const Home()))
+              },
+              icon: const Icon(Icons.arrow_back),
+            ),
+          ),
+        ],
+        backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
+      ),
+      drawer: const Drawer(child: FODrawer()),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                DropdownButtonFormField(
+                  value: selectedValueChain,
+                  items: valueChains.map((value) {
+                    return DropdownMenuItem(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedValueChain = value.toString();
+                    });
+                  },
+                  decoration: InputDecoration(labelText: 'Value Chain'),
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Please select a value chain';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16.0),
+                if (selectedValueChain != null) ...buildQuestionFields(),
+                const SizedBox(height: 16.0),
+                SubmitButton(
+                  label: "Submit",
+                  onButtonPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      // Process the form data here
+
+                      print(questionMap[selectedValueChain]);
+
+                      for (String question
+                          in questionMap[selectedValueChain]!) {
+                        String answer = textControllers[question]!.text;
+                        print(
+                            ' $farmerID, $selectedValueChain, ${textControllers[question]!.text}');
+
+                        switch (selectedValueChain) {
+                          case 'Tomato':
+                            submitTomatoData(
+                              farmerID,
+                              selectedValueChain,
+                              tomatoQ1,
+                              tomatoQ2,
+                              tomatoQ3,
+                              tomatoQ4,
+                              tomatoQ5,
+                              tomatoQ6,
+                              tomatoQ7,
+                              tomatoQ8,
+                              tomatoQ9,
+                              tomatoQ10,
+                              tomatoQ11,
+                              tomatoQ12,
+                              tomatoQ13,
+                              tomatoQ14,
+                            );
+                            break;
+
+                          case 'Avocado':
+                            await submitAvocadoData(
+                              farmerID,
+                              selectedValueChain,
+                              avocadoQ1,
+                              avocadoQ2,
+                              avocadoQ3,
+                              avocadoQ4,
+                              avocadoQ5,
+                              avocadoQ6,
+                              avocadoQ7,
+                              avocadoQ8,
+                              avocadoQ9,
+                            );
+                            break;
+
+                          case 'Tomato Seedlings':
+                            submitTomatoSeedlingsData(
+                                farmerID,
+                                selectedValueChain,
+                                tomSeedlingQ1,
+                                tomSeedlingQ2,
+                                tomSeedlingQ3,
+                                tomSeedlingQ4,
+                                tomSeedlingQ5,
+                                tomSeedlingQ6,
+                                tomSeedlingQ7,
+                                tomSeedlingQ8);
+                            break;
+
+                          case 'Chicken (Eggs & Meat)':
+                            submitChickenEggsAndMeatData(
+                                farmerID,
+                                selectedValueChain,
+                                cemQ1,
+                                cemQ2,
+                                cemQ3,
+                                cemQ4,
+                                cemQ5,
+                                cemQ6,
+                                cemQ7,
+                                cemQ8,
+                                cemQ9,
+                                cemQ10,
+                                cemQ11,
+                                cemQ12,
+                                cemQ13,
+                                cemQ14);
+                            break;
+
+                          case 'Chicken (Egg Incubation)':
+                            submitChickenEggsIncubation(
+                                farmerID,
+                                selectedValueChain,
+                                ceiQ1,
+                                ceiQ2,
+                                ceiQ3,
+                                ceiQ4,
+                                ceiQ5,
+                                ceiQ6,
+                                ceiQ7,
+                                ceiQ8,
+                                ceiQ9,
+                                ceiQ10);
+                            break;
+
+                          case 'Dairy':
+                            submitDairy(
+                                farmerID,
+                                selectedValueChain,
+                                dairyQ1,
+                                dairyQ2,
+                                dairyQ3,
+                                dairyQ4,
+                                dairyQ5,
+                                dairyQ6,
+                                dairyQ7,
+                                dairyQ8,
+                                dairyQ9,
+                                dairyQ10);
+                            break;
+
+                          case 'Dairy Goat':
+                            submitDairyGoat(
+                                farmerID,
+                                selectedValueChain,
+                                dGoatQ1,
+                                dGoatQ2,
+                                dGoatQ3,
+                                dGoatQ4,
+                                dGoatQ5,
+                                dGoatQ6,
+                                dGoatQ7,
+                                dGoatQ8,
+                                dGoatQ9,
+                                dGoatQ10);
+                            break;
+
+                          case 'Apiculture':
+                            submitApiculture(
+                                farmerID,
+                                selectedValueChain,
+                                apicQ1,
+                                apicQ2,
+                                apicQ3,
+                                apicQ4,
+                                apicQ5,
+                                apicQ6,
+                                apicQ7,
+                                apicQ8,
+                                apicQ9,
+                                apicQ10,
+                                apicQ11);
+                            break;
+
+                          case 'Pigs':
+                            submitPigs(
+                              farmerID,
+                              selectedValueChain,
+                              pigQ1,
+                              pigQ2,
+                              pigQ3,
+                              pigQ4,
+                              pigQ5,
+                              pigQ6,
+                              pigQ7,
+                              pigQ8,
+                              pigQ9,
+                              pigQ10,
+                              pigQ11,
+                              pigQ12,
+                            );
+                            break;
+
+                          case 'Fish':
+                            submitFish(
+                                farmerID,
+                                selectedValueChain,
+                                fishQ1,
+                                fishQ2,
+                                fishQ3,
+                                fishQ4,
+                                fishQ5,
+                                fishQ6,
+                                fishQ7,
+                                fishQ8,
+                                fishQ9,
+                                fish10,
+                                fish11,
+                                fish12,
+                                fish13,
+                                fish14,
+                                fish15,
+                                fish16,
+                                fish17);
+                            break;
+
+                          default:
+                            // Handle the case when selectedValueChain does not match any of the known options
+                            break;
+                        }
+                      }
+
+                      // Reseting the form
+                      _formKey.currentState!.reset();
+                      setState(() {
+                        selectedValueChain = null;
+                      });
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   List<Widget> buildQuestionFields() {
     questionMap = initializeQuestionMap();
@@ -599,510 +883,226 @@ class _ValueChainFormState extends State<ValueChainForm> {
 
     return questionFields;
   }
+}
 
-  @override
-  void dispose() {
-    // Dispose of the text controllers
-    for (TextEditingController controller in textControllers.values) {
-      controller.dispose();
-    }
-    super.dispose();
-  }
+Map<String, List<String>> initializeQuestionMap() {
+  // Tomato Questions
+  String tq1 = "How do you grow your tomatoes (open field or green house?)";
+  String tq2 = "If open field,What is the area under cultivation for tomatoes?";
+  String tq3 = 'How many green houses do you have?';
+  String tq4 = 'What is the size of your green houses?';
+  String tq5 = 'Which Irrigation method do you use?';
+  String tq6 = 'What varieties are you growing?';
+  String tq7 = 'What is the cost of inputs used?';
+  String tq8 = 'What are the Kgs of tomatoes produced?';
+  String tq9 = 'What are the Kgs of spoilt tomatoes?';
+  String tq10 = 'What are the Kgs of tomatoes consumed at home?';
+  String tq11 = 'What are the Kgs of tomatoes sold?';
+  String tq12 = 'What is the average price of 1kg of tomatoes?';
+  String tq13 = 'What is the income from tomatoes?';
+  String tq14 =
+      'Did you sell your tomatoes through PO? If not whom did you sell to?';
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Add Value Chain"),
-        actions: [
-          Align(
-            alignment: Alignment.centerRight,
-            child: IconButton(
-              onPressed: () => {
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => const Home()))
-              },
-              icon: const Icon(Icons.arrow_back),
-            ),
-          ),
-        ],
-        backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
-      ),
-      drawer: const Drawer(child: FODrawer()),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                DropdownButtonFormField(
-                  value: selectedValueChain,
-                  items: valueChains.map((value) {
-                    return DropdownMenuItem(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedValueChain = value.toString();
-                    });
-                  },
-                  decoration: InputDecoration(labelText: 'Value Chain'),
-                  validator: (value) {
-                    if (value == null) {
-                      return 'Please select a value chain';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16.0),
-                if (selectedValueChain != null) ...buildQuestionFields(),
-                const SizedBox(height: 16.0),
-                SubmitButton(
-                  label: "Submit",
-                  onButtonPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Process the form data here
+  // Banana Questions
+  String bq1 = "Question 1";
+  String bq2 = "Question 2";
 
-                      print(questionMap[selectedValueChain]);
+  // Avocado Questions
+  String aq1 = "What is the area under avocado (in acres)?";
+  String aq2 = "How many trees do you have?";
+  String aq3 = "How many Kgs of avocado produced?";
+  String aq4 = "How many Kgs of spoiled avocado?";
+  String aq5 = "What is the number of avocado consumed at home in Kg?";
+  String aq6 = "What is the average price per Kg?";
+  String aq7 = "What is the income from Avocado?";
+  String aq8 = "Which PO do you sell through?";
+  String aq9 = "Whom did you sell the avocado to?";
 
-                      for (String question
-                          in questionMap[selectedValueChain]!) {
-                        String answer = textControllers[question]!.text;
-                        print(
-                            ' $selectedValueChain, ${textControllers[question]!.text}');
+  // Tomato Seedling Questions
+  String tsq1 = "What is the capacity of your nursery?";
+  String tsq2 = "What is the Initial cost of Investment?";
+  String tsq3 = "What is the cost of input used?";
+  String tsq4 = "What is the number of seedlings produced?";
+  String tsq5 = "What is the number of spoilt seedlings?";
+  String tsq6 = "What is the number of seedlings sold?";
+  String tsq7 = "What is the average price of a seedling?";
+  String tsq8 = "Whom do you sell your seedlings to?";
 
-                        switch (selectedValueChain) {
-                          case 'Tomato':
-                            submitTomatoData(
-                              farmerID = "11111111",
-                              selectedValueChain,
-                              tomatoQ1,
-                              tomatoQ2,
-                              tomatoQ3,
-                              tomatoQ4,
-                              tomatoQ5,
-                              tomatoQ6,
-                              tomatoQ7,
-                              tomatoQ8,
-                              tomatoQ9,
-                              tomatoQ10,
-                              tomatoQ11,
-                              tomatoQ12,
-                              tomatoQ13,
-                              tomatoQ14,
-                            );
-                            break;
+  // Chicken Eggs & Meat questions
+  String ceq1 = "How many birds do you have?";
+  String ceq2 = "What is the number of birds in egg production?";
+  String ceq3 = "What is the number of eggs produced?";
+  String ceq4 = "What is the number of spoilt eggs?";
+  String ceq5 = "What is the number off eggs Sold?";
+  String ceq6 = "What is the average price per egg sold?";
+  String ceq7 = "What is the income from eggs sold?";
+  String ceq8 = "What is the number of birds consumed at home?";
+  String ceq9 = "What is the number of dead birds?";
+  String ceq10 = "What is the number of Birds Sold?";
+  String ceq11 = "What is the average price per bird sold?";
+  String ceq12 = "What is the income from Birds sold?";
+  String ceq13 = "Who do you sell eggs to?";
+  String ceq14 = "Whom do you sell chicken to?";
 
-                          case 'Avocado':
-                            submitAvocadoData(
-                              farmerID = "11111111",
-                              selectedValueChain,
-                              avocadoQ1,
-                              avocadoQ2,
-                              avocadoQ3,
-                              avocadoQ4,
-                              avocadoQ5,
-                              avocadoQ6,
-                              avocadoQ7,
-                              avocadoQ8,
-                              avocadoQ9,
-                            );
-                            break;
+  // Chicken for Meat questions
+  String cei1 = 'What is the Initial cost of investment?';
+  String cei2 = 'How many incubators do you have?';
+  String cei3 = 'What is the capacity of the incubator?';
+  String cei4 = 'What is the number of eggs incubated?';
+  String cei5 = 'What is the number of spoilt eggs?';
+  String cei6 = 'What is the number of chicks hatched?';
+  String cei7 = 'What is the number of dead chicks?';
+  String cei8 = 'What is the number of chicks sold?';
+  String cei9 = 'What is the average price per chick sold?';
+  String cei10 = 'What is the income from the chicks sold?';
 
-                          case 'Tomato Seedlings':
-                            submitTomatoSeedlingsData(
-                                farmerID = "11111111",
-                                selectedValueChain,
-                                tomSeedlingQ1,
-                                tomSeedlingQ2,
-                                tomSeedlingQ3,
-                                tomSeedlingQ4,
-                                tomSeedlingQ5,
-                                tomSeedlingQ6,
-                                tomSeedlingQ7,
-                                tomSeedlingQ8);
-                            break;
+  // Questions for dairy
+  String d1 = "How many cows do you have?";
+  String d2 = "What is the number of cows in production?";
+  String d3 = "How many liters do the cow(s) produce (total)?";
+  String d4 =
+      "How many liters are consumed at home (total for the reporting period)?";
+  String d5 = "What is the average price of 1 liter of milk sold?";
+  String d6 = "How many liters of milk were sold?";
+  String d7 = "What is the number of calves?";
+  String d8 = "What is the number of calves sold?";
+  String d9 = "What is the average price per calf sold?";
+  String d10 = "What is the income from calves sold?";
 
-                          case 'Chicken (Eggs & Meat)':
-                            submitChickenEggsAndMeatData(
-                                farmerID = "11111111",
-                                selectedValueChain,
-                                cemQ1,
-                                cemQ2,
-                                cemQ3,
-                                cemQ4,
-                                cemQ5,
-                                cemQ6,
-                                cemQ7,
-                                cemQ8,
-                                cemQ9,
-                                cemQ10,
-                                cemQ11,
-                                cemQ12,
-                                cemQ13,
-                                cemQ14);
-                            break;
-
-                          case 'Chicken (Egg Incubation)':
-                            submitChickenEggsIncubation(
-                                farmerID = "11111111",
-                                selectedValueChain,
-                                ceiQ1,
-                                ceiQ2,
-                                ceiQ3,
-                                ceiQ4,
-                                ceiQ5,
-                                ceiQ6,
-                                ceiQ7,
-                                ceiQ8,
-                                ceiQ9,
-                                ceiQ10);
-                            break;
-
-                          case 'Dairy':
-                            submitDairy(
-                                farmerID = "11111111",
-                                selectedValueChain,
-                                dairyQ1,
-                                dairyQ2,
-                                dairyQ3,
-                                dairyQ4,
-                                dairyQ5,
-                                dairyQ6,
-                                dairyQ7,
-                                dairyQ8,
-                                dairyQ9,
-                                dairyQ10);
-                            break;
-
-                          case 'Dairy Goat':
-                            submitDairyGoat(
-                                farmerID = "11111111",
-                                selectedValueChain,
-                                dGoatQ1,
-                                dGoatQ2,
-                                dGoatQ3,
-                                dGoatQ4,
-                                dGoatQ5,
-                                dGoatQ6,
-                                dGoatQ7,
-                                dGoatQ8,
-                                dGoatQ9,
-                                dGoatQ10);
-                            break;
-
-                          case 'Apiculture':
-                            submitApiculture(
-                                farmerID = "11111111",
-                                selectedValueChain,
-                                apicQ1,
-                                apicQ2,
-                                apicQ3,
-                                apicQ4,
-                                apicQ5,
-                                apicQ6,
-                                apicQ7,
-                                apicQ8,
-                                apicQ9,
-                                apicQ10,
-                                apicQ11);
-                            break;
-
-                          case 'Pigs':
-                            submitPigs(
-                              farmerID = "11111111",
-                              selectedValueChain,
-                              pigQ1,
-                              pigQ2,
-                              pigQ3,
-                              pigQ4,
-                              pigQ5,
-                              pigQ6,
-                              pigQ7,
-                              pigQ8,
-                              pigQ9,
-                              pigQ10,
-                              pigQ11,
-                              pigQ12,
-                            );
-                            break;
-
-                          case 'Fish':
-                            submitFish(
-                                farmerID = "11111111",
-                                selectedValueChain,
-                                fishQ1,
-                                fishQ2,
-                                fishQ3,
-                                fishQ4,
-                                fishQ5,
-                                fishQ6,
-                                fishQ7,
-                                fishQ8,
-                                fishQ9,
-                                fish10,
-                                fish11,
-                                fish12,
-                                fish13,
-                                fish14,
-                                fish15,
-                                fish16,
-                                fish17);
-                            break;
-
-                          default:
-                            // Handle the case when selectedValueChain does not match any of the known options
-                            break;
-                        }
-                      }
-
-                      // Reseting the form
-                      _formKey.currentState!.reset();
-                      setState(() {
-                        selectedValueChain = null;
-                      });
-                    }
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Map<String, List<String>> initializeQuestionMap() {
-    // Tomato Questions
-    String tq1 = "How do you grow your tomatoes (open field or green house?)";
-    String tq2 =
-        "If open field,What is the area under cultivation for tomatoes?";
-    String tq3 = 'How many green houses do you have?';
-    String tq4 = 'What is the size of your green houses?';
-    String tq5 = 'Which Irrigation method do you use?';
-    String tq6 = 'What varieties are you growing?';
-    String tq7 = 'What is the cost of inputs used?';
-    String tq8 = 'What are the Kgs of tomatoes produced?';
-    String tq9 = 'What are the Kgs of spoilt tomatoes?';
-    String tq10 = 'What are the Kgs of tomatoes consumed at home?';
-    String tq11 = 'What are the Kgs of tomatoes sold?';
-    String tq12 = 'What is the average price of 1kg of tomatoes?';
-    String tq13 = 'What is the income from tomatoes?';
-    String tq14 =
-        'Did you sell your tomatoes through PO? If not whom did you sell to?';
-
-    // Banana Questions
-    String bq1 = "Question 1";
-    String bq2 = "Question 2";
-
-    // Avocado Questions
-    String aq1 = "What is the area under avocado (in acres)?";
-    String aq2 = "How many trees do you have?";
-    String aq3 = "How many Kgs of avocado produced?";
-    String aq4 = "How many Kgs of spoiled avocado?";
-    String aq5 = "What is the number of avocado consumed at home in Kg?";
-    String aq6 = "What is the average price per Kg?";
-    String aq7 = "What is the income from Avocado?";
-    String aq8 = "Which PO do you sell through?";
-    String aq9 = "Whom did you sell the avocado to?";
-
-    // Tomato Seedling Questions
-    String tsq1 = "What is the capacity of your nursery?";
-    String tsq2 = "What is the Initial cost of Investment?";
-    String tsq3 = "What is the cost of input used?";
-    String tsq4 = "What is the number of seedlings produced?";
-    String tsq5 = "What is the number of spoilt seedlings?";
-    String tsq6 = "What is the number of seedlings sold?";
-    String tsq7 = "What is the average price of a seedling?";
-    String tsq8 = "Whom do you sell your seedlings to?";
-
-    // Chicken Eggs & Meat questions
-    String ceq1 = "How many birds do you have?";
-    String ceq2 = "What is the number of birds in egg production?";
-    String ceq3 = "What is the number of eggs produced?";
-    String ceq4 = "What is the number of spoilt eggs?";
-    String ceq5 = "What is the number off eggs Sold?";
-    String ceq6 = "What is the average price per egg sold?";
-    String ceq7 = "What is the income from eggs sold?";
-    String ceq8 = "What is the number of birds consumed at home?";
-    String ceq9 = "What is the number of dead birds?";
-    String ceq10 = "What is the number of Birds Sold?";
-    String ceq11 = "What is the average price per bird sold?";
-    String ceq12 = "What is the income from Birds sold?";
-    String ceq13 = "Who do you sell eggs to?";
-    String ceq14 = "Whom do you sell chicken to?";
-
-    // Chicken for Meat questions
-    String cei1 = 'What is the Initial cost of investment?';
-    String cei2 = 'How many incubators do you have?';
-    String cei3 = 'What is the capacity of the incubator?';
-    String cei4 = 'What is the number of eggs incubated?';
-    String cei5 = 'What is the number of spoilt eggs?';
-    String cei6 = 'What is the number of chicks hatched?';
-    String cei7 = 'What is the number of dead chicks?';
-    String cei8 = 'What is the number of chicks sold?';
-    String cei9 = 'What is the average price per chick sold?';
-    String cei10 = 'What is the income from the chicks sold?';
-
-    // Questions for dairy
-    String d1 = "How many cows do you have?";
-    String d2 = "What is the number of cows in production?";
-    String d3 = "How many liters do the cow(s) produce (total)?";
-    String d4 =
-        "How many liters are consumed at home (total for the reporting period)?";
-    String d5 = "What is the average price of 1 liter of milk sold?";
-    String d6 = "How many liters of milk were sold?";
-    String d7 = "What is the number of calves?";
-    String d8 = "What is the number of calves sold?";
-    String d9 = "What is the average price per calf sold?";
-    String d10 = "What is the income from calves sold?";
-
-    // Questions for dairy goat
-    String dg1 = "How many does do you have?";
-    String dg2 = "What is the number of does in milk production?";
-    String dg3 = "How many liters of milk does the doe(s) produce in total?";
-    String dg4 =
-        "How many liters are consumed at home for the reporting period?";
-    String dg5 = "What is the average price of 1 liter of milk sold?";
-    String dg6 = "How many liters of milk were Sold?";
-    String dg7 =
-        "What is the number of kids kidded? (Factor in those that give birth twins, triplets)";
-    String dg8 = "What is the number of kids sold?";
-    String dg9 = "What is the average price per kid sold?";
-    String dg10 = "What is the income from kids sold?";
+  // Questions for dairy goat
+  String dg1 = "How many does do you have?";
+  String dg2 = "What is the number of does in milk production?";
+  String dg3 = "How many liters of milk does the doe(s) produce in total?";
+  String dg4 = "How many liters are consumed at home for the reporting period?";
+  String dg5 = "What is the average price of 1 liter of milk sold?";
+  String dg6 = "How many liters of milk were Sold?";
+  String dg7 =
+      "What is the number of kids kidded? (Factor in those that give birth twins, triplets)";
+  String dg8 = "What is the number of kids sold?";
+  String dg9 = "What is the average price per kid sold?";
+  String dg10 = "What is the income from kids sold?";
 
 // Questions for bees
-    String ap1 = "What type of hive do you have?";
-    String ap2 = "How many hives of them are there?";
-    String ap3 = "How many hives have been colonized?";
-    String ap4 = "Have you harvested honey during the reporting period?";
-    String ap5 = "How many Kgs of crude honey?";
-    String ap6 = "How many Kgs of refined honey?";
-    String ap7 = "How many Kgs have you sold during the reporting period?";
-    String ap8 = "How much did you sell a Kg at?";
-    String ap9 = "What is the income gained from sale of honey?";
-    String ap10 = "Is there any other hive product you sell apart from honey?";
-    String ap11 = "What is the income generated from the same?";
+  String ap1 = "What type of hive do you have?";
+  String ap2 = "How many hives of them are there?";
+  String ap3 = "How many hives have been colonized?";
+  String ap4 = "Have you harvested honey during the reporting period?";
+  String ap5 = "How many Kgs of crude honey?";
+  String ap6 = "How many Kgs of refined honey?";
+  String ap7 = "How many Kgs have you sold during the reporting period?";
+  String ap8 = "How much did you sell a Kg at?";
+  String ap9 = "What is the income gained from sale of honey?";
+  String ap10 = "Is there any other hive product you sell apart from honey?";
+  String ap11 = "What is the income generated from the same?";
 
 // Questions for pigs
-    String p1 = "How many pigs do you have excluding piglets?";
-    String p2 = "How many sows do you have?";
-    String p3 = "How many sows are in production?";
-    String p4 = "How many piglets do you have?";
-    String p5 = "How many piglets have you sold during the reporting period?";
-    String p6 = "How much did you sell per piglet?";
-    String p7 =
-        "How many mature pigs have you sold during the reporting period?";
-    String p8 = "Whom did you sell the mature pigs to?";
-    String p9 =
-        "What's the income gained from the sale of both mature pigs and piglets?";
-    String p10 = "How many pigs have you slaughtered for meat?";
-    String p11 = "What's the income from the sale of meat?";
-    String p12 = "Where did you sell meat or to whom?";
+  String p1 = "How many pigs do you have excluding piglets?";
+  String p2 = "How many sows do you have?";
+  String p3 = "How many sows are in production?";
+  String p4 = "How many piglets do you have?";
+  String p5 = "How many piglets have you sold during the reporting period?";
+  String p6 = "How much did you sell per piglet?";
+  String p7 = "How many mature pigs have you sold during the reporting period?";
+  String p8 = "Whom did you sell the mature pigs to?";
+  String p9 =
+      "What's the income gained from the sale of both mature pigs and piglets?";
+  String p10 = "How many pigs have you slaughtered for meat?";
+  String p11 = "What's the income from the sale of meat?";
+  String p12 = "Where did you sell meat or to whom?";
 
-    // Questions for fish
-    String f1 = "How many ponds do you have?";
-    String f2 = "What's the capacity of each pond?";
-    String f3 = "What fish species are you currently rearing?";
-    String f4 = "What was the initial stocking of fingerlings?";
-    String f5 = "How many kgs have you harvested during the reporting period?";
-    String f6 = "What feed do you use?";
-    String f7 = "Where do you source your feeds?";
-    String f8 = "How much have you spent on feeds during the reporting period?";
-    String f9 = "How much did you sell the fish per Kg?";
-    String f10 =
-        "How many pieces have you sold during the reporting period (for ornamental fish)?";
-    String f11 = "Do you have an organized market structure?";
-    String f12 =
-        "What's the income from sale of fish during the reporting period?";
-    String f13 = "Are you a breeder?";
-    String f14 = "If yes, are you licensed?";
-    String f15 = "What is the selling cost of your fingerlings?";
-    String f16 = "How many have you sold during the reporting period?";
-    String f17 = "What's the income from the sale of fingerlings?";
+  // Questions for fish
+  String f1 = "How many ponds do you have?";
+  String f2 = "What's the capacity of each pond?";
+  String f3 = "What fish species are you currently rearing?";
+  String f4 = "What was the initial stocking of fingerlings?";
+  String f5 = "How many kgs have you harvested during the reporting period?";
+  String f6 = "What feed do you use?";
+  String f7 = "Where do you source your feeds?";
+  String f8 = "How much have you spent on feeds during the reporting period?";
+  String f9 = "How much did you sell the fish per Kg?";
+  String f10 =
+      "How many pieces have you sold during the reporting period (for ornamental fish)?";
+  String f11 = "Do you have an organized market structure?";
+  String f12 =
+      "What's the income from sale of fish during the reporting period?";
+  String f13 = "Are you a breeder?";
+  String f14 = "If yes, are you licensed?";
+  String f15 = "What is the selling cost of your fingerlings?";
+  String f16 = "How many have you sold during the reporting period?";
+  String f17 = "What's the income from the sale of fingerlings?";
 
-    return {
-      "Tomato": [
-        tq1,
-        tq2,
-        tq3,
-        tq4,
-        tq5,
-        tq6,
-        tq7,
-        tq8,
-        tq9,
-        tq10,
-        tq11,
-        tq12,
-        tq13,
-        tq14
-      ],
-      "Banana": [bq1, bq2],
-      "Avocado": [aq1, aq2, aq3, aq4, aq5, aq6, aq7, aq8, aq9],
-      "Tomato Seedlings": [tsq1, tsq2, tsq3, tsq4, tsq5, tsq6, tsq7, tsq8],
-      "Chicken (Eggs & Meat)": [
-        ceq1,
-        ceq2,
-        ceq3,
-        ceq4,
-        ceq5,
-        ceq6,
-        ceq7,
-        ceq8,
-        ceq9,
-        ceq10,
-        ceq11,
-        ceq12,
-        ceq13,
-        ceq14
-      ],
-      "Chicken (Egg Incubation)": [
-        cei1,
-        cei2,
-        cei3,
-        cei4,
-        cei5,
-        cei6,
-        cei7,
-        cei8,
-        cei9,
-        cei10
-      ],
-      "Dairy": [d1, d2, d3, d4, d5, d6, d7, d8, d9, d10],
-      "Dairy Goat": [dg1, dg2, dg3, dg4, dg5, dg6, dg7, dg8, dg9, dg10],
-      "Apiculture": [ap1, ap2, ap3, ap4, ap5, ap6, ap7, ap8, ap9, ap10, ap11],
-      "Pigs": [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12],
-      "Fish": [
-        f1,
-        f2,
-        f3,
-        f4,
-        f5,
-        f6,
-        f7,
-        f8,
-        f9,
-        f10,
-        f11,
-        f12,
-        f13,
-        f14,
-        f15,
-        f16,
-        f17
-      ],
-    };
-  }
-
-  Future<void> fetchFarmerID() async {
-    const storage = FlutterSecureStorage();
-    farmerID = await storage.read(key: "NationalID");
-    print("the enum id is $farmerID");
-  }
+  return {
+    "Tomato": [
+      tq1,
+      tq2,
+      tq3,
+      tq4,
+      tq5,
+      tq6,
+      tq7,
+      tq8,
+      tq9,
+      tq10,
+      tq11,
+      tq12,
+      tq13,
+      tq14
+    ],
+    "Banana": [bq1, bq2],
+    "Avocado": [aq1, aq2, aq3, aq4, aq5, aq6, aq7, aq8, aq9],
+    "Tomato Seedlings": [tsq1, tsq2, tsq3, tsq4, tsq5, tsq6, tsq7, tsq8],
+    "Chicken (Eggs & Meat)": [
+      ceq1,
+      ceq2,
+      ceq3,
+      ceq4,
+      ceq5,
+      ceq6,
+      ceq7,
+      ceq8,
+      ceq9,
+      ceq10,
+      ceq11,
+      ceq12,
+      ceq13,
+      ceq14
+    ],
+    "Chicken (Egg Incubation)": [
+      cei1,
+      cei2,
+      cei3,
+      cei4,
+      cei5,
+      cei6,
+      cei7,
+      cei8,
+      cei9,
+      cei10
+    ],
+    "Dairy": [d1, d2, d3, d4, d5, d6, d7, d8, d9, d10],
+    "Dairy Goat": [dg1, dg2, dg3, dg4, dg5, dg6, dg7, dg8, dg9, dg10],
+    "Apiculture": [ap1, ap2, ap3, ap4, ap5, ap6, ap7, ap8, ap9, ap10, ap11],
+    "Pigs": [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12],
+    "Fish": [
+      f1,
+      f2,
+      f3,
+      f4,
+      f5,
+      f6,
+      f7,
+      f8,
+      f9,
+      f10,
+      f11,
+      f12,
+      f13,
+      f14,
+      f15,
+      f16,
+      f17
+    ],
+  };
 }
 
 Future<void> submitFish(
@@ -1375,7 +1375,8 @@ Future<void> submitTomatoSeedlingsData(
     String? tomSeedlingQ6,
     String? tomSeedlingQ7,
     String? tomSeedlingQ8) async {
-        print("the tomatoseedlings values are: $tomSeedlingQ2, $tomSeedlingQ3, $tomSeedlingQ7");
+  print(
+      "the tomatoseedlings values are: $tomSeedlingQ2, $tomSeedlingQ3, $tomSeedlingQ7");
 
   var response = await http.post(Uri.parse("${getUrl()}tomatoseedlings"),
       headers: <String, String>{
@@ -1407,7 +1408,7 @@ Future<void> submitAvocadoData(
     String? avocadoQ7,
     String? avocadoQ8,
     String? avocadoQ9) async {
-      print("the avocado values are: $avocadoQ1, $avocadoQ3, $avocadoQ7");
+  print("the avocado values are: $farmerID $avocadoQ1, $avocadoQ3, $avocadoQ7");
   var response = await http.post(Uri.parse("${getUrl()}avocadoes"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',

@@ -52,7 +52,8 @@ class _FarmerResourcesState extends State<FarmerResources> {
       var id = await storage.read(key: "NationalID");
       print("the farmer resources id is $id");
       if (id != null) {
-        editFarmerResources(id);
+        farmerID = id;
+        editFarmerResources(farmerID);
       }
     } catch (e) {}
   }
@@ -227,9 +228,8 @@ class _FarmerResourcesState extends State<FarmerResources> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const FarmerGroups(
-                                          
-                                        )));
+                                    builder: (context) =>
+                                        const FarmerGroups()));
                           }
                         });
                       }
