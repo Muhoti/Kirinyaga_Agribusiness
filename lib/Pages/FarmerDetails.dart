@@ -14,6 +14,7 @@ import 'package:kirinyaga_agribusiness/Pages/FarmerAddress.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
+import 'package:kirinyaga_agribusiness/Pages/ValueChainForm.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -248,8 +249,8 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const FarmerAddress(
-                                          editing: false,
+                                    builder: (context) => const ValueChainForm(
+                                          // editing: false,
                                         )));
                           }
                         });

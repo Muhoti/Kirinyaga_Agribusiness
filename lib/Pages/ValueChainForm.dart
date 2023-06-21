@@ -28,7 +28,7 @@ class _ValueChainFormState extends State<ValueChainForm> {
 
   String? selectedValueChain;
   late Map questionMap;
-  String? farmerID;
+  String? farmerID = "11111111";
 
   List<String> valueChains = [
     'Tomato',
@@ -668,188 +668,195 @@ class _ValueChainFormState extends State<ValueChainForm> {
 
                       print(questionMap[selectedValueChain]);
 
-                      switch (selectedValueChain) {
-                        case 'Tomato':
-                          submitTomatoData(
-                            farmerID,
-                            selectedValueChain,
-                            tomatoQ1,
-                            tomatoQ2,
-                            tomatoQ3,
-                            tomatoQ4,
-                            tomatoQ5,
-                            tomatoQ6,
-                            tomatoQ7,
-                            tomatoQ8,
-                            tomatoQ9,
-                            tomatoQ10,
-                            tomatoQ11,
-                            tomatoQ12,
-                            tomatoQ13,
-                            tomatoQ14,
-                          );
-                          break;
+                      for (String question
+                          in questionMap[selectedValueChain]!) {
+                        String answer = textControllers[question]!.text;
+                        print(
+                            ' $selectedValueChain, ${textControllers[question]!.text}');
 
-                        case 'Avocado':
-                          submitAvocadoData(
-                            farmerID,
-                            selectedValueChain,
-                            avocadoQ1,
-                            avocadoQ2,
-                            avocadoQ3,
-                            avocadoQ4,
-                            avocadoQ5,
-                            avocadoQ6,
-                            avocadoQ7,
-                            avocadoQ8,
-                            avocadoQ9,
-                          );
-                          break;
-
-                        case 'Tomato Seedlings':
-                          submitTomatoSeedlingsData(
-                              farmerID,
+                        switch (selectedValueChain) {
+                          case 'Tomato':
+                            submitTomatoData(
+                              farmerID = "11111111",
                               selectedValueChain,
-                              tomSeedlingQ1,
-                              tomSeedlingQ2,
-                              tomSeedlingQ3,
-                              tomSeedlingQ4,
-                              tomSeedlingQ5,
-                              tomSeedlingQ6,
-                              tomSeedlingQ7,
-                              tomSeedlingQ8);
-                          break;
+                              tomatoQ1,
+                              tomatoQ2,
+                              tomatoQ3,
+                              tomatoQ4,
+                              tomatoQ5,
+                              tomatoQ6,
+                              tomatoQ7,
+                              tomatoQ8,
+                              tomatoQ9,
+                              tomatoQ10,
+                              tomatoQ11,
+                              tomatoQ12,
+                              tomatoQ13,
+                              tomatoQ14,
+                            );
+                            break;
 
-                        case 'Chicken (Eggs & Meat)':
-                          submitChickenEggsAndMeatData(
-                              farmerID,
+                          case 'Avocado':
+                            submitAvocadoData(
+                              farmerID = "11111111",
                               selectedValueChain,
-                              cemQ1,
-                              cemQ2,
-                              cemQ3,
-                              cemQ4,
-                              cemQ5,
-                              cemQ6,
-                              cemQ7,
-                              cemQ8,
-                              cemQ9,
-                              cemQ10,
-                              cemQ11,
-                              cemQ12,
-                              cemQ13,
-                              cemQ14);
-                          break;
+                              avocadoQ1,
+                              avocadoQ2,
+                              avocadoQ3,
+                              avocadoQ4,
+                              avocadoQ5,
+                              avocadoQ6,
+                              avocadoQ7,
+                              avocadoQ8,
+                              avocadoQ9,
+                            );
+                            break;
 
-                        case 'Chicken (Egg Incubation)':
-                          submitChickenEggsIncubation(
-                              farmerID,
+                          case 'Tomato Seedlings':
+                            submitTomatoSeedlingsData(
+                                farmerID = "11111111",
+                                selectedValueChain,
+                                tomSeedlingQ1,
+                                tomSeedlingQ2,
+                                tomSeedlingQ3,
+                                tomSeedlingQ4,
+                                tomSeedlingQ5,
+                                tomSeedlingQ6,
+                                tomSeedlingQ7,
+                                tomSeedlingQ8);
+                            break;
+
+                          case 'Chicken (Eggs & Meat)':
+                            submitChickenEggsAndMeatData(
+                                farmerID = "11111111",
+                                selectedValueChain,
+                                cemQ1,
+                                cemQ2,
+                                cemQ3,
+                                cemQ4,
+                                cemQ5,
+                                cemQ6,
+                                cemQ7,
+                                cemQ8,
+                                cemQ9,
+                                cemQ10,
+                                cemQ11,
+                                cemQ12,
+                                cemQ13,
+                                cemQ14);
+                            break;
+
+                          case 'Chicken (Egg Incubation)':
+                            submitChickenEggsIncubation(
+                                farmerID = "11111111",
+                                selectedValueChain,
+                                ceiQ1,
+                                ceiQ2,
+                                ceiQ3,
+                                ceiQ4,
+                                ceiQ5,
+                                ceiQ6,
+                                ceiQ7,
+                                ceiQ8,
+                                ceiQ9,
+                                ceiQ10);
+                            break;
+
+                          case 'Dairy':
+                            submitDairy(
+                                farmerID = "11111111",
+                                selectedValueChain,
+                                dairyQ1,
+                                dairyQ2,
+                                dairyQ3,
+                                dairyQ4,
+                                dairyQ5,
+                                dairyQ6,
+                                dairyQ7,
+                                dairyQ8,
+                                dairyQ9,
+                                dairyQ10);
+                            break;
+
+                          case 'Dairy Goat':
+                            submitDairyGoat(
+                                farmerID = "11111111",
+                                selectedValueChain,
+                                dGoatQ1,
+                                dGoatQ2,
+                                dGoatQ3,
+                                dGoatQ4,
+                                dGoatQ5,
+                                dGoatQ6,
+                                dGoatQ7,
+                                dGoatQ8,
+                                dGoatQ9,
+                                dGoatQ10);
+                            break;
+
+                          case 'Apiculture':
+                            submitApiculture(
+                                farmerID = "11111111",
+                                selectedValueChain,
+                                apicQ1,
+                                apicQ2,
+                                apicQ3,
+                                apicQ4,
+                                apicQ5,
+                                apicQ6,
+                                apicQ7,
+                                apicQ8,
+                                apicQ9,
+                                apicQ10,
+                                apicQ11);
+                            break;
+
+                          case 'Pigs':
+                            submitPigs(
+                              farmerID = "11111111",
                               selectedValueChain,
-                              ceiQ1,
-                              ceiQ2,
-                              ceiQ3,
-                              ceiQ4,
-                              ceiQ5,
-                              ceiQ6,
-                              ceiQ7,
-                              ceiQ8,
-                              ceiQ9,
-                              ceiQ10);
-                          break;
+                              pigQ1,
+                              pigQ2,
+                              pigQ3,
+                              pigQ4,
+                              pigQ5,
+                              pigQ6,
+                              pigQ7,
+                              pigQ8,
+                              pigQ9,
+                              pigQ10,
+                              pigQ11,
+                              pigQ12,
+                            );
+                            break;
 
-                        case 'Dairy':
-                          submitDairy(
-                              farmerID,
-                              selectedValueChain,
-                              dairyQ1,
-                              dairyQ2,
-                              dairyQ3,
-                              dairyQ4,
-                              dairyQ5,
-                              dairyQ6,
-                              dairyQ7,
-                              dairyQ8,
-                              dairyQ9,
-                              dairyQ10);
-                          break;
+                          case 'Fish':
+                            submitFish(
+                                farmerID = "11111111",
+                                selectedValueChain,
+                                fishQ1,
+                                fishQ2,
+                                fishQ3,
+                                fishQ4,
+                                fishQ5,
+                                fishQ6,
+                                fishQ7,
+                                fishQ8,
+                                fishQ9,
+                                fish10,
+                                fish11,
+                                fish12,
+                                fish13,
+                                fish14,
+                                fish15,
+                                fish16,
+                                fish17);
+                            break;
 
-                        case 'Dairy Goat':
-                          submitDairyGoat(
-                              farmerID,
-                              selectedValueChain,
-                              dGoatQ1,
-                              dGoatQ2,
-                              dGoatQ3,
-                              dGoatQ4,
-                              dGoatQ5,
-                              dGoatQ6,
-                              dGoatQ7,
-                              dGoatQ8,
-                              dGoatQ9,
-                              dGoatQ10);
-                          break;
-
-                        case 'Apiculture':
-                          submitApiculture(
-                              farmerID,
-                              selectedValueChain,
-                              apicQ1,
-                              apicQ2,
-                              apicQ3,
-                              apicQ4,
-                              apicQ5,
-                              apicQ6,
-                              apicQ7,
-                              apicQ8,
-                              apicQ9,
-                              apicQ10,
-                              apicQ11);
-                          break;
-
-                        case 'Pigs':
-                          submitPigs(
-                            farmerID,
-                            selectedValueChain,
-                            pigQ1,
-                            pigQ2,
-                            pigQ3,
-                            pigQ4,
-                            pigQ5,
-                            pigQ6,
-                            pigQ7,
-                            pigQ8,
-                            pigQ9,
-                            pigQ10,
-                            pigQ11,
-                            pigQ12,
-                          );
-                          break;
-
-                        case 'Fish':
-                          submitFish(
-                              farmerID,
-                              selectedValueChain,
-                              fishQ1,
-                              fishQ2,
-                              fishQ3,
-                              fishQ4,
-                              fishQ5,
-                              fishQ6,
-                              fishQ7,
-                              fishQ8,
-                              fishQ9,
-                              fish10,
-                              fish11,
-                              fish12,
-                              fish13,
-                              fish14,
-                              fish15,
-                              fish16,
-                              fish17);
-                          break;
-
-                        default:
-                          // Handle the case when selectedValueChain does not match any of the known options
-                          break;
+                          default:
+                            // Handle the case when selectedValueChain does not match any of the known options
+                            break;
+                        }
                       }
 
                       // Reseting the form
@@ -859,7 +866,6 @@ class _ValueChainFormState extends State<ValueChainForm> {
                       });
                     }
                   },
-                  
                 ),
               ],
             ),
@@ -1369,6 +1375,8 @@ Future<void> submitTomatoSeedlingsData(
     String? tomSeedlingQ6,
     String? tomSeedlingQ7,
     String? tomSeedlingQ8) async {
+        print("the tomatoseedlings values are: $tomSeedlingQ2, $tomSeedlingQ3, $tomSeedlingQ7");
+
   var response = await http.post(Uri.parse("${getUrl()}tomatoseedlings"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -1399,6 +1407,7 @@ Future<void> submitAvocadoData(
     String? avocadoQ7,
     String? avocadoQ8,
     String? avocadoQ9) async {
+      print("the avocado values are: $avocadoQ1, $avocadoQ3, $avocadoQ7");
   var response = await http.post(Uri.parse("${getUrl()}avocadoes"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -1436,6 +1445,7 @@ Future<void> submitTomatoData(
   String? tomatoQ13,
   String? tomatoQ14,
 ) async {
+  print("the tomato values are: $tomatoQ1, $tomatoQ2, $tomatoQ3");
   var response = await http.post(Uri.parse("${getUrl()}tomatoes"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
