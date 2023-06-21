@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/Avocado.dart';
 import 'package:kirinyaga_agribusiness/Components/ChickenEggsMeat.dart';
+import 'package:kirinyaga_agribusiness/Components/Dairy.dart';
 import 'package:kirinyaga_agribusiness/Components/MySelectInput.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
@@ -68,8 +69,12 @@ class _AddValueChainState extends State<AddValueChain> {
         return Avocado(farmerID: farmerID);
       case 'Tomato Seedlings':
         return TomatoSeedling(farmerID: farmerID);
-         case 'Chicken (Eggs & Meat)':
+      case 'Chicken (Eggs & Meat)':
         return ChickenEggsMeat(farmerID: farmerID);
+      case 'Chicken (Egg Incubation)':
+        return ChickenEggsMeat(farmerID: farmerID);
+      case 'Dairy':
+        return Dairy(farmerID: farmerID);
       // Add other value chain cases here
       default:
         return const SizedBox(height: 15);
