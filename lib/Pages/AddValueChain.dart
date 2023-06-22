@@ -28,7 +28,7 @@ import 'package:http/http.dart' as http;
 import '../Components/Utils.dart';
 
 class AddValueChain extends StatefulWidget {
-  const AddValueChain({super.key, required id});
+  const AddValueChain({super.key});
 
   @override
   State<AddValueChain> createState() => _AddValueChainState();
@@ -36,7 +36,7 @@ class AddValueChain extends StatefulWidget {
 
 class _AddValueChainState extends State<AddValueChain> {
   String valueChainID = '';
-  String? valueChain = 'Banana';
+  String? valueChain = 'Select Value Chain';
   String farmerID = '';
   String farmerName = '';
   String AvgHarvestProduction = '';
@@ -132,8 +132,8 @@ class _AddValueChainState extends State<AddValueChain> {
                         });
                       },
                       entries: const [
+                        'Select Value Chain',
                         'Tomato',
-                        'Banana',
                         'Avocado',
                         'Tomato Seedlings',
                         'Chicken (Eggs & Meat)',

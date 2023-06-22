@@ -20,7 +20,7 @@ class VCScrollController extends StatefulWidget {
 }
 
 class _VCScrollControllerState extends State<VCScrollController> {
-  final _numberOfPostsPerRequest = 5;
+  final _numberOfPostsPerRequest = 10;
   String vcid = '';
   String valuechain = '';
 
@@ -40,17 +40,18 @@ class _VCScrollControllerState extends State<VCScrollController> {
     try {
       final dynamic response;
 
-   
+  
+
       response = await get(
-        Uri.parse("${getUrl()}farmervaluechains/${widget.id}"),
+        Uri.parse("${getUrl()}farmerdetails/valuechains/${widget.id}"),
       );
 
       List responseList = json.decode(response.body);
      
       if (responseList.isNotEmpty) {
         setState(() {
-          vcid = responseList[0]["ValueChainID"];
-          valuechain = responseList[0]["Name"];
+          vcid = responseList[0]["ID"];
+          valuechain = responseList[0]["ValueChainName"];
         });
       }
 

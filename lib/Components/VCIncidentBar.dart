@@ -31,10 +31,10 @@ class _VCIncidentBarState extends State<VCIncidentBar> {
 
 
     return Padding(
-        padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+        padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
         child: Card(
             elevation: 5,
-            color: Colors.lightGreen,
+            color: Colors.white,
             clipBehavior: Clip.hardEdge,
             child: TextButton(
                 onPressed: () {
@@ -44,61 +44,15 @@ class _VCIncidentBarState extends State<VCIncidentBar> {
                           builder: (_) => ValueChainProduce(
                               vcid: widget.vcid, farmerID: widget.id, valuechain: widget.valuechain)));
                 },
-                child: Container(
-                  padding: const EdgeInsets.all(2),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: const BoxDecoration(
-                            color: Color.fromRGBO(0, 128, 0, 1),
-                            borderRadius: BorderRadius.all(Radius.circular(5))),
-                        child: Text(
-                          widget.item.item['Name'],
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 28),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 12,
-                      ),
-                      Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: Column(
-                          children: [
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                  "Yearly Produce is: ${widget.item.item["AvgYearlyProduction"]}",
-                                  textAlign: TextAlign.left,
-                                  textWidthBasis: TextWidthBasis.parent,
-                                  style: const TextStyle(
-                                      color: Color.fromARGB(255, 243, 227, 6),
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold)),
-                            ),
-                            const SizedBox(
-                              height: 14,
-                            ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                dt,
-                                textAlign: TextAlign.left,
-                                textWidthBasis: TextWidthBasis.parent,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(255, 243, 227, 6),
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      widget.item.item['ValueChainName'],
+                      style: const TextStyle(
+                          color: Colors.green, fontSize: 24),
+                    ),
                   ),
                 ))));
   }

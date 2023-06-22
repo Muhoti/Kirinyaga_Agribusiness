@@ -26,7 +26,7 @@ class _TomatoSeedlingState extends State<TomatoSeedling> {
   String error = '';
   var isLoading;
   String farmerID = '';
-  String valueChain = 'TomatoSeedling';
+  String valueChain = 'Tomato Seedling';
   String tomatoseedlingQ1 = '';
   String tomatoseedlingQ2 = '';
   String tomatoseedlingQ3 = '';
