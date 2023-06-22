@@ -74,7 +74,7 @@ class _AddValueChainState extends State<AddValueChain> {
       case 'Chicken (Egg Incubation)':
         return ChickenEggsMeat(farmerID: farmerID);
       case 'Dairy':
-        return Dairy(farmerID: farmerID);
+        return const Dairy();
       // Add other value chain cases here
       default:
         return const SizedBox(height: 15);
@@ -98,7 +98,7 @@ class _AddValueChainState extends State<AddValueChain> {
             ),
           ),
         ],
-        backgroundColor: Color.fromRGBO(0, 128, 0, 1),
+        backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
       ),
       drawer: const Drawer(child: FODrawer()),
       body: Stack(
@@ -136,7 +136,10 @@ class _AddValueChainState extends State<AddValueChain> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Flexible(child: getValueChainWidget(valueChain!)),
+                  Flexible(
+                    fit: FlexFit.tight,
+                    flex: 1,
+                    child: getValueChainWidget(valueChain!)),
                 ],
               ),
             ),
