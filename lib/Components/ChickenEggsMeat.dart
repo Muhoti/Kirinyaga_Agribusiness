@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kirinyaga_agribusiness/Components/MyCalendar.dart';
 import 'package:kirinyaga_agribusiness/Components/MySelectInput.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
@@ -27,6 +28,9 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
   var isLoading;
   String farmerID = '';
   String valueChain = 'Chicken (Eggs & Meat)';
+  String landsize = '';
+  String startPeriod = '';
+  String endPeriod = '';
   String cemQ1 = '';
   String cemQ2 = '';
   String cemQ3 = '';
@@ -42,7 +46,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
   String cemQ13 = '';
   String cemQ14 = '';
 
-   @override
+  @override
   void initState() {
     checkMapping();
     super.initState();
@@ -72,6 +76,41 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    MyTextInput(
+                        title: "Total Land Size",
+                        lines: 1,
+                        value: "",
+                        type: TextInputType.number,
+                        onSubmit: (value) {
+                          setState(() {
+                            landsize = value;
+                          });
+                        }),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyCalendar(
+                      label: "Start Period",
+                      onSubmit: (value) {
+                        setState(() {
+                          startPeriod = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyCalendar(
+                      label: "End Period",
+                      onSubmit: (value) {
+                        setState(() {
+                          endPeriod = value;
+                        });
+                      },
+                    ),
                     const SizedBox(
                       height: 24,
                     ),
@@ -267,6 +306,9 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         var res = await postChickenEggsMeat(
                             farmerID,
                             valueChain,
+                            landsize,
+                            startPeriod,
+                            endPeriod,
                             cemQ1,
                             cemQ2,
                             cemQ3,
@@ -292,7 +334,6 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         });
 
                         if (res.error == null) {
-                        
                           Timer(const Duration(seconds: 2), () {
                             Navigator.push(
                                 context,
@@ -320,6 +361,9 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
 postChickenEggsMeat(
     String farmerID,
     String valueChain,
+    String landsize,
+    String startPeriod,
+    String endPeriod,
     String cemQ1,
     String cemQ2,
     String cemQ3,
@@ -354,29 +398,35 @@ postChickenEggsMeat(
     return Message(
         token: null, success: null, error: "All fields are required!");
   }
-   try {
-  var response = await http.post(Uri.parse("${getUrl()}chickenmeateggs"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'FarmerID': farmerID,
-        'ValueChainName': valueChain,
-        'TotalBirds': cemQ1,
-        'EggBirds': cemQ2,
-        'NoEggs': cemQ3,
-        'SpoiltEggs': cemQ4,
-        'EggsSold': cemQ5,
-        'EggPrice': cemQ6,
-        'EggsIncome': cemQ7,
-        'EatenBirds': cemQ8,
-        'DiedBirds': cemQ9,
-        'BirdsSold': cemQ10,
-        'BirdPrice': cemQ11,
-        'BirdsIncome': cemQ12,
-        'EggsCustomers': cemQ13,
-        'ChickenCustomers': cemQ14
-      }));
+  try {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: "erjwt");
+    var response = await http.post(Uri.parse("${getUrl()}chickenmeateggs"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token': token!
+        },
+        body: jsonEncode(<String, String>{
+          'FarmerID': farmerID,
+          'ValueChainName': valueChain,
+          'LandSize': landsize,
+          'PeriodStart': startPeriod,
+          'PeriodEnd': endPeriod,
+          'TotalBirds': cemQ1,
+          'EggBirds': cemQ2,
+          'NoEggs': cemQ3,
+          'SpoiltEggs': cemQ4,
+          'EggsSold': cemQ5,
+          'EggPrice': cemQ6,
+          'EggsIncome': cemQ7,
+          'EatenBirds': cemQ8,
+          'DiedBirds': cemQ9,
+          'BirdsSold': cemQ10,
+          'BirdPrice': cemQ11,
+          'BirdsIncome': cemQ12,
+          'EggsCustomers': cemQ13,
+          'ChickenCustomers': cemQ14
+        }));
 
     var body = jsonDecode(response.body);
 

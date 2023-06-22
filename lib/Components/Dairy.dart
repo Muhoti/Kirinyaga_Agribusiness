@@ -329,9 +329,13 @@ postDairy(
   }
 
   try {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: "erjwt");
+
     var response = await http.post(Uri.parse("${getUrl()}dairy"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          'token': token!
         },
         body: jsonEncode(<String, String>{
           'FarmerID': farmerID,

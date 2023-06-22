@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kirinyaga_agribusiness/Components/MyCalendar.dart';
 import 'package:kirinyaga_agribusiness/Components/MySelectInput.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
@@ -27,6 +28,9 @@ class _AvocadoState extends State<Avocado> {
   var isLoading;
   String farmerID = '';
   String valueChain = 'Avocado';
+  String landsize = '';
+  String startPeriod = '';
+  String endPeriod = '';
   String avocadoQ1 = '';
   String avocadoQ2 = '';
   String avocadoQ3 = '';
@@ -36,7 +40,7 @@ class _AvocadoState extends State<Avocado> {
   String avocadoQ7 = '';
   String avocadoQ8 = '';
 
-   @override
+  @override
   void initState() {
     checkMapping();
     super.initState();
@@ -66,6 +70,38 @@ class _AvocadoState extends State<Avocado> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    MyTextInput(
+                        title: "Total Land Size",
+                        lines: 1,
+                        value: "",
+                        type: TextInputType.number,
+                        onSubmit: (value) {
+                          setState(() {
+                            landsize = value;
+                          });
+                        }),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyCalendar(
+                      label: "Start Period",
+                      onSubmit: (value) {
+                        setState(() {
+                          startPeriod = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyCalendar(
+                      label: "End Period",
+                      onSubmit: (value) {
+                        setState(() {
+                          endPeriod = value;
+                        });
+                      },
+                    ),
                     const SizedBox(
                       height: 24,
                     ),
@@ -186,6 +222,9 @@ class _AvocadoState extends State<Avocado> {
                         var res = await postAvocado(
                             farmerID,
                             valueChain,
+                            landsize,
+                            startPeriod,
+                            endPeriod,
                             avocadoQ1,
                             avocadoQ2,
                             avocadoQ3,
@@ -205,7 +244,6 @@ class _AvocadoState extends State<Avocado> {
                         });
 
                         if (res.error == null) {
-                       
                           Timer(const Duration(seconds: 2), () {
                             Navigator.push(
                                 context,
@@ -233,6 +271,9 @@ class _AvocadoState extends State<Avocado> {
 postAvocado(
     String farmerID,
     String valueChain,
+    String landsize,
+    String startPeriod,
+    String endPeriod,
     String avocadoQ1,
     String avocadoQ2,
     String avocadoQ3,
@@ -241,7 +282,6 @@ postAvocado(
     String avocadoQ6,
     String avocadoQ7,
     String avocadoQ8) async {
- 
   if (valueChain.isEmpty ||
       avocadoQ2.isEmpty ||
       avocadoQ3.isEmpty ||
@@ -252,23 +292,26 @@ postAvocado(
     return Message(
         token: null, success: null, error: "Please fill all inputs!");
   }
-    try {
-  var response = await http.post(Uri.parse("${getUrl()}avocadoes"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'FarmerID': farmerID,
-        'ValueChainName': valueChain,
-        'AvocadoArea': avocadoQ1,
-        'NumberOfTrees': avocadoQ2,
-        'SpoiledAvocadoes': avocadoQ3,
-        'HomeConsumption': avocadoQ4,
-        'AvocadoPrice': avocadoQ5,
-        'AvocadoIncome': avocadoQ6,
-        'PO_Sales': avocadoQ7,
-        'AvocadoBuyers': avocadoQ8,
-      }));
+  try {
+    var response = await http.post(Uri.parse("${getUrl()}avocadoes"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'FarmerID': farmerID,
+          'ValueChainName': valueChain,
+          'LandSize': landsize,
+          'PeriodStart': startPeriod,
+          'PeriodEnd': endPeriod,
+          'AvocadoArea': avocadoQ1,
+          'NumberOfTrees': avocadoQ2,
+          'SpoiledAvocadoes': avocadoQ3,
+          'HomeConsumption': avocadoQ4,
+          'AvocadoPrice': avocadoQ5,
+          'AvocadoIncome': avocadoQ6,
+          'PO_Sales': avocadoQ7,
+          'AvocadoBuyers': avocadoQ8,
+        }));
     var body = jsonDecode(response.body);
 
     if (body["success"] != null) {

@@ -19,6 +19,8 @@ class _MyCalendarState extends State<MyCalendar> with RestorationMixin {
   @override
   String? get restorationId => widget.restorationId;
 
+  TextEditingController _controller = new TextEditingController();
+
   final RestorableDateTime _selectedDate = RestorableDateTime(
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day));
   late final RestorableRouteFuture<DateTime?> _restorableDatePickerRouteFuture =
@@ -62,13 +64,18 @@ class _MyCalendarState extends State<MyCalendar> with RestorationMixin {
     if (newSelectedDate != null) {
       widget.onSubmit(
           "${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}");
-      // setState(() {
-      //   _selectedDate.value = newSelectedDate;
-      //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //     content: Text(
-      //         'Selected: ${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}'),
-      //   ));
-      // });
+      setState(() {
+        _controller.value = TextEditingValue(
+          text:
+              "${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}",
+          selection: TextSelection.fromPosition(
+            TextPosition(
+                offset:
+                    "${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}"
+                        .length),
+          ),
+        );
+      });
     }
   }
 
@@ -76,23 +83,24 @@ class _MyCalendarState extends State<MyCalendar> with RestorationMixin {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 10, 24, 10),
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-        decoration: BoxDecoration(
-            border: Border.all(color: const Color.fromRGBO(0, 128, 0, 1)),
-            borderRadius: BorderRadius.circular(5)),
-        child: TextButton(
-          onPressed: () {
+      child: TextField(
+          onChanged: (value) {},
+          onTap: () {
             _restorableDatePickerRouteFuture.present();
           },
-          child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                widget.label,
+          controller: _controller,
+          enableSuggestions: false,
+          autocorrect: false,
+          decoration: InputDecoration(
+              contentPadding: const EdgeInsets.all(12),
+              border: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Color.fromRGBO(0, 128, 0, 1))),
+              filled: false,
+              label: Text(
+                widget.label.toString(),
                 style: const TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
-              )),
-        ),
-      ),
+              ),
+              floatingLabelBehavior: FloatingLabelBehavior.auto)),
     );
   }
 }

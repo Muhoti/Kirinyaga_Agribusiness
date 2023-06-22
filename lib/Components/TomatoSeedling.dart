@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kirinyaga_agribusiness/Components/MyCalendar.dart';
 import 'package:kirinyaga_agribusiness/Components/MySelectInput.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
@@ -27,6 +28,9 @@ class _TomatoSeedlingState extends State<TomatoSeedling> {
   var isLoading;
   String farmerID = '';
   String valueChain = 'Tomato Seedling';
+  String landsize = '';
+  String startPeriod = '';
+  String endPeriod = '';
   String tomatoseedlingQ1 = '';
   String tomatoseedlingQ2 = '';
   String tomatoseedlingQ3 = '';
@@ -67,6 +71,41 @@ class _TomatoSeedlingState extends State<TomatoSeedling> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyTextInput(
+                        title: "Total Land Size",
+                        lines: 1,
+                        value: "",
+                        type: TextInputType.number,
+                        onSubmit: (value) {
+                          setState(() {
+                            landsize = value;
+                          });
+                        }),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyCalendar(
+                      label: "Start Period",
+                      onSubmit: (value) {
+                        setState(() {
+                          startPeriod = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyCalendar(
+                      label: "End Period",
+                      onSubmit: (value) {
+                        setState(() {
+                          endPeriod = value;
+                        });
+                      },
+                    ),
                     const SizedBox(
                       height: 24,
                     ),
@@ -109,7 +148,6 @@ class _TomatoSeedlingState extends State<TomatoSeedling> {
                     const SizedBox(
                       height: 10,
                     ),
-                    
                     MyTextInput(
                         title: "No. of Seelings Produced",
                         lines: 1,
@@ -188,6 +226,9 @@ class _TomatoSeedlingState extends State<TomatoSeedling> {
                         var res = await postTomatoSeedling(
                             farmerID,
                             valueChain,
+                            landsize,
+                            startPeriod,
+                            endPeriod,
                             tomatoseedlingQ1,
                             tomatoseedlingQ2,
                             tomatoseedlingQ3,
@@ -207,7 +248,6 @@ class _TomatoSeedlingState extends State<TomatoSeedling> {
                         });
 
                         if (res.error == null) {
-                          
                           Timer(const Duration(seconds: 2), () {
                             Navigator.push(
                                 context,
@@ -235,6 +275,9 @@ class _TomatoSeedlingState extends State<TomatoSeedling> {
 postTomatoSeedling(
     String farmerID,
     String valueChain,
+    String landsize,
+    String startPeriod,
+    String endPeriod,
     String tomatoseedlingQ1,
     String tomatoseedlingQ2,
     String tomatoseedlingQ3,
@@ -256,23 +299,29 @@ postTomatoSeedling(
     return Message(
         token: null, success: null, error: "All fields are required!");
   }
-    try {
-  var response = await http.post(Uri.parse("${getUrl()}tomatoseedlings"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'FarmerID': farmerID,
-        'ValueChainName': valueChain,
-        'Capacity': tomatoseedlingQ1,
-        'InitialCost': tomatoseedlingQ2,
-        'InputCost': tomatoseedlingQ3,
-        'Seedlings': tomatoseedlingQ4,
-        'SpoiltSeedlings': tomatoseedlingQ5,
-        'SeedlingSold': tomatoseedlingQ6,
-        'SeedlingPrice': tomatoseedlingQ7,
-        'SeedlingBuyers': tomatoseedlingQ8,
-      }));
+  try {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: "erjwt");
+    var response = await http.post(Uri.parse("${getUrl()}tomatoseedlings"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token': token!
+        },
+        body: jsonEncode(<String, String>{
+          'FarmerID': farmerID,
+          'ValueChainName': valueChain,
+          'LandSize': landsize,
+          'PeriodStart': startPeriod,
+          'PeriodEnd': endPeriod,
+          'Capacity': tomatoseedlingQ1,
+          'InitialCost': tomatoseedlingQ2,
+          'InputCost': tomatoseedlingQ3,
+          'Seedlings': tomatoseedlingQ4,
+          'SpoiltSeedlings': tomatoseedlingQ5,
+          'SeedlingSold': tomatoseedlingQ6,
+          'SeedlingPrice': tomatoseedlingQ7,
+          'SeedlingBuyers': tomatoseedlingQ8,
+        }));
 
     var body = jsonDecode(response.body);
 

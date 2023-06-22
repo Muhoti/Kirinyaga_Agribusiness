@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kirinyaga_agribusiness/Components/MyCalendar.dart';
 import 'package:kirinyaga_agribusiness/Components/MySelectInput.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
@@ -27,10 +28,13 @@ class _ApicultureState extends State<Apiculture> {
   var isLoading;
   String farmerID = '';
   String valueChain = 'Apiculture';
+  String landsize = '';
+  String startPeriod = '';
+  String endPeriod = '';
   String hivetype = '';
   String nohives = '';
   String hivescolonized = '';
-  String harvestedquery = '';
+  String harvestedquery = 'Yes';
   String crudehoney = '';
   String refinedhoney = '';
   String honeycost = '';
@@ -69,8 +73,43 @@ class _ApicultureState extends State<Apiculture> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(
+                     const SizedBox(
                       height: 24,
+                    ),
+                    MyTextInput(
+                        title: "Total Land Size",
+                        lines: 1,
+                        value: "",
+                        type: TextInputType.number,
+                        onSubmit: (value) {
+                          setState(() {
+                            landsize = value;
+                          });
+                        }),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyCalendar(
+                      label: "Start Period",
+                      onSubmit: (value) {
+                        setState(() {
+                          startPeriod = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyCalendar(
+                      label: "End Period",
+                      onSubmit: (value) {
+                        setState(() {
+                          endPeriod = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     MyTextInput(
                         title: "Type of Hive",
@@ -224,6 +263,9 @@ class _ApicultureState extends State<Apiculture> {
                         var res = await postApiculture(
                             farmerID,
                             valueChain,
+                            landsize,
+                            startPeriod,
+                            endPeriod,
                             hivetype,
                             nohives,
                             hivescolonized,
@@ -272,8 +314,11 @@ class _ApicultureState extends State<Apiculture> {
 }
 
 postApiculture(
-  String farmerID,
+ String farmerID,
   String valueChain,
+  String landsize,
+  String startPeriod,
+  String endPeriod,
   String hivetype,
   String nohives,
   String hivescolonized,
@@ -301,13 +346,20 @@ postApiculture(
   }
 
   try {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: "erjwt");
+
     var response = await http.post(Uri.parse("${getUrl()}apiculture"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          'token': token!
         },
         body: jsonEncode(<String, String>{
           'FarmerID': farmerID,
           'ValueChainName': valueChain,
+          'LandSize': landsize,
+          'PeriodStart': startPeriod,
+          'PeriodEnd': endPeriod,
           'HiveType': hivetype,
           'NoHives': nohives,
           'HivesColonized': hivescolonized,

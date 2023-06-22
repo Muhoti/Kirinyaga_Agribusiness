@@ -334,12 +334,15 @@ Future<Message> submitData(bool type, String FarmerID, String SubCounty,
   }
 
   try {
+     const storage = FlutterSecureStorage();
+    var token = await storage.read(key: "erjwt");
     var response;
     if (type) {
       response = await http.put(
         Uri.parse("${getUrl()}farmeraddress/${FarmerID}"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          'token': token!
         },
         body: jsonEncode(<String, String>{
           'County': "Kirinyaga",
@@ -355,6 +358,7 @@ Future<Message> submitData(bool type, String FarmerID, String SubCounty,
         Uri.parse("${getUrl()}farmeraddress/register"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          'token': token!
         },
         body: jsonEncode(<String, String>{
           'FarmerID': FarmerID,

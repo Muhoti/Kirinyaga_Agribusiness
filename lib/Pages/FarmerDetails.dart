@@ -300,12 +300,15 @@ Future<Message> submitData(
   }
 
   try {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: "erjwt");
     var response;
     if (type) {
       response = await http.put(
         Uri.parse("${getUrl()}farmerdetails/${nationalId}"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          'token': token!
         },
         body: jsonEncode(<String, String>{
           'User': user,
@@ -321,6 +324,7 @@ Future<Message> submitData(
         Uri.parse("${getUrl()}farmerdetails/create"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          'token': token!
         },
         body: jsonEncode(<String, String>{
           'User': user,

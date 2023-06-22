@@ -262,6 +262,8 @@ Future<Message> submitData(
   }
 
   try {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: "erjwt");
     var response;
     print(
         "put data is $farmerID, $totalAcreage, $cropAcreage, $livestockAcreage, $irrigationType, $farmOwnership");
@@ -270,6 +272,7 @@ Future<Message> submitData(
         Uri.parse("${getUrl()}farmerresources/$farmerID"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          'token': token!
         },
         body: jsonEncode(<String, String>{
           'TotalAcreage': totalAcreage,
@@ -284,6 +287,7 @@ Future<Message> submitData(
         Uri.parse("${getUrl()}farmerresources"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          'token': token!
         },
         body: jsonEncode(<String, String>{
           'FarmerID': farmerID,

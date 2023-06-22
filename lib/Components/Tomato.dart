@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kirinyaga_agribusiness/Components/MyCalendar.dart';
 import 'package:kirinyaga_agribusiness/Components/MySelectInput.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
@@ -27,6 +28,9 @@ class _TomatoState extends State<Tomato> {
   var isLoading;
   String farmerID = '';
   String valueChain = 'Tomato';
+  String landsize = '';
+  String startPeriod = '';
+  String endPeriod = '';
   String tomatoQ1 = '';
   String tomatoQ2 = '';
   String tomatoQ3 = '';
@@ -74,6 +78,41 @@ class _TomatoState extends State<Tomato> {
                   children: [
                     const SizedBox(
                       height: 24,
+                    ),
+                    MyTextInput(
+                        title: "Total Land Size",
+                        lines: 1,
+                        value: "",
+                        type: TextInputType.number,
+                        onSubmit: (value) {
+                          setState(() {
+                            landsize = value;
+                          });
+                        }),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyCalendar(
+                      label: "Start Period",
+                      onSubmit: (value) {
+                        setState(() {
+                          startPeriod = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyCalendar(
+                      label: "End Period",
+                      onSubmit: (value) {
+                        setState(() {
+                          endPeriod = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     MySelectInput(
                         title: "Type of Farming",
@@ -265,6 +304,9 @@ class _TomatoState extends State<Tomato> {
                         var res = await postTomato(
                             farmerID,
                             valueChain,
+                             landsize,
+                            startPeriod,
+                            endPeriod,
                             tomatoQ1,
                             tomatoQ2,
                             tomatoQ3,
@@ -318,6 +360,9 @@ class _TomatoState extends State<Tomato> {
 postTomato(
     String farmerID,
     String valueChain,
+    String landsize,
+    String startPeriod,
+    String endPeriod,
     String tomatoQ1,
     String tomatoQ2,
     String tomatoQ3,
@@ -358,6 +403,9 @@ postTomato(
       body: jsonEncode(<String, String>{
         'FarmerID': farmerID,
         'ValueChainName': valueChain,
+        'LandSize': landsize,
+          'PeriodStart': startPeriod,
+          'PeriodEnd': endPeriod,
         'GrowingMethod': tomatoQ1,
         'OpenField': tomatoQ2,
         'NoOfGreenhouses': tomatoQ3,

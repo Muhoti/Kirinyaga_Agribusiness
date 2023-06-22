@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kirinyaga_agribusiness/Components/MyCalendar.dart';
 import 'package:kirinyaga_agribusiness/Components/MySelectInput.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
@@ -27,6 +28,9 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
   var isLoading;
   String farmerID = '';
   String valueChain = 'Chicken (Egg Incubation)';
+  String landsize = '';
+  String startPeriod = '';
+  String endPeriod = '';
   String ceiQ1 = '';
   String ceiQ2 = '';
   String ceiQ3 = '';
@@ -69,6 +73,41 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                   children: [
                     const SizedBox(
                       height: 24,
+                    ),
+                    MyTextInput(
+                        title: "Total Land Size",
+                        lines: 1,
+                        value: "",
+                        type: TextInputType.number,
+                        onSubmit: (value) {
+                          setState(() {
+                            landsize = value;
+                          });
+                        }),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyCalendar(
+                      label: "Start Period",
+                      onSubmit: (value) {
+                        setState(() {
+                          startPeriod = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyCalendar(
+                      label: "End Period",
+                      onSubmit: (value) {
+                        setState(() {
+                          endPeriod = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     MyTextInput(
                         title: "Initial Cost of Investment",
@@ -210,6 +249,9 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         var res = await postChickenEggsIncubation(
                             farmerID,
                             valueChain,
+                            landsize,
+                            startPeriod,
+                            endPeriod,
                             ceiQ1,
                             ceiQ2,
                             ceiQ3,
@@ -231,7 +273,6 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         });
 
                         if (res.error == null) {
-                        
                           Timer(const Duration(seconds: 2), () {
                             Navigator.push(
                                 context,
@@ -259,6 +300,9 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
 postChickenEggsIncubation(
     String farmerID,
     String valueChain,
+    String landsize,
+    String startPeriod,
+    String endPeriod,
     String ceiQ1,
     String ceiQ2,
     String ceiQ3,
@@ -287,24 +331,32 @@ postChickenEggsIncubation(
   }
 
   try {
-  var response = await http.post(Uri.parse("${getUrl()}chickeneggsincubation"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'FarmerID': farmerID,
-        'ValueChainName': valueChain,
-        'InitialInvestment': ceiQ1,
-        'Incubators': ceiQ2,
-        'IncubatorCapacity': ceiQ3,
-        'EggsIncubated': ceiQ4,
-        'SpoiltEggs': ceiQ5,
-        'ChicksHatched': ceiQ6,
-        'DiedChicks': ceiQ7,
-        'ChicksSold': ceiQ8,
-        'ChickCost': ceiQ9,
-        'TotaLIncome': ceiQ10
-      }));
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: "erjwt");
+
+    var response = await http.post(
+        Uri.parse("${getUrl()}chickeneggsincubation"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token': token!
+        },
+        body: jsonEncode(<String, String>{
+          'FarmerID': farmerID,
+          'ValueChainName': valueChain,
+          'LandSize': landsize,
+          'PeriodStart': startPeriod,
+          'PeriodEnd': endPeriod,
+          'InitialInvestment': ceiQ1,
+          'Incubators': ceiQ2,
+          'IncubatorCapacity': ceiQ3,
+          'EggsIncubated': ceiQ4,
+          'SpoiltEggs': ceiQ5,
+          'ChicksHatched': ceiQ6,
+          'DiedChicks': ceiQ7,
+          'ChicksSold': ceiQ8,
+          'ChickCost': ceiQ9,
+          'TotaLIncome': ceiQ10
+        }));
     var body = jsonDecode(response.body);
 
     if (body["success"] != null) {

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kirinyaga_agribusiness/Components/MyCalendar.dart';
 import 'package:kirinyaga_agribusiness/Components/MySelectInput.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
@@ -27,20 +28,24 @@ class _FishState extends State<Fish> {
   var isLoading;
   String farmerID = '';
   String valueChain = 'Fish';
+  String landsize = '';
+  String startPeriod = '';
+  String endPeriod = '';
   String ponds = '';
   String capacity = '';
   String fishspecies = '';
   String initialfingerlings = '';
+  String initialfingerlingsprice = '';
   String totalharvested = '';
   String feeds = '';
   String feedssource = '';
   String feedscost = '';
   String fishprice = '';
   String fishsold = '';
-  String marketstructure = '';
+  String marketstructure = 'Yes';
   String income = '';
-  String breeder = '';
-  String license = '';
+  String breeder = 'Yes';
+  String license = 'Yes';
   String fingerlingscost = '';
   String fingerlingssold = '';
   String fingerlingsincome = '';
@@ -77,6 +82,41 @@ class _FishState extends State<Fish> {
                   children: [
                     const SizedBox(
                       height: 24,
+                    ),
+                    MyTextInput(
+                        title: "Total Land Size",
+                        lines: 1,
+                        value: "",
+                        type: TextInputType.number,
+                        onSubmit: (value) {
+                          setState(() {
+                            landsize = value;
+                          });
+                        }),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyCalendar(
+                      label: "Start Period",
+                      onSubmit: (value) {
+                        setState(() {
+                          startPeriod = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyCalendar(
+                      label: "End Period",
+                      onSubmit: (value) {
+                        setState(() {
+                          endPeriod = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     MyTextInput(
                         title: "Number of Ponds",
@@ -125,6 +165,19 @@ class _FishState extends State<Fish> {
                         onSubmit: (value) {
                           setState(() {
                             initialfingerlings = value;
+                          });
+                        }),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyTextInput(
+                        title: "Cost for Initial Fingerlings",
+                        lines: 1,
+                        value: "",
+                        type: TextInputType.number,
+                        onSubmit: (value) {
+                          setState(() {
+                            initialfingerlingsprice = value;
                           });
                         }),
                     const SizedBox(
@@ -306,10 +359,14 @@ class _FishState extends State<Fish> {
                         var res = await postFish(
                             farmerID,
                             valueChain,
+                            landsize,
+                            startPeriod,
+                            endPeriod,
                             ponds,
                             capacity,
                             fishspecies,
                             initialfingerlings,
+                            initialfingerlingsprice,
                             totalharvested,
                             feeds,
                             feedssource,
@@ -334,7 +391,6 @@ class _FishState extends State<Fish> {
                         });
 
                         if (res.error == null) {
-                        
                           Timer(const Duration(seconds: 2), () {
                             Navigator.push(
                                 context,
@@ -362,12 +418,16 @@ class _FishState extends State<Fish> {
 postFish(
     String farmerID,
     String valueChain,
+    String landsize,
+    String startPeriod,
+    String endPeriod,
     String ponds,
     String capacity,
     String fishspecies,
     String initialfingerlings,
-    String totalharvested,
     String initialfingerlingsprice,
+    String totalharvested,
+    String feeds,
     String feedssource,
     String feedscost,
     String fishprice,
@@ -401,13 +461,19 @@ postFish(
   }
 
   try {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: "erjwt");
     var response = await http.post(Uri.parse("${getUrl()}fish"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          'token': token!
         },
         body: jsonEncode(<String, String>{
           'FarmerID': farmerID,
           'ValueChainName': valueChain,
+          'LandSize': landsize,
+          'PeriodStart': startPeriod,
+          'PeriodEnd': endPeriod,
           'Ponds': ponds,
           'Capacity': capacity,
           'FishSpecies': fishspecies,

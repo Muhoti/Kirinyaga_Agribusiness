@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kirinyaga_agribusiness/Components/MyCalendar.dart';
 import 'package:kirinyaga_agribusiness/Components/MySelectInput.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
@@ -27,6 +28,9 @@ class _DairyGoatState extends State<DairyGoat> {
   var isLoading;
   String farmerID = '';
   String valueChain = 'Dairy Goat';
+  String landsize = '';
+  String startPeriod = '';
+  String endPeriod = '';
   String goats = '';
   String milkedgoats = '';
   String totalmilk = '';
@@ -70,6 +74,41 @@ class _DairyGoatState extends State<DairyGoat> {
                   children: [
                     const SizedBox(
                       height: 24,
+                    ),
+                    MyTextInput(
+                        title: "Total Land Size",
+                        lines: 1,
+                        value: "",
+                        type: TextInputType.number,
+                        onSubmit: (value) {
+                          setState(() {
+                            landsize = value;
+                          });
+                        }),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyCalendar(
+                      label: "Start Period",
+                      onSubmit: (value) {
+                        setState(() {
+                          startPeriod = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyCalendar(
+                      label: "End Period",
+                      onSubmit: (value) {
+                        setState(() {
+                          endPeriod = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     MyTextInput(
                         title: "Number of goats",
@@ -211,6 +250,9 @@ class _DairyGoatState extends State<DairyGoat> {
                         var res = await postDairyGoat(
                           farmerID,
                           valueChain,
+                          landsize,
+                          startPeriod,
+                          endPeriod,
                           goats,
                           milkedgoats,
                           totalmilk,
@@ -233,7 +275,6 @@ class _DairyGoatState extends State<DairyGoat> {
                         });
 
                         if (res.error == null) {
-                         
                           Timer(const Duration(seconds: 2), () {
                             Navigator.push(
                                 context,
@@ -261,6 +302,9 @@ class _DairyGoatState extends State<DairyGoat> {
 postDairyGoat(
   String farmerID,
   String valueChain,
+  String landsize,
+  String startPeriod,
+  String endPeriod,
   String goats,
   String milkedgoats,
   String totalmilk,
@@ -286,13 +330,19 @@ postDairyGoat(
   }
 
   try {
+     const storage = FlutterSecureStorage();
+    var token = await storage.read(key: "erjwt");
     var response = await http.post(Uri.parse("${getUrl()}dairygoats"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          'token': token!
         },
         body: jsonEncode(<String, String>{
           'FarmerID': farmerID,
           'ValueChainName': valueChain,
+          'LandSize': landsize,
+          'PeriodStart': startPeriod,
+          'PeriodEnd': endPeriod,
           'Goats': goats,
           'MilkedGoats': milkedgoats,
           'TotalMilk': totalmilk,
