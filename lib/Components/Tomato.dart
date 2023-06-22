@@ -15,7 +15,7 @@ import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class Tomato extends StatefulWidget {
-  const Tomato({super.key, required String farmerID});
+  const Tomato({super.key});
 
   @override
   State<Tomato> createState() => _TomatoState();
@@ -55,6 +55,7 @@ class _TomatoState extends State<Tomato> {
         setState(() {
           farmerID = id;
         });
+        print(farmerID);
       }
     } catch (e) {}
   }
@@ -73,19 +74,6 @@ class _TomatoState extends State<Tomato> {
                   children: [
                     const SizedBox(
                       height: 24,
-                    ),
-                    MyTextInput(
-                        title: "Value Chain",
-                        lines: 1,
-                        value: "Tomato",
-                        type: TextInputType.text,
-                        onSubmit: (value) {
-                          setState(() {
-                            valueChain = value;
-                          });
-                        }),
-                    const SizedBox(
-                      height: 10,
                     ),
                     MySelectInput(
                         title: "Type of Farming",
@@ -343,10 +331,8 @@ postTomato(
     String tomatoQ11,
     String tomatoQ12,
     String tomatoQ13,
-    String tomatoQ14) async {
-  print(
-      "the tomato values are: $farmerID, $valueChain, $tomatoQ1, $tomatoQ2, $tomatoQ3, $tomatoQ5");
-
+    String tomatoQ14) 
+    async {
   if (valueChain.isEmpty ||
       tomatoQ2.isEmpty ||
       tomatoQ3.isEmpty ||
@@ -361,9 +347,10 @@ postTomato(
       tomatoQ12.isEmpty ||
       tomatoQ13.isEmpty ||
       tomatoQ14.isEmpty) {
-    return Message(
-        token: null, success: null, error: "Please fill all inputs!");
+     return Message(
+        token: null, success: null, error: "All fields are required!");
   }
+   try {
   var response = await http.post(Uri.parse("${getUrl()}tomatoes"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -386,6 +373,19 @@ postTomato(
         'TomatoIncome': tomatoQ13,
         'SalesChannel': tomatoQ14
       }));
+    var body = jsonDecode(response.body);
+
+    if (body["success"] != null) {
+      return Message(
+          token: body["token"], success: body["success"], error: body["error"]);
+    } else {
+      return Message(
+          token: body["token"], success: body["success"], error: body["error"]);
+    }
+  } catch (e) {
+    print("error: $e");
+    return Message(token: null, success: null, error: "Something went wrong!");
+  }
 }
 
 class Message {

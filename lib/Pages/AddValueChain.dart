@@ -68,7 +68,7 @@ class _AddValueChainState extends State<AddValueChain> {
   Widget getValueChainWidget(String valueChain) {
     switch (valueChain) {
       case 'Tomato':
-        return Tomato(farmerID: farmerID);
+        return const Tomato();
       case 'Avocado':
         return Avocado(farmerID: farmerID);
       case 'Tomato Seedlings':

@@ -50,6 +50,7 @@ class _TomatoSeedlingState extends State<TomatoSeedling> {
         setState(() {
           farmerID = id;
         });
+        print(farmerID);
       }
     } catch (e) {}
   }
@@ -68,19 +69,6 @@ class _TomatoSeedlingState extends State<TomatoSeedling> {
                   children: [
                     const SizedBox(
                       height: 24,
-                    ),
-                    MyTextInput(
-                        title: "Value Chain",
-                        lines: 1,
-                        value: "TomatoSeedling",
-                        type: TextInputType.text,
-                        onSubmit: (value) {
-                          setState(() {
-                            valueChain = value;
-                          });
-                        }),
-                    const SizedBox(
-                      height: 10,
                     ),
                     MyTextInput(
                         title: "Nursery Capacity",
@@ -266,8 +254,9 @@ postTomatoSeedling(
       tomatoseedlingQ7.isEmpty ||
       tomatoseedlingQ8.isEmpty) {
     return Message(
-        token: null, success: null, error: "Please fill all inputs!");
+        token: null, success: null, error: "All fields are required!");
   }
+    try {
   var response = await http.post(Uri.parse("${getUrl()}tomatoseedlings"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -284,6 +273,20 @@ postTomatoSeedling(
         'SeedlingPrice': tomatoseedlingQ7,
         'SeedlingBuyers': tomatoseedlingQ8,
       }));
+
+    var body = jsonDecode(response.body);
+
+    if (body["success"] != null) {
+      return Message(
+          token: body["token"], success: body["success"], error: body["error"]);
+    } else {
+      return Message(
+          token: body["token"], success: body["success"], error: body["error"]);
+    }
+  } catch (e) {
+    print("error: $e");
+    return Message(token: null, success: null, error: "Something went wrong!");
+  }
 }
 
 class Message {

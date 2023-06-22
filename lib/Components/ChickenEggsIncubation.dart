@@ -71,19 +71,6 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                       height: 24,
                     ),
                     MyTextInput(
-                        title: "Value Chain",
-                        lines: 1,
-                        value: "Chicken (Egg Incubation)",
-                        type: TextInputType.text,
-                        onSubmit: (value) {
-                          setState(() {
-                            valueChain = value;
-                          });
-                        }),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    MyTextInput(
                         title: "Initial Cost of Investment",
                         lines: 1,
                         value: "",
@@ -296,8 +283,10 @@ postChickenEggsIncubation(
       ceiQ9.isEmpty ||
       ceiQ10.isEmpty) {
     return Message(
-        token: null, success: null, error: "Please fill all inputs!");
+        token: null, success: null, error: "All fields are required!");
   }
+
+  try {
   var response = await http.post(Uri.parse("${getUrl()}chickeneggsincubation"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -316,6 +305,19 @@ postChickenEggsIncubation(
         'ChickCost': ceiQ9,
         'TotaLIncome': ceiQ10
       }));
+    var body = jsonDecode(response.body);
+
+    if (body["success"] != null) {
+      return Message(
+          token: body["token"], success: body["success"], error: body["error"]);
+    } else {
+      return Message(
+          token: body["token"], success: body["success"], error: body["error"]);
+    }
+  } catch (e) {
+    print("error: $e");
+    return Message(token: null, success: null, error: "Something went wrong!");
+  }
 }
 
 class Message {

@@ -42,7 +42,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
   String cemQ13 = '';
   String cemQ14 = '';
 
-  @override
+   @override
   void initState() {
     checkMapping();
     super.initState();
@@ -55,6 +55,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
         setState(() {
           farmerID = id;
         });
+        print(farmerID);
       }
     } catch (e) {}
   }
@@ -73,19 +74,6 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                   children: [
                     const SizedBox(
                       height: 24,
-                    ),
-                    MyTextInput(
-                        title: "Value Chain",
-                        lines: 1,
-                        value: "Chicken (Eggs & Meat)",
-                        type: TextInputType.text,
-                        onSubmit: (value) {
-                          setState(() {
-                            valueChain = value;
-                          });
-                        }),
-                    const SizedBox(
-                      height: 10,
                     ),
                     MyTextInput(
                         title: "No. of Birds",
@@ -364,8 +352,9 @@ postChickenEggsMeat(
       cemQ13.isEmpty ||
       cemQ14.isEmpty) {
     return Message(
-        token: null, success: null, error: "Please fill all inputs!");
+        token: null, success: null, error: "All fields are required!");
   }
+   try {
   var response = await http.post(Uri.parse("${getUrl()}chickenmeateggs"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -388,6 +377,20 @@ postChickenEggsMeat(
         'EggsCustomers': cemQ13,
         'ChickenCustomers': cemQ14
       }));
+
+    var body = jsonDecode(response.body);
+
+    if (body["success"] != null) {
+      return Message(
+          token: body["token"], success: body["success"], error: body["error"]);
+    } else {
+      return Message(
+          token: body["token"], success: body["success"], error: body["error"]);
+    }
+  } catch (e) {
+    print("error: $e");
+    return Message(token: null, success: null, error: "Something went wrong!");
+  }
 }
 
 class Message {
