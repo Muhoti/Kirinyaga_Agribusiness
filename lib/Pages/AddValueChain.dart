@@ -5,9 +5,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kirinyaga_agribusiness/Components/Apiculture.dart';
 import 'package:kirinyaga_agribusiness/Components/Avocado.dart';
 import 'package:kirinyaga_agribusiness/Components/ChickenEggsMeat.dart';
 import 'package:kirinyaga_agribusiness/Components/Dairy.dart';
+import 'package:kirinyaga_agribusiness/Components/DairyGoat.dart';
 import 'package:kirinyaga_agribusiness/Components/MySelectInput.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
@@ -75,6 +77,10 @@ class _AddValueChainState extends State<AddValueChain> {
         return ChickenEggsMeat(farmerID: farmerID);
       case 'Dairy':
         return const Dairy();
+      case 'Dairy Goat':
+        return const DairyGoat();
+      case 'Apiculture':
+        return const Apiculture();
       // Add other value chain cases here
       default:
         return const SizedBox(height: 15);
@@ -133,13 +139,10 @@ class _AddValueChainState extends State<AddValueChain> {
                         'Fish'
                       ],
                       value: valueChain!),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   Flexible(
-                    fit: FlexFit.tight,
-                    flex: 1,
-                    child: getValueChainWidget(valueChain!)),
+                      fit: FlexFit.tight,
+                      flex: 1,
+                      child: getValueChainWidget(valueChain!)),
                 ],
               ),
             ),

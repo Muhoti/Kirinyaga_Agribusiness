@@ -62,6 +62,24 @@ class _FarmerValueChainsState extends State<FarmerValueChains> {
           appBar: AppBar(
             title: const Text("Farmer ValueChains"),
             backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0,0,4,0),
+                child: TextButton(
+                  onPressed: () {
+                    type == "Farmer"
+                        ? Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (_) => const FarmerHome()))
+                        : Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (_) => const Summary()));
+                  },
+                  child: const Align(
+                    alignment: Alignment.centerRight,
+                    child: Icon(Icons.arrow_back,color: Colors.white,),
+                  ),
+                ),
+              )
+            ],
           ),
           drawer: const Drawer(child: FODrawer()),
           body: Column(
@@ -87,22 +105,8 @@ class _FarmerValueChainsState extends State<FarmerValueChains> {
                               context,
                               MaterialPageRoute(
                                   builder: (_) => const AddValueChain(
-                                    id: null,
-                                  )));
-                        },
-                      ),
-                      SubmitButton(
-                        label: "Proceed",
-                        onButtonPressed: () {
-                          type == "Farmer"
-                              ? Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => const FarmerHome()))
-                              : Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => const Summary()));
+                                        id: null,
+                                      )));
                         },
                       ),
                     ],
