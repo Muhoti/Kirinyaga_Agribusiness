@@ -10,9 +10,11 @@ import 'package:kirinyaga_agribusiness/Components/Avocado.dart';
 import 'package:kirinyaga_agribusiness/Components/ChickenEggsMeat.dart';
 import 'package:kirinyaga_agribusiness/Components/Dairy.dart';
 import 'package:kirinyaga_agribusiness/Components/DairyGoat.dart';
+import 'package:kirinyaga_agribusiness/Components/Fish.dart';
 import 'package:kirinyaga_agribusiness/Components/MySelectInput.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
+import 'package:kirinyaga_agribusiness/Components/Pigs.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Components/Tomato.dart';
@@ -81,6 +83,10 @@ class _AddValueChainState extends State<AddValueChain> {
         return const DairyGoat();
       case 'Apiculture':
         return const Apiculture();
+      case 'Pigs':
+        return const Pigs();
+      case 'Fish':
+        return const Fish();
       // Add other value chain cases here
       default:
         return const SizedBox(height: 15);
