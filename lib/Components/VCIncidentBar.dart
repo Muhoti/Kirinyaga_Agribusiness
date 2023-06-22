@@ -38,11 +38,13 @@ class _VCIncidentBarState extends State<VCIncidentBar> {
             clipBehavior: Clip.hardEdge,
             child: TextButton(
                 onPressed: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => ValueChainProduce(
-                              vcid: widget.vcid, farmerID: widget.id, valuechain: widget.valuechain)));
+                  // Navigator.pushReplacement(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (_) => ValueChainProduce(
+                  //             vcid: widget.vcid, farmerID: widget.id, valuechain: widget.valuechain
+                  //             )
+                  //             ));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

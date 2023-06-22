@@ -114,7 +114,7 @@ class _CreateFarmerGroup extends State<CreateFarmerGroup> {
                   });
 
                   if (res.error == null) {
-                    await storage.write(key: 'erjwt', value: res.token);
+                   
                     Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(

@@ -231,7 +231,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         });
 
                         if (res.error == null) {
-                          await storage.write(key: 'erjwt', value: res.token);
+                        
                           Timer(const Duration(seconds: 2), () {
                             Navigator.push(
                                 context,

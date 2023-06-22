@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kirinyaga_agribusiness/Components/MyCalendar.dart';
 import 'package:kirinyaga_agribusiness/Components/MySelectInput.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
@@ -27,6 +28,9 @@ class _DairyState extends State<Dairy> {
   var isLoading;
   String farmerID = '';
   String valueChain = 'Dairy';
+  String landsize = '';
+  String startPeriod = '';
+  String endPeriod = '';
   String Cows = '';
   String MilkedCows = '';
   String TotalMilk = '';
@@ -70,6 +74,41 @@ class _DairyState extends State<Dairy> {
                   children: [
                     const SizedBox(
                       height: 24,
+                    ),
+                    MyTextInput(
+                        title: "Total Land Size",
+                        lines: 1,
+                        value: "",
+                        type: TextInputType.number,
+                        onSubmit: (value) {
+                          setState(() {
+                            landsize = value;
+                          });
+                        }),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyCalendar(
+                      label: "Start Period",
+                      onSubmit: (value) {
+                        setState(() {
+                          startPeriod = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyCalendar(
+                      label: "End Period",
+                      onSubmit: (value) {
+                        setState(() {
+                          endPeriod = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     MyTextInput(
                         title: "Number of Cows",
@@ -209,19 +248,21 @@ class _DairyState extends State<Dairy> {
                           );
                         });
                         var res = await postDairy(
-                          farmerID,
-                          valueChain,
-                          Cows,
-                          MilkedCows,
-                          TotalMilk,
-                          HomeMilk,
-                          MilkCost,
-                          MilkSold,
-                          Calves,
-                          CalvesSold,
-                          CalfPrice,
-                          CalvesIncome,
-                        );
+                            farmerID,
+                            valueChain,
+                            landsize,
+                            startPeriod,
+                            endPeriod,
+                            Cows,
+                            MilkedCows,
+                            TotalMilk,
+                            HomeMilk,
+                            MilkCost,
+                            MilkSold,
+                            Calves,
+                            CalvesSold,
+                            CalfPrice,
+                            CalvesIncome);
 
                         setState(() {
                           isLoading = null;
@@ -233,7 +274,6 @@ class _DairyState extends State<Dairy> {
                         });
 
                         if (res.error == null) {
-                          await storage.write(key: 'erjwt', value: res.token);
                           Timer(const Duration(seconds: 2), () {
                             Navigator.push(
                                 context,
@@ -261,6 +301,9 @@ class _DairyState extends State<Dairy> {
 postDairy(
   String farmerID,
   String valueChain,
+  String landsize,
+  String startPeriod,
+  String endPeriod,
   String Cows,
   String MilkedCows,
   String TotalMilk,
@@ -293,6 +336,9 @@ postDairy(
         body: jsonEncode(<String, String>{
           'FarmerID': farmerID,
           'ValueChainName': valueChain,
+          'LandSize': landsize,
+          'PeriodStart': startPeriod,
+          'PeriodEnd': endPeriod,
           'Cows': Cows,
           'MilkedCows': MilkedCows,
           'TotalMilk': TotalMilk,

@@ -184,7 +184,7 @@ class _ValueChainProduceState extends State<ValueChainProduce> {
                     });
 
                     if (res.error == null) {
-                      await storage.write(key: 'erjwt', value: res.token);
+
                       Timer(const Duration(seconds: 2), () {
                         Navigator.pushReplacement(
                             context,

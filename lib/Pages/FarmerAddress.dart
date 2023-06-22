@@ -285,7 +285,7 @@ class _FarmerAddressState extends State<FarmerAddress> {
                     });
 
                     if (res.error == null) {
-                      await storage.write(key: 'erjwt', value: res.token);
+                   
                       Timer(const Duration(seconds: 2), () {
                         if (widget.editing) {
                           Navigator.pushReplacement(

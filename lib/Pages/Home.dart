@@ -22,7 +22,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   var isLoading;
-  var data = null;
+  dynamic data;
   int total = 0;
   String name = "";
 
@@ -43,6 +43,7 @@ class _HomeState extends State<Home> {
       setState(() {
         name = decoded["Name"];
       });
+      print("the token is $decoded");
       searchMapped(decoded["Name"]);
     } catch (e) {
       Navigator.pushReplacement(
@@ -69,16 +70,24 @@ class _HomeState extends State<Home> {
           });
 
       var body = json.decode(response.body);
+      print("the body is $body");
+
+      List<int> numbers = [
+        body["FD"],
+        body["FA"],
+        body["FR"],
+        body["FG"],
+        body["VC"]
+      ];
+      int minimum = numbers.reduce(
+          (currentMin, element) => element < currentMin ? element : currentMin);
+      print("Minimum: $minimum");
+
       setState(() {
         data = body;
-        total = [
-          int.parse(body["FD"]),
-          int.parse(body["FA"]),
-          int.parse(body["FR"]),
-          int.parse(body["FG"]),
-          int.parse(body["VC"])
-        ].reduce(min);
+        total = minimum;
       });
+
     } catch (e) {
       // todo
     }
