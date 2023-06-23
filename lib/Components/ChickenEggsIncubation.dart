@@ -113,7 +113,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         title: "Initial Cost of Investment",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             ceiQ1 = value;
@@ -126,7 +126,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         title: "Number of Incubators",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             ceiQ2 = value;
@@ -139,7 +139,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         title: "Incubator Capacity",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             ceiQ3 = value;
@@ -152,7 +152,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         title: "Eggs Incubated",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             ceiQ4 = value;
@@ -162,7 +162,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         title: "Number of Eggs Spoilt",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             ceiQ5 = value;
@@ -175,7 +175,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         title: "Number of Chicks Hatched",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             ceiQ6 = value;
@@ -188,7 +188,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         title: "Number of Died Chicks",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             ceiQ7 = value;
@@ -201,7 +201,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         title: "Number of Chicks Sold",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             ceiQ8 = value;
@@ -214,7 +214,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         title: "Price per Chick",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             ceiQ9 = value;
@@ -227,7 +227,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         title: "Total Income",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             ceiQ10 = value;

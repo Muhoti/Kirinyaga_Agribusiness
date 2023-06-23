@@ -118,7 +118,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         title: "No. of Birds",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             cemQ1 = value;
@@ -131,7 +131,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         title: "No. of Laying Birds",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             cemQ2 = value;
@@ -144,7 +144,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         title: "Eggs Produced",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             cemQ3 = value;
@@ -154,7 +154,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         title: "Spoiled Eggs",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             cemQ4 = value;
@@ -167,7 +167,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         title: "Sold Eggs",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             cemQ5 = value;
@@ -180,7 +180,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         title: "Price per Egg",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             cemQ6 = value;
@@ -193,7 +193,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         title: "Eggs Income",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             cemQ7 = value;
@@ -206,7 +206,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         title: "Birds Eaten Locally",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             cemQ8 = value;
@@ -219,7 +219,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         title: "Died Birds",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             cemQ9 = value;
@@ -232,7 +232,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         title: "Birds Sold",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             cemQ10 = value;
@@ -245,7 +245,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         title: "Bird Price",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             cemQ11 = value;
@@ -258,7 +258,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         title: "Income from Sale of Birds",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             cemQ12 = value;

@@ -94,19 +94,6 @@ class FMDrawer extends StatelessWidget {
               },
             ),
             ListTile(
-              title: const Text(
-                'Value Chain Dummy',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
-              ),
-              onTap: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => ValueChainForm()));
-              },
-            ),
-            ListTile(
               title: Text(
                 'Logout',
                 style: style,

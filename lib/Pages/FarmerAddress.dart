@@ -207,7 +207,6 @@ class _FarmerAddressState extends State<FarmerAddress> {
         ],
         backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
       ),
-      drawer: const Drawer(child: FODrawer()),
       body: Stack(
         children: [
           SingleChildScrollView(

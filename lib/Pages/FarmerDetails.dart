@@ -126,7 +126,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                   MyTextInput(
                     title: "Name",
                     lines: 1,
-                    value: data == null ? "" : data["Name"],
+                    value: name,
                     type: TextInputType.text,
                     onSubmit: (value) {
                       setState(() {
@@ -141,7 +141,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                   MyTextInput(
                       title: "National ID",
                       lines: 1,
-                      value: data == null ? "" : data["NationalID"],
+                      value: nationalId,
                       type: TextInputType.number,
                       onSubmit: (value) {
                         setState(() {
@@ -155,7 +155,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                   MyTextInput(
                       title: "Phone Number",
                       lines: 1,
-                      value: data == null ? "" : data["Phone"],
+                      value: phoneNumber,
                       type: TextInputType.phone,
                       onSubmit: (value) {
                         setState(() {

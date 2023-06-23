@@ -148,7 +148,7 @@ class _FishState extends State<Fish> {
                         title: "Type of Fish Species",
                         lines: 1,
                         value: "",
-                        type: TextInputType.number,
+                        type: TextInputType.text,
                         onSubmit: (value) {
                           setState(() {
                             fishspecies = value;
@@ -200,7 +200,7 @@ class _FishState extends State<Fish> {
                         title: "Type of Feed Used",
                         lines: 1,
                         value: "",
-                        type: TextInputType.number,
+                        type: TextInputType.text,
                         onSubmit: (value) {
                           setState(() {
                             feeds = value;
@@ -213,7 +213,7 @@ class _FishState extends State<Fish> {
                         title: "Source of Feed Source",
                         lines: 1,
                         value: "",
-                        type: TextInputType.number,
+                        type: TextInputType.text,
                         onSubmit: (value) {
                           setState(() {
                             feedssource = value;

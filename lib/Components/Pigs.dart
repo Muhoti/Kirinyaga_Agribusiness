@@ -259,7 +259,7 @@ class _PigsState extends State<Pigs> {
                         title: "Who is the Pork Customer",
                         lines: 1,
                         value: "",
-                        type: TextInputType.number,
+                        type: TextInputType.text,
                         onSubmit: (value) {
                           setState(() {
                             porkcustomers = value;

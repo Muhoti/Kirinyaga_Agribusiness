@@ -109,7 +109,7 @@ class _AvocadoState extends State<Avocado> {
                         title: "Avocado Acreage",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             avocadoQ1 = value;
@@ -122,7 +122,7 @@ class _AvocadoState extends State<Avocado> {
                         title: "No of Trees",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             avocadoQ2 = value;
@@ -135,7 +135,7 @@ class _AvocadoState extends State<Avocado> {
                         title: "Total Production (KGs)",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             avocadoQ3 = value;
@@ -145,7 +145,7 @@ class _AvocadoState extends State<Avocado> {
                         title: "Spoiled Avocadoes (KGs)",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             avocadoQ4 = value;
@@ -158,7 +158,7 @@ class _AvocadoState extends State<Avocado> {
                         title: "Avocadoes for Home Use",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             avocadoQ5 = value;
@@ -171,7 +171,7 @@ class _AvocadoState extends State<Avocado> {
                         title: "Price per KG",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             avocadoQ6 = value;
@@ -184,7 +184,7 @@ class _AvocadoState extends State<Avocado> {
                         title: "Total Income",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             avocadoQ7 = value;
@@ -197,7 +197,7 @@ class _AvocadoState extends State<Avocado> {
                         title: "Customer / P.O",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             avocadoQ8 = value;
@@ -293,9 +293,13 @@ postAvocado(
         token: null, success: null, error: "Please fill all inputs!");
   }
   try {
+     const storage = FlutterSecureStorage();
+    var token = await storage.read(key: "erjwt");
+    
     var response = await http.post(Uri.parse("${getUrl()}avocadoes"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          'token': token!
         },
         body: jsonEncode(<String, String>{
           'FarmerID': farmerID,

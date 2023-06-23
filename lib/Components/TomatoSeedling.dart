@@ -113,7 +113,7 @@ class _TomatoSeedlingState extends State<TomatoSeedling> {
                         title: "Nursery Capacity",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             tomatoseedlingQ1 = value;
@@ -126,7 +126,7 @@ class _TomatoSeedlingState extends State<TomatoSeedling> {
                         title: "Initial Investment Cost",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             tomatoseedlingQ2 = value;
@@ -139,7 +139,7 @@ class _TomatoSeedlingState extends State<TomatoSeedling> {
                         title: "Input Cost",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             tomatoseedlingQ3 = value;
@@ -152,7 +152,7 @@ class _TomatoSeedlingState extends State<TomatoSeedling> {
                         title: "No. of Seelings Produced",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             tomatoseedlingQ4 = value;
@@ -165,7 +165,7 @@ class _TomatoSeedlingState extends State<TomatoSeedling> {
                         title: "Spoiled Seedlings",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             tomatoseedlingQ5 = value;
@@ -178,7 +178,7 @@ class _TomatoSeedlingState extends State<TomatoSeedling> {
                         title: "Sold Seedlings",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             tomatoseedlingQ6 = value;
@@ -191,7 +191,7 @@ class _TomatoSeedlingState extends State<TomatoSeedling> {
                         title: "Seedling Price",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             tomatoseedlingQ7 = value;

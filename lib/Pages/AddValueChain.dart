@@ -133,16 +133,16 @@ class _AddValueChainState extends State<AddValueChain> {
                       },
                       entries: const [
                         'Select Value Chain',
-                        'Tomato',
+                        'Apiculture',
                         'Avocado',
-                        'Tomato Seedlings',
-                        'Chicken (Eggs & Meat)',
                         'Chicken (Egg Incubation)',
+                        'Chicken (Eggs & Meat)',
                         'Dairy',
                         'Dairy Goat',
-                        'Apiculture',
+                        'Fish',
                         'Pigs',
-                        'Fish'
+                        'Tomato',
+                        'Tomato Seedlings'
                       ],
                       value: valueChain!),
                   Flexible(

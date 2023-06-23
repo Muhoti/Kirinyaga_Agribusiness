@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/CreateFarmerGroup.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
+import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:kirinyaga_agribusiness/Scroll/FGScrollController.dart';
 import '../Components/FODrawer.dart';
 
@@ -44,8 +45,19 @@ class _FarmerGroupsState extends State<FarmerGroups> {
         appBar: AppBar(
           title: const Text("Farmer Associatons"),
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
+          actions: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: IconButton(
+                onPressed: () => {
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (_) => const Home()))
+                },
+                icon: const Icon(Icons.arrow_back),
+              ),
+            ),
+          ],
         ),
-        drawer: const Drawer(child: FODrawer()),
         body: Column(
           children: <Widget>[
             const SizedBox(height: 24,),
