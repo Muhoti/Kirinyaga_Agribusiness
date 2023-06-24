@@ -60,24 +60,31 @@ class _MyCalendarState extends State<MyCalendar> with RestorationMixin {
         _restorableDatePickerRouteFuture, 'date_picker_route_future');
   }
 
-  void _selectDate(DateTime? newSelectedDate) {
+ void _selectDate(DateTime? newSelectedDate) {
     if (newSelectedDate != null) {
-      widget.onSubmit(
-          "${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}");
       setState(() {
+        _selectedDate.value = DateTime(
+          newSelectedDate.year,
+          newSelectedDate.month,
+          newSelectedDate.day,
+        );
         _controller.value = TextEditingValue(
           text:
               "${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}",
           selection: TextSelection.fromPosition(
             TextPosition(
-                offset:
-                    "${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}"
-                        .length),
+              offset:
+                  "${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}"
+                      .length,
+            ),
           ),
         );
       });
+      widget.onSubmit(
+          "${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}");
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

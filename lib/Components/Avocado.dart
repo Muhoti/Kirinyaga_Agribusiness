@@ -197,7 +197,7 @@ class _AvocadoState extends State<Avocado> {
                         title: "Customer / P.O",
                         lines: 1,
                         value: "",
-                        type: TextInputType.number,
+                        type: TextInputType.text,
                         onSubmit: (value) {
                           setState(() {
                             avocadoQ8 = value;

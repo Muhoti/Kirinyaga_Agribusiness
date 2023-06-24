@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/Apiculture.dart';
 import 'package:kirinyaga_agribusiness/Components/Avocado.dart';
+import 'package:kirinyaga_agribusiness/Components/ChickenEggsIncubation.dart';
 import 'package:kirinyaga_agribusiness/Components/ChickenEggsMeat.dart';
 import 'package:kirinyaga_agribusiness/Components/Dairy.dart';
 import 'package:kirinyaga_agribusiness/Components/DairyGoat.dart';
@@ -76,7 +77,7 @@ class _AddValueChainState extends State<AddValueChain> {
       case 'Chicken (Eggs & Meat)':
         return ChickenEggsMeat(farmerID: farmerID);
       case 'Chicken (Egg Incubation)':
-        return ChickenEggsMeat(farmerID: farmerID);
+        return ChickenEggsIncubation(farmerID: farmerID);
       case 'Dairy':
         return const Dairy();
       case 'Dairy Goat':

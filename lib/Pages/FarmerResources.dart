@@ -119,7 +119,7 @@ class _FarmerResourcesState extends State<FarmerResources> {
                     title: "Total Land Acreage",
                     lines: 1,
                     value: totalAcreage,
-                    type: TextInputType.text,
+                    type: TextInputType.number,
                     onSubmit: (value) {
                       setState(() {
                         error = "";
@@ -259,6 +259,11 @@ Future<Message> submitData(
   if (totalAcreage.isEmpty) {
     return Message(
         token: null, success: null, error: "Total Acreage cannot be empty!");
+  }
+
+  if (double.parse(totalAcreage) < double.parse(cropAcreage) + double.parse(livestockAcreage)) {
+    return Message(
+        token: null, success: null, error: "Total land in use exceeded total acreage of land provided");
   }
 
   try {
