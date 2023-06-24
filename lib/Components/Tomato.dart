@@ -130,7 +130,7 @@ class _TomatoState extends State<Tomato> {
                         title: "Open Field Acreage",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             tomatoQ2 = value;
@@ -143,7 +143,7 @@ class _TomatoState extends State<Tomato> {
                         title: "Number of Green Houses",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             tomatoQ3 = value;
@@ -153,7 +153,7 @@ class _TomatoState extends State<Tomato> {
                         title: "Green House Size",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             tomatoQ4 = value;
@@ -191,7 +191,7 @@ class _TomatoState extends State<Tomato> {
                         title: "Inputs Cost",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             tomatoQ7 = value;
@@ -204,7 +204,7 @@ class _TomatoState extends State<Tomato> {
                         title: "Amount Produced (KGs)",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             tomatoQ8 = value;
@@ -217,7 +217,7 @@ class _TomatoState extends State<Tomato> {
                         title: "Spoiled Tomatoes (KGs)",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             tomatoQ9 = value;
@@ -230,7 +230,7 @@ class _TomatoState extends State<Tomato> {
                         title: "Tomatoes Consumed Locally (KGs)",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             tomatoQ10 = value;
@@ -243,7 +243,7 @@ class _TomatoState extends State<Tomato> {
                         title: "Amount Sold",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             tomatoQ11 = value;
@@ -256,7 +256,7 @@ class _TomatoState extends State<Tomato> {
                         title: "Price per KG",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             tomatoQ12 = value;
@@ -269,7 +269,7 @@ class _TomatoState extends State<Tomato> {
                         title: "Total Income",
                         lines: 1,
                         value: "",
-                        type: TextInputType.text,
+                        type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
                             tomatoQ13 = value;

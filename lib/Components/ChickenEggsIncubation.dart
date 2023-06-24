@@ -262,7 +262,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                             ceiQ8,
                             ceiQ9,
                             ceiQ10);
-
+                        print("the data has been submitter");
                         setState(() {
                           isLoading = null;
                           if (res.error == null) {
@@ -358,7 +358,7 @@ postChickenEggsIncubation(
           'TotaLIncome': ceiQ10
         }));
     var body = jsonDecode(response.body);
-
+    print("the body is $body");
     if (body["success"] != null) {
       return Message(
           token: body["token"], success: body["success"], error: body["error"]);
