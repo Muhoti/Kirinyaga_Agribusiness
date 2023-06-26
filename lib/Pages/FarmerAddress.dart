@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kirinyaga_agribusiness/Components/MapEdit.dart';
 import 'package:kirinyaga_agribusiness/Components/MySelectInput.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
@@ -29,7 +30,6 @@ class FarmerAddress extends StatefulWidget {
 }
 
 class _FarmerAddressState extends State<FarmerAddress> {
-
   var subc = {
     "Mwea West": ["Mutithi", "Kangai", "Thiba", "Wamumu"],
     "Mwea East": ["Nyangati", "Murinduko", "Gathigiriri", "Tebere"],
@@ -52,12 +52,15 @@ class _FarmerAddressState extends State<FarmerAddress> {
   String error = '';
   String location = '';
   bool servicestatus = false;
+  String updateLocation = "No";
   var isLoading;
   var data = null;
   bool haspermission = false;
   late LocationPermission permission;
   late Position position;
-  double long = 0.0, lat = 0.0;
+  var long = 0.0, lat = 0.0;
+  var oldlong = 0.0, oldlat = 0.0;
+
   late StreamSubscription<Position> positionStream;
   final storage = const FlutterSecureStorage();
 
@@ -69,14 +72,20 @@ class _FarmerAddressState extends State<FarmerAddress> {
       wrds = subc[v]!.toList();
       Ward = subc[v]!.toList()[0];
     });
+
     checkMapping();
-    if (!widget.editing) {
-      checkGps();
-    } else {
-      setState(() {
-        location = 'Coordinates cannot be updated!. Contact adminstrator';
-      });
-    }
+
+    // if (!widget.editing) {
+    //   checkGps();
+    // } else {
+    //   setState(() {
+    //     checkGps();
+    //     location = 'Coordinates cannot be updated!. Contact adminstrator';
+    //   });
+    // }
+
+    checkGps();
+
     super.initState();
   }
 
@@ -112,7 +121,7 @@ class _FarmerAddressState extends State<FarmerAddress> {
       );
 
       var body = json.decode(response.body);
-      print("the addresss is ${body[0]["Village"]}");
+      print("the addresss is ${body[0]["Longitude"]}");
 
       if (body.length > 0) {
         updateWards(body[0]["SubCounty"]);
@@ -121,8 +130,8 @@ class _FarmerAddressState extends State<FarmerAddress> {
           SubCounty = body[0]["SubCounty"];
           Ward = body[0]["Ward"];
           Village = body[0]["Village"];
-          long = double.parse(body[0]["Longitude"]);
-          lat = double.parse(body[0]["Latitude"]);
+          oldlong = double.parse(body[0]["Longitude"]);
+          oldlat = double.parse(body[0]["Latitude"]);
         });
       }
     } catch (e) {}
@@ -164,11 +173,22 @@ class _FarmerAddressState extends State<FarmerAddress> {
   getLocation() async {
     position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
-    long = position.longitude;
-    lat = position.latitude;
     setState(() {
-      location = 'Current location Lat: $lat Lon: $long';
+      long = position.longitude;
+      lat = position.latitude;
     });
+
+    if (widget.editing) {
+      setState(() {
+        location =
+            'Mapped location Lat: $oldlat Lon: $oldlong, \n \n Current location Lat: $lat Lon: $long';
+      });
+    } else {
+      setState(() {
+        location = 'Current location Lat: $lat Lon: $long';
+      });
+    }
+
     LocationSettings locationSettings = const LocationSettings(
       accuracy: LocationAccuracy.high,
       distanceFilter: 1,
@@ -214,17 +234,37 @@ class _FarmerAddressState extends State<FarmerAddress> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
-                  child: SizedBox(
-                      height: 250,
-                      child: MyMap(
-                        lat: lat,
-                        lon: long,
-                      )),
-                ),
+                widget.editing
+                    ? Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
+                        child: SizedBox(
+                            height: 250,
+                            child: oldlat != 0  ? MapEdit(
+                              lat: lat,
+                              lon: long,
+                              oldlat: oldlat,
+                              oldlong: oldlong,
+                            ): SizedBox()))
+                    : Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
+                        child: SizedBox(
+                            height: 250,
+                            child: MyMap(
+                              lat: lat,
+                              lon: long,
+                            ))),
                 Text(location),
-                const SizedBox(height: 24),
+                widget.editing
+                    ? MySelectInput(
+                        title: "Update Coordinates?",
+                        onSubmit: (value) {
+                          setState(() {
+                            updateLocation = value;
+                          });
+                        },
+                        entries: const ["Yes", "No"],
+                        value: updateLocation)
+                    : const SizedBox(height: 24),
                 MySelectInput(
                     title: "Sub County",
                     onSubmit: (value) {
@@ -235,7 +275,6 @@ class _FarmerAddressState extends State<FarmerAddress> {
                     },
                     entries: subc.keys.toList(),
                     value: data == null ? SubCounty : data["SubCounty"]),
-                
                 const SizedBox(
                   height: 10,
                 ),
@@ -271,8 +310,17 @@ class _FarmerAddressState extends State<FarmerAddress> {
                         size: 100,
                       );
                     });
-                    var res = await submitData(widget.editing, FarmerID,
-                        SubCounty, Ward, Village, lat, long);
+                    var res = await submitData(
+                        widget.editing,
+                        FarmerID,
+                        updateLocation,
+                        SubCounty,
+                        Ward,
+                        Village,
+                        lat,
+                        long,
+                        oldlat,
+                        oldlong);
 
                     setState(() {
                       isLoading = null;
@@ -284,7 +332,6 @@ class _FarmerAddressState extends State<FarmerAddress> {
                     });
 
                     if (res.error == null) {
-                   
                       Timer(const Duration(seconds: 2), () {
                         if (widget.editing) {
                           Navigator.pushReplacement(
@@ -315,8 +362,18 @@ class _FarmerAddressState extends State<FarmerAddress> {
   }
 }
 
-Future<Message> submitData(bool type, String FarmerID, String SubCounty,
-    String Ward, String Village, double Latitude, double Longitude) async {
+Future<Message> submitData(
+  bool type,
+  String FarmerID,
+  String updateLocation,
+  String SubCounty,
+  String Ward,
+  String Village,
+  double Latitude,
+  double Longitude,
+  double oldlat,
+  double oldlong,
+) async {
   if (FarmerID.isEmpty ||
       Village.isEmpty ||
       SubCounty.isEmpty ||
@@ -333,25 +390,41 @@ Future<Message> submitData(bool type, String FarmerID, String SubCounty,
   }
 
   try {
-     const storage = FlutterSecureStorage();
+    const storage = FlutterSecureStorage();
     var token = await storage.read(key: "erjwt");
     var response;
     if (type) {
-      response = await http.put(
-        Uri.parse("${getUrl()}farmeraddress/${FarmerID}"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'token': token!
-        },
-        body: jsonEncode(<String, String>{
-          'County': "Kirinyaga",
-          'SubCounty': SubCounty,
-          'Ward': Ward,
-          'Village': Village,
-          'Latitude': Latitude.toString(),
-          'Longitude': Longitude.toString(),
-        }),
-      );
+      if (updateLocation == "Yes") {
+        response = await http.put(
+          Uri.parse("${getUrl()}farmeraddress/${FarmerID}"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'token': token!
+          },
+          body: jsonEncode(<String, String>{
+            'County': "Kirinyaga",
+            'SubCounty': SubCounty,
+            'Ward': Ward,
+            'Village': Village,
+            'Latitude': Latitude.toString(),
+            'Longitude': Longitude.toString(),
+          }),
+        );
+      } else {
+        response = await http.put(
+          Uri.parse("${getUrl()}farmeraddress/${FarmerID}"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'token': token!
+          },
+          body: jsonEncode(<String, String>{
+            'County': "Kirinyaga",
+            'SubCounty': SubCounty,
+            'Ward': Ward,
+            'Village': Village,
+          }),
+        );
+      }
     } else {
       response = await http.post(
         Uri.parse("${getUrl()}farmeraddress/register"),

@@ -305,7 +305,7 @@ Future<Message> submitData(
     var response;
     if (type) {
       response = await http.put(
-        Uri.parse("${getUrl()}farmerdetails/${nationalId}"),
+        Uri.parse("${getUrl()}farmerdetails/$nationalId"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'token': token!
