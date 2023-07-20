@@ -203,7 +203,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                       onSubmit: (value) {
                         setState(() {
                           error = "";
-                          age = value;
+                          farmingType = value;
                         });
                       },
                       entries: const [

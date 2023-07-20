@@ -178,16 +178,16 @@ class _FarmerAddressState extends State<FarmerAddress> {
       lat = position.latitude;
     });
 
-    if (widget.editing) {
-      setState(() {
-        location =
-            'Mapped location Lat: $oldlat Lon: $oldlong, \n \n Current location Lat: $lat Lon: $long';
-      });
-    } else {
-      setState(() {
-        location = 'Current location Lat: $lat Lon: $long';
-      });
-    }
+    // if (widget.editing) {
+    //   setState(() {
+    //     location =
+    //         'Mapped location Lat: $oldlat Lon: $oldlong, \n \n Current location Lat: $lat Lon: $long';
+    //   });
+    // } else {
+    //   setState(() {
+    //     location = 'Current location Lat: $lat Lon: $long';
+    //   });
+    // }
 
     LocationSettings locationSettings = const LocationSettings(
       accuracy: LocationAccuracy.high,
@@ -253,7 +253,7 @@ class _FarmerAddressState extends State<FarmerAddress> {
                               lat: lat,
                               lon: long,
                             ))),
-                Text(location),
+                // Text(location),
                 widget.editing
                     ? MySelectInput(
                         title: "Update Coordinates?",
