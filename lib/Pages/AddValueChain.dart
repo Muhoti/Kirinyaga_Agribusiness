@@ -29,7 +29,8 @@ import 'package:http/http.dart' as http;
 import '../Components/Utils.dart';
 
 class AddValueChain extends StatefulWidget {
-  const AddValueChain({super.key});
+    final bool editing;
+  const AddValueChain({super.key, required  this.editing});
 
   @override
   State<AddValueChain> createState() => _AddValueChainState();

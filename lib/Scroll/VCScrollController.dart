@@ -40,14 +40,12 @@ class _VCScrollControllerState extends State<VCScrollController> {
     try {
       final dynamic response;
 
-  
-
       response = await get(
         Uri.parse("${getUrl()}farmerdetails/valuechains/${widget.id}"),
       );
 
       List responseList = json.decode(response.body);
-     
+
       if (responseList.isNotEmpty) {
         setState(() {
           vcid = responseList[0]["ID"];
@@ -55,9 +53,8 @@ class _VCScrollControllerState extends State<VCScrollController> {
         });
       }
 
-     
       List<VCItem> postList = responseList.map((data) => VCItem(data)).toList();
-     
+
       final isLastPage = postList.length < _numberOfPostsPerRequest;
       if (isLastPage) {
         _pagingController.appendLastPage(postList);
@@ -80,7 +77,11 @@ class _VCScrollControllerState extends State<VCScrollController> {
           builderDelegate: PagedChildBuilderDelegate<VCItem>(
             itemBuilder: (context, item, index) => Padding(
               padding: const EdgeInsets.all(0),
-              child: VCIncidentBar(item: item, id: widget.id, vcid: vcid, valuechain: valuechain),
+              child: VCIncidentBar(
+                  item: item,
+                  id: widget.id,
+                  vcid: vcid,
+                  valuechain: valuechain),
             ),
           ),
         ));

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kirinyaga_agribusiness/Pages/AddValueChain.dart';
 import 'package:kirinyaga_agribusiness/Pages/ValueChainProduce.dart';
 // import 'package:kirinyaga_agribusiness/Pages/Incident.dart';
 
@@ -38,13 +39,13 @@ class _VCIncidentBarState extends State<VCIncidentBar> {
             clipBehavior: Clip.hardEdge,
             child: TextButton(
                 onPressed: () {
-                  // Navigator.pushReplacement(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (_) => ValueChainProduce(
-                  //             vcid: widget.vcid, farmerID: widget.id, valuechain: widget.valuechain
-                  //             )
-                  //             ));
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const AddValueChain(
+                              editing: true
+                              )
+                              ));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

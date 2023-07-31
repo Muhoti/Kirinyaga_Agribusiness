@@ -53,25 +53,24 @@ class _FarmerHomeState extends State<FarmerHome> {
         final faresponse = await http.get(
           Uri.parse("${getUrl()}farmeraddress/$farmerid"),
         );
+        var fabody = json.decode(faresponse.body);
 
         final frresponse = await http.get(
           Uri.parse("${getUrl()}farmerresources/$farmerid"),
         );
+        var frbody = json.decode(frresponse.body);
 
         final fgresponse = await http.get(
           Uri.parse("${getUrl()}farmergroups/farmerid/$farmerid"),
         );
+        var fgbody = json.decode(fgresponse.body);
+        print("the fgbody info now is $fgbody");
 
         final vcresponse = await http.get(
-          Uri.parse("${getUrl()}farmervaluechains/$farmerid"),
+          Uri.parse("${getUrl()}farmerdetails/valuechains/$farmerid"),
         );
-
-        var fabody = json.decode(faresponse.body);
-        var frbody = json.decode(frresponse.body);
-        var fgbody = json.decode(fgresponse.body);
         var vcbody = json.decode(vcresponse.body);
-
-        print("the farmer info now is vdbody");
+        print("the fgbody info now is $vcbody");
 
         setState(() {
           fddata = fdbody;

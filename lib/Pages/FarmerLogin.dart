@@ -116,6 +116,8 @@ class _FarmerLoginState extends State<FarmerLogin> {
                                       key: 'erjwt', value: res.token);
                                   await storage.write(
                                       key: 'Type', value: 'Farmer');
+                                  await storage.write(
+                                      key: 'NationalID', value: nationalId);
                                   Timer(const Duration(seconds: 2), () {
                                     Navigator.pushReplacement(
                                         context,
@@ -137,7 +139,7 @@ class _FarmerLoginState extends State<FarmerLogin> {
 }
 
 Future<Message> login(String phone, String nationalId) async {
-  if (phone.length != 9) {
+  if (phone.length != 10) {
     return Message(
       token: null,
       success: null,

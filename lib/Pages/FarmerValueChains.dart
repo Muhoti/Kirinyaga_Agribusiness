@@ -104,7 +104,7 @@ class _FarmerValueChainsState extends State<FarmerValueChains> {
                               context,
                               MaterialPageRoute(
                                   builder: (_) => const AddValueChain(
-                                        
+                                        editing: false
                                       )));
                         },
                       ),

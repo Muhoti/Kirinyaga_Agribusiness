@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kirinyaga_agribusiness/Components/ForgetPasswordDialog.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
@@ -131,6 +132,21 @@ class _StaffLoginState extends State<StaffLogin> {
                                 }
                               },
                             ),
+                            GestureDetector(
+                              onTap: () {
+                                // Show the ForgetPasswordDialog when the "Forget Password" link is clicked.
+                                showDialog(
+                                  context: context,
+                                  builder: (context) =>
+                                      const ForgetPasswordDialog(),
+                                );
+                              },
+                              child: const Text('Forgot Password?',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color.fromRGBO(0, 128, 0, 1))),
+                            ),
+                            const SizedBox(height: 10,),
                             const TextOakar(
                                 label: "Powered by \n Oakar Services Ltd.")
                           ]))),

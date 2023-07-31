@@ -286,11 +286,16 @@ class _FarmerReportBar extends State<FarmerReportBar> {
                   SizedBox(
                     height: 100,
                     child: ListView.builder(
-                      itemCount: fgitem2.length,
+                      itemCount: fgitem2?.length ?? 0,
                       itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
+                        // Use null-aware operator (?) to check if fgitem2[index] is null
+                        final group = fgitem2?[index];
+                        if (group == null) {
+                          return const SizedBox.shrink();
+                        }
+                         return ListTile(
                           title: Text(
-                            "${fgitem2[index]['Name']} - ${fgitem2[index]['Type']}",
+                            "${group['Name']} - ${group['Type']}",
                             style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
@@ -328,12 +333,17 @@ class _FarmerReportBar extends State<FarmerReportBar> {
                   ),
                   SizedBox(
                     height: 100,
-                    child: ListView.builder(
+                   child: ListView.builder(
                       itemCount: vcitem2.length,
                       itemBuilder: (BuildContext context, int index) {
+                        // Use null-aware operator (?) to check if vcitem2[index] is null
+                        final valueChain = vcitem2[index];
+                        if (valueChain == null) {
+                          return const SizedBox.shrink();
+                        }
                         return ListTile(
                           title: Text(
-                            "${vcitem2[index]['Name']} - ${vcitem2[index]['Variety']} : LastHarvest - ${vcitem2[index]['AvgHarvestProduction']}",
+                            "${valueChain['ValueChainName']}, LastHarvest - ${valueChain['PeriodEnd']}",
                             style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
