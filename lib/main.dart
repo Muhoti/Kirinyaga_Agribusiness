@@ -1,12 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
+import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
 import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'Components/Utils.dart';
 import 'Pages/Home.dart';
@@ -26,6 +26,16 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final storage = const FlutterSecureStorage();
+
+  Future<void> checkLogin() async {
+    var token = await storage.read(key: "erjwt");
+    var decoded = parseJwt(token.toString());
+    if (decoded["error"] == "Invalid token") {
+      print("user sent to login");
+       Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => const Login()));
+    }
+  }
 
   Future<void> isUserLoggedIn() async {
     var type = await storage.read(key: "Type");
@@ -74,6 +84,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    checkLogin();
     isUserLoggedIn();
     super.initState();
   }

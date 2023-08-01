@@ -28,23 +28,24 @@ class _FarmerLoginState extends State<FarmerLogin> {
   var isLoading;
   final storage = const FlutterSecureStorage();
 
-  Future<void> verifyFarmer() async {
-    var token = await storage.read(key: "erjwt");
+  // Future<void> verifyFarmer() async {
+  //   var token = await storage.read(key: "erjwt");
+  //   print("the farmer token is $token");
 
-    if (token != null) {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => const FarmerHome()));
-    } else {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => const Login()));
-    }
-  }
+  //   if (token != null) {
+  //     Navigator.pushReplacement(
+  //         context, MaterialPageRoute(builder: (_) => const FarmerHome()));
+  //   } else {
+  //     Navigator.pushReplacement(
+  //         context, MaterialPageRoute(builder: (_) => const Login()));
+  //   }
+  // }
 
-  @override
-  void initState() {
-    verifyFarmer();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   verifyFarmer();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
