@@ -42,7 +42,7 @@ class _FarmerLoginState extends State<FarmerLogin> {
 
   @override
   void initState() {
-    //verifyFarmer();
+    verifyFarmer();
     super.initState();
   }
 

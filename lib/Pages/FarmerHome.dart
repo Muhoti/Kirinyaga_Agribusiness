@@ -26,66 +26,64 @@ class _FarmerHomeState extends State<FarmerHome> {
   dynamic frdata;
   dynamic fgdata;
   dynamic vcdata;
+  var type = "farmer";
 
   String valueChain = '';
   var storage = const FlutterSecureStorage();
 
   @override
-  Widget build(BuildContext context) {
-    const storage = FlutterSecureStorage();
-    var type = "farmer";
-
-    Future<void> loadFarmerInfo() async {
-      var token = await storage.read(key: "erjwt");
-      var id2 = await storage.read(key: "NationalID");
-
-      try {
-        var decoded = parseJwt(token.toString());
-        var id = decoded["ID"];
-
-        final fdresponse = await http.get(
-          Uri.parse("${getUrl()}farmerdetails/$id"),
-        );
-
-        var fdbody = json.decode(fdresponse.body);
-        farmerid = fdbody["NationalID"];
-
-        final faresponse = await http.get(
-          Uri.parse("${getUrl()}farmeraddress/$farmerid"),
-        );
-        var fabody = json.decode(faresponse.body);
-
-        final frresponse = await http.get(
-          Uri.parse("${getUrl()}farmerresources/$farmerid"),
-        );
-        var frbody = json.decode(frresponse.body);
-
-        final fgresponse = await http.get(
-          Uri.parse("${getUrl()}farmergroups/farmerid/$farmerid"),
-        );
-        var fgbody = json.decode(fgresponse.body);
-        print("the fgbody info now is $fgbody");
-
-        final vcresponse = await http.get(
-          Uri.parse("${getUrl()}farmerdetails/valuechains/$farmerid"),
-        );
-        var vcbody = json.decode(vcresponse.body);
-        print("the fgbody info now is $vcbody");
-
-        setState(() {
-          fddata = fdbody;
-          fadata = fabody[0];
-          frdata = frbody[0];
-          fgdata = fgbody;
-          vcdata = vcbody;
-        });
-      } catch (e) {
-        // todo
-      }
-    }
-
+  void initState() {
+    super.initState();
     loadFarmerInfo();
+  }
 
+  loadFarmerInfo() async {
+    var id = await storage.read(key: "NationalID");
+    print(id);
+
+    try {
+      final fdresponse = await http.get(
+        Uri.parse("${getUrl()}farmerdetails/farmerid/$id"),
+      );
+      var fdbody = json.decode(fdresponse.body);
+       print(fdbody);
+
+      final faresponse = await http.get(
+        Uri.parse("${getUrl()}farmeraddress/$id"),
+      );
+      var fabody = json.decode(faresponse.body);
+
+      final frresponse = await http.get(
+        Uri.parse("${getUrl()}farmerresources/$id"),
+      );
+      var frbody = json.decode(frresponse.body);
+
+      final fgresponse = await http.get(
+        Uri.parse("${getUrl()}farmergroups/farmerid/$id"),
+      );
+      var fgbody = json.decode(fgresponse.body);
+      print("the fgbody info now is $fgbody");
+
+      final vcresponse = await http.get(
+        Uri.parse("${getUrl()}farmerdetails/valuechains/$id"),
+      );
+      var vcbody = json.decode(vcresponse.body);
+      print("the fgbody info now is $vcbody");
+
+      setState(() {
+        fddata = fdbody[0];
+        fadata = fabody[0];
+        frdata = frbody[0];
+        fgdata = fgbody;
+        vcdata = vcbody;
+      });
+    } catch (e) {
+      // todo
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Kirinyaga Agribusiness',
       home: Scaffold(
@@ -97,7 +95,7 @@ class _FarmerHomeState extends State<FarmerHome> {
         drawer: const Drawer(child: FarmerDrawer()),
         body: Stack(
           children: [
-            // const SizedBox(height: 40),
+            const SizedBox(height: 40),
             Padding(
                 padding: const EdgeInsets.fromLTRB(12, 12, 12, 64),
                 child: SingleChildScrollView(

@@ -27,21 +27,22 @@ class FarmerReportBar extends StatefulWidget {
 
 class _FarmerReportBar extends State<FarmerReportBar> {
   String my = '';
+   List<dynamic> fgitem2 = [];
+   List<dynamic> vcitem2 = [];
   var isLoading;
   var storage = const FlutterSecureStorage();
 
   @override
   void initState() {
+    var farmerid = widget.fditem["NationalID"];
+
+   fgitem2 = widget.fgitem;
+    vcitem2 = widget.vcitem;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    var farmerid = widget.fditem["NationalID"];
-
-    var fgitem2 = widget.fgitem;
-    var vcitem2 = widget.vcitem;
-
     return Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
         child: Column(
@@ -293,7 +294,7 @@ class _FarmerReportBar extends State<FarmerReportBar> {
                         if (group == null) {
                           return const SizedBox.shrink();
                         }
-                         return ListTile(
+                        return ListTile(
                           title: Text(
                             "${group['Name']} - ${group['Type']}",
                             style: const TextStyle(
@@ -333,7 +334,7 @@ class _FarmerReportBar extends State<FarmerReportBar> {
                   ),
                   SizedBox(
                     height: 100,
-                   child: ListView.builder(
+                    child: ListView.builder(
                       itemCount: vcitem2.length,
                       itemBuilder: (BuildContext context, int index) {
                         // Use null-aware operator (?) to check if vcitem2[index] is null

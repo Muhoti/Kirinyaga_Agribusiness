@@ -80,13 +80,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    const storage = FlutterSecureStorage();
-
-    Timer(const Duration(seconds: 2), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => const Login()));
-    });
-
     return MaterialApp(
       title: 'Kirinyaga Agribusiness',
       home: Scaffold(

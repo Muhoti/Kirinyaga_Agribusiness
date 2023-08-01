@@ -6,6 +6,7 @@ class MyTextInput extends StatefulWidget {
   int lines;
   var type;
   Function(String) onSubmit;
+  
   MyTextInput(
       {super.key,
       required this.title,
