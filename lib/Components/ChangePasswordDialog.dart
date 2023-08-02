@@ -5,21 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
-import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 
-class ForgetPasswordDialog extends StatefulWidget {
-  const ForgetPasswordDialog({super.key});
+class ChangePasswordDialog extends StatefulWidget {
+  const ChangePasswordDialog({super.key});
 
   @override
-  State<ForgetPasswordDialog> createState() => _ForgetPasswordDialogState();
+  State<ChangePasswordDialog> createState() => _ForgetPasswordDialogState();
 }
 
-class _ForgetPasswordDialogState extends State<ForgetPasswordDialog> {
+class _ForgetPasswordDialogState extends State<ChangePasswordDialog> {
   String email = '';
+  String oldpassword = '';
+  String newpassword = '';
   var isLoading;
   String error = '';
   final storage = const FlutterSecureStorage();
@@ -31,19 +32,31 @@ class _ForgetPasswordDialogState extends State<ForgetPasswordDialog> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text("Enter Email",
+            const Text("Change Password",
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                    fontSize: 24, color: Color.fromRGBO(0, 128, 0, 1))),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    color: Color.fromRGBO(0, 128, 0, 1))),
             TextOakar(label: error),
             MyTextInput(
-              title: 'Email',
+              title: 'Old Password',
               lines: 1,
               value: '',
-              type: TextInputType.emailAddress,
+              type: TextInputType.visiblePassword,
               onSubmit: (value) {
                 setState(() {
-                  email = value;
+                  oldpassword = value;
+                });
+              },
+            ),
+            MyTextInput(
+              title: 'New Password',
+              lines: 1,
+              value: '',
+              type: TextInputType.visiblePassword,
+              onSubmit: (value) {
+                setState(() {
+                  newpassword = value;
                 });
               },
             ),
@@ -56,7 +69,8 @@ class _ForgetPasswordDialogState extends State<ForgetPasswordDialog> {
                     size: 100,
                   );
                 });
-                var res = await recoverPassword(email);
+                var res =
+                    await changePassword(storage, oldpassword, newpassword);
                 setState(() {
                   isLoading = null;
                   if (res.error == null) {
@@ -74,22 +88,37 @@ class _ForgetPasswordDialogState extends State<ForgetPasswordDialog> {
   }
 }
 
-Future<Message> recoverPassword(String email) async {
-  if (email.isEmpty || !EmailValidator.validate(email)) {
+Future<Message> changePassword(FlutterSecureStorage storage, String oldpassword,
+    String newpassword) async {
+  if (oldpassword.isEmpty) {
     return Message(
       token: null,
       success: null,
-      error: "Please Enter Your Email",
+      error: "Enter Old Password",
+    );
+  }
+
+  if (newpassword.isEmpty) {
+    return Message(
+      token: null,
+      success: null,
+      error: "Enter New Password",
     );
   }
 
   try {
-    final response = await http.post(
-      Uri.parse("${getUrl()}mobile/forgot"),
+    var token = await storage.read(key: "erjwt");
+    var decoded = parseJwt(token.toString());
+
+    var id = decoded["UserID"];
+    print("change password id is $id");
+
+    final response = await http.put(
+      Uri.parse("${getUrl()}mobile/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{'Email': email}),
+      body: jsonEncode(<String, String>{'Password': oldpassword, 'NewPassword': newpassword}),
     );
     if (response.statusCode == 200 || response.statusCode == 203) {
       return Message.fromJson(jsonDecode(response.body));

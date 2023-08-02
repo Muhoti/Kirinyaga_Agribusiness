@@ -1,3 +1,4 @@
+import 'package:kirinyaga_agribusiness/Components/ChangePasswordDialog.dart';
 import 'package:kirinyaga_agribusiness/Components/SearchFarmer.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerAddress.dart';
@@ -88,6 +89,24 @@ class FODrawer extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) {
                     return SearchFarmer();
+                  },
+                );
+                Navigator.pop(context);
+              },
+            ),
+             ListTile(
+              title: const Text(
+                'Change Password',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const ChangePasswordDialog();
                   },
                 );
                 Navigator.pop(context);
