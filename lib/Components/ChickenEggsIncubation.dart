@@ -38,7 +38,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
   String incubators = '';
   String incubatorcapacity = '';
   String eggsincubated = '';
-  String ceiQ5 = '';
+  String eggsspoilt = '';
   String chickshatched = '';
   String chicksdied = '';
   String chickssold = '';
@@ -168,7 +168,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            ceiQ5 = value;
+                            eggsspoilt = value;
                           });
                         }),
                     const SizedBox(
@@ -260,7 +260,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                             incubators,
                             incubatorcapacity,
                             eggsincubated,
-                            ceiQ5,
+                            eggsspoilt,
                             chickshatched,
                             chicksdied,
                             chickssold,
@@ -312,14 +312,14 @@ submitData(
     String incubators,
     String incubatorcapacity,
     String eggsincubated,
-    String ceiQ5,
+    String eggsspoilt,
     String chickshatched,
     String chicksdied,
     String chickssold,
     String chickscost,
     String income) async {
   print(
-      "the cei values are: $farmerID, $valueChain, $investmentcost, $incubators, $incubatorcapacity, $ceiQ5");
+      "the cei values are: $farmerID, $valueChain, $investmentcost, $incubators, $incubatorcapacity, $eggsspoilt");
 
   if (valueChain.isEmpty ||
       incubators.isEmpty ||
@@ -356,7 +356,7 @@ submitData(
             'Incubators': incubators,
             'IncubatorCapacity': incubatorcapacity,
             'EggsIncubated': eggsincubated,
-            'SpoiltEggs': ceiQ5,
+            'SpoiltEggs': eggsspoilt,
             'ChicksHatched': chickshatched,
             'DiedChicks': chicksdied,
             'ChicksSold': chickssold,
@@ -364,7 +364,7 @@ submitData(
             'TotaLIncome': income
           }));
     } else {
-       response = await http.post(Uri.parse("${getUrl()}chickeneggsincubation"),
+      response = await http.post(Uri.parse("${getUrl()}chickeneggsincubation"),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'token': token!
@@ -379,7 +379,7 @@ submitData(
             'Incubators': incubators,
             'IncubatorCapacity': incubatorcapacity,
             'EggsIncubated': eggsincubated,
-            'SpoiltEggs': ceiQ5,
+            'SpoiltEggs': eggsspoilt,
             'ChicksHatched': chickshatched,
             'DiedChicks': chicksdied,
             'ChicksSold': chickssold,
@@ -388,41 +388,21 @@ submitData(
           }));
     }
 
-     response = await http.post(
-        Uri.parse("${getUrl()}chickeneggsincubation"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'token': token!
-        },
-        body: jsonEncode(<String, String>{
-          'FarmerID': farmerID,
-          'ValueChainName': valueChain,
-          'LandSize': landsize,
-          'PeriodStart': startPeriod,
-          'PeriodEnd': endPeriod,
-          'InitialInvestment': investmentcost,
-          'Incubators': incubators,
-          'IncubatorCapacity': incubatorcapacity,
-          'EggsIncubated': eggsincubated,
-          'SpoiltEggs': ceiQ5,
-          'ChicksHatched': chickshatched,
-          'DiedChicks': chicksdied,
-          'ChicksSold': chickssold,
-          'ChickCost': chickscost,
-          'TotaLIncome': income
-        }));
-    var body = jsonDecode(response.body);
-    print("the body is $body");
-    if (body["success"] != null) {
-      return Message(
-          token: body["token"], success: body["success"], error: body["error"]);
+    if (response.statusCode == 200 || response.statusCode == 203) {
+      return Message.fromJson(jsonDecode(response.body));
     } else {
       return Message(
-          token: body["token"], success: body["success"], error: body["error"]);
+        token: null,
+        success: null,
+        error: "Connection to server failed!",
+      );
     }
   } catch (e) {
-    print("error: $e");
-    return Message(token: null, success: null, error: "Something went wrong!");
+    return Message(
+      token: null,
+      success: null,
+      error: "Connection to server failed!",
+    );
   }
 }
 

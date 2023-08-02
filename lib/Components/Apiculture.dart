@@ -404,19 +404,22 @@ submitData(
             'OtherHiveIncome': otherhiveincome
           }));
     }
-
-    var body = jsonDecode(response.body);
-
-    if (body["success"] != null) {
-      return Message(
-          token: body["token"], success: body["success"], error: body["error"]);
+    
+    if (response.statusCode == 200 || response.statusCode == 203) {
+      return Message.fromJson(jsonDecode(response.body));
     } else {
       return Message(
-          token: body["token"], success: body["success"], error: body["error"]);
+        token: null,
+        success: null,
+        error: "Connection to server failed!",
+      );
     }
   } catch (e) {
-    print("error: $e");
-    return Message(token: null, success: null, error: "Something went wrong!");
+    return Message(
+      token: null,
+      success: null,
+      error: "Connection to server failed!",
+    );
   }
 }
 

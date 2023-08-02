@@ -16,7 +16,10 @@ import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class ChickenEggsMeat extends StatefulWidget {
-  const ChickenEggsMeat({super.key, required String farmerID});
+  final bool editing;
+
+  const ChickenEggsMeat(
+      {super.key, required String farmerID, required this.editing});
 
   @override
   State<ChickenEggsMeat> createState() => _ChickenEggsMeatState();
@@ -31,20 +34,20 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
   String landsize = '';
   String startPeriod = '';
   String endPeriod = '';
-  String cemQ1 = '';
-  String cemQ2 = '';
-  String cemQ3 = '';
-  String cemQ4 = '';
-  String cemQ5 = '';
-  String cemQ6 = '';
-  String cemQ7 = '';
-  String cemQ8 = '';
-  String cemQ9 = '';
-  String cemQ10 = '';
-  String cemQ11 = '';
-  String cemQ12 = '';
-  String cemQ13 = '';
-  String cemQ14 = '';
+  String birds = '';
+  String layingbirds = '';
+  String eggs = '';
+  String spoilteggs = '';
+  String soldeggs = '';
+  String eggprice = '';
+  String eggincome = '';
+  String birdseaten = '';
+  String diedbirds = '';
+  String birdssold = '';
+  String birdsprice = '';
+  String birdsincome = '';
+  String eggscustomers = '';
+  String chickencustomers = '';
 
   @override
   void initState() {
@@ -121,7 +124,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            cemQ1 = value;
+                            birds = value;
                           });
                         }),
                     const SizedBox(
@@ -134,7 +137,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            cemQ2 = value;
+                            layingbirds = value;
                           });
                         }),
                     const SizedBox(
@@ -147,7 +150,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            cemQ3 = value;
+                            eggs = value;
                           });
                         }),
                     MyTextInput(
@@ -157,7 +160,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            cemQ4 = value;
+                            spoilteggs = value;
                           });
                         }),
                     const SizedBox(
@@ -170,7 +173,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            cemQ5 = value;
+                            soldeggs = value;
                           });
                         }),
                     const SizedBox(
@@ -183,7 +186,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            cemQ6 = value;
+                            eggprice = value;
                           });
                         }),
                     const SizedBox(
@@ -196,7 +199,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            cemQ7 = value;
+                            eggincome = value;
                           });
                         }),
                     const SizedBox(
@@ -209,7 +212,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            cemQ8 = value;
+                            birdseaten = value;
                           });
                         }),
                     const SizedBox(
@@ -222,7 +225,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            cemQ9 = value;
+                            diedbirds = value;
                           });
                         }),
                     const SizedBox(
@@ -235,7 +238,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            cemQ10 = value;
+                            birdssold = value;
                           });
                         }),
                     const SizedBox(
@@ -248,7 +251,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            cemQ11 = value;
+                            birdsprice = value;
                           });
                         }),
                     const SizedBox(
@@ -261,7 +264,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            cemQ12 = value;
+                            birdsincome = value;
                           });
                         }),
                     const SizedBox(
@@ -274,7 +277,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         type: TextInputType.text,
                         onSubmit: (value) {
                           setState(() {
-                            cemQ13 = value;
+                            eggscustomers = value;
                           });
                         }),
                     const SizedBox(
@@ -287,7 +290,7 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                         type: TextInputType.text,
                         onSubmit: (value) {
                           setState(() {
-                            cemQ14 = value;
+                            chickencustomers = value;
                           });
                         }),
                     const SizedBox(
@@ -303,26 +306,27 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
                             size: 100,
                           );
                         });
-                        var res = await postChickenEggsMeat(
+                        var res = await submitData(
+                            widget.editing,
                             farmerID,
                             valueChain,
                             landsize,
                             startPeriod,
                             endPeriod,
-                            cemQ1,
-                            cemQ2,
-                            cemQ3,
-                            cemQ4,
-                            cemQ5,
-                            cemQ6,
-                            cemQ7,
-                            cemQ8,
-                            cemQ9,
-                            cemQ10,
-                            cemQ11,
-                            cemQ12,
-                            cemQ13,
-                            cemQ14);
+                            birds,
+                            layingbirds,
+                            eggs,
+                            spoilteggs,
+                            soldeggs,
+                            eggprice,
+                            eggincome,
+                            birdseaten,
+                            diedbirds,
+                            birdssold,
+                            birdsprice,
+                            birdsincome,
+                            eggscustomers,
+                            chickencustomers);
 
                         setState(() {
                           isLoading = null;
@@ -358,88 +362,123 @@ class _ChickenEggsMeatState extends State<ChickenEggsMeat> {
   }
 }
 
-postChickenEggsMeat(
+submitData(
+    bool type,
     String farmerID,
     String valueChain,
     String landsize,
     String startPeriod,
     String endPeriod,
-    String cemQ1,
-    String cemQ2,
-    String cemQ3,
-    String cemQ4,
-    String cemQ5,
-    String cemQ6,
-    String cemQ7,
-    String cemQ8,
-    String cemQ9,
-    String cemQ10,
-    String cemQ11,
-    String cemQ12,
-    String cemQ13,
-    String cemQ14) async {
+    String birds,
+    String layingbirds,
+    String eggs,
+    String spoilteggs,
+    String soldeggs,
+    String eggprice,
+    String eggincome,
+    String birdseaten,
+    String diedbirds,
+    String birdssold,
+    String birdsprice,
+    String birdsincome,
+    String eggscustomers,
+    String chickencustomers) async {
   print(
-      "the cem values are: $farmerID, $valueChain, $cemQ1, $cemQ2, $cemQ3, $cemQ5");
+      "the cem values are: $farmerID, $valueChain, $birds, $layingbirds, $eggs, $soldeggs");
 
   if (valueChain.isEmpty ||
-      cemQ2.isEmpty ||
-      cemQ3.isEmpty ||
-      cemQ4.isEmpty ||
-      cemQ6.isEmpty ||
-      cemQ7.isEmpty ||
-      cemQ8.isEmpty ||
-      cemQ9.isEmpty ||
-      cemQ9.isEmpty ||
-      cemQ10.isEmpty ||
-      cemQ11.isEmpty ||
-      cemQ12.isEmpty ||
-      cemQ13.isEmpty ||
-      cemQ14.isEmpty) {
+      layingbirds.isEmpty ||
+      eggs.isEmpty ||
+      spoilteggs.isEmpty ||
+      eggprice.isEmpty ||
+      eggincome.isEmpty ||
+      birdseaten.isEmpty ||
+      diedbirds.isEmpty ||
+      diedbirds.isEmpty ||
+      birdssold.isEmpty ||
+      birdsprice.isEmpty ||
+      birdsincome.isEmpty ||
+      eggscustomers.isEmpty ||
+      chickencustomers.isEmpty) {
     return Message(
         token: null, success: null, error: "All fields are required!");
   }
   try {
     const storage = FlutterSecureStorage();
     var token = await storage.read(key: "erjwt");
-    var response = await http.post(Uri.parse("${getUrl()}chickenmeateggs"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'token': token!
-        },
-        body: jsonEncode(<String, String>{
-          'FarmerID': farmerID,
-          'ValueChainName': valueChain,
-          'LandSize': landsize,
-          'PeriodStart': startPeriod,
-          'PeriodEnd': endPeriod,
-          'TotalBirds': cemQ1,
-          'EggBirds': cemQ2,
-          'NoEggs': cemQ3,
-          'SpoiltEggs': cemQ4,
-          'EggsSold': cemQ5,
-          'EggPrice': cemQ6,
-          'EggsIncome': cemQ7,
-          'EatenBirds': cemQ8,
-          'DiedBirds': cemQ9,
-          'BirdsSold': cemQ10,
-          'BirdPrice': cemQ11,
-          'BirdsIncome': cemQ12,
-          'EggsCustomers': cemQ13,
-          'ChickenCustomers': cemQ14
-        }));
+    var response;
 
-    var body = jsonDecode(response.body);
-
-    if (body["success"] != null) {
-      return Message(
-          token: body["token"], success: body["success"], error: body["error"]);
+    if (type) {
+      response = await http.post(Uri.parse("${getUrl()}valuechainproduce"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'token': token!
+          },
+          body: jsonEncode(<String, String>{
+            'FarmerID': farmerID,
+            'ValueChainName': valueChain,
+            'LandSize': landsize,
+            'PeriodStart': startPeriod,
+            'PeriodEnd': endPeriod,
+            'TotalBirds': birds,
+            'EggBirds': layingbirds,
+            'NoEggs': eggs,
+            'SpoiltEggs': spoilteggs,
+            'EggsSold': soldeggs,
+            'EggPrice': eggprice,
+            'EggsIncome': eggincome,
+            'EatenBirds': birdseaten,
+            'DiedBirds': diedbirds,
+            'BirdsSold': birdssold,
+            'BirdPrice': birdsprice,
+            'BirdsIncome': birdsincome,
+            'EggsCustomers': eggscustomers,
+            'ChickenCustomers': chickencustomers
+          }));
+    } else {
+      response = await http.post(Uri.parse("${getUrl()}chickenmeateggs"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'token': token!
+          },
+          body: jsonEncode(<String, String>{
+            'FarmerID': farmerID,
+            'ValueChainName': valueChain,
+            'LandSize': landsize,
+            'PeriodStart': startPeriod,
+            'PeriodEnd': endPeriod,
+            'TotalBirds': birds,
+            'EggBirds': layingbirds,
+            'NoEggs': eggs,
+            'SpoiltEggs': spoilteggs,
+            'EggsSold': soldeggs,
+            'EggPrice': eggprice,
+            'EggsIncome': eggincome,
+            'EatenBirds': birdseaten,
+            'DiedBirds': diedbirds,
+            'BirdsSold': birdssold,
+            'BirdPrice': birdsprice,
+            'BirdsIncome': birdsincome,
+            'EggsCustomers': eggscustomers,
+            'ChickenCustomers': chickencustomers
+          }));
+    }
+     
+    if (response.statusCode == 200 || response.statusCode == 203) {
+      return Message.fromJson(jsonDecode(response.body));
     } else {
       return Message(
-          token: body["token"], success: body["success"], error: body["error"]);
+        token: null,
+        success: null,
+        error: "Connection to server failed!",
+      );
     }
   } catch (e) {
-    print("error: $e");
-    return Message(token: null, success: null, error: "Something went wrong!");
+    return Message(
+      token: null,
+      success: null,
+      error: "Connection to server failed!",
+    );
   }
 }
 

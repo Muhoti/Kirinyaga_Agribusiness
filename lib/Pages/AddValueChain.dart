@@ -76,19 +76,19 @@ class _AddValueChainState extends State<AddValueChain> {
       case 'Tomato Seedlings':
         return TomatoSeedling(farmerID: farmerID);
       case 'Chicken (Eggs & Meat)':
-        return ChickenEggsMeat(farmerID: farmerID);
+        return ChickenEggsMeat(farmerID: farmerID, editing: widget.editing);
       case 'Chicken (Egg Incubation)':
         return ChickenEggsIncubation(farmerID: farmerID, editing: widget.editing);
       case 'Dairy':
-        return const Dairy();
+        return Dairy(editing: widget.editing);
       case 'Dairy Goat':
-        return const DairyGoat();
+        return DairyGoat(editing: widget.editing);
       case 'Apiculture':
         return Apiculture(editing: widget.editing);
       case 'Pigs':
-        return const Pigs();
+        return Pigs(editing: widget.editing);
       case 'Fish':
-        return const Fish();
+        return Fish(editing: widget.editing);
       // Add other value chain cases here
       default:
         return const SizedBox(height: 15);

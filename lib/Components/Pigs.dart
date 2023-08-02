@@ -16,7 +16,9 @@ import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class Pigs extends StatefulWidget {
-  const Pigs({super.key});
+  final bool editing;
+
+  const Pigs({super.key, required this.editing});
 
   @override
   State<Pigs> createState() => _PigsState();
@@ -28,7 +30,7 @@ class _PigsState extends State<Pigs> {
   var isLoading;
   String farmerID = '';
   String valueChain = 'Pigs';
-   String landsize = '';
+  String landsize = '';
   String startPeriod = '';
   String endPeriod = '';
   String pigs = '';
@@ -275,8 +277,9 @@ class _PigsState extends State<Pigs> {
                             size: 100,
                           );
                         });
-                        var res = await postPigs(
-                         farmerID,
+                        var res = await submitData(
+                          widget.editing,
+                          farmerID,
                           valueChain,
                           landsize,
                           startPeriod,
@@ -305,7 +308,6 @@ class _PigsState extends State<Pigs> {
                         });
 
                         if (res.error == null) {
-                         
                           Timer(const Duration(seconds: 2), () {
                             Navigator.push(
                                 context,
@@ -330,8 +332,9 @@ class _PigsState extends State<Pigs> {
   }
 }
 
-postPigs(
-     String farmerID,
+submitData(
+    bool type,
+    String farmerID,
     String valueChain,
     String landsize,
     String startPeriod,
@@ -357,7 +360,8 @@ postPigs(
       pigletsprice.isEmpty ||
       pigssold.isEmpty ||
       pigcustomers.isEmpty ||
-      income.isEmpty || pigsslaughtered.isEmpty ||
+      income.isEmpty ||
+      pigsslaughtered.isEmpty ||
       porkincome.isEmpty ||
       porkcustomers.isEmpty) {
     return Message(
@@ -367,44 +371,77 @@ postPigs(
   try {
     const storage = FlutterSecureStorage();
     var token = await storage.read(key: "erjwt");
+    var response;
 
-    var response = await http.post(Uri.parse("${getUrl()}pigs"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'token': token!
-        },
-        body: jsonEncode(<String, String>{
-          'FarmerID': farmerID,
-          'ValueChainName': valueChain,
-          'LandSize': landsize,
-          'PeriodStart': startPeriod,
-          'PeriodEnd': endPeriod,
-          'Pigs': pigs,
-          'Sows': sows,
-          'SowsInProduction': sowsinproduction,
-          'Piglets': piglets,
-          'PigletsSold': pigletssold,
-          'PigletPrice': pigletsprice,
-          'PigsSold': pigssold,
-          'PigCustomers': pigcustomers,
-          'Income': income,
-          'PigsSlaughtered': pigsslaughtered,
-          'PorkIncome': porkincome, 
-          'PorkCustomers': porkcustomers,
-        }));
+    if (type) {
+      response = await http.post(Uri.parse("${getUrl()}valuechainproduce"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'token': token!
+          },
+          body: jsonEncode(<String, String>{
+            'FarmerID': farmerID,
+            'ValueChainName': valueChain,
+            'LandSize': landsize,
+            'PeriodStart': startPeriod,
+            'PeriodEnd': endPeriod,
+            'Pigs': pigs,
+            'Sows': sows,
+            'SowsInProduction': sowsinproduction,
+            'Piglets': piglets,
+            'PigletsSold': pigletssold,
+            'PigletPrice': pigletsprice,
+            'PigsSold': pigssold,
+            'PigCustomers': pigcustomers,
+            'Income': income,
+            'PigsSlaughtered': pigsslaughtered,
+            'PorkIncome': porkincome,
+            'PorkCustomers': porkcustomers,
+          }));
 
-    var body = jsonDecode(response.body);
+    }else {
+      response = await http.post(Uri.parse("${getUrl()}pigs"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'token': token!
+          },
+          body: jsonEncode(<String, String>{
+            'FarmerID': farmerID,
+            'ValueChainName': valueChain,
+            'LandSize': landsize,
+            'PeriodStart': startPeriod,
+            'PeriodEnd': endPeriod,
+            'Pigs': pigs,
+            'Sows': sows,
+            'SowsInProduction': sowsinproduction,
+            'Piglets': piglets,
+            'PigletsSold': pigletssold,
+            'PigletPrice': pigletsprice,
+            'PigsSold': pigssold,
+            'PigCustomers': pigcustomers,
+            'Income': income,
+            'PigsSlaughtered': pigsslaughtered,
+            'PorkIncome': porkincome,
+            'PorkCustomers': porkcustomers,
+          }));
 
-    if (body["success"] != null) {
-      return Message(
-          token: body["token"], success: body["success"], error: body["error"]);
+    }
+
+    if (response.statusCode == 200 || response.statusCode == 203) {
+      return Message.fromJson(jsonDecode(response.body));
     } else {
       return Message(
-          token: body["token"], success: body["success"], error: body["error"]);
+        token: null,
+        success: null,
+        error: "Connection to server failed!",
+      );
     }
   } catch (e) {
-    print("error: $e");
-    return Message(token: null, success: null, error: "Something went wrong!");
+    return Message(
+      token: null,
+      success: null,
+      error: "Connection to server failed!",
+    );
   }
 }
 

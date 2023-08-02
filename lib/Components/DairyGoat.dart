@@ -16,7 +16,9 @@ import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class DairyGoat extends StatefulWidget {
-  const DairyGoat({super.key});
+  final bool editing;
+
+  const DairyGoat({super.key, required this.editing});
 
   @override
   State<DairyGoat> createState() => _DairyGoatState();
@@ -247,7 +249,8 @@ class _DairyGoatState extends State<DairyGoat> {
                             size: 100,
                           );
                         });
-                        var res = await postDairyGoat(
+                        var res = await submitData(
+                          widget.editing,
                           farmerID,
                           valueChain,
                           landsize,
@@ -299,7 +302,8 @@ class _DairyGoatState extends State<DairyGoat> {
   }
 }
 
-postDairyGoat(
+submitData(
+  bool type,
   String farmerID,
   String valueChain,
   String landsize,
@@ -330,43 +334,72 @@ postDairyGoat(
   }
 
   try {
-     const storage = FlutterSecureStorage();
+    const storage = FlutterSecureStorage();
     var token = await storage.read(key: "erjwt");
-    var response = await http.post(Uri.parse("${getUrl()}dairygoats"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'token': token!
-        },
-        body: jsonEncode(<String, String>{
-          'FarmerID': farmerID,
-          'ValueChainName': valueChain,
-          'LandSize': landsize,
-          'PeriodStart': startPeriod,
-          'PeriodEnd': endPeriod,
-          'Goats': goats,
-          'MilkedGoats': milkedgoats,
-          'TotalMilk': totalmilk,
-          'HomeMilk': homemilk,
-          'MilkCost': milkcost,
-          'MilkSold': milksold,
-          'Kids': kids,
-          'KidsSold': kidssold,
-          'KidPrice': kidprice,
-          'KidsIncome': kidsincome,
-        }));
+    var response;
 
-    var body = jsonDecode(response.body);
-
-    if (body["success"] != null) {
-      return Message(
-          token: body["token"], success: body["success"], error: body["error"]);
+    if (type) {
+      response = await http.post(Uri.parse("${getUrl()}dairygoats"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'token': token!
+          },
+          body: jsonEncode(<String, String>{
+            'FarmerID': farmerID,
+            'ValueChainName': valueChain,
+            'LandSize': landsize,
+            'PeriodStart': startPeriod,
+            'PeriodEnd': endPeriod,
+            'Goats': goats,
+            'MilkedGoats': milkedgoats,
+            'TotalMilk': totalmilk,
+            'HomeMilk': homemilk,
+            'MilkCost': milkcost,
+            'MilkSold': milksold,
+            'Kids': kids,
+            'KidsSold': kidssold,
+            'KidPrice': kidprice,
+            'KidsIncome': kidsincome,
+          }));
+    } else {
+      response = await http.post(Uri.parse("${getUrl()}dairygoats"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'token': token!
+          },
+          body: jsonEncode(<String, String>{
+            'FarmerID': farmerID,
+            'ValueChainName': valueChain,
+            'LandSize': landsize,
+            'PeriodStart': startPeriod,
+            'PeriodEnd': endPeriod,
+            'Goats': goats,
+            'MilkedGoats': milkedgoats,
+            'TotalMilk': totalmilk,
+            'HomeMilk': homemilk,
+            'MilkCost': milkcost,
+            'MilkSold': milksold,
+            'Kids': kids,
+            'KidsSold': kidssold,
+            'KidPrice': kidprice,
+            'KidsIncome': kidsincome,
+          }));
+    }
+    if (response.statusCode == 200 || response.statusCode == 203) {
+      return Message.fromJson(jsonDecode(response.body));
     } else {
       return Message(
-          token: body["token"], success: body["success"], error: body["error"]);
+        token: null,
+        success: null,
+        error: "Connection to server failed!",
+      );
     }
   } catch (e) {
-    print("error: $e");
-    return Message(token: null, success: null, error: "Something went wrong!");
+    return Message(
+      token: null,
+      success: null,
+      error: "Connection to server failed!",
+    );
   }
 }
 
