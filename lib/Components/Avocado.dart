@@ -16,7 +16,9 @@ import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class Avocado extends StatefulWidget {
-  const Avocado({super.key, required String farmerID});
+  final bool editing;
+
+  const Avocado({super.key, required String farmerID, required this.editing});
 
   @override
   State<Avocado> createState() => _AvocadoState();
@@ -31,14 +33,14 @@ class _AvocadoState extends State<Avocado> {
   String landsize = '';
   String startPeriod = '';
   String endPeriod = '';
-  String avocadoQ1 = '';
-  String avocadoQ2 = '';
-  String avocadoQ3 = '';
-  String avocadoQ4 = '';
-  String avocadoQ5 = '';
-  String avocadoQ6 = '';
-  String avocadoQ7 = '';
-  String avocadoQ8 = '';
+  String avocadoacreage = '';
+  String nooftrees = '';
+  String totalProduce = '';
+  String spoiledavocadoes = '';
+  String homeuse = '';
+  String priceperkg = '';
+  String totalincome = '';
+  String customerpo = '';
 
   @override
   void initState() {
@@ -112,7 +114,7 @@ class _AvocadoState extends State<Avocado> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            avocadoQ1 = value;
+                            avocadoacreage = value;
                           });
                         }),
                     const SizedBox(
@@ -125,7 +127,7 @@ class _AvocadoState extends State<Avocado> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            avocadoQ2 = value;
+                            nooftrees = value;
                           });
                         }),
                     const SizedBox(
@@ -138,7 +140,7 @@ class _AvocadoState extends State<Avocado> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            avocadoQ3 = value;
+                            totalProduce = value;
                           });
                         }),
                     MyTextInput(
@@ -148,7 +150,7 @@ class _AvocadoState extends State<Avocado> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            avocadoQ4 = value;
+                            spoiledavocadoes = value;
                           });
                         }),
                     const SizedBox(
@@ -161,7 +163,7 @@ class _AvocadoState extends State<Avocado> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            avocadoQ5 = value;
+                            homeuse = value;
                           });
                         }),
                     const SizedBox(
@@ -174,7 +176,7 @@ class _AvocadoState extends State<Avocado> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            avocadoQ6 = value;
+                            priceperkg = value;
                           });
                         }),
                     const SizedBox(
@@ -187,7 +189,7 @@ class _AvocadoState extends State<Avocado> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            avocadoQ7 = value;
+                            totalincome = value;
                           });
                         }),
                     const SizedBox(
@@ -200,7 +202,7 @@ class _AvocadoState extends State<Avocado> {
                         type: TextInputType.text,
                         onSubmit: (value) {
                           setState(() {
-                            avocadoQ8 = value;
+                            customerpo = value;
                           });
                         }),
                     const SizedBox(
@@ -211,7 +213,7 @@ class _AvocadoState extends State<Avocado> {
                     ),
                     TextOakar(label: error),
                     SubmitButton(
-                      label: "Submit",
+                      label: widget.editing ? "Update" : "Submit",
                       onButtonPressed: () async {
                         setState(() {
                           isLoading = LoadingAnimationWidget.staggeredDotsWave(
@@ -219,20 +221,21 @@ class _AvocadoState extends State<Avocado> {
                             size: 100,
                           );
                         });
-                        var res = await postAvocado(
+                        var res = await submitData(
+                            widget.editing,
                             farmerID,
                             valueChain,
                             landsize,
                             startPeriod,
                             endPeriod,
-                            avocadoQ1,
-                            avocadoQ2,
-                            avocadoQ3,
-                            avocadoQ4,
-                            avocadoQ5,
-                            avocadoQ6,
-                            avocadoQ7,
-                            avocadoQ8);
+                            avocadoacreage,
+                            nooftrees,
+                            totalProduce,
+                            spoiledavocadoes,
+                            homeuse,
+                            priceperkg,
+                            totalincome,
+                            customerpo);
 
                         setState(() {
                           isLoading = null;
@@ -268,66 +271,97 @@ class _AvocadoState extends State<Avocado> {
   }
 }
 
-postAvocado(
+submitData(
+    bool type,
     String farmerID,
     String valueChain,
     String landsize,
     String startPeriod,
     String endPeriod,
-    String avocadoQ1,
-    String avocadoQ2,
-    String avocadoQ3,
-    String avocadoQ4,
-    String avocadoQ5,
-    String avocadoQ6,
-    String avocadoQ7,
-    String avocadoQ8) async {
+    String avocadoacreage,
+    String nooftrees,
+    String totalProduce,
+    String spoiledavocadoes,
+    String homeuse,
+    String priceperkg,
+    String totalincome,
+    String customerpo) async {
   if (valueChain.isEmpty ||
-      avocadoQ2.isEmpty ||
-      avocadoQ3.isEmpty ||
-      avocadoQ4.isEmpty ||
-      avocadoQ6.isEmpty ||
-      avocadoQ7.isEmpty ||
-      avocadoQ8.isEmpty) {
+      nooftrees.isEmpty ||
+      totalProduce.isEmpty ||
+      spoiledavocadoes.isEmpty ||
+      priceperkg.isEmpty ||
+      totalincome.isEmpty ||
+      customerpo.isEmpty) {
     return Message(
         token: null, success: null, error: "Please fill all inputs!");
   }
   try {
-     const storage = FlutterSecureStorage();
+    const storage = FlutterSecureStorage();
     var token = await storage.read(key: "erjwt");
-    
-    var response = await http.post(Uri.parse("${getUrl()}avocadoes"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'token': token!
-        },
-        body: jsonEncode(<String, String>{
-          'FarmerID': farmerID,
-          'ValueChainName': valueChain,
-          'LandSize': landsize,
-          'PeriodStart': startPeriod,
-          'PeriodEnd': endPeriod,
-          'AvocadoArea': avocadoQ1,
-          'NumberOfTrees': avocadoQ2,
-          'SpoiledAvocadoes': avocadoQ3,
-          'HomeConsumption': avocadoQ4,
-          'AvocadoPrice': avocadoQ5,
-          'AvocadoIncome': avocadoQ6,
-          'PO_Sales': avocadoQ7,
-          'AvocadoBuyers': avocadoQ8,
-        }));
-    var body = jsonDecode(response.body);
+    var response;
 
-    if (body["success"] != null) {
-      return Message(
-          token: body["token"], success: body["success"], error: body["error"]);
+    if (type) {
+      print("typing is $type");
+      response = await http.post(Uri.parse("${getUrl()}valuechainproduce"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'token': token!
+          },
+          body: jsonEncode(<String, String>{
+            'FarmerID': farmerID,
+            'ValueChainName': valueChain,
+            'LandSize': landsize,
+            'PeriodStart': startPeriod,
+            'PeriodEnd': endPeriod,
+            'AvocadoArea': avocadoacreage,
+            'NumberOfTrees': nooftrees,
+            'SpoiledAvocadoes': totalProduce,
+            'HomeConsumption': spoiledavocadoes,
+            'AvocadoPrice': homeuse,
+            'AvocadoIncome': priceperkg,
+            'PO_Sales': totalincome,
+            'AvocadoBuyers': customerpo,
+          }));
+    } else {
+      print("typing is $type");
+      response = await http.post(Uri.parse("${getUrl()}avocadoes"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'token': token!
+          },
+          body: jsonEncode(<String, String>{
+            'FarmerID': farmerID,
+            'ValueChainName': valueChain,
+            'LandSize': landsize,
+            'PeriodStart': startPeriod,
+            'PeriodEnd': endPeriod,
+            'AvocadoArea': avocadoacreage,
+            'NumberOfTrees': nooftrees,
+            'SpoiledAvocadoes': totalProduce,
+            'HomeConsumption': spoiledavocadoes,
+            'AvocadoPrice': homeuse,
+            'AvocadoIncome': priceperkg,
+            'PO_Sales': totalincome,
+            'AvocadoBuyers': customerpo,
+          }));
+    }
+
+    if (response.statusCode == 200 || response.statusCode == 203) {
+      return Message.fromJson(jsonDecode(response.body));
     } else {
       return Message(
-          token: body["token"], success: body["success"], error: body["error"]);
+        token: null,
+        success: null,
+        error: "Connection to server failed!",
+      );
     }
   } catch (e) {
-    print("error: $e");
-    return Message(token: null, success: null, error: "Something went wrong!");
+    return Message(
+      token: null,
+      success: null,
+      error: "Connection to server failed!",
+    );
   }
 }
 

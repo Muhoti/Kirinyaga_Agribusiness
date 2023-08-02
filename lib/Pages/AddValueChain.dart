@@ -67,24 +67,24 @@ class _AddValueChainState extends State<AddValueChain> {
     } catch (e) {}
   }
 
-  Widget getValueChainWidget(String valueChain) {
+  Widget getValueChainWidget(String valueChain, bool editing) {
     switch (valueChain) {
       case 'Tomato':
         return const Tomato();
       case 'Avocado':
-        return Avocado(farmerID: farmerID);
+        return Avocado(farmerID: farmerID, editing: widget.editing);
       case 'Tomato Seedlings':
         return TomatoSeedling(farmerID: farmerID);
       case 'Chicken (Eggs & Meat)':
         return ChickenEggsMeat(farmerID: farmerID);
       case 'Chicken (Egg Incubation)':
-        return ChickenEggsIncubation(farmerID: farmerID);
+        return ChickenEggsIncubation(farmerID: farmerID, editing: widget.editing);
       case 'Dairy':
         return const Dairy();
       case 'Dairy Goat':
         return const DairyGoat();
       case 'Apiculture':
-        return const Apiculture();
+        return Apiculture(editing: widget.editing);
       case 'Pigs':
         return const Pigs();
       case 'Fish':
@@ -150,7 +150,7 @@ class _AddValueChainState extends State<AddValueChain> {
                   Flexible(
                       fit: FlexFit.tight,
                       flex: 1,
-                      child: getValueChainWidget(valueChain!)),
+                      child: getValueChainWidget(valueChain!, widget.editing)),
                 ],
               ),
             ),

@@ -16,7 +16,10 @@ import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class ChickenEggsIncubation extends StatefulWidget {
-  const ChickenEggsIncubation({super.key, required String farmerID});
+  final bool editing;
+
+  const ChickenEggsIncubation(
+      {super.key, required String farmerID, required this.editing});
 
   @override
   State<ChickenEggsIncubation> createState() => _ChickenEggsIncubationState();
@@ -31,16 +34,16 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
   String landsize = '';
   String startPeriod = '';
   String endPeriod = '';
-  String ceiQ1 = '';
-  String ceiQ2 = '';
-  String ceiQ3 = '';
-  String ceiQ4 = '';
+  String investmentcost = '';
+  String incubators = '';
+  String incubatorcapacity = '';
+  String eggsincubated = '';
   String ceiQ5 = '';
-  String ceiQ6 = '';
-  String ceiQ7 = '';
-  String ceiQ8 = '';
-  String ceiQ9 = '';
-  String ceiQ10 = '';
+  String chickshatched = '';
+  String chicksdied = '';
+  String chickssold = '';
+  String chickscost = '';
+  String income = '';
 
   @override
   void initState() {
@@ -116,7 +119,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            ceiQ1 = value;
+                            investmentcost = value;
                           });
                         }),
                     const SizedBox(
@@ -129,7 +132,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            ceiQ2 = value;
+                            incubators = value;
                           });
                         }),
                     const SizedBox(
@@ -142,7 +145,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            ceiQ3 = value;
+                            incubatorcapacity = value;
                           });
                         }),
                     const SizedBox(
@@ -155,7 +158,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            ceiQ4 = value;
+                            eggsincubated = value;
                           });
                         }),
                     MyTextInput(
@@ -178,7 +181,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            ceiQ6 = value;
+                            chickshatched = value;
                           });
                         }),
                     const SizedBox(
@@ -191,7 +194,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            ceiQ7 = value;
+                            chicksdied = value;
                           });
                         }),
                     const SizedBox(
@@ -204,7 +207,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            ceiQ8 = value;
+                            chickssold = value;
                           });
                         }),
                     const SizedBox(
@@ -217,7 +220,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            ceiQ9 = value;
+                            chickscost = value;
                           });
                         }),
                     const SizedBox(
@@ -230,7 +233,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                         type: TextInputType.number,
                         onSubmit: (value) {
                           setState(() {
-                            ceiQ10 = value;
+                            income = value;
                           });
                         }),
                     const SizedBox(
@@ -238,7 +241,7 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                     ),
                     TextOakar(label: error),
                     SubmitButton(
-                      label: "Submit",
+                      label: widget.editing ? "Update" : "Submit",
                       onButtonPressed: () async {
                         setState(() {
                           isLoading = LoadingAnimationWidget.staggeredDotsWave(
@@ -246,23 +249,24 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
                             size: 100,
                           );
                         });
-                        var res = await postChickenEggsIncubation(
+                        var res = await submitData(
+                            widget.editing,
                             farmerID,
                             valueChain,
                             landsize,
                             startPeriod,
                             endPeriod,
-                            ceiQ1,
-                            ceiQ2,
-                            ceiQ3,
-                            ceiQ4,
+                            investmentcost,
+                            incubators,
+                            incubatorcapacity,
+                            eggsincubated,
                             ceiQ5,
-                            ceiQ6,
-                            ceiQ7,
-                            ceiQ8,
-                            ceiQ9,
-                            ceiQ10);
-                        print("the data has been submitter");
+                            chickshatched,
+                            chicksdied,
+                            chickssold,
+                            chickscost,
+                            income);
+                        print("the data has been submitted");
                         setState(() {
                           isLoading = null;
                           if (res.error == null) {
@@ -297,35 +301,36 @@ class _ChickenEggsIncubationState extends State<ChickenEggsIncubation> {
   }
 }
 
-postChickenEggsIncubation(
+submitData(
+    bool type,
     String farmerID,
     String valueChain,
     String landsize,
     String startPeriod,
     String endPeriod,
-    String ceiQ1,
-    String ceiQ2,
-    String ceiQ3,
-    String ceiQ4,
+    String investmentcost,
+    String incubators,
+    String incubatorcapacity,
+    String eggsincubated,
     String ceiQ5,
-    String ceiQ6,
-    String ceiQ7,
-    String ceiQ8,
-    String ceiQ9,
-    String ceiQ10) async {
+    String chickshatched,
+    String chicksdied,
+    String chickssold,
+    String chickscost,
+    String income) async {
   print(
-      "the cei values are: $farmerID, $valueChain, $ceiQ1, $ceiQ2, $ceiQ3, $ceiQ5");
+      "the cei values are: $farmerID, $valueChain, $investmentcost, $incubators, $incubatorcapacity, $ceiQ5");
 
   if (valueChain.isEmpty ||
-      ceiQ2.isEmpty ||
-      ceiQ3.isEmpty ||
-      ceiQ4.isEmpty ||
-      ceiQ6.isEmpty ||
-      ceiQ7.isEmpty ||
-      ceiQ8.isEmpty ||
-      ceiQ9.isEmpty ||
-      ceiQ9.isEmpty ||
-      ceiQ10.isEmpty) {
+      incubators.isEmpty ||
+      incubatorcapacity.isEmpty ||
+      eggsincubated.isEmpty ||
+      chickshatched.isEmpty ||
+      chicksdied.isEmpty ||
+      chickssold.isEmpty ||
+      chickscost.isEmpty ||
+      chickscost.isEmpty ||
+      income.isEmpty) {
     return Message(
         token: null, success: null, error: "All fields are required!");
   }
@@ -333,8 +338,57 @@ postChickenEggsIncubation(
   try {
     const storage = FlutterSecureStorage();
     var token = await storage.read(key: "erjwt");
+    var response;
 
-    var response = await http.post(
+    if (type) {
+      response = await http.post(Uri.parse("${getUrl()}valuechainproduce"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'token': token!
+          },
+          body: jsonEncode(<String, String>{
+            'FarmerID': farmerID,
+            'ValueChainName': valueChain,
+            'LandSize': landsize,
+            'PeriodStart': startPeriod,
+            'PeriodEnd': endPeriod,
+            'InitialInvestment': investmentcost,
+            'Incubators': incubators,
+            'IncubatorCapacity': incubatorcapacity,
+            'EggsIncubated': eggsincubated,
+            'SpoiltEggs': ceiQ5,
+            'ChicksHatched': chickshatched,
+            'DiedChicks': chicksdied,
+            'ChicksSold': chickssold,
+            'ChickCost': chickscost,
+            'TotaLIncome': income
+          }));
+    } else {
+       response = await http.post(Uri.parse("${getUrl()}chickeneggsincubation"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'token': token!
+          },
+          body: jsonEncode(<String, String>{
+            'FarmerID': farmerID,
+            'ValueChainName': valueChain,
+            'LandSize': landsize,
+            'PeriodStart': startPeriod,
+            'PeriodEnd': endPeriod,
+            'InitialInvestment': investmentcost,
+            'Incubators': incubators,
+            'IncubatorCapacity': incubatorcapacity,
+            'EggsIncubated': eggsincubated,
+            'SpoiltEggs': ceiQ5,
+            'ChicksHatched': chickshatched,
+            'DiedChicks': chicksdied,
+            'ChicksSold': chickssold,
+            'ChickCost': chickscost,
+            'TotaLIncome': income
+          }));
+    }
+
+     response = await http.post(
         Uri.parse("${getUrl()}chickeneggsincubation"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -346,16 +400,16 @@ postChickenEggsIncubation(
           'LandSize': landsize,
           'PeriodStart': startPeriod,
           'PeriodEnd': endPeriod,
-          'InitialInvestment': ceiQ1,
-          'Incubators': ceiQ2,
-          'IncubatorCapacity': ceiQ3,
-          'EggsIncubated': ceiQ4,
+          'InitialInvestment': investmentcost,
+          'Incubators': incubators,
+          'IncubatorCapacity': incubatorcapacity,
+          'EggsIncubated': eggsincubated,
           'SpoiltEggs': ceiQ5,
-          'ChicksHatched': ceiQ6,
-          'DiedChicks': ceiQ7,
-          'ChicksSold': ceiQ8,
-          'ChickCost': ceiQ9,
-          'TotaLIncome': ceiQ10
+          'ChicksHatched': chickshatched,
+          'DiedChicks': chicksdied,
+          'ChicksSold': chickssold,
+          'ChickCost': chickscost,
+          'TotaLIncome': income
         }));
     var body = jsonDecode(response.body);
     print("the body is $body");

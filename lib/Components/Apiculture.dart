@@ -16,7 +16,8 @@ import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class Apiculture extends StatefulWidget {
-  const Apiculture({super.key});
+  final bool editing;
+  const Apiculture({super.key, required this.editing});
 
   @override
   State<Apiculture> createState() => _ApicultureState();
@@ -73,7 +74,7 @@ class _ApicultureState extends State<Apiculture> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                     const SizedBox(
+                    const SizedBox(
                       height: 24,
                     ),
                     MyTextInput(
@@ -151,7 +152,8 @@ class _ApicultureState extends State<Apiculture> {
                       height: 10,
                     ),
                     MySelectInput(
-                        title: "Have you harvested during the reporting period?",
+                        title:
+                            "Have you harvested during the reporting period?",
                         onSubmit: (harvested) {
                           setState(() {
                             harvestedquery = harvested;
@@ -237,10 +239,10 @@ class _ApicultureState extends State<Apiculture> {
                             otherhiveproducts = value;
                           });
                         }),
-                        const SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                        MyTextInput(
+                    MyTextInput(
                         title: "Income from Other Hive Products",
                         lines: 1,
                         value: "",
@@ -252,7 +254,7 @@ class _ApicultureState extends State<Apiculture> {
                         }),
                     TextOakar(label: error),
                     SubmitButton(
-                      label: "Submit",
+                      label: widget.editing ? "Update" : "Submit",
                       onButtonPressed: () async {
                         setState(() {
                           isLoading = LoadingAnimationWidget.staggeredDotsWave(
@@ -260,7 +262,8 @@ class _ApicultureState extends State<Apiculture> {
                             size: 100,
                           );
                         });
-                        var res = await postApiculture(
+                        var res = await submitData(
+                            widget.editing,
                             farmerID,
                             valueChain,
                             landsize,
@@ -288,7 +291,6 @@ class _ApicultureState extends State<Apiculture> {
                         });
 
                         if (res.error == null) {
-  
                           Timer(const Duration(seconds: 2), () {
                             Navigator.push(
                                 context,
@@ -313,8 +315,9 @@ class _ApicultureState extends State<Apiculture> {
   }
 }
 
-postApiculture(
- String farmerID,
+submitData(
+  bool type,
+  String farmerID,
   String valueChain,
   String landsize,
   String startPeriod,
@@ -348,30 +351,59 @@ postApiculture(
   try {
     const storage = FlutterSecureStorage();
     var token = await storage.read(key: "erjwt");
+    var response;
 
-    var response = await http.post(Uri.parse("${getUrl()}apiculture"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'token': token!
-        },
-        body: jsonEncode(<String, String>{
-          'FarmerID': farmerID,
-          'ValueChainName': valueChain,
-          'LandSize': landsize,
-          'PeriodStart': startPeriod,
-          'PeriodEnd': endPeriod,
-          'HiveType': hivetype,
-          'NoHives': nohives,
-          'HivesColonized': hivescolonized,
-          'HarvestedQuery': harvestedquery,
-          'CrudeHoney': crudehoney,
-          'RefinedHoney': refinedhoney,
-          'HoneySold': honeysold,
-          'HoneyCost': honeycost,
-          'TotalIncome': totalincome,
-          'OtherHiveProducts': otherhiveproducts,
-          'OtherHiveIncome': otherhiveincome
-        }));
+    if (type) {
+      print("typing is $type");
+      response = await http.post(Uri.parse("${getUrl()}valuechainproduce"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'token': token!
+          },
+          body: jsonEncode(<String, String>{
+            'FarmerID': farmerID,
+            'ValueChainName': valueChain,
+            'LandSize': landsize,
+            'PeriodStart': startPeriod,
+            'PeriodEnd': endPeriod,
+            'HiveType': hivetype,
+            'NoHives': nohives,
+            'HivesColonized': hivescolonized,
+            'HarvestedQuery': harvestedquery,
+            'CrudeHoney': crudehoney,
+            'RefinedHoney': refinedhoney,
+            'HoneySold': honeysold,
+            'HoneyCost': honeycost,
+            'TotalIncome': totalincome,
+            'OtherHiveProducts': otherhiveproducts,
+            'OtherHiveIncome': otherhiveincome
+          }));
+    } else {
+      print("typing is $type");
+      response = await http.post(Uri.parse("${getUrl()}apiculture"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'token': token!
+          },
+          body: jsonEncode(<String, String>{
+            'FarmerID': farmerID,
+            'ValueChainName': valueChain,
+            'LandSize': landsize,
+            'PeriodStart': startPeriod,
+            'PeriodEnd': endPeriod,
+            'HiveType': hivetype,
+            'NoHives': nohives,
+            'HivesColonized': hivescolonized,
+            'HarvestedQuery': harvestedquery,
+            'CrudeHoney': crudehoney,
+            'RefinedHoney': refinedhoney,
+            'HoneySold': honeysold,
+            'HoneyCost': honeycost,
+            'TotalIncome': totalincome,
+            'OtherHiveProducts': otherhiveproducts,
+            'OtherHiveIncome': otherhiveincome
+          }));
+    }
 
     var body = jsonDecode(response.body);
 

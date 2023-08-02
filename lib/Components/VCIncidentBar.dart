@@ -22,14 +22,12 @@ class _VCIncidentBarState extends State<VCIncidentBar> {
   @override
   Widget build(BuildContext context) {
     String dateString = widget.item.item['updatedAt'];
-
     DateTime date = DateTime.parse(dateString);
     String year = date.year.toString();
     String month = date.month.toString();
     String day = date.day.toString();
 
     dt = "$year-$month-$day";
-
 
     return Padding(
         padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
