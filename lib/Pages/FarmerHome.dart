@@ -119,7 +119,7 @@ class _FarmerHomeState extends State<FarmerHome> {
               bottom: 0,
               child: Center(
                 child: SubmitButton(
-                  label: "Update ValueChain",
+                  label: "Update Produce",
                   onButtonPressed: () async {
                     setState(() {
                       storage.write(key: "NationalID", value: farmerid);

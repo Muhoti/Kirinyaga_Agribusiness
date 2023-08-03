@@ -29,8 +29,8 @@ import 'package:http/http.dart' as http;
 import '../Components/Utils.dart';
 
 class AddValueChain extends StatefulWidget {
-    final bool editing;
-  const AddValueChain({super.key, required  this.editing});
+  final bool editing;
+  const AddValueChain({super.key, required this.editing});
 
   @override
   State<AddValueChain> createState() => _AddValueChainState();
@@ -59,6 +59,8 @@ class _AddValueChainState extends State<AddValueChain> {
   checkMapping() async {
     try {
       var id = await storage.read(key: "NationalID");
+      valueChain = await storage.read(key: "selectedValueChain");
+      //print("the value chain now is $valueChain");
       if (id != null) {
         setState(() {
           farmerID = id;
@@ -78,7 +80,8 @@ class _AddValueChainState extends State<AddValueChain> {
       case 'Chicken (Eggs & Meat)':
         return ChickenEggsMeat(farmerID: farmerID, editing: widget.editing);
       case 'Chicken (Egg Incubation)':
-        return ChickenEggsIncubation(farmerID: farmerID, editing: widget.editing);
+        return ChickenEggsIncubation(
+            farmerID: farmerID, editing: widget.editing);
       case 'Dairy':
         return Dairy(editing: widget.editing);
       case 'Dairy Goat':

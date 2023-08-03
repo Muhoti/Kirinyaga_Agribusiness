@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Pages/AddValueChain.dart';
 import 'package:kirinyaga_agribusiness/Pages/ValueChainProduce.dart';
 // import 'package:kirinyaga_agribusiness/Pages/Incident.dart';
@@ -9,7 +10,8 @@ class VCIncidentBar extends StatefulWidget {
   final String vcid;
   final String valuechain;
 
-  const VCIncidentBar(
+
+   const VCIncidentBar(
       {super.key, required this.item, required this.id, required this.vcid, required this.valuechain});
 
   @override
@@ -37,6 +39,12 @@ class _VCIncidentBarState extends State<VCIncidentBar> {
             clipBehavior: Clip.hardEdge,
             child: TextButton(
                 onPressed: () {
+                   setState(() {
+                        var storage = const FlutterSecureStorage();
+
+                    storage.write(key: "selectedValueChain", value: widget.item.item['ValueChainName']);
+                    
+                  });
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

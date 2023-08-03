@@ -95,6 +95,10 @@ class _FarmerValueChainsState extends State<FarmerValueChains> {
                       SubmitButton(
                         label: "Add ValueChain",
                         onButtonPressed: () {
+                                              storage.write(
+                              key: "selectedValueChain",
+                              value: "Select Value Chain");
+
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
