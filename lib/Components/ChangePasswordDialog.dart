@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:email_validator/email_validator.dart';
@@ -27,61 +28,75 @@ class _ForgetPasswordDialogState extends State<ChangePasswordDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text("Change Password",
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(2.0),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                "Change Password",
                 style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                    color: Color.fromRGBO(0, 128, 0, 1))),
-            TextOakar(label: error),
-            MyTextInput(
-              title: 'Old Password',
-              lines: 1,
-              value: '',
-              type: TextInputType.visiblePassword,
-              onSubmit: (value) {
-                setState(() {
-                  oldpassword = value;
-                });
-              },
-            ),
-            MyTextInput(
-              title: 'New Password',
-              lines: 1,
-              value: '',
-              type: TextInputType.visiblePassword,
-              onSubmit: (value) {
-                setState(() {
-                  newpassword = value;
-                });
-              },
-            ),
-            SubmitButton(
-              label: "Submit",
-              onButtonPressed: () async {
-                setState(() {
-                  isLoading = LoadingAnimationWidget.staggeredDotsWave(
-                    color: Color.fromRGBO(0, 128, 0, 1),
-                    size: 100,
-                  );
-                });
-                var res =
-                    await changePassword(storage, oldpassword, newpassword);
-                setState(() {
-                  isLoading = null;
-                  if (res.error == null) {
-                    error = res.success;
-                  } else {
-                    error = res.error;
-                  }
-                });
-              },
-            ),
-          ],
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                  color: Color.fromRGBO(0, 128, 0, 1),
+                ),
+              ),
+              TextOakar(label: error),
+              MyTextInput(
+                title: 'Old Password',
+                lines: 1,
+                value: '',
+                type: TextInputType.visiblePassword,
+                onSubmit: (value) {
+                  setState(() {
+                    oldpassword = value;
+                  });
+                },
+              ),
+              MyTextInput(
+                title: 'New Password',
+                lines: 1,
+                value: '',
+                type: TextInputType.visiblePassword,
+                onSubmit: (value) {
+                  setState(() {
+                    newpassword = value;
+                  });
+                },
+              ),
+              isLoading ??
+                  const SizedBox(), // Display the loading animation when it's not null.
+              SubmitButton(
+                label: "Submit",
+                onButtonPressed: () async {
+                  setState(() {
+                    isLoading = LoadingAnimationWidget.staggeredDotsWave(
+                      color: Color.fromRGBO(0, 128, 0, 1),
+                      size: 100,
+                    );
+                  });
+                  var res =
+                      await changePassword(storage, oldpassword, newpassword);
+                  setState(() {
+                    isLoading = null;
+                    if (res.error == null) {
+                      error = res.success;
+                      Timer(const Duration(seconds: 1), () {
+                        Navigator.of(context).pop();
+                      });
+                    } else {
+                      error = res.error;
+                    }
+                  });
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -118,7 +133,10 @@ Future<Message> changePassword(FlutterSecureStorage storage, String oldpassword,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{'Password': oldpassword, 'NewPassword': newpassword}),
+      body: jsonEncode(<String, String>{
+        'Password': oldpassword,
+        'NewPassword': newpassword
+      }),
     );
     if (response.statusCode == 200 || response.statusCode == 203) {
       return Message.fromJson(jsonDecode(response.body));

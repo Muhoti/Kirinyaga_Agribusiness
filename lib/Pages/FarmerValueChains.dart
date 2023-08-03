@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
-import 'package:kirinyaga_agribusiness/Components/Tomato.dart';
 import 'package:kirinyaga_agribusiness/Pages/AddValueChain.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
-import 'package:kirinyaga_agribusiness/Pages/ValueChainForm.dart';
-import 'package:kirinyaga_agribusiness/Pages/ValueChainProduce.dart';
 import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
-import 'package:kirinyaga_agribusiness/Scroll/FGScrollController.dart';
 import 'package:kirinyaga_agribusiness/Scroll/VCScrollController.dart';
-import '../Components/FODrawer.dart';
 
 class FarmerValueChains extends StatefulWidget {
   const FarmerValueChains({
@@ -39,7 +34,7 @@ class _FarmerValueChainsState extends State<FarmerValueChains> {
 
       type = usertype!;
 
-      print("farmertype is $type");
+      print("farmertype valuechain is $type and id is $id");
 
       if (id != null) {
         setState(() {

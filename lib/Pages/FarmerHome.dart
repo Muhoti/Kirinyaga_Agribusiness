@@ -39,6 +39,7 @@ class _FarmerHomeState extends State<FarmerHome> {
 
   loadFarmerInfo() async {
     var id = await storage.read(key: "NationalID");
+    farmerid = id!;
     print(id);
 
     try {
@@ -46,7 +47,7 @@ class _FarmerHomeState extends State<FarmerHome> {
         Uri.parse("${getUrl()}farmerdetails/farmerid/$id"),
       );
       var fdbody = json.decode(fdresponse.body);
-       print(fdbody);
+      print(fdbody);
 
       final faresponse = await http.get(
         Uri.parse("${getUrl()}farmeraddress/$id"),
@@ -127,6 +128,7 @@ class _FarmerHomeState extends State<FarmerHome> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
+                          
                             builder: (_) => const FarmerValueChains()));
                   },
                 ),

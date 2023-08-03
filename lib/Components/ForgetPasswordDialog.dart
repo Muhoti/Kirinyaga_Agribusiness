@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:email_validator/email_validator.dart';
@@ -26,48 +27,60 @@ class _ForgetPasswordDialogState extends State<ForgetPasswordDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text("Enter Email",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                    fontSize: 24, color: Color.fromRGBO(0, 128, 0, 1))),
-            TextOakar(label: error),
-            MyTextInput(
-              title: 'Email',
-              lines: 1,
-              value: '',
-              type: TextInputType.emailAddress,
-              onSubmit: (value) {
-                setState(() {
-                  email = value;
-                });
-              },
-            ),
-            SubmitButton(
-              label: "Submit",
-              onButtonPressed: () async {
-                setState(() {
-                  isLoading = LoadingAnimationWidget.staggeredDotsWave(
-                    color: Color.fromRGBO(0, 128, 0, 1),
-                    size: 100,
-                  );
-                });
-                var res = await recoverPassword(email);
-                setState(() {
-                  isLoading = null;
-                  if (res.error == null) {
-                    error = res.success;
-                  } else {
-                    error = res.error;
-                  }
-                });
-              },
-            ),
-          ],
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(2.0),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text("Enter Email",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24,
+                      color: Color.fromRGBO(0, 128, 0, 1))),
+              TextOakar(label: error),
+              MyTextInput(
+                title: 'Email',
+                lines: 1,
+                value: '',
+                type: TextInputType.emailAddress,
+                onSubmit: (value) {
+                  setState(() {
+                    email = value;
+                  });
+                },
+              ),
+              isLoading ??
+                  const SizedBox(), // Display the loading animation when it's not null.
+              SubmitButton(
+                label: "Submit",
+                onButtonPressed: () async {
+                  setState(() {
+                    isLoading = LoadingAnimationWidget.staggeredDotsWave(
+                      color: Color.fromRGBO(0, 128, 0, 1),
+                      size: 100,
+                    );
+                  });
+                  var res = await recoverPassword(email);
+                  setState(() {
+                    isLoading = null;
+                    if (res.error == null) {
+                      error = res.success;
+                      Timer(const Duration(seconds: 1), () {
+                        Navigator.of(context).pop();
+                      });
+                    } else {
+                      error = res.error;
+                    }
+                  });
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
