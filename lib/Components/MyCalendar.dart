@@ -70,18 +70,18 @@ class _MyCalendarState extends State<MyCalendar> with RestorationMixin {
         );
         _controller.value = TextEditingValue(
           text:
-              "${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}",
+              "${_selectedDate.value.year}-${_selectedDate.value.month}-${_selectedDate.value.day}",
           selection: TextSelection.fromPosition(
             TextPosition(
               offset:
-                  "${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}"
+                  "${_selectedDate.value.year}-${_selectedDate.value.month}-${_selectedDate.value.day}"
                       .length,
             ),
           ),
         );
       });
       widget.onSubmit(
-          "${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}");
+          "${_selectedDate.value.year}-${_selectedDate.value.month}-${_selectedDate.value.day}");
     }
   }
 

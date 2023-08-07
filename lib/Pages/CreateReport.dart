@@ -76,6 +76,7 @@ class _CreateReportState extends State<CreateReport> {
       if (haspermission) {
         getLocation();
       }
+      
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text(
@@ -118,6 +119,7 @@ class _CreateReportState extends State<CreateReport> {
     setState(() {
       entries.clear();
     });
+
     try {
       final response = await http.get(
           Uri.parse("${getUrl()}workplan/searchfarmer/$v"),
@@ -268,7 +270,7 @@ class _CreateReportState extends State<CreateReport> {
                                 ),
                                 floatingLabelBehavior:
                                     FloatingLabelBehavior.always)),
-                        entries.isNotEmpty
+                           entries.isNotEmpty
                             ? Card(
                                 elevation: 12,
                                 child: ListView.separated(

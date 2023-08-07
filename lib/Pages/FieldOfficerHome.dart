@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/Stats.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
+import 'package:kirinyaga_agribusiness/Pages/CreateWorkPlan.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
+import 'package:kirinyaga_agribusiness/Pages/WorkPlan.dart';
 import 'package:kirinyaga_agribusiness/Scroll/FOScrollController.dart';
 import '../Components/NavigationButton.dart';
 import '../Components/FODrawer.dart';
@@ -84,16 +86,18 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
         drawer: const Drawer(child: FODrawer()),
+       
         floatingActionButton: ElevatedButton(
           onPressed: () {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const FarmerDetails(editing: false,)));
+                MaterialPageRoute(builder: (context) => CreateWorkPlan(userid: id)));
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromRGBO(13, 50, 10, 1),
           ),
-          child: const Text('Map Farmer'),
+          child: const Text('Create Report'),
         ),
+
         body: Column(
           children: <Widget>[
             Padding(
