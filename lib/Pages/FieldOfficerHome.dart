@@ -89,7 +89,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
        
         floatingActionButton: ElevatedButton(
           onPressed: () {
-            Navigator.pushReplacement(context,
+            Navigator.push(context,
                 MaterialPageRoute(builder: (context) => CreateWorkPlan(userid: id)));
           },
           style: ElevatedButton.styleFrom(

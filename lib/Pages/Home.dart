@@ -105,7 +105,7 @@ class _HomeState extends State<Home> {
         ),
         floatingActionButton: RawMaterialButton(
           onPressed: () {
-            Navigator.pushReplacement(
+            Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => const FarmerDetails(
