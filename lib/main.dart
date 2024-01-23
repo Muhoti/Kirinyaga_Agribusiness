@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
     var decoded = parseJwt(token.toString());
     if (decoded["error"] == "Invalid token") {
       print("user sent to login");
-       Navigator.pushReplacement(
+      Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => const Login()));
     }
   }
@@ -53,6 +53,8 @@ class _MyAppState extends State<MyApp> {
       // verify staff
       var token = await storage.read(key: "erjwt");
       var decoded = parseJwt(token.toString());
+
+      print('the role is $decoded');
 
       switch (decoded["Role"]) {
         case "Field Officer":

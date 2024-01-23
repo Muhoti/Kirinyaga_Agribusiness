@@ -57,7 +57,6 @@ class _WorkPlanState extends State<WorkPlan> {
         data = body;
         isloading = null;
       });
-  
     } catch (e) {
       setState(() {
         isloading = null;
@@ -72,7 +71,7 @@ class _WorkPlanState extends State<WorkPlan> {
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: const Text("Field Officer Report"),
+          title: const Text("View Task"),
           actions: [
             Align(
               alignment: Alignment.centerRight,
@@ -147,9 +146,9 @@ class _WorkPlanState extends State<WorkPlan> {
                                       height: 24,
                                     ),
                                     Text(
-                                      "Service Type: " + data["Type"],
+                                      "Description: " + data["Description"],
                                       style: const TextStyle(
-                                          fontSize: 24,
+                                          fontSize: 18,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.white),
                                     ),
@@ -197,11 +196,10 @@ class _WorkPlanState extends State<WorkPlan> {
                                             Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(
-                                                    builder: (_) =>
-                                                        CreateReport(
-                                                            id: data["ID"],
-                                                            type:
-                                                                data["Type"])))
+                                                    builder: (_) => CreateReport(
+                                                        id: data["ID"],
+                                                        type: data[
+                                                            "Description"])))
                                           }
                                       })
                             ],

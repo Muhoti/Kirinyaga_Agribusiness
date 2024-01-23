@@ -44,7 +44,9 @@ class _FOScrollControllerState extends State<FOScrollController> {
     if (oldWidget.active != widget.active) {
       _pagingController.refresh();
     }
+
     super.didUpdateWidget(oldWidget);
+    
   }
 
   Future<void> _fetchPage(int pageKey) async {

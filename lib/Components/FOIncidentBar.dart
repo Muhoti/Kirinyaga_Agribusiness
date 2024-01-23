@@ -28,7 +28,7 @@ class _FOIncidentBar extends State<FOIncidentBar> {
     my = "$month/$year";
 
     return Padding(
-        padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 24),
         child: Card(
             elevation: 5,
             color: Colors.white,
@@ -45,59 +45,86 @@ class _FOIncidentBar extends State<FOIncidentBar> {
                 child: Container(
                   padding: const EdgeInsets.all(5),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: const BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.all(Radius.circular(5))),
-                        child: Text(
-                          my,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 28),
-                        ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.check_box,
+                            size: 50,
+                            color: Colors.green,
+                          ),
+                          const SizedBox(
+                              height:
+                                  10), // Adding some space between the icon and text
+                          Text(
+                            "${widget.item.item['Task']}".length >= 10
+                                ? "${widget.item.item['Task']}"
+                                        .substring(0, 10) +
+                                    "..."
+                                : "${widget.item.item['Task']}" + "...",                            style: const TextStyle(
+                              color: Colors.green,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(
-                        width: 12,
+                        height: 24,
                       ),
-                      Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: Column(
-                          children: [
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(widget.item.item['Task'],
-                                  textAlign: TextAlign.left,
-                                  textWidthBasis: TextWidthBasis.parent,
-                                  style: const TextStyle(
-                                      color: Color.fromRGBO(42, 74, 40, 1),
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold)),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.view_list,
+                            size: 50,
+                            color: Colors.green,
+                          ),
+                          const SizedBox(
+                              height:
+                                  10), // Adding some space between the icon and text
+                          Text(
+                            "${widget.item.item['Description']}".length >= 5
+                                ? "${widget.item.item['Description']}"
+                                    .substring(0, 10) + "..."
+                                : "${widget.item.item['Description']}" + "...",
+                            style: const TextStyle(
+                              color: Colors.green,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
                             ),
-                            const SizedBox(
-                              height: 14,
-                            ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                widget.item.item['Type'] +
-                                    " - " +
-                                    widget.item.item['SubCounty'] +
-                                    ", " +
-                                    widget.item.item['Ward'],
-                                textAlign: TextAlign.left,
-                                textWidthBasis: TextWidthBasis.parent,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.pin_drop,
+                            size: 50,
+                            color: Colors.green,
+                          ),
+                          const SizedBox(height: 10),
+                          Container(
+                            width: 100,
+                            child: Text(
+                              "${widget.item.item['Location']}",
+                              style: const TextStyle(
+                                color: Colors.green,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
                                 overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black54,
-                                  fontSize: 14,
-                                ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

@@ -5,11 +5,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/Stats.dart';
+import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 import 'package:kirinyaga_agribusiness/Pages/CreateWorkPlan.dart';
-import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
-import 'package:kirinyaga_agribusiness/Pages/WorkPlan.dart';
 import 'package:kirinyaga_agribusiness/Scroll/FOScrollController.dart';
 import '../Components/NavigationButton.dart';
 import '../Components/FODrawer.dart';
@@ -71,13 +70,26 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
         reached_farmers = data["ReachedFarmers"].toString();
         workplans = data["WorkPlan"].toString();
       });
-    } catch (e) {
+    } catch (e) {}
+  }
 
+  String _getGreeting() {
+    DateTime now = DateTime.now();
+    int hour = now.hour;
+
+    if (hour >= 5 && hour < 12) {
+      return 'Good Morning';
+    } else if (hour >= 12 && hour < 17) {
+      return 'Good Afternoon';
+    } else {
+      return 'Good Evening';
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    String greeting = _getGreeting();
+
     return MaterialApp(
       title: 'Kirinyaga Agribusiness',
       home: Scaffold(
@@ -86,100 +98,55 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
         drawer: const Drawer(child: FODrawer()),
-       
-        floatingActionButton: ElevatedButton(
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => CreateWorkPlan(userid: id)));
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color.fromRGBO(13, 50, 10, 1),
+        floatingActionButton: Align(
+          alignment: Alignment.bottomCenter,
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CreateWorkPlan(userid: id)));
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color.fromRGBO(13, 50, 10, 1),
+            ),
+            child: const Text('Create New Task'),
           ),
-          child: const Text('Create Report'),
         ),
-
-        body: Column(
-          children: <Widget>[
-            Padding(
-                padding: const EdgeInsets.fromLTRB(12, 24, 12, 24),
-                child: Row(
-                  children: [
-                    Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: Stats(
-                          label: "Target Farmers",
-                          color: Colors.blue,
-                          value: total_farmers,
-                          icon: Icons.person_search,
-                        )),
-                    Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: Stats(
-                          label: "Reached Farmers",
-                          color: Colors.green,
-                          value: reached_farmers,
-                          icon: Icons.person_pin_circle,
-                        )),
-                    Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: Stats(
-                          label: "Work Plans",
-                          color: Colors.orange,
-                          value: workplans,
-                          icon: Icons.list_rounded,
-                        )),
-                  ],
-                )),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
-              child: Row(
+        body: Container(
+          padding: const EdgeInsets.fromLTRB(12, 24, 12, 0),
+          decoration: BoxDecoration(color: Colors.lightGreen.withOpacity(0.1)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Flexible(
-                      flex: 1,
-                      fit: FlexFit.tight,
-                      child: NavigationButton(
-                        label: "Pending",
-                        active: active,
-                        buttonPressed: () {
-                          setState(() {
-                            active = "Pending";
-                            status = "Pending";
-                            countTasks(id);
-                          });
-                        },
-                      )),
-                  const SizedBox(
-                    width: 12,
-                  ),
-                  Flexible(
-                    flex: 1,
-                    fit: FlexFit.tight,
-                    child: NavigationButton(
-                      label: "Complete",
-                      active: active,
-                      buttonPressed: () {
-                        setState(() {
-                          active = "Complete";
-                          status = "Complete";
-                          countTasks(id);
-                        });
-                      },
-                    ),
+                  TextLarge(
+                    label: "$greeting, $name...",
                   ),
                 ],
               ),
-            ),
-            Flexible(
-              flex: 1,
-              fit: FlexFit.tight,
-              child: id != ""
-                  ? FOScrollController(id: id, active: active, status: status)
-                  : const SizedBox(),
-            ),
-          ],
+              const SizedBox(
+                height: 18,
+              ),
+              const Text("Today's Tasks",
+                  style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(0, 128, 0, 1))),
+              const SizedBox(
+                height: 12,
+              ),
+              Flexible(
+                flex: 1,
+                fit: FlexFit.tight,
+                child: id != ""
+                    ? FOScrollController(id: id, active: active, status: status)
+                    : const SizedBox(),
+              ),
+            ],
+          ),
         ),
       ),
     );

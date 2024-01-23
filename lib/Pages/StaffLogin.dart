@@ -146,7 +146,9 @@ class _StaffLoginState extends State<StaffLogin> {
                                       fontSize: 14,
                                       color: Color.fromRGBO(0, 128, 0, 1))),
                             ),
-                            const SizedBox(height: 10,),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             const TextOakar(
                                 label: "Powered by \n Oakar Services Ltd.")
                           ]))),
@@ -181,7 +183,12 @@ Future<Message> login(String email, String password) async {
       },
       body: jsonEncode(<String, String>{'Email': email, 'Password': password}),
     );
+
+    print("$email, $password");
+
+
     if (response.statusCode == 200 || response.statusCode == 203) {
+      print(response.body);
       return Message.fromJson(jsonDecode(response.body));
     } else {
       return Message(
@@ -194,7 +201,7 @@ Future<Message> login(String email, String password) async {
     return Message(
       token: null,
       success: null,
-      error: "Connection to server failed!",
+      error: "Connection to server failed!!",
     );
   }
 }
