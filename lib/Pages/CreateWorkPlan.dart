@@ -201,21 +201,21 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Create Task"),
-        actions: [
-          Align(
-            alignment: Alignment.centerRight,
-            child: IconButton(
-              onPressed: () => {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (_) => const FieldOfficerHome()))
-              },
-              icon: const Icon(Icons.arrow_back),
-            ),
+      title: Text("Create Task"),
+      actions: [
+        Align(
+          alignment: Alignment.centerRight,
+          child: IconButton(
+            onPressed: () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (_) => FieldOfficerHome()));
+            },
+            icon: const Icon(Icons.arrow_back),
           ),
-        ],
-        backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
-      ),
+        ),
+      ],
+      backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
+    ),
       body: Stack(
         children: [
           SingleChildScrollView(

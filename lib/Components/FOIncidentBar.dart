@@ -51,7 +51,7 @@ class _FOIncidentBar extends State<FOIncidentBar> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Icon(
-                            Icons.check_box,
+                            Icons.credit_card,
                             size: 50,
                             color: Colors.green,
                           ),
@@ -79,7 +79,7 @@ class _FOIncidentBar extends State<FOIncidentBar> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Icon(
-                            Icons.view_list,
+                            Icons.format_indent_increase,
                             size: 50,
                             color: Colors.green,
                           ),
@@ -88,9 +88,9 @@ class _FOIncidentBar extends State<FOIncidentBar> {
                                   10), // Adding some space between the icon and text
                           Text(
                             "${widget.item.item['Description']}".length >= 5
-                                ? "${widget.item.item['Description']}"
-                                    .substring(0, 10) + "..."
-                                : "${widget.item.item['Description']}" + "...",
+                                ? "${"${widget.item.item['Description']}"
+                                    .substring(0, 10)}..."
+                                : "${widget.item.item['Description']}...",
                             style: const TextStyle(
                               color: Colors.green,
                               fontSize: 16,

@@ -130,9 +130,9 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
               const SizedBox(
                 height: 18,
               ),
-              const Text("Today's Tasks",
+              const Text("Below is your today's todolist ",
                   style: TextStyle(
-                      fontSize: 22,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Color.fromRGBO(0, 128, 0, 1))),
               const SizedBox(
