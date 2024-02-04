@@ -24,6 +24,8 @@ class SupervisorHome extends StatefulWidget {
 class _SupervisorHomeState extends State<SupervisorHome> {
   final storage = const FlutterSecureStorage();
   String name = '';
+  String phone = '';
+  String station = '';
   String total_farmers = '';
   String reached_farmers = '';
   String workplans = '';
@@ -46,8 +48,11 @@ class _SupervisorHomeState extends State<SupervisorHome> {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => const Login()));
     } else {
+      print(decoded);
       setState(() {
         name = decoded["Name"];
+        phone = decoded["Phone"];
+        station = decoded["Department"];
         id = decoded["UserID"];
       });
       getMyActivities(decoded["UserID"]);
@@ -128,7 +133,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
                       ),
                     ],
                     borderRadius: BorderRadius.all(Radius.circular(5))),
-                child: const Column(
+                child: Column(
                   children: [
                     Row(
                       children: [
@@ -148,7 +153,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    "Duncan Muteti",
+                                    name,
                                     style: TextStyle(
                                         color: Colors.green,
                                         fontSize: 24,
@@ -161,7 +166,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
                                 Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      "Phone: 0714816920",
+                                      "Phone: $phone",
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w500),
@@ -171,19 +176,13 @@ class _SupervisorHomeState extends State<SupervisorHome> {
                                 ),
                                 Align(
                                     alignment: Alignment.centerLeft,
-                                    child: Text("Station: Kutus offices",
+                                    child: Text("Station: $station",
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500))),
                                 SizedBox(
                                   height: 6,
                                 ),
-                                Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text("Location: Kirinyaga,Kutus",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500)))
                               ],
                             ))
                       ],
