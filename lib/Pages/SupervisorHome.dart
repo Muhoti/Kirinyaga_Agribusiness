@@ -4,13 +4,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:kirinyaga_agribusiness/Components/Stats.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 import 'package:kirinyaga_agribusiness/Model/WorkplanItem.dart';
 import 'package:kirinyaga_agribusiness/Pages/CreateWorkPlan.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
-import 'package:kirinyaga_agribusiness/Scroll/SupScrollController.dart';
-import '../Components/NavigationButton.dart';
+import 'package:kirinyaga_agribusiness/Pages/SingleWP.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -76,6 +74,8 @@ class _SupervisorHomeState extends State<SupervisorHome> {
                   json['SubCounty'],
                   json['Ward'],
                   json['createdAt'],
+                  json['Latitude'],
+                  json['Longitude'],
                 ))
             .toList();
       });
@@ -216,64 +216,77 @@ class _SupervisorHomeState extends State<SupervisorHome> {
               child: ListView.builder(
                 itemCount: workplanItems.length,
                 itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 6, 24, 6),
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 240, 240, 240),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color.fromARGB(137, 158, 158, 158),
-                              offset: Offset(2.0, 2.0), // Offset of the shadow
-                              blurRadius: 5.0, // Blur radius of the shadow
-                              spreadRadius: 2.0, // Spread radius of the shadow
-                            ),
-                          ],
-                          borderRadius: BorderRadius.all(Radius.circular(5))),
-                      child: Row(children: [
-                        Icon(
-                          Icons.schedule,
-                          color: Colors.orange,
-                          size: 54,
-                        ),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        Flexible(
-                            child: Column(
-                          children: [
-                            Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  workplanItems[index].Duration,
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.green,
-                                      fontWeight: FontWeight.bold),
-                                )),
-                            Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  workplanItems[index].Description,
-                                  style: TextStyle(fontSize: 16),
-                                )),
-                            Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  "${workplanItems[index].Subcounty}, ${workplanItems[index].Ward}",
-                                  style: TextStyle(fontSize: 12, color: Colors.grey),
-                                )),
-                            Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  workplanItems[index].Date.split("T")[0],
-                                  style: TextStyle(
-                                      fontSize: 12, color: Colors.grey),
-                                )),
-                          ],
-                        ))
-                      ]),
+                  return GestureDetector(
+                    onTap: () => {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => SingleWP(
+                                    item: workplanItems[index],
+                                  )))
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 6, 24, 6),
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: const BoxDecoration(
+                            color: Color.fromARGB(255, 240, 240, 240),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color.fromARGB(137, 158, 158, 158),
+                                offset:
+                                    Offset(2.0, 2.0), // Offset of the shadow
+                                blurRadius: 5.0, // Blur radius of the shadow
+                                spreadRadius:
+                                    2.0, // Spread radius of the shadow
+                              ),
+                            ],
+                            borderRadius: BorderRadius.all(Radius.circular(5))),
+                        child: Row(children: [
+                          const Icon(
+                            Icons.schedule,
+                            color: Colors.orange,
+                            size: 54,
+                          ),
+                          const SizedBox(
+                            width: 12,
+                          ),
+                          Flexible(
+                              child: Column(
+                            children: [
+                              Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                    workplanItems[index].Duration,
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.green,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                              Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                    workplanItems[index].Description,
+                                    style: const TextStyle(fontSize: 16),
+                                  )),
+                              Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                    "${workplanItems[index].Subcounty}, ${workplanItems[index].Ward}",
+                                    style: const TextStyle(
+                                        fontSize: 12, color: Colors.grey),
+                                  )),
+                              Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                    workplanItems[index].Date.split("T")[0],
+                                    style: const TextStyle(
+                                        fontSize: 12, color: Colors.grey),
+                                  )),
+                            ],
+                          ))
+                        ]),
+                      ),
                     ),
                   );
                 },

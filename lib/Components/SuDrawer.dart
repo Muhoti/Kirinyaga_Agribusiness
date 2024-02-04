@@ -1,25 +1,8 @@
-import 'package:kirinyaga_agribusiness/Components/SearchFarmer.dart';
-import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
-import 'package:kirinyaga_agribusiness/Pages/FarmerAddress.dart';
-import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
-import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
-import 'package:kirinyaga_agribusiness/Pages/FarmerInfo.dart';
-import 'package:kirinyaga_agribusiness/Pages/FarmerResources.dart';
+import 'package:kirinyaga_agribusiness/Pages/Account.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
-import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
-import 'package:kirinyaga_agribusiness/main.dart';
-import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:flutter/material.dart';
-import 'package:kirinyaga_agribusiness/Components/Utils.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart' as http;
-import '../Model/SearchItem.dart';
-import 'TextLarge.dart';
-import 'dart:async';
-import 'dart:convert';
-import 'TextOakar.dart';
 
 class SuDrawer extends StatelessWidget {
   const SuDrawer({super.key});
@@ -55,8 +38,47 @@ class SuDrawer extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
               onTap: () {
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => const SupervisorHome()));
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (_) => const SupervisorHome()));
+              },
+            ),
+            ListTile(
+              title: const Text(
+                'My Activities',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
+              onTap: () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (_) => const SupervisorHome()));
+              },
+            ),
+            ListTile(
+              title: const Text(
+                'Farmer Mapping',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
+              onTap: () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (_) => const SupervisorHome()));
+              },
+            ),
+            ListTile(
+              title: const Text(
+                'Settings',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
+              onTap: () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (_) => const Account()));
               },
             ),
             ListTile(

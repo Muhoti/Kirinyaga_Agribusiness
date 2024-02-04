@@ -9,7 +9,6 @@ import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 import 'package:kirinyaga_agribusiness/Pages/CreateWorkPlan.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
-import 'package:kirinyaga_agribusiness/Scroll/FOScrollController.dart';
 import '../Components/NavigationButton.dart';
 import '../Components/FODrawer.dart';
 import 'package:http/http.dart' as http;
@@ -138,13 +137,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
               const SizedBox(
                 height: 12,
               ),
-              Flexible(
-                flex: 1,
-                fit: FlexFit.tight,
-                child: id != ""
-                    ? FOScrollController(id: id, active: active, status: status)
-                    : const SizedBox(),
-              ),
+             
             ],
           ),
         ),
