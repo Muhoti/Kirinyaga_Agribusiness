@@ -157,10 +157,8 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
             'Content-Type': 'application/json; charset=UTF-8'
           });
 
-      print("not searched also ${response.body}");
 
       var data = json.decode(response.body);
-      print("supervisor data is $data");
 
       setState(() {
         entries.clear();
@@ -171,7 +169,6 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
       });
     } catch (e) {
       // todo
-      print("not searched");
     }
   }
 
@@ -310,7 +307,6 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
                             Latitude,
                             Longitude,
                             widget.userid);
-                        print("new workplan details:");
 
                         setState(() {
                           isLoading = null;

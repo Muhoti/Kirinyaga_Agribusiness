@@ -230,6 +230,19 @@ class _CreateReportState extends State<SingleWP> {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
+                              "Type: ${widget.item.Type}",
+                              style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 6,
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
                               "Duration: ${widget.item.Duration}",
                               style: const TextStyle(
                                   fontSize: 16,
@@ -278,6 +291,24 @@ class _CreateReportState extends State<SingleWP> {
                             size: 100,
                           );
                         });
+                        var res = await deleteWP(widget.item.ID);
+                        setState(() {
+                          isLoading = null;
+                          if (res.error == null) {
+                            error = res.success;
+                          } else {
+                            error = res.error;
+                          }
+                        });
+                        if (res.error == null) {
+                          Timer(const Duration(seconds: 2), () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const SupervisorHome()));
+                          });
+                        }
                       }),
                 ],
               ),
@@ -290,31 +321,18 @@ class _CreateReportState extends State<SingleWP> {
   }
 }
 
-Future<Message> sendReport(String id, String Tally, String Remarks,
-    double Latitude, double Longitude, String FarmerID) async {
-  if (Tally == '' ||
-      FarmerID == '' ||
-      Remarks == '' ||
-      Latitude == 0.0 ||
-      Latitude == 0.0) {
+Future<Message> deleteWP(String id) async {
+  if (id.isEmpty) {
     return Message(
         token: null, success: null, error: "Please fill all fields!");
   }
 
   try {
-    final response = await http.put(
+    final response = await http.delete(
       Uri.parse("${getUrl()}workplan/${id}"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, dynamic>{
-        'Status': true,
-        'FarmerID': FarmerID,
-        'Tally': Tally,
-        'Remarks': Remarks,
-        'Longitude': Longitude,
-        'Latitude': Latitude
-      }),
     );
 
     if (response.statusCode == 200 || response.statusCode == 203) {

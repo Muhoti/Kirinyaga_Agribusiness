@@ -76,6 +76,8 @@ class _SupervisorHomeState extends State<SupervisorHome> {
                   json['createdAt'],
                   json['Latitude'],
                   json['Longitude'],
+                  json['Type'],
+                  json['ID'],
                 ))
             .toList();
       });

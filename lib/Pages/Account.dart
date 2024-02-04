@@ -8,7 +8,6 @@ import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SuDrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
-import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../Components/SubmitButton.dart';
 import '../Components/Utils.dart';
@@ -89,9 +88,7 @@ class _AccountState extends State<Account> {
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 12,
-                      ),
+                      
                       Padding(
                         padding: const EdgeInsets.fromLTRB(24, 0, 16, 10),
                         child: Align(
@@ -103,7 +100,7 @@ class _AccountState extends State<Account> {
                             )),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(24, 10, 16, 10),
+                        padding: const EdgeInsets.fromLTRB(24, 0, 16, 10),
                         child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -113,7 +110,7 @@ class _AccountState extends State<Account> {
                             )),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(24, 10, 16, 10),
+                        padding: const EdgeInsets.fromLTRB(24, 0, 16, 10),
                         child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -123,7 +120,7 @@ class _AccountState extends State<Account> {
                             )),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(24, 10, 16, 10),
+                        padding: const EdgeInsets.fromLTRB(24, 0, 16, 10),
                         child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -133,11 +130,21 @@ class _AccountState extends State<Account> {
                             )),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(24, 10, 16, 10),
+                        padding: const EdgeInsets.fromLTRB(24, 0, 16, 10),
                         child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
                               "Station: ${userDetails != null ? userDetails["Department"] : ""}",
+                              style: const TextStyle(
+                                  color: Colors.grey, fontSize: 16),
+                            )),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(24, 0, 16, 10),
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Role: ${userDetails != null ? userDetails["Role"] : ""}",
                               style: const TextStyle(
                                   color: Colors.grey, fontSize: 16),
                             )),

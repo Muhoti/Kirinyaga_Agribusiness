@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/FMItem.dart';
+import 'package:kirinyaga_agribusiness/Components/SuDrawer.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
@@ -25,6 +26,7 @@ class _HomeState extends State<Home> {
   dynamic data;
   int total = 0;
   String name = "";
+  String role = "";
 
   final storage = const FlutterSecureStorage();
 
@@ -42,6 +44,7 @@ class _HomeState extends State<Home> {
 
       setState(() {
         name = decoded["Name"];
+        role = decoded["Role"];
       });
       print("the token is $decoded");
       searchMapped(decoded["Name"]);
@@ -56,7 +59,7 @@ class _HomeState extends State<Home> {
       var id = await storage.read(key: "NationalID");
       if (id != null) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => Summary()));
+            context, MaterialPageRoute(builder: (_) => const Summary()));
       }
     } catch (e) {}
   }
@@ -87,7 +90,6 @@ class _HomeState extends State<Home> {
         data = body;
         total = minimum;
       });
-
     } catch (e) {
       // todo
     }
@@ -122,7 +124,8 @@ class _HomeState extends State<Home> {
             color: Colors.white,
           ),
         ),
-        drawer: const Drawer(child: FMDrawer()),
+        drawer: Drawer(
+            child: role == "Enumerator" ? const FMDrawer() : const SuDrawer()),
         body: Stack(children: [
           SingleChildScrollView(
             child: Padding(

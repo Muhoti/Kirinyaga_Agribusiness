@@ -9,6 +9,8 @@ class WorkplanItem {
   final String Date;
   final double Latitude;
   final double Longitude;
+  final String Type;
+  final String ID;
   const WorkplanItem(this.Duration, this.Description, this.Task, this.Subcounty,
-      this.Ward, this.Date, this.Latitude, this.Longitude);
+      this.Ward, this.Date, this.Latitude, this.Longitude, this.Type, this.ID);
 }
