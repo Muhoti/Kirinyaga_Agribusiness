@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/Stats.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
+import 'package:kirinyaga_agribusiness/Pages/CreateWorkPlan.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Scroll/SupScrollController.dart';
 import '../Components/NavigationButton.dart';
@@ -70,9 +71,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
         reached_farmers = data["ReachedFarmers"].toString();
         workplans = data["WorkPlan"].toString();
       });
-    } catch (e) {
-   
-    }
+    } catch (e) {}
   }
 
   @override
@@ -81,92 +80,179 @@ class _SupervisorHomeState extends State<SupervisorHome> {
       title: 'Kirinyaga Agribusiness',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Supervisor Home"),
-          
+          title: const Text(
+            "Home",
+            style: TextStyle(color: Colors.white),
+          ),
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
+          iconTheme: const IconThemeData(color: Colors.white),
         ),
         drawer: const Drawer(child: SuDrawer()),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => CreateWorkPlan(
+                          userid: id,
+                        )));
+          },
+          child: const Icon(Icons.add),
+        ),
         body: Column(
           children: <Widget>[
             Padding(
-                padding: const EdgeInsets.fromLTRB(12, 24, 12, 24),
-                child: Row(
+              padding: const EdgeInsets.all(12),
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(12, 24, 12, 32),
+                decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 248, 233, 213),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromARGB(137, 158, 158, 158),
+                        offset: Offset(2.0, 2.0), // Offset of the shadow
+                        blurRadius: 5.0, // Blur radius of the shadow
+                        spreadRadius: 2.0, // Spread radius of the shadow
+                      ),
+                    ],
+                    borderRadius: BorderRadius.all(Radius.circular(5))),
+                child: const Column(
                   children: [
-                    Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: Stats(
-                          label: "Assigned Officers",
-                          color: Colors.blue,
-                          value: total_farmers,
-                          icon: Icons.person_search,
-                        )),
-                    Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: Stats(
-                          label: "Reviewed Reports",
-                          color: Colors.green,
-                          value: reached_farmers,
-                          icon: Icons.person_pin_circle,
-                        )),
-                    Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: Stats(
-                          label: "Total Reports",
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.person_2_rounded,
+                          size: 84,
                           color: Colors.orange,
-                          value: workplans,
-                          icon: Icons.list_rounded,
-                        )),
+                        ),
+                        SizedBox(
+                          width: 12,
+                        ),
+                        Flexible(
+                            flex: 1,
+                            fit: FlexFit.tight,
+                            child: Column(
+                              children: [
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "Duncan Muteti",
+                                    style: TextStyle(
+                                        color: Colors.green,
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 12,
+                                ),
+                                Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "Phone: 0714816920",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500),
+                                    )),
+                                SizedBox(
+                                  height: 6,
+                                ),
+                                Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text("Station: Kutus offices",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500))),
+                                SizedBox(
+                                  height: 6,
+                                ),
+                                Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text("Location: Kirinyaga,Kutus",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500)))
+                              ],
+                            ))
+                      ],
+                    ),
                   ],
-                )),
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(12),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "My Activities",
+                  style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
-              child: Row(
-                children: [
-                  Flexible(
-                      flex: 1,
-                      fit: FlexFit.tight,
-                      child: NavigationButton(
-                        label: "Pending",
-                        active: active,
-                        buttonPressed: () {
-                          setState(() {
-                            active = "Pending";
-                            status = "Pending";
-                            countTasks(id);
-                          });
-                        },
-                      )),
-                  const SizedBox(
+              padding: const EdgeInsets.fromLTRB(12, 0, 100, 12),
+              child: Container(
+                height: 6,
+                color: Colors.green,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 240, 240, 240),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromARGB(137, 158, 158, 158),
+                        offset: Offset(2.0, 2.0), // Offset of the shadow
+                        blurRadius: 5.0, // Blur radius of the shadow
+                        spreadRadius: 2.0, // Spread radius of the shadow
+                      ),
+                    ],
+                    borderRadius: BorderRadius.all(Radius.circular(5))),
+                child: const Row(children: [
+                  Icon(
+                    Icons.schedule,
+                    color: Colors.orange,
+                    size: 54,
+                  ),
+                  SizedBox(
                     width: 12,
                   ),
                   Flexible(
-                    flex: 1,
-                    fit: FlexFit.tight,
-                    child: NavigationButton(
-                      label: "Complete",
-                      active: active,
-                      buttonPressed: () {
-                        setState(() {
-                          active = "Complete";
-                          status = "Complete";
-                          countTasks(id);
-                        });
-                      },
-                    ),
-                  ),
-                ],
+                      child: Column(
+                    children: [
+                      Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            "Full Day Event",
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold),
+                          )),
+                      Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            "Training at kirinyaga univeristy for Agriculture",
+                            style: TextStyle(fontSize: 16),
+                          )),
+                      Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            "2024-2-4",
+                            style: TextStyle(fontSize: 12, color: Colors.grey),
+                          )),
+                    ],
+                  ))
+                ]),
               ),
-            ),
-            Flexible(
-              flex: 1,
-              fit: FlexFit.tight,
-              child: id != ""
-                  ? SupScrollController(id: id, active: active, status: status)
-                  : const SizedBox(),
-            ),
+            )
           ],
         ),
       ),

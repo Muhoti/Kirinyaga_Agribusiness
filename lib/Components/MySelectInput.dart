@@ -1,18 +1,15 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 class MySelectInput extends StatefulWidget {
   final String title;
   final String value;
   final List<String> entries;
-  final Function(dynamic) onSubmit;
-
+  final Function(String) onSubmit;
   const MySelectInput(
       {super.key,
+      required this.entries,
       required this.title,
       required this.onSubmit,
-      required this.entries,
       required this.value});
 
   @override
@@ -20,60 +17,101 @@ class MySelectInput extends StatefulWidget {
 }
 
 class _MySelectInputState extends State<MySelectInput> {
-  List<DropdownMenuItem<String>> menuItems = [];
-  String selected = "";
+  late String _selectedOption;
 
   @override
   void initState() {
-    if (widget.entries.length > 0) {
-      setState(() {
-        if (widget.entries.contains(widget.value)) {
-          selected = widget.value;
-        } else
-          selected = widget.entries[0];
-        menuItems = widget.entries
-            .map((item) => DropdownMenuItem(child: Text(item), value: item))
-            .toList();
-      });
-    }
     super.initState();
+    setState(() {
+      _selectedOption = widget.value != "" ? widget.value : widget.entries.first;
+    });
   }
 
   @override
   void didUpdateWidget(covariant MySelectInput oldWidget) {
-    // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
-
-    if (widget.entries.length > 0) {
+    if (oldWidget.entries != widget.entries) {
       setState(() {
-        if (widget.entries.contains(widget.value)) {
-          selected = widget.value;
-        } else
-          selected =  widget.entries[0];
-        menuItems = widget.entries
-            .map((item) => DropdownMenuItem(child: Text(item), value: item))
-            .toList();
+        _selectedOption = widget.entries.first;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
-        child: DropdownButtonFormField(
-          items: menuItems,
-          value: selected,
-          onChanged: widget.onSubmit,
-          decoration: InputDecoration(
-              contentPadding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
-              border: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Color.fromRGBO(0, 128, 0, 1))),
-              label: Text(
-                widget.title.toString(),
-                style: const TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
+    return Theme(
+      data: Theme.of(context).copyWith(
+          canvasColor: Colors.white,
+          hintColor: Colors.green,
+          inputDecorationTheme: const InputDecorationTheme(
+              border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.orange)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.orange)))),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
+        child: Stack(
+          children: [
+            TextField(
+              onChanged: (value) {},
+              onTap: () {},
+              enabled: false,
+              enableSuggestions: false,
+              autocorrect: false,
+              style: const TextStyle(color: Colors.transparent),
+              decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.all(8),
+                  hintStyle: const TextStyle(color: Colors.green),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green, width: 0.0),
+                  ),
+                  disabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green, width: 0.0),
+                  ),
+                  focusColor: Colors.yellow,
+                  border: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.orange, width: 1.0)),
+                  filled: false,
+                  label: Text(
+                    widget.title,
+                    style: const TextStyle(color: Colors.green),
+                  ),
+                  floatingLabelBehavior: FloatingLabelBehavior.always),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8.0, 0, 16, 0),
+              child: DropdownButton<String>(
+                icon: const Align(
+                  alignment: Alignment.centerRight,
+                  child: Icon(
+                    Icons.keyboard_arrow_down,
+                    color: Colors.green,
+                  ),
+                ),
+                isExpanded: true,
+                underline: Container(),
+                value: _selectedOption,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedOption = newValue!;
+                  });
+                  widget.onSubmit(newValue!);
+                },
+                items:
+                    widget.entries.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
+                      style: const TextStyle(color: Colors.green),
+                    ),
+                  );
+                }).toList(),
               ),
-              floatingLabelBehavior: FloatingLabelBehavior.auto),
-        ));
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

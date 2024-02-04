@@ -1,28 +1,18 @@
-// ignore_for_file: prefer_typing_uninitialized_variables, non_constant_identifier_names
+// ignore_for_file: prefer_typing_uninitialized_variables, non_constant_identifier_names, use_build_context_synchronously
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:http/http.dart';
-import 'package:kirinyaga_agribusiness/Components/Map.dart';
-import 'package:kirinyaga_agribusiness/Components/MyCalendar.dart';
 import 'package:kirinyaga_agribusiness/Components/MySelectInput.dart';
-import 'package:kirinyaga_agribusiness/Components/MyTextArea.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SearchSupervisor.dart';
+import 'package:kirinyaga_agribusiness/Components/SuDrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
-import 'package:kirinyaga_agribusiness/Model/SearchItem.dart';
-import 'package:kirinyaga_agribusiness/Pages/FarmerGroups.dart';
-import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
-import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
-import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
-import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
+import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 
@@ -42,16 +32,15 @@ class CreateWorkPlan extends StatefulWidget {
 class _FarmerResourcesState extends State<CreateWorkPlan> {
   String task = '';
   String description = '';
-  String date = '';
-  String duration = '';
-  String subcounty = '';
-  String ward = '';
+  String duration = 'Less than 5hrs';
+  String subcounty = 'Mwea West';
+  String ward = 'Mutithi';
   String targetFarmers = '';
-  // String supervisor = '';
   String error = '';
-  var data = null;
+  var data;
   var isLoading;
   String check = '';
+  String type = 'Office duty';
   String Tally = '';
   String Phone = '';
   String Name = '';
@@ -68,17 +57,8 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
   String location = '';
 
   final storage = const FlutterSecureStorage();
-  List<String> wrds = [];
+  List<String> wrds = ["Mutithi", "Kangai", "Thiba", "Wamumu"];
   List<SearchSupervisor> entries = <SearchSupervisor>[];
-
-  String getTodaysDate() {
-    DateTime now = DateTime.now();
-    String formattedDate = "${now.year}-${now.month}-${now.day}";
-    setState(() {
-      date = formattedDate;
-    });
-    return date;
-  }
 
   var subc = {
     "Mwea West": ["Mutithi", "Kangai", "Thiba", "Wamumu"],
@@ -120,7 +100,7 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
         content: Text(
             "Location is required! You will be logged out. Please turn on your location"),
       ));
-      Timer(Duration(seconds: 2), () {
+      Timer(const Duration(seconds: 2), () {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => const Login()));
       });
@@ -143,9 +123,8 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
       //device must move horizontally before an update event is generated;
     );
 
-    StreamSubscription<Position> positionStream =
-        Geolocator.getPositionStream(locationSettings: locationSettings)
-            .listen((Position position) {
+    Geolocator.getPositionStream(locationSettings: locationSettings)
+        .listen((Position position) {
       setState(() {
         Longitude = position.longitude;
         Latitude = position.latitude;
@@ -156,7 +135,6 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
   @override
   void initState() {
     checkGps();
-    getTodaysDate();
     super.initState();
   }
 
@@ -199,273 +177,170 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-      title: Text("Create Task"),
-      actions: [
-        Align(
-          alignment: Alignment.centerRight,
-          child: IconButton(
-            onPressed: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (_) => FieldOfficerHome()));
-            },
-            icon: const Icon(Icons.arrow_back),
+    return MaterialApp(
+      title: 'Kirinyaga Agribusiness',
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            "New Activity",
+            style: TextStyle(color: Colors.white),
           ),
-        ),
-      ],
-      backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
-    ),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Form(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  // Padding(
-                  //   padding: const EdgeInsets.fromLTRB(24, 24, 24, 6),
-                  //   child: SizedBox(
-                  //       height: 250,
-                  //       child: MyMap(
-                  //         lat: Latitude,
-                  //         lon: Longitude,
-                  //       )),
-                  // ),
-                  MyTextInput(
-                    title: "Task Name",
-                    lines: 1,
-                    value: task,
-                    type: TextInputType.text,
-                    onSubmit: (value) {
-                      setState(() {
-                        error = "";
-                        task = value;
-                      });
-                    },
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  MyTextArea(
-                    title: "Description",
-                    value: description,
-                    type: TextInputType.text,
-                    onSubmit: (value) {
-                      setState(() {
-                        error = "";
-                        description = value;
-                      });
-                    },
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  MySelectInput(
-                    title: "Duration",
-                    onSubmit: (newValue) {
-                      setState(() {
-                        error = "";
-                        duration = newValue;
-                      });
-                    },
-                    entries: const ["Less than 5hrs", "Half Day", "Full Day"],
-                    value: data == null ? "Extension Service" : duration,
-                  ),
-                  // MySelectInput(
-                  //   title: "Service Type",
-                  //   onSubmit: (newValue) {
-                  //     setState(() {
-                  //       error = "";
-                  //       servicetype = newValue;
-                  //     });
-                  //   },
-                  //   entries: const ["Extension Service", "Training", "Other"],
-                  //   value: data == null ? "Extension Service" : servicetype,
-                  // ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  MySelectInput(
-                      title: "Sub County",
-                      onSubmit: (value) {
-                        setState(() {
-                          subcounty = value;
-                        });
-                        updateWards(value);
-                      },
-                      entries: subc.keys.toList(),
-                      value: data == null ? subcounty : data["Select County"]),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  MySelectInput(
-                      title: "Ward",
-                      onSubmit: (value) {
-                        setState(() {
-                          ward = value;
-                        });
-                      },
-                      entries: wrds,
-                      value: data == null ? ward : data["Ward"]),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  // MyTextInput(
-                  //   title: "Target Farmers",
-                  //   lines: 1,
-                  //   value: targetFarmers,
-                  //   type: TextInputType.number,
-                  //   onSubmit: (value) {
-                  //     setState(() {
-                  //       error = "";
-                  //       targetFarmers = value;
-                  //     });
-                  //   },
-                  // ),
-                  // const SizedBox(
-                  //   height: 10,
-                  // ),
-                  // Phone.isNotEmpty ?
-                  // MyTextInput(
-                  //   title: "Supervisor",
-                  //   lines: 1,
-                  //   value: Phone,
-                  //   type: TextInputType.number,
-                  //   onSubmit: (value) {
-                  //     setState(() {
-                  //       error = "";
-                  //       Phone = value;
-                  //     });
-                  //   },
-                  // ) :
-                  // Padding(
-                  //   padding: const EdgeInsets.all(24.0),
-                  //   child: TextFormField(
-                  //       onChanged: (value) {
-                  //         if (value.characters.length >=
-                  //             check.characters.length) {
-                  //           searchSupervisor(value);
-                  //         } else {
-                  //           setState(() {
-                  //             entries.clear();
-                  //             Tally = '';
-                  //             Phone = '';
-                  //             Name = '';
-                  //             SupervisorID = '';
-                  //           });
-                  //         }
-                  //         setState(() {
-                  //           check = value;
-                  //           error = '';
-                  //         });
-                  //       },
-                  //       keyboardType: TextInputType.number,
-                  //       enableSuggestions: false,
-                  //       autocorrect: false,
-                  //       decoration: const InputDecoration(
-                  //           contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
-                  //           border: OutlineInputBorder(
-                  //               borderSide: BorderSide(
-                  //                   color: Color.fromRGBO(24, 8, 24, 0))),
-                  //           filled: false,
-                  //           label: Text(
-                  //             "Search Supervisor by Phone Number",
-                  //             style:
-                  //                 TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
-                  //           ),
-                  //           floatingLabelBehavior: FloatingLabelBehavior.always)),
-                  // ),
-                  // entries.isNotEmpty
-                  //     ? Card(
-                  //         elevation: 12,
-                  //         child: ListView.separated(
-                  //           padding: const EdgeInsets.all(4),
-                  //           scrollDirection: Axis.vertical,
-                  //           shrinkWrap: true,
-                  //           itemCount: entries.length,
-                  //           itemBuilder: (BuildContext context, int index) {
-                  //             return TextButton(
-                  //               onPressed: () {
-                  //                 setState(() {
-                  //                   Phone = entries[index].Phone;
-                  //                   Name = entries[index].Name;
-                  //                   SupervisorID = entries[index].SupervisorID;
-                  //                   Tally = '1';
-                  //                   entries.clear();
-                  //                 });
-                  //               },
-                  //               child: Align(
-                  //                   alignment: Alignment.centerLeft,
-                  //                   child: Text(
-                  //                       'Name: ${entries[index].Name}, Phone: ${entries[index].Phone}')),
-                  //             );
-                  //           },
-                  //           separatorBuilder:
-                  //               (BuildContext context, int index) =>
-                  //                   const Divider(),
-                  //         ),
-                  //       )
-                  //     : const SizedBox(),
-
-                  TextOakar(label: error),
-                  SubmitButton(
-                    label: "Submit",
-                    onButtonPressed: () async {
-                      setState(() {
-                        error = "";
-                        isLoading = LoadingAnimationWidget.staggeredDotsWave(
-                          color: const Color.fromRGBO(0, 128, 0, 1),
-                          size: 100,
-                        );
-                      });
-                      var res = await submitData(
-                          task,
-                          description,
-                          date,
-                          duration,
-                          subcounty,
-                          ward,
-                          Latitude,
-                          Longitude,
-                          widget.userid);
-                      print("new workplan details:");
-
-                      setState(() {
-                        isLoading = null;
-                        if (res.error == null) {
-                          error = res.success;
-                        } else {
-                          error = res.error;
-                        }
-                      });
-
-                      if (res.error == null) {
-                        Timer(const Duration(seconds: 2), () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => FieldOfficerHome()));
-                        });
-                      }
-                    },
-                  ),
-                ],
+          actions: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const SupervisorHome()));
+                  },
+                  icon: const Icon(Icons.arrow_back),
+                ),
               ),
             ),
-          ),
-          Center(
-            child: isLoading,
-          )
-        ],
+          ],
+          backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
+          iconTheme: const IconThemeData(color: Colors.white),
+        ),
+        drawer: const Drawer(child: SuDrawer()),
+        body: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Form(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    MyTextInput(
+                      title: "Task Name",
+                      lines: 1,
+                      value: task,
+                      type: TextInputType.text,
+                      onSubmit: (value) {
+                        setState(() {
+                          error = "";
+                          task = value;
+                        });
+                      },
+                    ),
+                    MySelectInput(
+                      title: "Duration",
+                      onSubmit: (newValue) {
+                        setState(() {
+                          error = "";
+                          duration = newValue;
+                        });
+                      },
+                      entries: const ["Less than 5hrs", "Half Day", "Full Day"],
+                      value: data == null ? "Less than 5hrs" : duration,
+                    ),
+                    MySelectInput(
+                      title: "Activity Type",
+                      onSubmit: (newValue) {
+                        setState(() {
+                          error = "";
+                          type = newValue;
+                        });
+                      },
+                      entries: const [
+                        "Office duty",
+                        "Workshop",
+                        "Extension Services",
+                        "Training",
+                        "Other"
+                      ],
+                      value: data == null ? "Office duty" : type,
+                    ),
+                    MySelectInput(
+                        title: "Sub County",
+                        onSubmit: (value) {
+                          setState(() {
+                            subcounty = value;
+                          });
+                          updateWards(value);
+                        },
+                        entries: subc.keys.toList(),
+                        value:
+                            data == null ? subcounty : data["Select County"]),
+                    MySelectInput(
+                        title: "Ward",
+                        onSubmit: (value) {
+                          setState(() {
+                            ward = value;
+                          });
+                        },
+                        entries: wrds,
+                        value: data == null ? ward : data["Ward"]),
+                    MyTextInput(
+                      title: "Description",
+                      value: description,
+                      type: TextInputType.text,
+                      onSubmit: (value) {
+                        setState(() {
+                          error = "";
+                          description = value;
+                        });
+                      },
+                      lines: 5,
+                    ),
+                    TextOakar(label: error),
+                    SubmitButton(
+                      label: "Submit",
+                      onButtonPressed: () async {
+                        setState(() {
+                          error = "";
+                          isLoading = LoadingAnimationWidget.staggeredDotsWave(
+                            color: const Color.fromRGBO(0, 128, 0, 1),
+                            size: 100,
+                          );
+                        });
+                        var res = await submitData(
+                            task,
+                            type,
+                            description,
+                            duration,
+                            subcounty,
+                            ward,
+                            Latitude,
+                            Longitude,
+                            widget.userid);
+                        print("new workplan details:");
+
+                        setState(() {
+                          isLoading = null;
+                          if (res.error == null) {
+                            error = res.success;
+                          } else {
+                            error = res.error;
+                          }
+                        });
+
+                        if (res.error == null) {
+                          Timer(const Duration(seconds: 2), () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const SupervisorHome()));
+                          });
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Center(
+              child: isLoading,
+            )
+          ],
+        ),
       ),
     );
   }
@@ -473,8 +348,8 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
 
 Future<Message> submitData(
   String task,
+  String type,
   String description,
-  String date,
   String duration,
   String subcounty,
   String ward,
@@ -482,8 +357,9 @@ Future<Message> submitData(
   double longitude,
   String userid,
 ) async {
-  if (task.isEmpty) {
-    return Message(token: null, success: null, error: "Task cannot be empty!");
+  if (task.isEmpty || type.isEmpty || description.isEmpty) {
+    return Message(
+        token: null, success: null, error: "All fields are required!");
   }
 
   try {
@@ -499,8 +375,8 @@ Future<Message> submitData(
       },
       body: jsonEncode(<String, dynamic>{
         'Task': task,
+        'Type': type,
         'Description': description,
-        'Date': date,
         'Duration': duration,
         'SubCounty': subcounty,
         'Latitude': latitude,

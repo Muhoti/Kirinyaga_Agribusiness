@@ -41,7 +41,7 @@ class _StaffLoginState extends State<StaffLogin> {
       switch (role) {
         case "Field Officer":
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (_) => const FieldOfficerHome()));
+              MaterialPageRoute(builder: (_) => const SupervisorHome()));
           break;
         case "Supervisor":
           Navigator.pushReplacement(context,
