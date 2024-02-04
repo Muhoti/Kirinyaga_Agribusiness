@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names
 
 import 'dart:async';
 
@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/Stats.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
+import 'package:kirinyaga_agribusiness/Model/WorkplanItem.dart';
 import 'package:kirinyaga_agribusiness/Pages/CreateWorkPlan.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Scroll/SupScrollController.dart';
@@ -31,8 +32,8 @@ class _SupervisorHomeState extends State<SupervisorHome> {
   String active = 'Pending';
   String id = '';
   String status = 'Pending';
-
   String nationalId = '';
+  List<WorkplanItem> workplanItems = [];
 
   @override
   void initState() {
@@ -51,27 +52,36 @@ class _SupervisorHomeState extends State<SupervisorHome> {
         name = decoded["Name"];
         id = decoded["UserID"];
       });
-      countTasks(decoded["UserID"]);
+      getMyActivities(decoded["UserID"]);
     }
   }
 
-  Future<void> countTasks(String id) async {
+  Future<void> getMyActivities(String id) async {
     try {
       final dynamic response;
       response = await http.get(
-        Uri.parse("${getUrl()}workplan/stats/supervisor/$id"),
+        Uri.parse("${getUrl()}workplan/getmyactivities/$id"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
       var data = json.decode(response.body);
-
+      print(data);
       setState(() {
-        total_farmers = data["TotalFarmers"].toString();
-        reached_farmers = data["ReachedFarmers"].toString();
-        workplans = data["WorkPlan"].toString();
+        workplanItems = data
+            .map<WorkplanItem>((json) => WorkplanItem(
+                  json['Duration'],
+                  json['Description'],
+                  json['Task'],
+                  json['SubCounty'],
+                  json['Ward'],
+                  json['createdAt'],
+                ))
+            .toList();
       });
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -102,7 +112,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
         body: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(16),
               child: Container(
                 padding: const EdgeInsets.fromLTRB(12, 24, 12, 32),
                 decoration: const BoxDecoration(
@@ -181,7 +191,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.all(12),
+              padding: EdgeInsets.all(16),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -194,65 +204,81 @@ class _SupervisorHomeState extends State<SupervisorHome> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 100, 12),
+              padding: const EdgeInsets.fromLTRB(16, 0, 100, 16),
               child: Container(
                 height: 6,
                 color: Colors.green,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Container(
-                padding: const EdgeInsets.all(12),
-                decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 240, 240, 240),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color.fromARGB(137, 158, 158, 158),
-                        offset: Offset(2.0, 2.0), // Offset of the shadow
-                        blurRadius: 5.0, // Blur radius of the shadow
-                        spreadRadius: 2.0, // Spread radius of the shadow
-                      ),
-                    ],
-                    borderRadius: BorderRadius.all(Radius.circular(5))),
-                child: const Row(children: [
-                  Icon(
-                    Icons.schedule,
-                    color: Colors.orange,
-                    size: 54,
-                  ),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  Flexible(
-                      child: Column(
-                    children: [
-                      Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            "Full Day Event",
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.green,
-                                fontWeight: FontWeight.bold),
-                          )),
-                      Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            "Training at kirinyaga univeristy for Agriculture",
-                            style: TextStyle(fontSize: 16),
-                          )),
-                      Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            "2024-2-4",
-                            style: TextStyle(fontSize: 12, color: Colors.grey),
-                          )),
-                    ],
-                  ))
-                ]),
+            Flexible(
+              flex: 1,
+              fit: FlexFit.tight,
+              child: ListView.builder(
+                itemCount: workplanItems.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 6, 24, 6),
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 240, 240, 240),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color.fromARGB(137, 158, 158, 158),
+                              offset: Offset(2.0, 2.0), // Offset of the shadow
+                              blurRadius: 5.0, // Blur radius of the shadow
+                              spreadRadius: 2.0, // Spread radius of the shadow
+                            ),
+                          ],
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                      child: Row(children: [
+                        Icon(
+                          Icons.schedule,
+                          color: Colors.orange,
+                          size: 54,
+                        ),
+                        SizedBox(
+                          width: 12,
+                        ),
+                        Flexible(
+                            child: Column(
+                          children: [
+                            Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(
+                                  workplanItems[index].Duration,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.bold),
+                                )),
+                            Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(
+                                  workplanItems[index].Description,
+                                  style: TextStyle(fontSize: 16),
+                                )),
+                            Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(
+                                  "${workplanItems[index].Subcounty}, ${workplanItems[index].Ward}",
+                                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                                )),
+                            Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(
+                                  workplanItems[index].Date.split("T")[0],
+                                  style: TextStyle(
+                                      fontSize: 12, color: Colors.grey),
+                                )),
+                          ],
+                        ))
+                      ]),
+                    ),
+                  );
+                },
               ),
-            )
+            ),
           ],
         ),
       ),

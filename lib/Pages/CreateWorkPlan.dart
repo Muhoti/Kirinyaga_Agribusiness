@@ -357,7 +357,7 @@ Future<Message> submitData(
   double longitude,
   String userid,
 ) async {
-  if (task.isEmpty || type.isEmpty || description.isEmpty) {
+  if (task.isEmpty || type.isEmpty || description.isEmpty || duration.isEmpty) {
     return Message(
         token: null, success: null, error: "All fields are required!");
   }
