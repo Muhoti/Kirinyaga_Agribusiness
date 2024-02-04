@@ -19,13 +19,13 @@ class _SubmitButton extends State<SubmitButton> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
-            padding: const EdgeInsets.fromLTRB(24, 12, 24, 12)
+            padding: const EdgeInsets.fromLTRB(54, 12, 54, 12)
             // minimumSize: const Size.fromHeight(50), // NEW
             ),
         onPressed: widget.onButtonPressed,
         child: Text(
           widget.label,
-          style: const TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 16, color: Colors.white),
         ),
       ),
     );

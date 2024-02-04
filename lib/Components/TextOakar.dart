@@ -16,7 +16,7 @@ class _TextOakarState extends State<TextOakar> {
       child: Text(widget.label,
       textAlign: TextAlign.center,
           style: const TextStyle(
-              fontSize: 16, fontWeight: FontWeight.bold, color: Colors.deepOrange)),
+              fontSize: 16, fontWeight: FontWeight.bold, color: Colors.orange)),
     );
   }
 }

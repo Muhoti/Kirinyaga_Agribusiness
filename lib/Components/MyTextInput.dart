@@ -1,13 +1,14 @@
+// ignore_for_file: file_names
 import 'package:flutter/material.dart';
 
 class MyTextInput extends StatefulWidget {
-  String title;
-  String value;
-  int lines;
-  var type;
-  Function(String) onSubmit;
-  
-  MyTextInput(
+  final String title;
+  final String value;
+  final int lines;
+  final TextInputType type;
+  final Function(String) onSubmit;
+
+  const MyTextInput(
       {super.key,
       required this.title,
       required this.lines,
@@ -20,7 +21,6 @@ class MyTextInput extends StatefulWidget {
 }
 
 class _MyTextInputState extends State<MyTextInput> {
-
   TextEditingController _controller = new TextEditingController();
 
   @override
@@ -34,48 +34,55 @@ class _MyTextInputState extends State<MyTextInput> {
     if (widget.value != "") {
       setState(() {
         _controller.value = TextEditingValue(
-                  text: widget.value,
-                  selection: TextSelection.fromPosition(
-                    TextPosition(offset: widget.value.length),
-                  ),
-                );
+          text: widget.value,
+          selection: TextSelection.fromPosition(
+            TextPosition(offset: widget.value.length),
+          ),
+        );
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
-        child: TextField(
-            onChanged: (value) {
-              setState(() {
-                _controller.value = TextEditingValue(
-                  text: value,
-                  selection: TextSelection.fromPosition(
-                    TextPosition(offset: value.length),
+    return Theme(
+      data: Theme.of(context).copyWith(
+          hintColor: Colors.greenAccent,
+          inputDecorationTheme: const InputDecorationTheme(
+              border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.orange)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.orange)))),
+      child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
+          child: TextField(
+              onChanged: (value) {
+                widget.onSubmit(value);
+              },
+              keyboardType: widget.type,
+              controller: _controller,
+              maxLines: widget.lines,
+              style: const TextStyle(color: Colors.green),
+              cursorColor: Colors.orange,
+              obscureText:
+                  widget.type == TextInputType.visiblePassword ? true : false,
+              enableSuggestions: true,
+              autocorrect: false,
+              decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.all(8),
+                  hintStyle: const TextStyle(color: Colors.grey),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green, width: 0.0),
                   ),
-                );
-              });
-              widget.onSubmit(value);
-            },
-            keyboardType: widget.type,
-            controller: _controller,
-            maxLines: widget.lines,
-            obscureText:
-                widget.type == TextInputType.visiblePassword ? true : false,
-            enableSuggestions: false,
-            autocorrect: false,
-            decoration: InputDecoration(
-                contentPadding: const EdgeInsets.all(12),
-                border: const OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Color.fromRGBO(0, 128, 0, 1))),
-                filled: false,
-                label: Text(
-                  widget.title.toString(),
-                  style: const TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
-                ),
-                floatingLabelBehavior: FloatingLabelBehavior.auto)));
+                  focusColor: Colors.orange,
+                  border: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.green, width: 2.0)),
+                  filled: false,
+                  label: Text(
+                    widget.title.toString(),
+                    style: const TextStyle(color: Colors.green),
+                  ),
+                  floatingLabelBehavior: FloatingLabelBehavior.auto))),
+    );
   }
 }

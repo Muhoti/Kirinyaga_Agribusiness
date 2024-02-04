@@ -8,6 +8,7 @@ import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
 import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'Components/Utils.dart';
 import 'Pages/Home.dart';
 
@@ -26,68 +27,21 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final storage = const FlutterSecureStorage();
+  var isLoading = LoadingAnimationWidget.staggeredDotsWave(
+    color: Colors.orange,
+    size: 100,
+  );
 
-  Future<void> checkLogin() async {
-    var token = await storage.read(key: "erjwt");
-    var decoded = parseJwt(token.toString());
-    if (decoded["error"] == "Invalid token") {
-      print("user sent to login");
+  checkLogin() {
+    Future.delayed(const Duration(seconds: 5), () {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => const Login()));
-    }
-  }
-
-  Future<void> isUserLoggedIn() async {
-    var type = await storage.read(key: "Type");
-
-    print("the user type is $type");
-
-    if (type == "Farmer") {
-      // Verify Farmer is logged in
-      var token = await storage.read(key: "erjwt");
-      if (token != null) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const FarmerHome()));
-      }
-    } else if (type == "Staff") {
-      // verify staff
-      var token = await storage.read(key: "erjwt");
-      var decoded = parseJwt(token.toString());
-
-      print('the role is $decoded');
-
-      switch (decoded["Role"]) {
-        case "Field Officer":
-          Timer(const Duration(seconds: 2), () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (_) => const FieldOfficerHome()));
-          });
-          break;
-        case "Supervisor":
-          Timer(const Duration(seconds: 2), () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (_) => const SupervisorHome()));
-          });
-          break;
-        case "Enumerator":
-          Timer(const Duration(seconds: 2), () {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => const Home()));
-          });
-          break;
-
-        default:
-          const Home();
-      }
-    } else {
-      const MyApp();
-    }
+    });
   }
 
   @override
   void initState() {
     checkLogin();
-    isUserLoggedIn();
     super.initState();
   }
 
@@ -96,28 +50,34 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Kirinyaga Agribusiness',
       home: Scaffold(
-        body: Container(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(48, 24, 48, 12),
-                  child: Image.asset('assets/images/logo.png'),
-                ),
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(24, 24, 24, 0),
-                  child: Text(
-                    'Welcome to Kirinyaga Smart Agriculture',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 28, color: Color.fromRGBO(0, 128, 0, 1)),
+        body: Stack(
+          children: [
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(48, 24, 48, 24),
+                    child: Image.asset('assets/images/logo.png'),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 100,),
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
+                    child: Text(
+                      'KiriAMIS \n Mobile App',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 44, color: Color.fromRGBO(0, 128, 0, 1), fontWeight: FontWeight.w900),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
+            Center(
+              child: isLoading,
+            )
+          ],
         ),
       ),
     );
