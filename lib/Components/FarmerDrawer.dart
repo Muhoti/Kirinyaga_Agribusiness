@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 class FarmerDrawer extends StatelessWidget {
   const FarmerDrawer({super.key});
+  final storage = const FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +55,7 @@ class FarmerDrawer extends StatelessWidget {
               onTap: () {
                 final store = new FlutterSecureStorage();
                 store.deleteAll();
+                 storage.write(key: "login_option", value: "0");
                 Navigator.pushReplacement(
                     context, MaterialPageRoute(builder: (_) => const Login()));
               },

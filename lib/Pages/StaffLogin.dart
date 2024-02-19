@@ -39,7 +39,7 @@ class _StaffLoginState extends State<StaffLogin> {
       switch (role) {
         case "Field Officer":
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (_) => const SupervisorHome()));
+              MaterialPageRoute(builder: (_) => const FieldOfficerHome()));
           break;
         case "Supervisor":
           Navigator.pushReplacement(context,
@@ -173,7 +173,10 @@ Future<Message> login(String email, String password) async {
       error: "Password is too short!",
     );
   }
+
+  print("email is: $email, password is: $password");
   try {
+    print("begining login");
     final response = await http.post(
       Uri.parse("${getUrl()}mobile/login"),
       headers: <String, String>{
@@ -182,13 +185,14 @@ Future<Message> login(String email, String password) async {
       body: jsonEncode(<String, String>{'Email': email, 'Password': password}),
     );
 
-    print("$email, $password");
-
+    print(response.body);
 
     if (response.statusCode == 200 || response.statusCode == 203) {
       print(response.body);
       return Message.fromJson(jsonDecode(response.body));
     } else {
+      print(response.statusCode);
+
       return Message(
         token: null,
         success: null,
@@ -196,6 +200,7 @@ Future<Message> login(String email, String password) async {
       );
     }
   } catch (e) {
+    print("login error: $e");
     return Message(
       token: null,
       success: null,

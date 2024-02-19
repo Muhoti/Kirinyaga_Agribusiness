@@ -1,6 +1,7 @@
 import 'package:kirinyaga_agribusiness/Components/ChangePasswordDialog.dart';
 import 'package:kirinyaga_agribusiness/Components/SearchFarmer.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
+import 'package:kirinyaga_agribusiness/Pages/FOWorkPlanStats.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerAddress.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
@@ -8,6 +9,8 @@ import 'package:kirinyaga_agribusiness/Pages/FarmerInfo.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerResources.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
+import 'package:kirinyaga_agribusiness/Pages/Schedule.dart';
+import 'package:kirinyaga_agribusiness/Pages/StaffLogin.dart';
 import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Pages/ValueChainForm.dart';
@@ -76,6 +79,34 @@ class FODrawer extends StatelessWidget {
                         builder: (context) => const FarmerDetails(editing: false,)));
               },
             ),
+              ListTile(
+              title: const Text(
+                'My Activities',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
+              onTap: () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (_) => const Schedule()));
+              },
+            ),
+            ListTile(
+              title: const Text(
+                'WorkPlans',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
+              onTap: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const FOWorkPlanStats()));
+              },
+            ),
             ListTile(
               title: const Text(
                 'Update Farmer',
@@ -121,7 +152,7 @@ class FODrawer extends StatelessWidget {
                 final store = new FlutterSecureStorage();
                 store.deleteAll();
                 Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => const Login()));
+                    context, MaterialPageRoute(builder: (_) => const StaffLogin()));
               },
             ),
           ],

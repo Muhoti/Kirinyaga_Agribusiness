@@ -1,49 +1,60 @@
-// ignore_for_file: prefer_typing_uninitialized_variables, non_constant_identifier_names
+// ignore_for_file: prefer_typing_uninitialized_variables, non_constant_identifier_names, use_build_context_synchronously
 
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:kirinyaga_agribusiness/Components/MyCalendar.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:kirinyaga_agribusiness/Components/MySelectInput.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SearchSupervisor.dart';
+import 'package:kirinyaga_agribusiness/Components/SuDrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
-import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
+import 'package:kirinyaga_agribusiness/Pages/Login.dart';
+import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 
 import '../Components/Utils.dart';
 
-class CreateWorkPlan extends StatefulWidget {
+class CreateActivity extends StatefulWidget {
   final String userid;
-  const CreateWorkPlan({
+  const CreateActivity({
     super.key,
     required this.userid,
   });
 
   @override
-  State<CreateWorkPlan> createState() => _FarmerResourcesState();
+  State<CreateActivity> createState() => _FarmerResourcesState();
 }
 
-class _FarmerResourcesState extends State<CreateWorkPlan> {
+class _FarmerResourcesState extends State<CreateActivity> {
   String task = '';
-  String date = '';
-  String servicetype = '';
-  String subcounty = '';
-  String ward = '';
+  String description = '';
+  String duration = 'Less than 5hrs';
+  String subcounty = 'Mwea West';
+  String ward = 'Mutithi';
   String targetFarmers = '';
-  String supervisor = '';
   String error = '';
-  var data = null;
+  var data;
   var isLoading;
   String check = '';
+  String type = 'Office duty';
   String Tally = '';
   String Phone = '';
   String Name = '';
   String SupervisorID = '';
   String role = 'Supervisor';
+  double Latitude = 0.0;
+  double Longitude = 0.0;
+
+  late LocationPermission permission;
+
+  late Position position;
+  bool servicestatus = false;
+  bool haspermission = false;
+  String location = '';
 
   final storage = const FlutterSecureStorage();
   List<String> wrds = ["Mutithi", "Kangai", "Thiba", "Wamumu"];
@@ -63,8 +74,67 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
     "Kirinyaga Central": ["Mutira", "Kanyekini", "Kerugoya", "Inoi"]
   };
 
+  checkGps() async {
+    servicestatus = await Geolocator.isLocationServiceEnabled();
+    if (servicestatus) {
+      permission = await Geolocator.checkPermission();
+
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          permission = await Geolocator.requestPermission();
+        } else if (permission == LocationPermission.deniedForever) {
+          permission = await Geolocator.requestPermission();
+        } else {
+          haspermission = true;
+        }
+      } else {
+        haspermission = true;
+      }
+
+      if (haspermission) {
+        getLocation();
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+            "Location is required! You will be logged out. Please turn on your location"),
+      ));
+      Timer(const Duration(seconds: 2), () {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const Login()));
+      });
+    }
+  }
+
+  getLocation() async {
+    position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    Longitude = position.longitude;
+    Latitude = position.latitude;
+
+    setState(() {
+      location = 'Current location Lat: $Latitude Lon: $Longitude';
+    });
+
+    LocationSettings locationSettings = const LocationSettings(
+      accuracy: LocationAccuracy.high, //accuracy of the location data
+      distanceFilter: 1, //minimum distance (measured in meters) a
+      //device must move horizontally before an update event is generated;
+    );
+
+    Geolocator.getPositionStream(locationSettings: locationSettings)
+        .listen((Position position) {
+      setState(() {
+        Longitude = position.longitude;
+        Latitude = position.latitude;
+      });
+    });
+  }
+
   @override
   void initState() {
+    checkGps();
     super.initState();
   }
 
@@ -87,6 +157,7 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
             'Content-Type': 'application/json; charset=UTF-8'
           });
 
+
       var data = json.decode(response.body);
 
       setState(() {
@@ -100,27 +171,38 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
       // todo
     }
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Kirinyaga Agribusiness',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Create Workplan"),
+          title: const Text(
+            "New Activity",
+            style: TextStyle(color: Colors.white),
+          ),
           actions: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: IconButton(
-                onPressed: () => {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (_) => const FieldOfficerHome()))
-                },
-                icon: const Icon(Icons.arrow_back),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const SupervisorHome()));
+                  },
+                  icon: const Icon(Icons.arrow_back),
+                ),
               ),
             ),
           ],
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
+          iconTheme: const IconThemeData(color: Colors.white),
         ),
+        drawer: const Drawer(child: SuDrawer()),
         body: Stack(
           children: [
             SingleChildScrollView(
@@ -144,33 +226,33 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
                         });
                       },
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    MyCalendar(
-                      label: "Select date",
-                      onSubmit: (value) {
-                        setState(() {
-                          date = value;
-                        });
-                      },
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
                     MySelectInput(
-                      title: "Service Type",
+                      title: "Duration",
                       onSubmit: (newValue) {
                         setState(() {
                           error = "";
-                          servicetype = newValue;
+                          duration = newValue;
                         });
                       },
-                      entries: const ["Extension Service", "Trainig", "Other"],
-                      value: data == null ? "Extension Service" : servicetype,
+                      entries: const ["Less than 5hrs", "Half Day", "Full Day"],
+                      value: data == null ? "Less than 5hrs" : duration,
                     ),
-                    const SizedBox(
-                      height: 10,
+                    MySelectInput(
+                      title: "Activity Type",
+                      onSubmit: (newValue) {
+                        setState(() {
+                          error = "";
+                          type = newValue;
+                        });
+                      },
+                      entries: const [
+                        "Office duty",
+                        "Workshop",
+                        "Extension Services",
+                        "Training",
+                        "Other"
+                      ],
+                      value: data == null ? "Office duty" : type,
                     ),
                     MySelectInput(
                         title: "Sub County",
@@ -181,10 +263,8 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
                           updateWards(value);
                         },
                         entries: subc.keys.toList(),
-                        value: data == null ? subcounty : data["Select County"]),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                        value:
+                            data == null ? subcounty : data["Select County"]),
                     MySelectInput(
                         title: "Ward",
                         onSubmit: (value) {
@@ -194,105 +274,18 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
                         },
                         entries: wrds,
                         value: data == null ? ward : data["Ward"]),
-                    const SizedBox(
-                      height: 10,
-                    ),
                     MyTextInput(
-                      title: "Target Farmers",
-                      lines: 1,
-                      value: targetFarmers,
-                      type: TextInputType.number,
+                      title: "Description",
+                      value: description,
+                      type: TextInputType.text,
                       onSubmit: (value) {
                         setState(() {
                           error = "";
-                          targetFarmers = value;
+                          description = value;
                         });
                       },
+                      lines: 5,
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Phone.isNotEmpty ? 
-                    MyTextInput(
-                      title: "Supervisor",
-                      lines: 1,
-                      value: Phone,
-                      type: TextInputType.number,
-                      onSubmit: (value) {
-                        setState(() {
-                          error = "";
-                          Phone = value;
-                        });
-                      },
-                    ) :
-                    Padding(
-                      padding: const EdgeInsets.all(24.0),
-                      child: TextFormField(
-                          onChanged: (value) {
-                            if (value.characters.length >=
-                                check.characters.length) {
-                              searchSupervisor(value);
-                            } else {
-                              setState(() {
-                                entries.clear();
-                                Tally = '';
-                                Phone = '';
-                                Name = '';
-                                SupervisorID = '';
-                              });
-                            }
-                            setState(() {
-                              check = value;
-                              error = '';
-                            });
-                          },
-                          keyboardType: TextInputType.number,
-                          enableSuggestions: false,
-                          autocorrect: false,
-                          decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Color.fromRGBO(24, 8, 24, 0))),
-                              filled: false,
-                              label: Text(
-                                "Search Supervisor by Phone Number",
-                                style:
-                                    TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
-                              ),
-                              floatingLabelBehavior: FloatingLabelBehavior.always)),
-                    ),
-                    entries.isNotEmpty
-                        ? Card(
-                            elevation: 12,
-                            child: ListView.separated(
-                              padding: const EdgeInsets.all(4),
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              itemCount: entries.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      Phone = entries[index].Phone;
-                                      Name = entries[index].Name;
-                                      SupervisorID = entries[index].SupervisorID;
-                                      Tally = '1';
-                                      entries.clear();
-                                    });
-                                  },
-                                  child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                          'Name: ${entries[index].Name}, Phone: ${entries[index].Phone}')),
-                                );
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) =>
-                                      const Divider(),
-                            ),
-                          )
-                        : const SizedBox(),
                     TextOakar(label: error),
                     SubmitButton(
                       label: "Submit",
@@ -305,17 +298,16 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
                           );
                         });
                         var res = await submitData(
-                          task,
-                          date,
-                          servicetype,
-                          subcounty,
-                          ward,
-                          targetFarmers,
-                          SupervisorID,
-                          widget.userid,
-                        );
-                        print("new workplan details:");
-      
+                            task,
+                            type,
+                            description,
+                            duration,
+                            subcounty,
+                            ward,
+                            Latitude,
+                            Longitude,
+                            widget.userid);
+
                         setState(() {
                           isLoading = null;
                           if (res.error == null) {
@@ -324,13 +316,14 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
                             error = res.error;
                           }
                         });
-      
+
                         if (res.error == null) {
                           Timer(const Duration(seconds: 2), () {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => FieldOfficerHome()));
+                                    builder: (context) =>
+                                        const SupervisorHome()));
                           });
                         }
                       },
@@ -351,16 +344,18 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
 
 Future<Message> submitData(
   String task,
-  String date,
-  String servicetype,
+  String type,
+  String description,
+  String duration,
   String subcounty,
   String ward,
-  String targetFarmers,
-  String supID,
+  double latitude,
+  double longitude,
   String userid,
 ) async {
-  if (task.isEmpty) {
-    return Message(token: null, success: null, error: "Task cannot be empty!");
+  if (task.isEmpty || type.isEmpty || description.isEmpty || duration.isEmpty) {
+    return Message(
+        token: null, success: null, error: "All fields are required!");
   }
 
   try {
@@ -369,20 +364,21 @@ Future<Message> submitData(
     var response;
 
     response = await http.post(
-      Uri.parse("${getUrl()}workplan/create"),
+      Uri.parse("${getUrl()}activity/create"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'token': token!
       },
-      body: jsonEncode(<String, String>{
+      body: jsonEncode(<String, dynamic>{
         'Task': task,
-        'Date': date,
+        'Type': type,
+        'Description': description,
+        'Duration': duration,
         'SubCounty': subcounty,
+        'Latitude': latitude,
+        'Longitude': longitude,
         'Ward': ward,
-        'Target': targetFarmers,
         'UserID': userid,
-        'SupervisorID': supID,
-        'Type': servicetype,
       }),
     );
 

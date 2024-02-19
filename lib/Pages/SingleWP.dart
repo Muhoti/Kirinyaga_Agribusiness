@@ -282,7 +282,7 @@ class _CreateReportState extends State<SingleWP> {
                   ),
                   TextOakar(label: error),
                   SubmitButton(
-                      label: "Delete Workplan",
+                      label: "Delete Activity",
                       onButtonPressed: () async {
                         setState(() {
                           error = '';

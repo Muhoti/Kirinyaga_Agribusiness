@@ -26,6 +26,11 @@ class _LoginState extends State<Login> {
 
   checkSelection() async {
     var index = await storage.read(key: "login_option");
+    if (index == null) {
+      setState(() {
+        index = '1';
+      });
+    }
     print("data ${index}");
     setState(() {
       _selectedItem = int.parse(index as String);

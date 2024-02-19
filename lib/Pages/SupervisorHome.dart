@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 import 'package:kirinyaga_agribusiness/Model/WorkplanItem.dart';
-import 'package:kirinyaga_agribusiness/Pages/CreateWorkPlan.dart';
+import 'package:kirinyaga_agribusiness/Pages/CreateActivity.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Pages/SingleWP.dart';
 import 'package:http/http.dart' as http;
@@ -63,7 +63,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
     try {
       final dynamic response;
       response = await http.get(
-        Uri.parse("${getUrl()}workplan/getmyactivities/$id"),
+        Uri.parse("${getUrl()}activity/getmyactivities/$id"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -110,7 +110,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => CreateWorkPlan(
+                    builder: (_) => CreateActivity(
                           userid: id,
                         )));
           },

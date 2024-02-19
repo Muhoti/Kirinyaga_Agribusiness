@@ -4,7 +4,9 @@ import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kirinyaga_agribusiness/Pages/SUPWorkPlanStats.dart';
 import 'package:kirinyaga_agribusiness/Pages/Schedule.dart';
+import 'package:kirinyaga_agribusiness/Pages/SuWorkPlan.dart';
 import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'package:flutter/material.dart';
 
@@ -57,6 +59,19 @@ class SuDrawer extends StatelessWidget {
               onTap: () {
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (_) => const Schedule()));
+              },
+            ),
+             ListTile(
+              title: const Text(
+                'WorkPlans',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
+              onTap: () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (_) => const SUPWorkPlanStats()));
               },
             ),
             ListTile(

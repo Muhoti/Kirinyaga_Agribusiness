@@ -34,6 +34,8 @@ class _MyAppState extends State<MyApp> {
 
   checkLogin() {
     Future.delayed(const Duration(seconds: 5), () {
+                storage.write(key: "login_option", value: "0");
+
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => const Login()));
     });

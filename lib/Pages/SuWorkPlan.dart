@@ -12,6 +12,7 @@ import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Components/TextView.dart';
+import 'package:kirinyaga_agribusiness/Pages/SUPWorkPlanStats.dart';
 import 'package:kirinyaga_agribusiness/Pages/SingleWP.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
@@ -85,7 +86,7 @@ class _SupWorkPlanState extends State<SupWorkPlan> {
               child: IconButton(
                 onPressed: () => {
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (_) => SupervisorHome()))
+                      MaterialPageRoute(builder: (_) => const SUPWorkPlanStats()))
                 },
                 icon: const Icon(Icons.arrow_back),
               ),
