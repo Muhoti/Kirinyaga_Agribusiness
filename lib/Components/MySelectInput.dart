@@ -17,22 +17,41 @@ class MySelectInput extends StatefulWidget {
 }
 
 class _MySelectInputState extends State<MySelectInput> {
-  late String _selectedOption;
+  List<DropdownMenuItem<String>> menuItems = [];
+  String _selectedOption = "";
 
   @override
   void initState() {
+    if (widget.entries.isNotEmpty) {
+      setState(() {
+        if (widget.entries.contains(widget.value)) {
+          _selectedOption = widget.value;
+        } else {
+          _selectedOption = widget.entries[0];
+        }
+        menuItems = widget.entries
+            .map((item) => DropdownMenuItem(value: item, child: Text(item)))
+            .toList();
+      });
+    }
     super.initState();
-    setState(() {
-      _selectedOption = widget.value != "" ? widget.value : widget.entries.first;
-    });
   }
 
   @override
   void didUpdateWidget(covariant MySelectInput oldWidget) {
+    // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.entries != widget.entries) {
+
+    if (widget.entries.isNotEmpty) {
       setState(() {
-        _selectedOption = widget.entries.first;
+        if (widget.entries.contains(widget.value)) {
+          _selectedOption = widget.value;
+        } else {
+          _selectedOption = widget.entries[0];
+        }
+        menuItems = widget.entries
+            .map((item) => DropdownMenuItem(value: item, child: Text(item)))
+            .toList();
       });
     }
   }
@@ -97,8 +116,8 @@ class _MySelectInputState extends State<MySelectInput> {
                   });
                   widget.onSubmit(newValue!);
                 },
-                items:
-                    widget.entries.map<DropdownMenuItem<String>>((String value) {
+                items: widget.entries
+                    .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(

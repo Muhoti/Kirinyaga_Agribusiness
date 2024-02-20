@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:kirinyaga_agribusiness/Components/Map.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/ReviewMap.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
@@ -290,10 +289,7 @@ class _SuReportBar extends State<SuReportBar> {
 
                             if (res.error == null) {
                               Timer(const Duration(seconds: 1), () {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => SupervisorHome()));
+                                Navigator.pop(context);
                               });
                             }
                           },

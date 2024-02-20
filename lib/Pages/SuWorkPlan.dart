@@ -45,7 +45,7 @@ class _SupWorkPlanState extends State<SupWorkPlan> {
         size: 100,
       );
     });
-    
+
     viewWork(widget.id);
 
     super.initState();
@@ -64,7 +64,6 @@ class _SupWorkPlanState extends State<SupWorkPlan> {
         isloading = null;
         reviewed = body["SupervisorRemarks"] == null ? false : true;
       });
-    
     } catch (e) {
       setState(() {
         isloading = null;
@@ -79,19 +78,25 @@ class _SupWorkPlanState extends State<SupWorkPlan> {
       home: Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
-          title: Text("${widget.name} Report"),
+          title: Text(
+            "${widget.name} Report",
+            style: const TextStyle(color: Colors.white),
+          ),
           actions: [
             Align(
               alignment: Alignment.centerRight,
               child: IconButton(
                 onPressed: () => {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (_) => const SUPWorkPlanStats()))
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const SUPWorkPlanStats()))
                 },
                 icon: const Icon(Icons.arrow_back),
               ),
             ),
           ],
+          iconTheme: const IconThemeData(color: Colors.white),
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
         body: Stack(children: [

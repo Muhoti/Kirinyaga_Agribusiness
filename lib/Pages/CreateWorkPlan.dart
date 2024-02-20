@@ -10,6 +10,7 @@ import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SearchSupervisor.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
+import 'package:kirinyaga_agribusiness/Pages/FOWorkPlanStats.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
@@ -106,16 +107,16 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Create Workplan"),
+          title: const Text("Create Workplan", style: TextStyle(color: Colors.white),),
           actions: [
             Align(
               alignment: Alignment.centerRight,
               child: IconButton(
                 onPressed: () => {
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (_) => const FieldOfficerHome()))
+                      MaterialPageRoute(builder: (_) => const FOWorkPlanStats()))
                 },
-                icon: const Icon(Icons.arrow_back),
+                icon: const Icon(Icons.arrow_back, color: Colors.white,),
               ),
             ),
           ],
@@ -166,7 +167,7 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
                           servicetype = newValue;
                         });
                       },
-                      entries: const ["Extension Service", "Trainig", "Other"],
+                      entries: const ["Extension Service", "Training", "Other"],
                       value: data == null ? "Extension Service" : servicetype,
                     ),
                     const SizedBox(
@@ -330,7 +331,7 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => FieldOfficerHome()));
+                                    builder: (context) => const FOWorkPlanStats()));
                           });
                         }
                       },

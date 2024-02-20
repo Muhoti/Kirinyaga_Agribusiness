@@ -81,19 +81,28 @@ class _FOWorkPlanStatsState extends State<FOWorkPlanStats> {
       title: 'Kirinyaga Agribusiness',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Work Plan Statistics"),
+          title: const Text(
+            "Work Plan Statistics",
+            style: TextStyle(color: Colors.white),
+          ),
           actions: [
             Align(
               alignment: Alignment.centerRight,
               child: IconButton(
                 onPressed: () => {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (_) => const FieldOfficerHome()))
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const FieldOfficerHome()))
                 },
-                icon: const Icon(Icons.arrow_back),
+                icon: const Icon(
+                  Icons.arrow_back,
+                  
+                ),
               ),
             ),
           ],
+          iconTheme: const IconThemeData(color: Colors.white),
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
         drawer: const Drawer(child: FODrawer()),
@@ -107,7 +116,10 @@ class _FOWorkPlanStatsState extends State<FOWorkPlanStats> {
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromRGBO(13, 50, 10, 1),
           ),
-          child: const Text('Create Report'),
+          child: const Text(
+            'Create Report',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
         body: Column(
           children: <Widget>[

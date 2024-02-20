@@ -3,14 +3,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
-import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
-import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
-import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'Components/Utils.dart';
-import 'Pages/Home.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -27,13 +21,10 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final storage = const FlutterSecureStorage();
-  var isLoading = LoadingAnimationWidget.staggeredDotsWave(
-    color: Colors.orange,
-    size: 100,
-  );
+ 
 
   checkLogin() {
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 2), () {
                 storage.write(key: "login_option", value: "0");
 
       Navigator.pushReplacement(
@@ -76,9 +67,6 @@ class _MyAppState extends State<MyApp> {
                 ],
               ),
             ),
-            Center(
-              child: isLoading,
-            )
           ],
         ),
       ),

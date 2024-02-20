@@ -1,23 +1,14 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, file_names, prefer_interpolation_to_compose_strings
 
-import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
-import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
-import 'package:kirinyaga_agribusiness/Components/NavigationButton.dart';
 import 'package:kirinyaga_agribusiness/Components/ReportBar.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
-import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
-import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
-import 'package:kirinyaga_agribusiness/Components/TextView.dart';
 import 'package:kirinyaga_agribusiness/Pages/CreateReport.dart';
-import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
-import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/FOWorkPlanStats.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:http/http.dart' as http;
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 
 class WorkPlan extends StatefulWidget {
@@ -58,7 +49,6 @@ class _WorkPlanState extends State<WorkPlan> {
         data = body;
         isloading = null;
       });
-  
     } catch (e) {
       setState(() {
         isloading = null;
@@ -73,19 +63,25 @@ class _WorkPlanState extends State<WorkPlan> {
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: const Text("Field Officer Report"),
+          title: const Text(
+            "Field Officer Report",
+            style: TextStyle(color: Colors.white),
+          ),
           actions: [
             Align(
               alignment: Alignment.centerRight,
               child: IconButton(
                 onPressed: () => {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (_) => const FOWorkPlanStats()))
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const FOWorkPlanStats()))
                 },
                 icon: const Icon(Icons.arrow_back),
               ),
             ),
           ],
+          iconTheme: const IconThemeData(color: Colors.white),
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
         body: Stack(children: [

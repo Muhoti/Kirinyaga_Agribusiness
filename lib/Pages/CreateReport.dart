@@ -74,7 +74,6 @@ class _CreateReportState extends State<CreateReport> {
       if (haspermission) {
         getLocation();
       }
-      
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text(
@@ -149,8 +148,7 @@ class _CreateReportState extends State<CreateReport> {
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const FarmerDetails(
-                          editing: false,
+                    builder: (context) => WorkPlan(id: widget.id,
                         )));
           },
           elevation: 5.0,
@@ -164,7 +162,10 @@ class _CreateReportState extends State<CreateReport> {
           ),
         ),
         appBar: AppBar(
-          title: const Text("Field Officer Report"),
+          title: const Text(
+            "Field Officer Report",
+            style: TextStyle(color: Colors.white),
+          ),
           actions: [
             Align(
               alignment: Alignment.centerRight,
@@ -177,6 +178,8 @@ class _CreateReportState extends State<CreateReport> {
               ),
             ),
           ],
+                    iconTheme: const IconThemeData(color: Colors.white),
+
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
         body: Stack(
@@ -268,7 +271,7 @@ class _CreateReportState extends State<CreateReport> {
                                 ),
                                 floatingLabelBehavior:
                                     FloatingLabelBehavior.always)),
-                           entries.isNotEmpty
+                        entries.isNotEmpty
                             ? Card(
                                 elevation: 12,
                                 child: ListView.separated(

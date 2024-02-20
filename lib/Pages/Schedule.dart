@@ -145,10 +145,8 @@ class _ScheduleState extends State<Schedule> {
                     alignment: Alignment.centerRight,
                     child: IconButton(
                       onPressed: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const SupervisorHome()));
+                        Navigator.pop(
+                            context);
                       },
                       icon: const Icon(Icons.arrow_back),
                     ),

@@ -12,7 +12,6 @@ import 'package:kirinyaga_agribusiness/Components/SuDrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
-import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 
@@ -189,10 +188,7 @@ class _FarmerResourcesState extends State<CreateActivity> {
                 alignment: Alignment.centerRight,
                 child: IconButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => const SupervisorHome()));
+                    Navigator.pop(context);
                   },
                   icon: const Icon(Icons.arrow_back),
                 ),
@@ -319,11 +315,7 @@ class _FarmerResourcesState extends State<CreateActivity> {
 
                         if (res.error == null) {
                           Timer(const Duration(seconds: 2), () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const SupervisorHome()));
+                            Navigator.pop(context);
                           });
                         }
                       },

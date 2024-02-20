@@ -79,7 +79,11 @@ class _SUPWorkPlanStatsState extends State<SUPWorkPlanStats> {
       title: 'Kirinyaga Agribusiness',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Supervisor Home"),
+          title: const Text(
+            "Supervisor WorkPlans",
+            style: TextStyle(color: Colors.white),
+          ),
+          iconTheme: const IconThemeData(color: Colors.white),
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
         drawer: const Drawer(child: SuDrawer()),

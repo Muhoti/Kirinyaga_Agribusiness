@@ -6,16 +6,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SuDrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Model/SearchItem.dart';
 import 'package:kirinyaga_agribusiness/Model/WorkplanItem.dart';
-import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
-import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
-import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
@@ -158,10 +154,7 @@ class _CreateReportState extends State<SingleWP> {
                 alignment: Alignment.centerRight,
                 child: IconButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => const SupervisorHome()));
+                    Navigator.pop(context);
                   },
                   icon: const Icon(Icons.arrow_back),
                 ),
@@ -302,11 +295,7 @@ class _CreateReportState extends State<SingleWP> {
                         });
                         if (res.error == null) {
                           Timer(const Duration(seconds: 2), () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const SupervisorHome()));
+                            Navigator.pop(context);
                           });
                         }
                       }),
