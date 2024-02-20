@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names
+// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names, unused_import
 
 import 'dart:async';
 
@@ -108,7 +108,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
         drawer: const Drawer(child: FODrawer()),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.pushReplacement(
+            Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (_) => CreateActivity(
@@ -128,9 +128,9 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                     boxShadow: [
                       BoxShadow(
                         color: Color.fromARGB(137, 158, 158, 158),
-                        offset: Offset(2.0, 2.0), // Offset of the shadow
-                        blurRadius: 5.0, // Blur radius of the shadow
-                        spreadRadius: 2.0, // Spread radius of the shadow
+                        offset: Offset(2.0, 2.0),
+                        blurRadius: 5.0,
+                        spreadRadius: 2.0,
                       ),
                     ],
                     borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -138,12 +138,12 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                   children: [
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.person_2_rounded,
                           size: 84,
                           color: Colors.orange,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 12,
                         ),
                         Flexible(
@@ -155,33 +155,33 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     name,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Colors.green,
                                         fontSize: 24,
                                         fontWeight: FontWeight.w700),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 12,
                                 ),
                                 Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       "Phone: $phone",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w500),
                                     )),
-                                SizedBox(
+                                const SizedBox(
                                   height: 6,
                                 ),
                                 Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text("Station: $station",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500))),
-                                SizedBox(
+                                const SizedBox(
                                   height: 6,
                                 ),
                               ],
@@ -220,7 +220,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () => {
-                      Navigator.pushReplacement(
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (_) => SingleWP(

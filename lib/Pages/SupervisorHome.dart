@@ -107,7 +107,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
         drawer: const Drawer(child: SuDrawer()),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.pushReplacement(
+            Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (_) => CreateActivity(
@@ -137,12 +137,12 @@ class _SupervisorHomeState extends State<SupervisorHome> {
                   children: [
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.person_2_rounded,
                           size: 84,
                           color: Colors.orange,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 12,
                         ),
                         Flexible(
@@ -154,33 +154,33 @@ class _SupervisorHomeState extends State<SupervisorHome> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     name,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Colors.green,
                                         fontSize: 24,
                                         fontWeight: FontWeight.w700),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 12,
                                 ),
                                 Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       "Phone: $phone",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w500),
                                     )),
-                                SizedBox(
+                                const SizedBox(
                                   height: 6,
                                 ),
                                 Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text("Station: $station",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500))),
-                                SizedBox(
+                                const SizedBox(
                                   height: 6,
                                 ),
                               ],
@@ -219,7 +219,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () => {
-                      Navigator.pushReplacement(
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (_) => SingleWP(
