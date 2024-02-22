@@ -73,11 +73,10 @@ class _SupervisorHomeState extends State<SupervisorHome> {
       setState(() {
         workplanItems = data
             .map<WorkplanItem>((json) => WorkplanItem(
+                  json['Task'],
                   json['Duration'],
                   json['Description'],
-                  json['Task'],
-                  json['SubCounty'],
-                  json['Ward'],
+                  json['Venue'],
                   json['createdAt'],
                   json['Latitude'],
                   json['Longitude'],
@@ -86,6 +85,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
                 ))
             .toList();
       });
+      print("ACTIVE TASK: ${storage.read(key: 'activetask')}");
     } catch (e) {
       print(e);
     }
@@ -258,7 +258,7 @@ class _SupervisorHomeState extends State<SupervisorHome> {
                               Align(
                                   alignment: Alignment.centerRight,
                                   child: Text(
-                                    workplanItems[index].Duration,
+                                    workplanItems[index].Task,
                                     style: const TextStyle(
                                         fontSize: 20,
                                         color: Colors.green,
@@ -267,13 +267,13 @@ class _SupervisorHomeState extends State<SupervisorHome> {
                               Align(
                                   alignment: Alignment.centerRight,
                                   child: Text(
-                                    workplanItems[index].Description,
+                                    workplanItems[index].Type,
                                     style: const TextStyle(fontSize: 16),
                                   )),
                               Align(
                                   alignment: Alignment.centerRight,
                                   child: Text(
-                                    "${workplanItems[index].Subcounty}, ${workplanItems[index].Ward}",
+                                    "${workplanItems[index].Venue}, ",
                                     style: const TextStyle(
                                         fontSize: 12, color: Colors.grey),
                                   )),

@@ -9,6 +9,7 @@ import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
+import 'package:kirinyaga_agribusiness/Pages/CreateActivity.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
@@ -32,18 +33,62 @@ class _StaffLoginState extends State<StaffLogin> {
   final storage = const FlutterSecureStorage();
   String nationalId = '';
 
+  checkFOActivity(String id) async {
+    var activetask = await storage.read(key: 'activetask');
+    print("FIELD OFFICER TASK is $activetask");
+    // ignore: unrelated_type_equality_checks
+    if (activetask == 'true') {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => const FieldOfficerHome()));
+    } else {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (_) => CreateActivity(
+                    userid: id,
+                  )));
+    }
+  }
+
+  checkSUPActivity(String id) async {
+    var activetask = await storage.read(key: 'activetask');
+    print("activitytask is $activetask");
+        print("SUPERVISOR TASK is $activetask");
+
+    // ignore: unrelated_type_equality_checks
+    if (activetask == 'true') {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => const SupervisorHome()));
+    } else {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (_) => CreateActivity(
+                    userid: id,
+                  )));
+    }
+  }
+
   checkRole(token) async {
     try {
       var data = parseJwt(token);
       String role = data["Role"];
+      String id = data["UserID"];
+
       switch (role) {
         case "Field Officer":
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (_) => const FieldOfficerHome()));
+          storage.write(key: 'role', value: 'Field Officer');
+          checkFOActivity(
+            id,
+          );
+
           break;
         case "Supervisor":
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (_) => const SupervisorHome()));
+          storage.write(key: 'role', value: 'Supervisor');
+          checkSUPActivity(
+            id,
+          );
+
           break;
         case "Enumerator":
           Navigator.pushReplacement(

@@ -46,7 +46,7 @@ class _AccountState extends State<Account> {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => const Login()));
     } else {
-      print(decoded);
+      print("account details: $decoded");
       setState(() {
         userDetails = decoded;
       });

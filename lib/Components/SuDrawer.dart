@@ -1,5 +1,6 @@
 import 'package:kirinyaga_agribusiness/Components/SearchFarmer.dart';
 import 'package:kirinyaga_agribusiness/Pages/Account.dart';
+import 'package:kirinyaga_agribusiness/Pages/FOWorkPlanStats.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -69,7 +70,7 @@ class SuDrawer extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (_) => const SUPWorkPlanStats()));
+                    MaterialPageRoute(builder: (_) => const FOWorkPlanStats()));
               },
             ),
             ListTile(

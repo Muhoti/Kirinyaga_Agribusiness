@@ -33,6 +33,7 @@ class _ScheduleState extends State<Schedule> {
   var workplanItems = [];
   final storage = const FlutterSecureStorage();
   String userid = "";
+  String role = '';
 
   @override
   initState() {
@@ -71,9 +72,11 @@ class _ScheduleState extends State<Schedule> {
     setState(() {
       loading = true;
     });
+    role = storage.read(key: 'role').toString();
+    print("roles is $role;");
     try {
       final response = await http.get(
-        Uri.parse("${getUrl()}workplan/schedulepaginated/$userid/$offset"),
+        Uri.parse("${getUrl()}activity/schedulepaginated/$userid/$offset"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -88,8 +91,7 @@ class _ScheduleState extends State<Schedule> {
                     json['Duration'],
                     json['Description'],
                     json['Task'],
-                    json['SubCounty'],
-                    json['Ward'],
+                    json['Venue'],
                     json['createdAt'],
                     json['Latitude'],
                     json['Longitude'],
@@ -145,8 +147,15 @@ class _ScheduleState extends State<Schedule> {
                     alignment: Alignment.centerRight,
                     child: IconButton(
                       onPressed: () {
-                        Navigator.pop(
-                            context);
+                        role == 'Supervisor'
+                            ? Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const SupervisorHome()))
+                            : Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const SupervisorHome()));
                       },
                       icon: const Icon(Icons.arrow_back),
                     ),
@@ -233,7 +242,7 @@ class _ScheduleState extends State<Schedule> {
                                                 alignment:
                                                     Alignment.centerRight,
                                                 child: Text(
-                                                  workplanItems[index].Duration,
+                                                  workplanItems[index].Task,
                                                   style: const TextStyle(
                                                       fontSize: 20,
                                                       color: Colors.green,
@@ -244,8 +253,7 @@ class _ScheduleState extends State<Schedule> {
                                                 alignment:
                                                     Alignment.centerRight,
                                                 child: Text(
-                                                  workplanItems[index]
-                                                      .Description,
+                                                  workplanItems[index].Type,
                                                   style: const TextStyle(
                                                       fontSize: 16),
                                                 )),
@@ -253,7 +261,7 @@ class _ScheduleState extends State<Schedule> {
                                                 alignment:
                                                     Alignment.centerRight,
                                                 child: Text(
-                                                  "${workplanItems[index].Subcounty}, ${workplanItems[index].Ward}",
+                                                  "${workplanItems[index].Venue}",
                                                   style: const TextStyle(
                                                       fontSize: 12,
                                                       color: Colors.grey),

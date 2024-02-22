@@ -11,6 +11,7 @@ import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Model/SearchItem.dart';
 import 'package:kirinyaga_agribusiness/Model/WorkplanItem.dart';
+import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
@@ -249,7 +250,7 @@ class _CreateReportState extends State<SingleWP> {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "Station: ${widget.item.Subcounty}, ${widget.item.Ward}",
+                              "Venue: ${widget.item.Venue}}",
                               style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
@@ -284,7 +285,7 @@ class _CreateReportState extends State<SingleWP> {
                             size: 100,
                           );
                         });
-                        var res = await deleteWP(widget.item.ID);
+                        var res = await deleteWP(widget.item.ID, storage);
                         setState(() {
                           isLoading = null;
                           if (res.error == null) {
@@ -295,7 +296,10 @@ class _CreateReportState extends State<SingleWP> {
                         });
                         if (res.error == null) {
                           Timer(const Duration(seconds: 2), () {
-                            Navigator.pop(context);
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const FieldOfficerHome()));
                           });
                         }
                       }),
@@ -310,7 +314,7 @@ class _CreateReportState extends State<SingleWP> {
   }
 }
 
-Future<Message> deleteWP(String id) async {
+Future<Message> deleteWP(String id, FlutterSecureStorage storage) async {
   if (id.isEmpty) {
     return Message(
         token: null, success: null, error: "Please fill all fields!");
@@ -318,11 +322,14 @@ Future<Message> deleteWP(String id) async {
 
   try {
     final response = await http.delete(
-      Uri.parse("${getUrl()}workplan/${id}"),
+      Uri.parse("${getUrl()}activity/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
+
+    storage.write(key: 'activetask', value: 'false');
+
 
     if (response.statusCode == 200 || response.statusCode == 203) {
       return Message.fromJson(jsonDecode(response.body));
