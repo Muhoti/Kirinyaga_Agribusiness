@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/SuDrawer.dart';
 import 'package:kirinyaga_agribusiness/Model/WorkplanItem.dart';
+import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import '../Components/Utils.dart';
@@ -155,7 +157,7 @@ class _ScheduleState extends State<Schedule> {
                             : Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) => const SupervisorHome()));
+                                    builder: (_) => const FieldOfficerHome()));
                       },
                       icon: const Icon(Icons.arrow_back),
                     ),
@@ -165,7 +167,7 @@ class _ScheduleState extends State<Schedule> {
               backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
               iconTheme: const IconThemeData(color: Colors.white),
             ),
-            drawer: const Drawer(child: SuDrawer()),
+            drawer: role == 'Supervisor' ? const Drawer(child: SuDrawer()) : const Drawer(child: FODrawer()),
             body: Stack(children: [
               Column(children: <Widget>[
                 Flexible(

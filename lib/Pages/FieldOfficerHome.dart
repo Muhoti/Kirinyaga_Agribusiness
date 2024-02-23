@@ -43,7 +43,12 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
   String status = 'Pending';
   String nationalId = '';
   String formattedDate = '';
-  List<WorkplanItem> workplanItems = [];
+  String activities = '';
+  String reports = '';
+  String updates = '';
+  String mapped = '';
+
+  List stats = [];
 
   @override
   void initState() {
@@ -69,35 +74,26 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
         station = decoded["Department"];
         id = decoded["UserID"];
       });
-      getMyActivities(decoded["UserID"]);
+      fetchStats(decoded["UserID"]);
     }
   }
 
-  Future<void> getMyActivities(String id) async {
+  Future<void> fetchStats(String id) async {
     try {
       final dynamic response;
       response = await http.get(
-        Uri.parse("${getUrl()}activity/getmyactivities/$id"),
+        Uri.parse("${getUrl()}workplan/mobile/stats/$id"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
       var data = json.decode(response.body);
-      print(data);
+      print("stats $data");
       setState(() {
-        workplanItems = data
-            .map<WorkplanItem>((json) => WorkplanItem(
-                  json['Duration'],
-                  json['Description'],
-                  json['Task'],
-                  json['Venue'],
-                  json['createdAt'],
-                  json['Latitude'],
-                  json['Longitude'],
-                  json['Type'],
-                  json['ID'],
-                ))
-            .toList();
+        activities = data["acToday"].toString();
+        workplans = data["wpToday"].toString();
+                reports = data["repToday"].toString();
+
       });
     } catch (e) {
       print(e);
@@ -130,25 +126,27 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
           child: const Icon(Icons.add),
         ),
         body: Container(
-          padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Stack(
-                    children: [
-                      Positioned(child: extendAppBar()),
-                      Positioned(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: displayUserInfo(),
-                        ),
-                      )
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.zero,
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+          child: Column(
+            children: <Widget>[
+              Stack(
+                children: [
+                  Positioned(child: extendAppBar()),
+                  Positioned(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
+                      child: displayUserInfo(),
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
                     child: Column(
                       children: [
                         InkWell(
@@ -158,8 +156,8 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                                   const Schedule(), // Replace with the page you want to navigate to
                             ));
                           },
-                          child: const MyRow(
-                            no: '1',
+                          child: MyRow(
+                            no: activities,
                             title: 'My Activities',
                           ),
                         ),
@@ -185,8 +183,8 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                                         const FOWorkPlanStats(), // Replace with the page you want to navigate to
                                   ));
                                 },
-                                child: const MyRowIII(
-                                    no: '6',
+                                child:  MyRowIII(
+                                    no: workplans,
                                     title: 'Work Plans',
                                     image: 'assets/images/extserv.png'),
                               ),
@@ -196,9 +194,14 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                             ),
                             Expanded(
                               child: InkWell(
-                                onTap: () {},
-                                child: const MyRowIII(
-                                    no: '7',
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        const FOWorkPlanStats(), // Replace with the page you want to navigate to
+                                  ));
+                                },
+                                child:  MyRowIII(
+                                    no: reports,
                                     title: 'Reports',
                                     image: 'assets/images/report.png'),
                               ),
@@ -233,7 +236,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                                 child: const MyRowIII(
                                     no: '6',
                                     title: 'Update',
-                                    image: 'assets/images/myactivity.png'),
+                                    image: 'assets/images/updateFarm.png'),
                               ),
                             ),
                             const SizedBox(
@@ -250,120 +253,34 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                                 child: const MyRowIII(
                                     no: '7',
                                     title: 'Map',
-                                    image: 'assets/images/myactivity.png'),
+                                    image: 'assets/images/mapIcon.png'),
                               ),
                             ),
                           ],
                         ),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        const Align(
+                            alignment: Alignment.center,
+                            child: Column(
+                              children: [
+                                Text("KIRIAMIS",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    )),
+                                Text("Staff App Module",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                    )),
+                              ],
+                            ))
                       ],
                     ),
                   ),
-
-                  // const Padding(
-                  //   padding: EdgeInsets.all(16),
-                  //   child: Align(
-                  //     alignment: Alignment.centerLeft,
-                  //     child: Text(
-                  //       "My Activities",
-                  //       style: TextStyle(
-                  //           color: Colors.green,
-                  //           fontSize: 28,
-                  //           fontWeight: FontWeight.bold),
-                  //     ),
-                  //   ),
-                  // ),
-                  // Padding(
-                  //   padding: const EdgeInsets.fromLTRB(16, 0, 100, 16),
-                  //   child: Container(
-                  //     height: 6,
-                  //     color: Colors.green,
-                  //   ),
-                  // ),
-                  // Flexible(
-                  //   flex: 1,
-                  //   fit: FlexFit.tight,
-                  //   child: ListView.builder(
-                  //     itemCount: workplanItems.length,
-                  //     itemBuilder: (context, index) {
-                  //       return GestureDetector(
-                  //         onTap: () => {
-                  //           Navigator.push(
-                  //               context,
-                  //               MaterialPageRoute(
-                  //                   builder: (_) => SingleWP(
-                  //                         item: workplanItems[index],
-                  //                       )))
-                  //         },
-                  //         child: Padding(
-                  //           padding: const EdgeInsets.fromLTRB(16, 6, 24, 6),
-                  //           child: Container(
-                  //             padding: const EdgeInsets.all(12),
-                  //             decoration: const BoxDecoration(
-                  //                 color: Color.fromARGB(255, 240, 240, 240),
-                  //                 boxShadow: [
-                  //                   BoxShadow(
-                  //                     color: Color.fromARGB(137, 158, 158, 158),
-                  //                     offset:
-                  //                         Offset(2.0, 2.0), // Offset of the shadow
-                  //                     blurRadius: 5.0, // Blur radius of the shadow
-                  //                     spreadRadius:
-                  //                         2.0, // Spread radius of the shadow
-                  //                   ),
-                  //                 ],
-                  //                 borderRadius: BorderRadius.all(Radius.circular(5))),
-                  //             child: Row(children: [
-                  //               const Icon(
-                  //                 Icons.schedule,
-                  //                 color: Colors.orange,
-                  //                 size: 54,
-                  //               ),
-                  //               const SizedBox(
-                  //                 width: 12,
-                  //               ),
-                  //               Flexible(
-                  //                   child: Column(
-                  //                 children: [
-                  //                   Align(
-                  //                       alignment: Alignment.centerRight,
-                  //                       child: Text(
-                  //                         workplanItems[index].Task,
-                  //                         style: const TextStyle(
-                  //                             fontSize: 20,
-                  //                             color: Colors.green,
-                  //                             fontWeight: FontWeight.bold),
-                  //                       )),
-                  //                   Align(
-                  //                       alignment: Alignment.centerRight,
-                  //                       child: Text(
-                  //                         workplanItems[index].Duration,
-                  //                         style: const TextStyle(fontSize: 16),
-                  //                       )),
-                  //                   Align(
-                  //                       alignment: Alignment.centerRight,
-                  //                       child: Text(
-                  //                         workplanItems[index].Venue,
-                  //                         style: const TextStyle(
-                  //                             fontSize: 12, color: Colors.grey),
-                  //                       )),
-                  //                   Align(
-                  //                       alignment: Alignment.centerRight,
-                  //                       child: Text(
-                  //                         workplanItems[index].Date.split("T")[0],
-                  //                         style: const TextStyle(
-                  //                             fontSize: 12, color: Colors.grey),
-                  //                       )),
-                  //                 ],
-                  //               ))
-                  //             ]),
-                  //           ),
-                  //         ),
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),
@@ -377,14 +294,14 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
         color: Color.fromRGBO(0, 128, 0, 1), // Set solid green color directly
       ),
       child: const Padding(
-        padding: EdgeInsets.all(50),
+        padding: EdgeInsets.all(40),
       ),
     );
   }
 
   Container displayUserInfo() {
     return Container(
-      padding: const EdgeInsets.fromLTRB(12, 24, 12, 24),
+      padding: const EdgeInsets.all(12),
       decoration: const BoxDecoration(
           color: Colors.white,
           boxShadow: [

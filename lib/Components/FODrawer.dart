@@ -72,10 +72,8 @@ class FODrawer extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
               onTap: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const FOWorkPlanStats()));
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (_) => const FOWorkPlanStats()));
               },
             ),
             ListTile(

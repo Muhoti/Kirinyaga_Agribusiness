@@ -17,16 +17,19 @@ class _MyRowState extends State<MyRow> {
     return Container(
       decoration: BoxDecoration(
         color: Color(0xFFFFF9F1), // Cream color
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: Colors.white, // White color
-          width: 1,
+        borderRadius: BorderRadius.circular(15),
+        border: Border(
+          bottom: BorderSide(color: Colors.grey.withOpacity(0.5), width: 1),
+          right: BorderSide(color: Colors.grey.withOpacity(0.5), width: 1),
+          top: BorderSide.none,
+          left: BorderSide.none,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.3), // Shadow color
-            blurRadius: 6, // Spread radius
-            offset: Offset(4, 4), // Shadow position
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: const Offset(1, 1),
           ),
         ],
       ),
@@ -70,8 +73,11 @@ class _MyRowState extends State<MyRow> {
               ],
             ),
             const Align(
-               alignment: Alignment.centerRight,
-              child: Icon(Icons.arrow_forward, color: Colors.green,))
+                alignment: Alignment.centerRight,
+                child: Icon(
+                  Icons.arrow_forward,
+                  color: Colors.green,
+                ))
           ],
         ),
       ),
