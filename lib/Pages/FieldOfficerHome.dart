@@ -14,6 +14,7 @@ import 'package:kirinyaga_agribusiness/Pages/CreateActivity.dart';
 import 'package:kirinyaga_agribusiness/Pages/FOWorkPlanStats.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
+import 'package:kirinyaga_agribusiness/Pages/MyReports.dart';
 import 'package:kirinyaga_agribusiness/Pages/MyWorkPlans.dart';
 import 'package:kirinyaga_agribusiness/Pages/Schedule.dart';
 import 'package:kirinyaga_agribusiness/Pages/SingleWP.dart';
@@ -236,7 +237,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) =>
-                                        const FOWorkPlanStats(), // Replace with the page you want to navigate to
+                                        const MyReports(), // Replace with the page you want to navigate to
                                   ));
                                 },
                                 child: MyRowIII(

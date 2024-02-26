@@ -4,35 +4,30 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:kirinyaga_agribusiness/Components/Stats.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 import 'package:kirinyaga_agribusiness/Pages/CreateWorkPlan.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
-import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'package:kirinyaga_agribusiness/Scroll/FOScrollController.dart';
-import '../Components/NavigationButton.dart';
 import '../Components/FODrawer.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
-class MyWorkPlans extends StatefulWidget {
-  const MyWorkPlans({super.key});
+class MyReports extends StatefulWidget {
+  const MyReports({super.key});
 
   @override
-  State<MyWorkPlans> createState() => _MyWorkPlansState();
+  State<MyReports> createState() => _MyReportsState();
 }
 
-class _MyWorkPlansState extends State<MyWorkPlans> {
+class _MyReportsState extends State<MyReports> {
   final storage = const FlutterSecureStorage();
   String name = '';
   String total_farmers = '';
   String reached_farmers = '';
   String workplans = '';
-  String active = 'Pending';
+  String active = 'Complete';
   String id = '';
-  String status = 'Pending';
+  String status = 'Complete';
   String nationalId = '';
   String role = '';
 

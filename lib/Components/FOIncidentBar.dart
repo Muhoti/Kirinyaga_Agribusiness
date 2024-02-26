@@ -28,7 +28,7 @@ class _FOIncidentBar extends State<FOIncidentBar> {
     my = "$month/$year";
 
     return Padding(
-        padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+        padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
         child: Card(
             elevation: 5,
             color: Colors.white,
@@ -43,19 +43,24 @@ class _FOIncidentBar extends State<FOIncidentBar> {
                               )));
                 },
                 child: Container(
-                  padding: const EdgeInsets.all(5),
-                  child: Row(
+                  padding: const EdgeInsets.fromLTRB(16, 6, 24, 6),                  child: Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: const BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.all(Radius.circular(5))),
-                        child: Text(
-                          my,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 28),
-                        ),
+                       Icon(
+                        DateTime(
+                                    int.parse(date.split("-")[0]),
+                                    int.parse(date.split("-")[1]),
+                                    int.parse(date.split("-")[2]))
+                                .isAfter(DateTime.now())
+                            ? Icons.check
+                            : Icons.schedule,
+                        color: DateTime(
+                                    int.parse(date.split("-")[0]),
+                                    int.parse(date.split("-")[1]),
+                                    int.parse(date.split("-")[2]))
+                                .isAfter(DateTime.now())
+                            ? Colors.green
+                            : Colors.orange,
+                        size: 54,
                       ),
                       const SizedBox(
                         width: 12,
@@ -83,9 +88,7 @@ class _FOIncidentBar extends State<FOIncidentBar> {
                               child: Text(
                                 widget.item.item['Type'] +
                                     " - " +
-                                    widget.item.item['SubCounty'] +
-                                    ", " +
-                                    widget.item.item['Ward'],
+                                    widget.item.item['Date'],
                                 textAlign: TextAlign.left,
                                 textWidthBasis: TextWidthBasis.parent,
                                 overflow: TextOverflow.ellipsis,
