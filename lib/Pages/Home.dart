@@ -102,8 +102,12 @@ class _HomeState extends State<Home> {
       home: Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
-          title: const Text("Farmer Mapping Home"),
+          title: const Text(
+            "Farmer Mapping Home",
+            style: TextStyle(color: Colors.white),
+          ),
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
+          iconTheme: const IconThemeData(color: Colors.white),
         ),
         floatingActionButton: RawMaterialButton(
           onPressed: () {

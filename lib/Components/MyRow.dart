@@ -66,6 +66,7 @@ class _MyRowState extends State<MyRow> {
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
+                        color: Colors.green,
                       ),
                     ),
                   ],

@@ -50,7 +50,7 @@ class _ScheduleState extends State<Schedule> {
     getToken();
   }
 
-  getToken() async {
+  Future<void> getToken() async {
     try {
       var token = await storage.read(key: "erjwt");
       var decoded = parseJwt(token.toString());
@@ -70,12 +70,14 @@ class _ScheduleState extends State<Schedule> {
     }
   }
 
-  getWorkPlans(String userid, int offset) async {
+  Future<void> getWorkPlans(String userid, int offset) async {
     setState(() {
       loading = true;
     });
+
     role = storage.read(key: 'role').toString();
-    print("roles is $role;");
+    print("roles is $role; $userid, $offset");
+
     try {
       final response = await http.get(
         Uri.parse("${getUrl()}activity/schedulepaginated/$userid/$offset"),
@@ -83,11 +85,13 @@ class _ScheduleState extends State<Schedule> {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
+
       if (response.statusCode == 200 || response.statusCode == 203) {
         var body = jsonDecode(response.body);
         print(body);
 
         if (body["data"]?.length > 0) {
+          print("schedule begun: ${body["data"]}");
           var sf = body["data"]
               .map<WorkplanItem>((json) => WorkplanItem(
                     json['Duration'],
@@ -101,6 +105,8 @@ class _ScheduleState extends State<Schedule> {
                     json['ID'],
                   ))
               .toList();
+
+          print("workplanitems: $sf");
 
           setState(() {
             workplanItems = sf;
@@ -119,7 +125,7 @@ class _ScheduleState extends State<Schedule> {
         });
       }
     } catch (e) {
-      print("data $e");
+      print("schedule error: $e");
       setState(() {
         loading = false;
       });
@@ -167,7 +173,9 @@ class _ScheduleState extends State<Schedule> {
               backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
               iconTheme: const IconThemeData(color: Colors.white),
             ),
-            drawer: role == 'Supervisor' ? const Drawer(child: SuDrawer()) : const Drawer(child: FODrawer()),
+            drawer: role == 'Supervisor'
+                ? const Drawer(child: SuDrawer())
+                : const Drawer(child: FODrawer()),
             body: Stack(children: [
               Column(children: <Widget>[
                 Flexible(

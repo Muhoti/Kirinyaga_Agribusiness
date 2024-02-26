@@ -14,6 +14,7 @@ import 'package:kirinyaga_agribusiness/Pages/CreateActivity.dart';
 import 'package:kirinyaga_agribusiness/Pages/FOWorkPlanStats.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
+import 'package:kirinyaga_agribusiness/Pages/MyWorkPlans.dart';
 import 'package:kirinyaga_agribusiness/Pages/Schedule.dart';
 import 'package:kirinyaga_agribusiness/Pages/SingleWP.dart';
 import 'package:http/http.dart' as http;
@@ -59,7 +60,6 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
   Future<void> getDefaultValues() async {
     var token = await storage.read(key: "erjwt");
     var decoded = parseJwt(token.toString());
-    print(decoded);
 
     formattedDate = DateFormat('MMMM dd, yyyy').format(DateTime.now());
     print("date today: $formattedDate");
@@ -74,13 +74,16 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
         station = decoded["Department"];
         id = decoded["UserID"];
       });
+
       fetchStats(decoded["UserID"]);
+      getFarmersSectionStats(decoded["Name"]);
     }
   }
 
   Future<void> fetchStats(String id) async {
     try {
       final dynamic response;
+
       response = await http.get(
         Uri.parse("${getUrl()}workplan/mobile/stats/$id"),
         headers: <String, String>{
@@ -92,9 +95,45 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
       setState(() {
         activities = data["acToday"].toString();
         workplans = data["wpToday"].toString();
-                reports = data["repToday"].toString();
-
+        reports = data["repToday"].toString();
       });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> getFarmersSectionStats(user) async {
+    try {
+      final response = await http.get(
+        Uri.parse("${getUrl()}farmerdetails/mapped/$user"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+      );
+
+      var body = json.decode(response.body);
+      var mystats = body;
+
+      print("the body is $body");
+
+      List<int> numbers = [
+        body["FD"],
+        body["FA"],
+        body["FR"],
+        body["FG"],
+        body["VC"]
+      ];
+      int minimum = numbers.reduce(
+        (currentMin, element) => element < currentMin ? element : currentMin,
+      );
+      print("Minimum: $minimum");
+
+      setState(() {
+        total_farmers = mystats["TF"].toString(); // Convert to string
+        mapped = minimum.toString();
+      });
+
+      print("farmers stats: $total_farmers, $mapped");
     } catch (e) {
       print(e);
     }
@@ -180,10 +219,10 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) =>
-                                        const FOWorkPlanStats(), // Replace with the page you want to navigate to
+                                        const MyWorkPlans(), // Replace with the page you want to navigate to
                                   ));
                                 },
-                                child:  MyRowIII(
+                                child: MyRowIII(
                                     no: workplans,
                                     title: 'Work Plans',
                                     image: 'assets/images/extserv.png'),
@@ -200,7 +239,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                                         const FOWorkPlanStats(), // Replace with the page you want to navigate to
                                   ));
                                 },
-                                child:  MyRowIII(
+                                child: MyRowIII(
                                     no: reports,
                                     title: 'Reports',
                                     image: 'assets/images/report.png'),
@@ -231,12 +270,12 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                                       return SearchFarmer();
                                     },
                                   );
-                                  Navigator.pop(context);
                                 },
-                                child: const MyRowIII(
-                                    no: '6',
-                                    title: 'Update',
-                                    image: 'assets/images/updateFarm.png'),
+                                child: MyRowIII(
+                                  no: total_farmers,
+                                  title: 'Update',
+                                  image: 'assets/images/updateFarm.png',
+                                ),
                               ),
                             ),
                             const SizedBox(
@@ -250,8 +289,8 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                                         const Home(), // Replace with the page you want to navigate to
                                   ));
                                 },
-                                child: const MyRowIII(
-                                    no: '7',
+                                child: MyRowIII(
+                                    no: mapped,
                                     title: 'Map',
                                     image: 'assets/images/mapIcon.png'),
                               ),
@@ -362,11 +401,12 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
               )
             ],
           ),
-          const Align(
+          Align(
               alignment: Alignment.centerRight,
               child: Text(
-                '1 Activity Today',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                '$activities Activity Today',
+                style:
+                    const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
               )),
         ],
       ),

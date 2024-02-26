@@ -16,14 +16,14 @@ import '../Components/FODrawer.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class FOWorkPlanStats extends StatefulWidget {
-  const FOWorkPlanStats({super.key});
+class MyWorkPlans extends StatefulWidget {
+  const MyWorkPlans({super.key});
 
   @override
-  State<FOWorkPlanStats> createState() => _FOWorkPlanStatsState();
+  State<MyWorkPlans> createState() => _MyWorkPlansState();
 }
 
-class _FOWorkPlanStatsState extends State<FOWorkPlanStats> {
+class _MyWorkPlansState extends State<MyWorkPlans> {
   final storage = const FlutterSecureStorage();
   String name = '';
   String total_farmers = '';
