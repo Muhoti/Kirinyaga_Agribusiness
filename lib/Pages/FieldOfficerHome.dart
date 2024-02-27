@@ -299,10 +299,10 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                           ],
                         ),
                         const SizedBox(
-                          height: 24,
+                          height: 48,
                         ),
                         const Align(
-                            alignment: Alignment.center,
+                            alignment: Alignment.bottomCenter,
                             child: Column(
                               children: [
                                 Text("KIRIAMIS",
