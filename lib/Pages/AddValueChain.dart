@@ -11,6 +11,8 @@ import 'package:kirinyaga_agribusiness/Components/ChickenEggsIncubation.dart';
 import 'package:kirinyaga_agribusiness/Components/ChickenEggsMeat.dart';
 import 'package:kirinyaga_agribusiness/Components/Dairy.dart';
 import 'package:kirinyaga_agribusiness/Components/DairyGoat.dart';
+import 'package:kirinyaga_agribusiness/Components/FMDrawer.dart';
+import 'package:kirinyaga_agribusiness/Components/FarmerDrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/Fish.dart';
 import 'package:kirinyaga_agribusiness/Components/MySelectInput.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
@@ -23,6 +25,7 @@ import 'package:kirinyaga_agribusiness/Components/TomatoSeedling.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
+import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 
@@ -47,6 +50,8 @@ class _AddValueChainState extends State<AddValueChain> {
   String? productionUnit = 'Kilograms';
   String variety = '';
   String error = '';
+  String? type = '';
+
   var isLoading;
   final storage = const FlutterSecureStorage();
 
@@ -60,6 +65,8 @@ class _AddValueChainState extends State<AddValueChain> {
     try {
       var id = await storage.read(key: "NationalID");
       valueChain = await storage.read(key: "selectedValueChain");
+      type = await storage.read(key: "Type");
+
       //print("the value chain now is $valueChain");
       if (id != null) {
         setState(() {
@@ -102,22 +109,30 @@ class _AddValueChainState extends State<AddValueChain> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Value Chain"),
+        title: const Text(
+          "Add Value Chain",
+          style: TextStyle(color: Colors.white),
+        ),
         actions: [
           Align(
             alignment: Alignment.centerRight,
             child: IconButton(
               onPressed: () => {
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => const Home()))
+                type == "Farmer"
+                    ? Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (_) => const FarmerHome()))
+                    : Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (_) => const Summary()))
               },
               icon: const Icon(Icons.arrow_back),
             ),
           ),
         ],
         backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
-      drawer: const Drawer(child: FODrawer()),
+      drawer: Drawer(
+          child: type == "Farmer" ? const FarmerDrawer() : const FMDrawer()),
       body: Stack(
         children: [
           Form(

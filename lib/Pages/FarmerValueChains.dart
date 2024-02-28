@@ -55,22 +55,30 @@ class _FarmerValueChainsState extends State<FarmerValueChains> {
         },
         child: Scaffold(
           appBar: AppBar(
-            title: const Text("Farmer ValueChains"),
+            title: const Text(
+              "Farmer ValueChains",
+              style: TextStyle(color: Colors.white),
+            ),
             backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
             actions: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(0,0,4,0),
+                padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
                 child: TextButton(
                   onPressed: () {
                     type == "Farmer"
-                        ? Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (_) => const FarmerHome()))
+                        ? Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const FarmerHome()))
                         : Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (_) => const Summary()));
                   },
                   child: const Align(
                     alignment: Alignment.centerRight,
-                    child: Icon(Icons.arrow_back,color: Colors.white,),
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               )
@@ -95,16 +103,15 @@ class _FarmerValueChainsState extends State<FarmerValueChains> {
                       SubmitButton(
                         label: "Add ValueChain",
                         onButtonPressed: () {
-                                              storage.write(
+                          storage.write(
                               key: "selectedValueChain",
                               value: "Select Value Chain");
 
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => const AddValueChain(
-                                        editing: false
-                                      )));
+                                  builder: (_) =>
+                                      const AddValueChain(editing: false)));
                         },
                       ),
                     ],

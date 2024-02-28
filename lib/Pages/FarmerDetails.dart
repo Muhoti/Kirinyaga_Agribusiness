@@ -7,17 +7,13 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:kirinyaga_agribusiness/Components/MySelectInput.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
-import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerAddress.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
-import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
-import 'package:kirinyaga_agribusiness/Pages/ValueChainForm.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Components/Utils.dart';
 
@@ -53,13 +49,11 @@ class _FarmerDetailsState extends State<FarmerDetails> {
     try {
       var token = await storage.read(key: "erjwt");
       var decoded = parseJwt(token.toString());
-  
+
       setState(() {
         user = decoded["Name"];
       });
-    } catch (e) {
-
-    }
+    } catch (e) {}
   }
 
   checkMapping() async {
@@ -73,6 +67,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
 
   editFarmerDetails(String id) async {
     try {
+
       final response = await get(
         Uri.parse("${getUrl()}farmerdetails/farmerid/$id"),
       );
@@ -89,6 +84,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
           age = body[0]["AgeGroup"];
           farmingType = body[0]["FarmingType"];
         });
+        
       }
     } catch (e) {}
   }
@@ -97,7 +93,10 @@ class _FarmerDetailsState extends State<FarmerDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Farmer Details"),
+        title: const Text(
+          "Farmer Details",
+          style: TextStyle(color: Colors.white),
+        ),
         actions: [
           Align(
             alignment: Alignment.centerRight,
@@ -111,6 +110,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
           ),
         ],
         backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Stack(
         children: [
@@ -238,7 +238,6 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                       });
 
                       if (res.error == null) {
-                      
                         Timer(const Duration(seconds: 2), () {
                           if (widget.editing) {
                             Navigator.pushReplacement(

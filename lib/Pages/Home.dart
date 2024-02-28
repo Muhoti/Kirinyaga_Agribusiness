@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/FMItem.dart';
+import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/SuDrawer.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
@@ -46,7 +47,7 @@ class _HomeState extends State<Home> {
         name = decoded["Name"];
         role = decoded["Role"];
       });
-      print("the token is $decoded");
+      print("mapping fields is $decoded, $role");
       searchMapped(decoded["Name"]);
     } catch (e) {
       Navigator.pushReplacement(
@@ -129,7 +130,14 @@ class _HomeState extends State<Home> {
           ),
         ),
         drawer: Drawer(
-            child: role == "Enumerator" ? const FMDrawer() : const SuDrawer()),
+          child: role == "Enumerator"
+              ? const FMDrawer()
+              : role == "Field Officer"
+                  ? const FODrawer()
+                  : role == "Supervisor"
+                      ? const SuDrawer()
+                      : null,
+        ),
         body: Stack(children: [
           SingleChildScrollView(
             child: Padding(

@@ -34,38 +34,67 @@ class _StaffLoginState extends State<StaffLogin> {
   String nationalId = '';
 
   checkFOActivity(String id) async {
-    var activetask = await storage.read(key: 'activetask');
-    print("FIELD OFFICER TASK is $activetask");
-    // ignore: unrelated_type_equality_checks
-    if (activetask == 'true') {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => const FieldOfficerHome()));
-    } else {
-      Navigator.push(
+    try {
+      final response = await http.get(
+        Uri.parse("${getUrl()}activity/getmyactivities/$id"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      var data = json.decode(response.body);
+      print("activity is $data");
+      if (data.isEmpty) {
+        Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (_) => CreateActivity(
-                    userid: id,
-                  )));
+            builder: (_) => CreateActivity(
+              userid: id,
+            ),
+          ),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const FieldOfficerHome(),
+          ),
+        );
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
-  checkSUPActivity(String id) async {
-    var activetask = await storage.read(key: 'activetask');
-    print("activitytask is $activetask");
-        print("SUPERVISOR TASK is $activetask");
 
-    // ignore: unrelated_type_equality_checks
-    if (activetask == 'true') {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => const SupervisorHome()));
-    } else {
-      Navigator.push(
+  checkSUPActivity(String id) async {
+     try {
+      final response = await http.get(
+        Uri.parse("${getUrl()}activity/getmyactivities/$id"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      var data = json.decode(response.body);
+      print("activity is $data");
+      if (data.isEmpty) {
+        Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (_) => CreateActivity(
-                    userid: id,
-                  )));
+            builder: (_) => CreateActivity(
+              userid: id,
+            ),
+          ),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const SupervisorHome(),
+          ),
+        );
+      }
+    } catch (e) {
+      print(e);
     }
   }
 

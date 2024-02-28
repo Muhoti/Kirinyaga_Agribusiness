@@ -90,8 +90,12 @@ class _FarmerHomeState extends State<FarmerHome> {
       home: Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
-          title: const Text("Farmer Summary"),
+          title: const Text(
+            "Farmer Summary",
+            style: TextStyle(color: Colors.white),
+          ),
           backgroundColor: Color.fromRGBO(0, 128, 0, 1),
+          iconTheme: const IconThemeData(color: Colors.white),
         ),
         drawer: const Drawer(child: FarmerDrawer()),
         body: Stack(
@@ -123,12 +127,12 @@ class _FarmerHomeState extends State<FarmerHome> {
                   onButtonPressed: () async {
                     setState(() {
                       storage.write(key: "NationalID", value: farmerid);
+                      storage.write(key: 'role', value: 'Farmer');
                     });
 
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          
                             builder: (_) => const FarmerValueChains()));
                   },
                 ),
