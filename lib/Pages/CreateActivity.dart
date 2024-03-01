@@ -177,7 +177,6 @@ class _FarmerResourcesState extends State<CreateActivity> {
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
           iconTheme: const IconThemeData(color: Colors.white),
         ),
-        drawer: const Drawer(child: SuDrawer()),
         body: Stack(
           children: [
             SingleChildScrollView(
