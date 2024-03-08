@@ -8,6 +8,7 @@ import 'package:kirinyaga_agribusiness/Components/SuDrawer.dart';
 import 'package:kirinyaga_agribusiness/Model/WorkplanItem.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
+import 'package:kirinyaga_agribusiness/Pages/SingleWP.dart';
 import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import '../Components/Utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -196,100 +197,110 @@ class _ScheduleState extends State<Schedule> {
                                   String date =
                                       workplanItems[index].Date.split("T")[0];
 
-                                  return Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(16, 6, 24, 6),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(12),
-                                      decoration: const BoxDecoration(
-                                          color: Color.fromARGB(
-                                              255, 240, 240, 240),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Color.fromARGB(
-                                                  137, 158, 158, 158),
-                                              offset: Offset(2.0,
-                                                  2.0), // Offset of the shadow
-                                              blurRadius:
-                                                  5.0, // Blur radius of the shadow
-                                              spreadRadius:
-                                                  2.0, // Spread radius of the shadow
-                                            ),
-                                          ],
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5))),
-                                      child: Row(children: [
-                                        Icon(
-                                          DateTime(
-                                                      int.parse(
-                                                          date.split("-")[0]),
-                                                      int.parse(
-                                                          date.split("-")[1]),
-                                                      int.parse(
-                                                          date.split("-")[2]))
-                                                  .isAfter(DateTime.now())
-                                              ? Icons.check
-                                              : Icons.schedule,
-                                          color: DateTime(
-                                                      int.parse(
-                                                          date.split("-")[0]),
-                                                      int.parse(
-                                                          date.split("-")[1]),
-                                                      int.parse(
-                                                          date.split("-")[2]))
-                                                  .isAfter(DateTime.now())
-                                              ? Colors.green
-                                              : Colors.orange,
-                                          size: 54,
-                                        ),
-                                        const SizedBox(
-                                          width: 12,
-                                        ),
-                                        Flexible(
-                                            child: Column(
-                                          children: [
-                                            Align(
-                                                alignment:
-                                                    Alignment.centerRight,
-                                                child: Text(
-                                                  workplanItems[index].Task,
-                                                  style: const TextStyle(
-                                                      fontSize: 20,
-                                                      color: Colors.green,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                )),
-                                            Align(
-                                                alignment:
-                                                    Alignment.centerRight,
-                                                child: Text(
-                                                  workplanItems[index].Type,
-                                                  style: const TextStyle(
-                                                      fontSize: 16),
-                                                )),
-                                            Align(
-                                                alignment:
-                                                    Alignment.centerRight,
-                                                child: Text(
-                                                  "${workplanItems[index].Venue}",
-                                                  style: const TextStyle(
-                                                      fontSize: 12,
-                                                      color: Colors.grey),
-                                                )),
-                                            Align(
-                                                alignment:
-                                                    Alignment.centerRight,
-                                                child: Text(
-                                                  workplanItems[index]
-                                                      .Date
-                                                      .split("T")[0],
-                                                  style: const TextStyle(
-                                                      fontSize: 12,
-                                                      color: Colors.grey),
-                                                )),
-                                          ],
-                                        ))
-                                      ]),
+                                  return GestureDetector(
+                                      onTap: () => {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => SingleWP(
+                                                    item: workplanItems[index],
+                                                  )))
+                                    },
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(16, 6, 24, 6),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(12),
+                                        decoration: const BoxDecoration(
+                                            color: Color.fromARGB(
+                                                255, 240, 240, 240),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Color.fromARGB(
+                                                    137, 158, 158, 158),
+                                                offset: Offset(2.0,
+                                                    2.0), // Offset of the shadow
+                                                blurRadius:
+                                                    5.0, // Blur radius of the shadow
+                                                spreadRadius:
+                                                    2.0, // Spread radius of the shadow
+                                              ),
+                                            ],
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5))),
+                                        child: Row(children: [
+                                          Icon(
+                                            DateTime(
+                                                        int.parse(
+                                                            date.split("-")[0]),
+                                                        int.parse(
+                                                            date.split("-")[1]),
+                                                        int.parse(
+                                                            date.split("-")[2]))
+                                                    .isAfter(DateTime.now())
+                                                ? Icons.check
+                                                : Icons.schedule,
+                                            color: DateTime(
+                                                        int.parse(
+                                                            date.split("-")[0]),
+                                                        int.parse(
+                                                            date.split("-")[1]),
+                                                        int.parse(
+                                                            date.split("-")[2]))
+                                                    .isAfter(DateTime.now())
+                                                ? Colors.green
+                                                : Colors.orange,
+                                            size: 54,
+                                          ),
+                                          const SizedBox(
+                                            width: 12,
+                                          ),
+                                          Flexible(
+                                              child: Column(
+                                            children: [
+                                              Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: Text(
+                                                    workplanItems[index].Task,
+                                                    style: const TextStyle(
+                                                        fontSize: 20,
+                                                        color: Colors.green,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  )),
+                                              Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: Text(
+                                                    workplanItems[index].Type,
+                                                    style: const TextStyle(
+                                                        fontSize: 16),
+                                                  )),
+                                              Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: Text(
+                                                    "${workplanItems[index].Venue}",
+                                                    style: const TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors.grey),
+                                                  )),
+                                              Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: Text(
+                                                    workplanItems[index]
+                                                        .Date
+                                                        .split("T")[0],
+                                                    style: const TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors.grey),
+                                                  )),
+                                            ],
+                                          ))
+                                        ]),
+                                      ),
                                     ),
                                   );
                                 })

@@ -10,6 +10,7 @@ import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'package:kirinyaga_agribusiness/Scroll/FOScrollController.dart';
+import 'package:kirinyaga_agribusiness/Scroll/SupScrollController.dart';
 import '../Components/FODrawer.dart';
 
 class MyReports extends StatefulWidget {
@@ -38,8 +39,10 @@ class _MyReportsState extends State<MyReports> {
   }
 
   Future<void> getDefaultValues() async {
-    role = storage.read(key: 'role').toString();
     var token = await storage.read(key: "erjwt");
+    var roles = await storage.read(key: 'role');
+    print("reports for $roles");
+
     var decoded = parseJwt(token.toString());
     if (decoded["error"] == "Invalid token") {
       Navigator.pushReplacement(
@@ -48,8 +51,9 @@ class _MyReportsState extends State<MyReports> {
       setState(() {
         name = decoded["Name"];
         id = decoded["UserID"];
+        role = roles.toString();
       });
-      print("user id is : $id");
+      print("reports details : $id $status, $role");
     }
   }
 
@@ -60,7 +64,7 @@ class _MyReportsState extends State<MyReports> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text(
-            "My Workplans",
+            "My Reports",
             style: TextStyle(color: Colors.white),
           ),
           actions: [
@@ -108,9 +112,15 @@ class _MyReportsState extends State<MyReports> {
             Flexible(
               flex: 1,
               fit: FlexFit.tight,
-              child: id != ""
-                  ? FOScrollController(id: id, active: active, status: status)
-                  : const SizedBox(),
+              child: id == ""
+                  ? const SizedBox()
+                  : role == "Field Officer"
+                      ? FOScrollController(
+                          id: id, active: active, status: status)
+                      : role == "Supervisor"
+                          ? SupScrollController(
+                              id: id, active: active, status: status)
+                          : const SizedBox(child: Text("No data")),
             ),
           ],
         ),

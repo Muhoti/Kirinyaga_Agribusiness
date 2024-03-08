@@ -65,9 +65,8 @@ class _StaffLoginState extends State<StaffLogin> {
     }
   }
 
-
   checkSUPActivity(String id) async {
-     try {
+    try {
       final response = await http.get(
         Uri.parse("${getUrl()}activity/getmyactivities/$id"),
         headers: <String, String>{
@@ -103,6 +102,8 @@ class _StaffLoginState extends State<StaffLogin> {
       var data = parseJwt(token);
       String role = data["Role"];
       String id = data["UserID"];
+
+      print("role is $role");
 
       switch (role) {
         case "Field Officer":

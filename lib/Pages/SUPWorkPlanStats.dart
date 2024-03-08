@@ -24,8 +24,8 @@ class SUPWorkPlanStats extends StatefulWidget {
 class _SUPWorkPlanStatsState extends State<SUPWorkPlanStats> {
   final storage = const FlutterSecureStorage();
   String name = '';
-  String total_farmers = '';
-  String reached_farmers = '';
+  String total_officers = '';
+  String reports = '';
   String workplans = '';
   String active = 'Pending';
   String id = '';
@@ -66,9 +66,9 @@ class _SUPWorkPlanStatsState extends State<SUPWorkPlanStats> {
       var data = json.decode(response.body);
 
       setState(() {
-        total_farmers = data["TotalFarmers"].toString();
-        reached_farmers = data["ReachedFarmers"].toString();
-        workplans = data["WorkPlan"].toString();
+        total_officers = data["TotalOfficers"].toString();
+        reports = data["Reports"].toString();
+        workplans = data["WorkPlans"].toString();
       });
     } catch (e) {}
   }
@@ -99,7 +99,7 @@ class _SUPWorkPlanStatsState extends State<SUPWorkPlanStats> {
                         child: Stats(
                           label: "Assigned Officers",
                           color: Colors.blue,
-                          value: total_farmers,
+                          value: total_officers,
                           icon: Icons.person_search,
                         )),
                     Flexible(
@@ -108,7 +108,7 @@ class _SUPWorkPlanStatsState extends State<SUPWorkPlanStats> {
                         child: Stats(
                           label: "Reviewed Reports",
                           color: Colors.green,
-                          value: reached_farmers,
+                          value: reports,
                           icon: Icons.person_pin_circle,
                         )),
                     Flexible(

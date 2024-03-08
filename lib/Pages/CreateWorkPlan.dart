@@ -11,7 +11,6 @@ import 'package:kirinyaga_agribusiness/Components/SearchSupervisor.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Pages/FOWorkPlanStats.dart';
-import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 
@@ -101,22 +100,27 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
       // todo
     }
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Create Workplan", style: TextStyle(color: Colors.white),),
+          title: const Text(
+            "Create Workplan",
+            style: TextStyle(color: Colors.white),
+          ),
           actions: [
             Align(
               alignment: Alignment.centerRight,
               child: IconButton(
                 onPressed: () => {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (_) => const FOWorkPlanStats()))
+                  Navigator.pop(context),
                 },
-                icon: const Icon(Icons.arrow_back, color: Colors.white,),
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
               ),
             ),
           ],
@@ -182,7 +186,8 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
                           updateWards(value);
                         },
                         entries: subc.keys.toList(),
-                        value: data == null ? subcounty : data["Select County"]),
+                        value:
+                            data == null ? subcounty : data["Select County"]),
                     const SizedBox(
                       height: 10,
                     ),
@@ -213,56 +218,59 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Phone.isNotEmpty ? 
-                    MyTextInput(
-                      title: "Supervisor",
-                      lines: 1,
-                      value: Phone,
-                      type: TextInputType.number,
-                      onSubmit: (value) {
-                        setState(() {
-                          error = "";
-                          Phone = value;
-                        });
-                      },
-                    ) :
-                    Padding(
-                      padding: const EdgeInsets.all(24.0),
-                      child: TextFormField(
-                          onChanged: (value) {
-                            if (value.characters.length >=
-                                check.characters.length) {
-                              searchSupervisor(value);
-                            } else {
+                    Phone.isNotEmpty
+                        ? MyTextInput(
+                            title: "Supervisor",
+                            lines: 1,
+                            value: Phone,
+                            type: TextInputType.number,
+                            onSubmit: (value) {
                               setState(() {
-                                entries.clear();
-                                Tally = '';
-                                Phone = '';
-                                Name = '';
-                                SupervisorID = '';
+                                error = "";
+                                Phone = value;
                               });
-                            }
-                            setState(() {
-                              check = value;
-                              error = '';
-                            });
-                          },
-                          keyboardType: TextInputType.number,
-                          enableSuggestions: false,
-                          autocorrect: false,
-                          decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.fromLTRB(24, 8, 24, 0),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Color.fromRGBO(24, 8, 24, 0))),
-                              filled: false,
-                              label: Text(
-                                "Search Supervisor by Phone Number",
-                                style:
-                                    TextStyle(color: Color.fromRGBO(0, 128, 0, 1)),
-                              ),
-                              floatingLabelBehavior: FloatingLabelBehavior.always)),
-                    ),
+                            },
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.all(24.0),
+                            child: TextFormField(
+                                onChanged: (value) {
+                                  if (value.characters.length >=
+                                      check.characters.length) {
+                                    searchSupervisor(value);
+                                  } else {
+                                    setState(() {
+                                      entries.clear();
+                                      Tally = '';
+                                      Phone = '';
+                                      Name = '';
+                                      SupervisorID = '';
+                                    });
+                                  }
+                                  setState(() {
+                                    check = value;
+                                    error = '';
+                                  });
+                                },
+                                keyboardType: TextInputType.number,
+                                enableSuggestions: false,
+                                autocorrect: false,
+                                decoration: const InputDecoration(
+                                    contentPadding:
+                                        EdgeInsets.fromLTRB(24, 8, 24, 0),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color:
+                                                Color.fromRGBO(24, 8, 24, 0))),
+                                    filled: false,
+                                    label: Text(
+                                      "Search Supervisor by Phone Number",
+                                      style: TextStyle(
+                                          color: Color.fromRGBO(0, 128, 0, 1)),
+                                    ),
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.always)),
+                          ),
                     entries.isNotEmpty
                         ? Card(
                             elevation: 12,
@@ -277,7 +285,8 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
                                     setState(() {
                                       Phone = entries[index].Phone;
                                       Name = entries[index].Name;
-                                      SupervisorID = entries[index].SupervisorID;
+                                      SupervisorID =
+                                          entries[index].SupervisorID;
                                       Tally = '1';
                                       entries.clear();
                                     });
@@ -316,7 +325,7 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
                           widget.userid,
                         );
                         print("new workplan details:");
-      
+
                         setState(() {
                           isLoading = null;
                           if (res.error == null) {
@@ -325,13 +334,14 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
                             error = res.error;
                           }
                         });
-      
+
                         if (res.error == null) {
                           Timer(const Duration(seconds: 2), () {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const FOWorkPlanStats()));
+                                    builder: (context) =>
+                                        const FOWorkPlanStats()));
                           });
                         }
                       },

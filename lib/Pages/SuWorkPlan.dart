@@ -1,24 +1,12 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, file_names, prefer_interpolation_to_compose_strings
 
-import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
-import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
-import 'package:kirinyaga_agribusiness/Components/NavigationButton.dart';
 import 'package:kirinyaga_agribusiness/Components/ReportBar.dart';
-import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
-import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
-import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
-import 'package:kirinyaga_agribusiness/Components/TextView.dart';
-import 'package:kirinyaga_agribusiness/Pages/SUPWorkPlanStats.dart';
-import 'package:kirinyaga_agribusiness/Pages/SingleWP.dart';
-import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
-import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
-import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
+import 'package:kirinyaga_agribusiness/Pages/MyWorkPlans.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:http/http.dart' as http;
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 import '../Components/SuReportBar.dart';
 
@@ -64,6 +52,8 @@ class _SupWorkPlanState extends State<SupWorkPlan> {
         isloading = null;
         reviewed = body["SupervisorRemarks"] == null ? false : true;
       });
+
+      print('supervisor review: $reviewed');
     } catch (e) {
       setState(() {
         isloading = null;
@@ -87,10 +77,8 @@ class _SupWorkPlanState extends State<SupWorkPlan> {
               alignment: Alignment.centerRight,
               child: IconButton(
                 onPressed: () => {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const SUPWorkPlanStats()))
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (_) => const MyWorkPlans()))
                 },
                 icon: const Icon(Icons.arrow_back),
               ),

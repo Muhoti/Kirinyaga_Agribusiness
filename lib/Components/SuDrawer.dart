@@ -70,7 +70,7 @@ class SuDrawer extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (_) => const FOWorkPlanStats()));
+                    MaterialPageRoute(builder: (_) => const SUPWorkPlanStats()));
               },
             ),
             ListTile(
