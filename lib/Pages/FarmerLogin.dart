@@ -25,7 +25,7 @@ class _FarmerLoginState extends State<FarmerLogin> {
   String phone = '';
   String nationalId = '';
   String error = '';
-  var isLoading;
+  dynamic isLoading;
   final storage = const FlutterSecureStorage();
 
   @override

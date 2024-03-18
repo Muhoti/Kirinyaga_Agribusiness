@@ -7,6 +7,7 @@ import 'package:kirinyaga_agribusiness/Components/FarmerDrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/FarmerReportBar.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../Components/FODrawer.dart';
 import 'package:http/http.dart' as http;
 import '../Components/Utils.dart';
@@ -27,6 +28,7 @@ class _FarmerHomeState extends State<FarmerHome> {
   dynamic fgdata;
   dynamic vcdata;
   var type = "farmer";
+  var isLoading;
 
   String valueChain = '';
   var storage = const FlutterSecureStorage();
@@ -38,6 +40,11 @@ class _FarmerHomeState extends State<FarmerHome> {
   }
 
   loadFarmerInfo() async {
+     isLoading = LoadingAnimationWidget.staggeredDotsWave(
+      color: const Color.fromRGBO(0, 128, 0, 1),
+      size: 100,
+    );
+
     var id = await storage.read(key: "NationalID");
     farmerid = id!;
     print(id);
@@ -70,6 +77,7 @@ class _FarmerHomeState extends State<FarmerHome> {
       );
       var vcbody = json.decode(vcresponse.body);
       print("the fgbody info now is $vcbody");
+      isLoading = null;
 
       setState(() {
         fddata = fdbody[0];
@@ -137,6 +145,9 @@ class _FarmerHomeState extends State<FarmerHome> {
                   },
                 ),
               ),
+            ),
+            Center(
+              child: isLoading ?? const SizedBox(),
             ),
           ],
         ),
