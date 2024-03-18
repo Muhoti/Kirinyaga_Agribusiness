@@ -13,6 +13,7 @@ import 'package:kirinyaga_agribusiness/Model/SearchItem.dart';
 import 'package:kirinyaga_agribusiness/Model/WorkplanItem.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
+import 'package:kirinyaga_agribusiness/Pages/Schedule.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
@@ -299,7 +300,7 @@ class _CreateReportState extends State<SingleWP> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) => const FieldOfficerHome()));
+                                    builder: (_) => const Schedule()));
                           });
                         }
                       }),

@@ -28,7 +28,7 @@ class _FarmerHomeState extends State<FarmerHome> {
   dynamic fgdata;
   dynamic vcdata;
   var type = "farmer";
-  var isLoading;
+  dynamic isLoading;
 
   String valueChain = '';
   var storage = const FlutterSecureStorage();
@@ -40,7 +40,7 @@ class _FarmerHomeState extends State<FarmerHome> {
   }
 
   loadFarmerInfo() async {
-     isLoading = LoadingAnimationWidget.staggeredDotsWave(
+    isLoading = LoadingAnimationWidget.staggeredDotsWave(
       color: const Color.fromRGBO(0, 128, 0, 1),
       size: 100,
     );

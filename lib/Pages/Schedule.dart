@@ -10,6 +10,7 @@ import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Pages/SingleWP.dart';
 import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../Components/Utils.dart';
 import 'package:intl/intl.dart';
 
@@ -36,6 +37,7 @@ class _ScheduleState extends State<Schedule> {
   final storage = const FlutterSecureStorage();
   String userid = "";
   String role = '';
+  dynamic isLoading;
 
   @override
   initState() {
@@ -184,10 +186,9 @@ class _ScheduleState extends State<Schedule> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0, 24, 0, 24),
                     child: loading
-                        ? const Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.orange,
-                            ),
+                        ? isLoading = LoadingAnimationWidget.staggeredDotsWave(
+                            color: const Color.fromRGBO(0, 128, 0, 1),
+                            size: 100,
                           )
                         : workplanItems.isNotEmpty
                             ? ListView.builder(
@@ -197,7 +198,7 @@ class _ScheduleState extends State<Schedule> {
                                       workplanItems[index].Date.split("T")[0];
 
                                   return GestureDetector(
-                                      onTap: () => {
+                                    onTap: () => {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -206,8 +207,8 @@ class _ScheduleState extends State<Schedule> {
                                                   )))
                                     },
                                     child: Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(16, 6, 24, 6),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          16, 6, 24, 6),
                                       child: Container(
                                         padding: const EdgeInsets.all(12),
                                         decoration: const BoxDecoration(

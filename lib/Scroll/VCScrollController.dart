@@ -6,6 +6,7 @@ import 'package:http/http.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:kirinyaga_agribusiness/Components/VCIncidentBar.dart';
 import 'package:kirinyaga_agribusiness/Model/VCItem.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../Components/Utils.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -23,6 +24,7 @@ class _VCScrollControllerState extends State<VCScrollController> {
   final _numberOfPostsPerRequest = 10;
   String vcid = '';
   String valuechain = '';
+  dynamic isLoading;
 
   final PagingController<int, VCItem> _pagingController =
       PagingController(firstPageKey: 0);
@@ -36,7 +38,11 @@ class _VCScrollControllerState extends State<VCScrollController> {
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    var offset = pageKey == 0 ? pageKey : pageKey + _numberOfPostsPerRequest;
+    isLoading = LoadingAnimationWidget.staggeredDotsWave(
+      color: const Color.fromRGBO(0, 128, 0, 1),
+      size: 100,
+    );
+
     try {
       final dynamic response;
 
