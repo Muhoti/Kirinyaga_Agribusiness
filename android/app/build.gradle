@@ -26,7 +26,7 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -43,16 +43,25 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.kirinyaga_agribusiness"
+        applicationId "ke.co.osl.kirinyaga_agribusiness"
         minSdkVersion 19
-        targetSdkVersion flutter.targetSdkVersion
+        targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
 
+    signingConfigs {
+         release {
+             keyAlias 'key0'
+             keyPassword 'MELMIS2024'
+             storeFile file('../../../melmis.jks')
+             storePassword 'MELMIS2024'
+         }
+     }
+
     buildTypes {
         release {
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
         }
     }
 }

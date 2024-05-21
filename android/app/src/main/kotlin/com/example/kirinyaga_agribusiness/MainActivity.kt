@@ -1,4 +1,4 @@
-package com.example.kirinyaga_agribusiness
+package ke.co.osl.kirinyaga_agribusiness
 
 import io.flutter.embedding.android.FlutterActivity
 

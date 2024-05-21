@@ -12,6 +12,7 @@ import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 import 'package:kirinyaga_agribusiness/Pages/CreateActivity.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
+import 'package:kirinyaga_agribusiness/Pages/Register.dart';
 import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
@@ -120,6 +121,13 @@ class _StaffLoginState extends State<StaffLogin> {
           );
 
           break;
+        case "Chief Officer":
+          storage.write(key: 'role', value: 'Chief Officer');
+          checkSUPActivity(
+            id,
+          );
+
+          break;
         case "Enumerator":
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (_) => Home()));
@@ -205,19 +213,40 @@ class _StaffLoginState extends State<StaffLogin> {
                                 }
                               },
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                // Show the ForgetPasswordDialog when the "Forget Password" link is clicked.
-                                showDialog(
-                                  context: context,
-                                  builder: (context) =>
-                                      const ForgetPasswordDialog(),
-                                );
-                              },
-                              child: const Text('Forgot Password?',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: Color.fromRGBO(0, 128, 0, 1))),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => const Register()));
+                                  },
+                                  child: const Text('Register',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color.fromRGBO(0, 128, 0, 1))),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    // Show the ForgetPasswordDialog when the "Forget Password" link is clicked.
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          const ForgetPasswordDialog(),
+                                    );
+                                  },
+                                  child: const Text('Forgot Password?',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color.fromRGBO(0, 128, 0, 1))),
+                                ),
+                              ],
                             ),
                             const SizedBox(
                               height: 10,
