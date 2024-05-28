@@ -8,7 +8,6 @@ import 'package:kirinyaga_agribusiness/Components/FarmerReportBar.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerValueChains.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import '../Components/FODrawer.dart';
 import 'package:http/http.dart' as http;
 import '../Components/Utils.dart';
 
@@ -102,7 +101,7 @@ class _FarmerHomeState extends State<FarmerHome> {
             "Farmer Summary",
             style: TextStyle(color: Colors.white),
           ),
-          backgroundColor: Color.fromRGBO(0, 128, 0, 1),
+          backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
           iconTheme: const IconThemeData(color: Colors.white),
         ),
         drawer: const Drawer(child: FarmerDrawer()),

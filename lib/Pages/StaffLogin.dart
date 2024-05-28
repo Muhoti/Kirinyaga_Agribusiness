@@ -43,7 +43,6 @@ class _StaffLoginState extends State<StaffLogin> {
         },
       );
       var data = json.decode(response.body);
-      print("activity is $data");
       if (data.isEmpty) {
         Navigator.push(
           context,
@@ -61,9 +60,7 @@ class _StaffLoginState extends State<StaffLogin> {
           ),
         );
       }
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   checkSUPActivity(String id) async {
@@ -128,9 +125,190 @@ class _StaffLoginState extends State<StaffLogin> {
           );
 
           break;
+        case "County Executive Committee Member":
+          storage.write(
+              key: 'role', value: 'County Executive Committee Member');
+          checkSUPActivity(
+            id,
+          );
+
+          break;
+
+        case "County Director Agriculture":
+          storage.write(key: 'role', value: 'County Director Agriculture');
+          checkSUPActivity(
+            id,
+          );
+
+          break;
+        case "County Director Livestock Veterinary & Fisheries":
+          storage.write(
+              key: 'role',
+              value: 'County Director Livestock Veterinary & Fisheries');
+          checkSUPActivity(
+            id,
+          );
+
+          break;
+
+        case "CECM Office Administrator":
+          storage.write(key: 'role', value: 'CECM Office Administrator');
+          checkFOActivity(
+            id,
+          );
+
+          break;
+
+        case "County SMS":
+          storage.write(key: 'role', value: 'County SMS');
+          checkFOActivity(
+            id,
+          );
+
+          break;
+
+        case "Head of Department":
+          storage.write(key: 'role', value: 'Head of Department');
+          checkSUPActivity(
+            id,
+          );
+
+          break;
+
+        case "CO Office Administrator":
+          storage.write(key: 'role', value: 'CO Office Administrator');
+          checkFOActivity(
+            id,
+          );
+          break;
+
+        case "Fleet Manager":
+          storage.write(key: 'role', value: 'Fleet Manager');
+          checkFOActivity(
+            id,
+          );
+
+          break;
+
+        case "Head of CASIMU":
+          storage.write(key: 'role', value: 'Head of CASIMU');
+          checkSUPActivity(
+            id,
+          );
+
+          break;
+
+        case "ICT/Admin":
+          storage.write(key: 'role', value: 'ICT/Admin');
+          checkSUPActivity(
+            id,
+          );
+
+          break;
+
+        case "Office Administrator":
+          storage.write(key: 'role', value: 'Office Administrator');
+          checkFOActivity(
+            id,
+          );
+
+          break;
+
+        case "Driver":
+          storage.write(key: 'role', value: 'Driver');
+          checkFOActivity(
+            id,
+          );
+
+          break;
+
+        // Added roles here
+
+        case "SCAO":
+          storage.write(key: 'role', value: 'SCAO');
+          checkFOActivity(
+            id,
+          );
+
+          break;
+
+        case "SCLPO":
+          storage.write(key: 'role', value: 'SCLPO');
+          checkFOActivity(
+            id,
+          );
+
+          break;
+
+        case "SCVO":
+          storage.write(key: 'role', value: 'SCVO');
+          checkFOActivity(
+            id,
+          );
+
+          break;
+
+        case "SCFO":
+          storage.write(key: 'role', value: 'SCFO');
+          checkFOActivity(
+            id,
+          );
+
+          break;
+
+        case "Drivers":
+          storage.write(key: 'role', value: 'Drivers');
+          checkFOActivity(
+            id,
+          );
+
+          break;
+
+        case "Support Staff":
+          storage.write(key: 'role', value: 'Support Staff');
+          checkFOActivity(
+            id,
+          );
+
+          break;
+
+        case "WAEO":
+          storage.write(key: 'role', value: 'WAEO');
+          checkSUPActivity(
+            id,
+          );
+
+          break;
+
+        case "WLPO":
+          storage.write(key: 'role', value: 'WLPO');
+          checkFOActivity(
+            id,
+          );
+
+          break;
+
+        case "WAHO":
+          storage.write(key: 'role', value: 'WAHO');
+          checkFOActivity(
+            id,
+          );
+
+          break;
+
+        case "Meat Inspector":
+          storage.write(key: 'role', value: 'Meat Inspector');
+          checkFOActivity(
+            id,
+          );
+
+          break;
+
+        // Added roles above
+
         case "Enumerator":
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (_) => Home()));
+              context, MaterialPageRoute(builder: (_) => const Home()));
           break;
 
         default:
@@ -234,7 +412,6 @@ class _StaffLoginState extends State<StaffLogin> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    // Show the ForgetPasswordDialog when the "Forget Password" link is clicked.
                                     showDialog(
                                       context: context,
                                       builder: (context) =>

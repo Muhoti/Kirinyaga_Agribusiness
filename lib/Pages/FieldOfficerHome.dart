@@ -68,7 +68,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => const Login()));
     } else {
-      print(decoded);
+      print("field officer data: $decoded");
       setState(() {
         name = decoded["Name"];
         phone = decoded["Phone"];
@@ -76,7 +76,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
         id = decoded["UserID"];
       });
 
-      fetchStats(decoded["UserID"]);
+      fetchStats(id);
       getFarmersSectionStats(decoded["Name"]);
     }
   }
@@ -92,7 +92,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
         },
       );
       var data = json.decode(response.body);
-      print("stats $data");
+      print("field officer stats $data");
       setState(() {
         activities = data["acToday"].toString();
         workplans = data["wpToday"].toString();
@@ -130,7 +130,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
       print("Minimum: $minimum");
 
       setState(() {
-        total_farmers = mystats["TF"].toString(); // Convert to string
+        total_farmers = mystats["TF"].toString(); 
         mapped = minimum.toString();
       });
 
@@ -193,7 +193,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) =>
-                                  const Schedule(), // Replace with the page you want to navigate to
+                                  const Schedule(), 
                             ));
                           },
                           child: MyRow(

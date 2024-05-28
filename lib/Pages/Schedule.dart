@@ -77,9 +77,6 @@ class _ScheduleState extends State<Schedule> {
       loading = true;
     });
 
-    role = storage.read(key: 'role').toString();
-    print("roles is $role; $userid, $offset");
-
     try {
       final response = await http.get(
         Uri.parse("${getUrl()}activity/schedulepaginated/$userid/$offset"),
@@ -88,12 +85,13 @@ class _ScheduleState extends State<Schedule> {
         },
       );
 
+      role = await storage.read(key: 'role').toString();
+      print("schedule role: $role, $userid, $offset");
+
       if (response.statusCode == 200 || response.statusCode == 203) {
         var body = jsonDecode(response.body);
-        print(body);
 
         if (body["data"]?.length > 0) {
-          print("schedule begun: ${body["data"]}");
           var sf = body["data"]
               .map<WorkplanItem>((json) => WorkplanItem(
                     json['Duration'],
@@ -107,8 +105,6 @@ class _ScheduleState extends State<Schedule> {
                     json['ID'],
                   ))
               .toList();
-
-          print("workplanitems: $sf");
 
           setState(() {
             workplanItems = sf;
@@ -127,7 +123,6 @@ class _ScheduleState extends State<Schedule> {
         });
       }
     } catch (e) {
-      print("schedule error: $e");
       setState(() {
         loading = false;
       });
