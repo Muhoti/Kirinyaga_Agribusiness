@@ -36,14 +36,14 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
   String targetFarmers = '';
   String supervisor = '';
   String error = '';
-  var data = null;
+  var data;
   var isLoading;
   String check = '';
   String Tally = '';
   String Phone = '';
   String Name = '';
   String SupervisorID = '';
-  String role = 'Supervisor';
+  String role = 'Chief Officer';
 
   final storage = const FlutterSecureStorage();
   List<String> wrds = ["Mutithi", "Kangai", "Thiba", "Wamumu"];

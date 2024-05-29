@@ -119,7 +119,13 @@ class _MyWorkPlansState extends State<MyWorkPlans> {
                       : role == "Supervisor"
                           ? SupScrollController(
                               id: id, active: active, status: status)
-                          : const SizedBox(child: Text("No Data")),
+                          : role == "Driver"
+                              ? SupScrollController(
+                                  id: id, active: active, status: status)
+                              : role == "Chief Officer"
+                                  ? SupScrollController(
+                                      id: id, active: active, status: status)
+                                  : const SizedBox(child: Text("No Data")),
             ),
           ],
         ),

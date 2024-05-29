@@ -130,7 +130,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
       print("Minimum: $minimum");
 
       setState(() {
-        total_farmers = mystats["TF"].toString(); 
+        total_farmers = mystats["TF"].toString();
         mapped = minimum.toString();
       });
 
@@ -192,8 +192,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                         InkWell(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  const Schedule(), 
+                              builder: (context) => const Schedule(),
                             ));
                           },
                           child: MyRow(
@@ -236,8 +235,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                               child: InkWell(
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        const MyReports(), // Replace with the page you want to navigate to
+                                    builder: (context) => const MyReports(),
                                   ));
                                 },
                                 child: MyRowIII(

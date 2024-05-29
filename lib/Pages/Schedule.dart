@@ -85,8 +85,7 @@ class _ScheduleState extends State<Schedule> {
         },
       );
 
-      role = await storage.read(key: 'role').toString();
-      print("schedule role: $role, $userid, $offset");
+      print("schedule role: $userid, $offset");
 
       if (response.statusCode == 200 || response.statusCode == 203) {
         var body = jsonDecode(response.body);
@@ -105,6 +104,8 @@ class _ScheduleState extends State<Schedule> {
                     json['ID'],
                   ))
               .toList();
+
+          print("schedule data: $sf");
 
           setState(() {
             workplanItems = sf;
