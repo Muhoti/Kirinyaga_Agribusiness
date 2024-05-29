@@ -86,7 +86,7 @@ class _StaffLoginState extends State<StaffLogin> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (_) => const SupervisorHome(),
+            builder: (_) => const FieldOfficerHome(),
           ),
         );
       }

@@ -92,36 +92,16 @@ class _MyReportsState extends State<MyReports> {
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
         drawer: const Drawer(child: FODrawer()),
-        floatingActionButton: ElevatedButton(
-          onPressed: () {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => CreateWorkPlan(userid: id)));
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color.fromRGBO(13, 50, 10, 1),
-          ),
-          child: const Text(
-            'Create Workplan',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
+       
         body: Column(
           children: <Widget>[
             Flexible(
-              flex: 1,
-              fit: FlexFit.tight,
-              child: id == ""
-                  ? const SizedBox()
-                  : role == "Field Officer"
-                      ? FOScrollController(
-                          id: id, active: active, status: status)
-                      : role == "Supervisor"
-                          ? SupScrollController(
-                              id: id, active: active, status: status)
-                          : const SizedBox(child: Text("No data")),
-            ),
+                flex: 1,
+                fit: FlexFit.tight,
+                child: id == ""
+                    ? const SizedBox()
+                    : FOScrollController(
+                        id: id, active: active, status: status)),
           ],
         ),
       ),

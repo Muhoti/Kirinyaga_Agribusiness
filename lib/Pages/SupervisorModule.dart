@@ -9,18 +9,17 @@ import 'package:kirinyaga_agribusiness/Pages/CreateWorkPlan.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
-import 'package:kirinyaga_agribusiness/Scroll/FOScrollController.dart';
 import 'package:kirinyaga_agribusiness/Scroll/SupScrollController.dart';
 import '../Components/FODrawer.dart';
 
-class MyWorkPlans extends StatefulWidget {
-  const MyWorkPlans({super.key});
+class SupervisorModule extends StatefulWidget {
+  const SupervisorModule({super.key});
 
   @override
-  State<MyWorkPlans> createState() => _MyWorkPlansState();
+  State<SupervisorModule> createState() => _SupervisorModuleState();
 }
 
-class _MyWorkPlansState extends State<MyWorkPlans> {
+class _SupervisorModuleState extends State<SupervisorModule> {
   final storage = const FlutterSecureStorage();
   String name = '';
   String workplans = '';
@@ -71,15 +70,10 @@ class _MyWorkPlansState extends State<MyWorkPlans> {
               alignment: Alignment.centerRight,
               child: IconButton(
                 onPressed: () {
-                  role == 'Supervisor'
-                      ? Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const SupervisorHome()))
-                      : Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const FieldOfficerHome()));
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const FieldOfficerHome()));
                 },
                 icon: const Icon(
                   Icons.arrow_back,
@@ -113,7 +107,7 @@ class _MyWorkPlansState extends State<MyWorkPlans> {
                 fit: FlexFit.tight,
                 child: id == ""
                     ? const SizedBox()
-                    : FOScrollController(
+                    : SupScrollController(
                         id: id, active: active, status: status)),
           ],
         ),

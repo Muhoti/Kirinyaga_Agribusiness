@@ -43,7 +43,6 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
   String Phone = '';
   String Name = '';
   String SupervisorID = '';
-  String role = 'Chief Officer';
 
   final storage = const FlutterSecureStorage();
   List<String> wrds = ["Mutithi", "Kangai", "Thiba", "Wamumu"];
@@ -82,7 +81,7 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
 
     try {
       final response = await http.get(
-          Uri.parse("${getUrl()}mobile/seachbyphone/$role/$q"),
+          Uri.parse("${getUrl()}mobile/searchbyphone/$q"),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8'
           });

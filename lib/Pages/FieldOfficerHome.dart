@@ -21,6 +21,7 @@ import 'package:kirinyaga_agribusiness/Pages/SingleWP.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
+import 'package:kirinyaga_agribusiness/Pages/SupervisorModule.dart';
 import 'package:kirinyaga_agribusiness/Pages/WorkPlan.dart';
 
 import '../Components/SuDrawer.dart';
@@ -202,6 +203,18 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                         ),
                         const SizedBox(
                           height: 20,
+                        ),
+                        
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const SupervisorModule(),
+                            ));
+                          },
+                          child: MyRow(
+                            no: activities,
+                            title: 'Supervisor Module',
+                          ),
                         ),
                         const Align(
                           alignment: Alignment.centerLeft,

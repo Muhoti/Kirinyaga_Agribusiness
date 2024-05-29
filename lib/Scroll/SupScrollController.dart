@@ -34,6 +34,7 @@ class _SupScrollControllerState extends State<SupScrollController> {
   @override
   void initState() {
     super.initState();
+    print("entered here");
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
@@ -52,12 +53,12 @@ class _SupScrollControllerState extends State<SupScrollController> {
     try {
       final dynamic response;
 
-      print("Report status Supervisor: ${widget.status}");
+      print("Report status Supervisor: ${widget.status}, ${widget.id}");
 
       widget.status == "Pending"
           ? response = await get(
               Uri.parse(
-                  "${getUrl()}workplan/supervisor/null/${widget.id}/$offset"),
+                  "${getUrl()}workplan/supervisor/false/${widget.id}/$offset"),
             )
           : response = await get(
               Uri.parse(
