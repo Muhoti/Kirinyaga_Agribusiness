@@ -13,7 +13,6 @@ import 'package:kirinyaga_agribusiness/Components/TextView.dart';
 import 'package:kirinyaga_agribusiness/Pages/SingleWP.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
-import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
@@ -92,7 +91,7 @@ class _SupReportState extends State<SupReport> {
               alignment: Alignment.centerRight,
               child: IconButton(
                 onPressed: () => {Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (_) => const SupervisorHome()))},
+                              MaterialPageRoute(builder: (_) => const FieldOfficerHome()))},
                 icon: const Icon(Icons.arrow_back),
               ),
             ),
@@ -141,7 +140,7 @@ class _SupReportState extends State<SupReport> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (_) => const SupervisorHome()));
+                            builder: (_) => const FieldOfficerHome()));
                   },
                 )
               ],

@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:kirinyaga_agribusiness/Components/ReportBar.dart';
 import 'package:kirinyaga_agribusiness/Pages/MyWorkPlans.dart';
+import 'package:kirinyaga_agribusiness/Pages/SupervisorModule.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 import '../Components/SuReportBar.dart';
@@ -77,8 +78,10 @@ class _SupWorkPlanState extends State<SupWorkPlan> {
               alignment: Alignment.centerRight,
               child: IconButton(
                 onPressed: () => {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (_) => const MyWorkPlans()))
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const SupervisorModule()))
                 },
                 icon: const Icon(Icons.arrow_back),
               ),

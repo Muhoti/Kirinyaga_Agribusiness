@@ -8,12 +8,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:kirinyaga_agribusiness/Components/MySelectInput.dart';
 import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SearchSupervisor.dart';
-import 'package:kirinyaga_agribusiness/Components/SuDrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
-import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 
@@ -300,22 +298,11 @@ class _FarmerResourcesState extends State<CreateActivity> {
 
                         if (res.error == null) {
                           storage.write(key: 'activetask', value: 'true');
-                          var role = storage.read(key: 'role');
-                          // ignore: unrelated_type_equality_checks
-                          if (role == 'Supervisor') {
-                             Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => const SupervisorHome()));
-                          } else {
-                             Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => const FieldOfficerHome()));
-                          }
-                          
-                           
-                          
+
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => const FieldOfficerHome()));
                         }
                       },
                     ),

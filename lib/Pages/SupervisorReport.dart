@@ -9,9 +9,7 @@ import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextLarge.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
-import 'package:kirinyaga_agribusiness/Pages/FarmerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
-import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
@@ -193,7 +191,7 @@ class _SupervisorReportState extends State<SupervisorReport> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (_) =>
-                                            const SupervisorHome()));
+                                            const FieldOfficerHome()));
                               }
                             }),
                       ],

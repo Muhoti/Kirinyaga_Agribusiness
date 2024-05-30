@@ -9,7 +9,6 @@ import 'package:kirinyaga_agribusiness/Model/WorkplanItem.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Pages/SingleWP.dart';
-import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../Components/Utils.dart';
 import 'package:intl/intl.dart';
@@ -153,12 +152,7 @@ class _ScheduleState extends State<Schedule> {
                     alignment: Alignment.centerRight,
                     child: IconButton(
                       onPressed: () {
-                        role == 'Supervisor'
-                            ? Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => const SupervisorHome()))
-                            : Navigator.pushReplacement(
+                        Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (_) => const FieldOfficerHome()));

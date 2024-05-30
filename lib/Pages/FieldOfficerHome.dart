@@ -41,6 +41,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
   String total_farmers = '';
   String reached_farmers = '';
   String workplans = '';
+  String supervisor = 'x';
   String active = 'Pending';
   String id = '';
   String status = 'Pending';
@@ -204,18 +205,6 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                         const SizedBox(
                           height: 20,
                         ),
-                        
-                        InkWell(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const SupervisorModule(),
-                            ));
-                          },
-                          child: MyRow(
-                            no: activities,
-                            title: 'Supervisor Module',
-                          ),
-                        ),
                         const Align(
                           alignment: Alignment.centerLeft,
                           child: Text("Extension Services",
@@ -225,37 +214,58 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
                         const SizedBox(
                           height: 16,
                         ),
-                        Row(
+                        Column(
                           children: [
-                            Expanded(
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        const MyWorkPlans(), // Replace with the page you want to navigate to
-                                  ));
-                                },
-                                child: MyRowIII(
-                                    no: workplans,
-                                    title: 'Work Plans',
-                                    image: 'assets/images/extserv.png'),
-                              ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      const SupervisorModule(),
+                                ));
+                              },
+                              child: MyRowIII(
+                                  no: supervisor,
+                                  title: 'Supervisor Module',
+                                  image: 'assets/images/supervise.png'),
                             ),
                             const SizedBox(
-                              width: 16,
+                              height: 16,
                             ),
-                            Expanded(
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => const MyReports(),
-                                  ));
-                                },
-                                child: MyRowIII(
-                                    no: reports,
-                                    title: 'Reports',
-                                    image: 'assets/images/report.png'),
-                              ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) =>
+                                            const MyWorkPlans(),
+                                      ));
+                                    },
+                                    child: MyRowIII(
+                                        no: workplans,
+                                        title: 'Work Plans',
+                                        image: 'assets/images/extserv.png'),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 16,
+                                ),
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) => const MyReports(),
+                                      ));
+                                    },
+                                    child: MyRowIII(
+                                        no: reports,
+                                        title: 'Reports',
+                                        image: 'assets/images/report.png'),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),

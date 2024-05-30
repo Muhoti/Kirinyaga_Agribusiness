@@ -1,16 +1,13 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names
 
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
-import 'package:kirinyaga_agribusiness/Pages/CreateWorkPlan.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
-import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'package:kirinyaga_agribusiness/Scroll/FOScrollController.dart';
-import 'package:kirinyaga_agribusiness/Scroll/SupScrollController.dart';
 import '../Components/FODrawer.dart';
 
 class MyReports extends StatefulWidget {
@@ -72,12 +69,7 @@ class _MyReportsState extends State<MyReports> {
               alignment: Alignment.centerRight,
               child: IconButton(
                 onPressed: () {
-                  role == 'Supervisor'
-                      ? Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const SupervisorHome()))
-                      : Navigator.pushReplacement(
+                Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (_) => const FieldOfficerHome()));

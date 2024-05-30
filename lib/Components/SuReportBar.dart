@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, prefer_typing_uninitialized_variables, non_constant_identifier_names
+
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -6,7 +8,7 @@ import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/ReviewMap.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
-import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
+import 'package:kirinyaga_agribusiness/Pages/SupervisorModule.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class SuReportBar extends StatefulWidget {
@@ -260,7 +262,8 @@ class _SuReportBar extends State<SuReportBar> {
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) => SupervisorHome()));
+                                      builder: (_) =>
+                                          const SupervisorModule()));
                             });
                           }
                         }),
@@ -293,7 +296,7 @@ class _SuReportBar extends State<SuReportBar> {
                               });
                             }
                           },
-                          child: Text(
+                          child: const Text(
                             "Reject Report",
                             style: TextStyle(color: Colors.deepOrangeAccent),
                           )),

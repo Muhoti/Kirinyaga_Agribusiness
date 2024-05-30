@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, prefer_typing_uninitialized_variables, use_build_context_synchronously
+// ignore_for_file: file_names, prefer_typing_uninitialized_variables, use_build_context_synchronously, empty_catches, avoid_print
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -13,7 +13,6 @@ import 'package:kirinyaga_agribusiness/Pages/CreateActivity.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:kirinyaga_agribusiness/Pages/Register.dart';
-import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:email_validator/email_validator.dart';

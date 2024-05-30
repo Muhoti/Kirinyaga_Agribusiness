@@ -8,6 +8,7 @@ import 'package:kirinyaga_agribusiness/Components/ReportBar.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Pages/CreateReport.dart';
 import 'package:kirinyaga_agribusiness/Pages/FOWorkPlanStats.dart';
+import 'package:kirinyaga_agribusiness/Pages/MyReports.dart';
 import 'package:kirinyaga_agribusiness/Pages/MyWorkPlans.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
@@ -76,7 +77,7 @@ class _WorkPlanState extends State<WorkPlan> {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (_) => const MyWorkPlans()))
+                          builder: (_) => const MyReports()))
                 },
                 icon: const Icon(Icons.arrow_back),
               ),

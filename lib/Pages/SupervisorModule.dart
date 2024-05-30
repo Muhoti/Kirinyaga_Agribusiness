@@ -8,7 +8,6 @@ import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 import 'package:kirinyaga_agribusiness/Pages/CreateWorkPlan.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
-import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'package:kirinyaga_agribusiness/Scroll/SupScrollController.dart';
 import '../Components/FODrawer.dart';
 
@@ -62,7 +61,7 @@ class _SupervisorModuleState extends State<SupervisorModule> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text(
-            "My Workplans",
+            "Supervisor Module",
             style: TextStyle(color: Colors.white),
           ),
           actions: [
@@ -84,22 +83,8 @@ class _SupervisorModuleState extends State<SupervisorModule> {
           iconTheme: const IconThemeData(color: Colors.white),
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
+
         drawer: const Drawer(child: FODrawer()),
-        floatingActionButton: ElevatedButton(
-          onPressed: () {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => CreateWorkPlan(userid: id)));
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color.fromRGBO(13, 50, 10, 1),
-          ),
-          child: const Text(
-            'Create Workplan',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
         body: Column(
           children: <Widget>[
             Flexible(

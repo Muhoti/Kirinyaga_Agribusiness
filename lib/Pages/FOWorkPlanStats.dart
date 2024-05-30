@@ -82,7 +82,7 @@ class _FOWorkPlanStatsState extends State<FOWorkPlanStats> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text(
-            "Work Plan Statistics",
+            "Workplan & Reports Stats",
             style: TextStyle(color: Colors.white),
           ),
           actions: [

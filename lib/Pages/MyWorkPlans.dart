@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, file_names, avoid_print
 
 import 'dart:async';
 
@@ -8,9 +8,7 @@ import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 import 'package:kirinyaga_agribusiness/Pages/CreateWorkPlan.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
-import 'package:kirinyaga_agribusiness/Pages/SupervisorHome.dart';
 import 'package:kirinyaga_agribusiness/Scroll/FOScrollController.dart';
-import 'package:kirinyaga_agribusiness/Scroll/SupScrollController.dart';
 import '../Components/FODrawer.dart';
 
 class MyWorkPlans extends StatefulWidget {
@@ -71,15 +69,10 @@ class _MyWorkPlansState extends State<MyWorkPlans> {
               alignment: Alignment.centerRight,
               child: IconButton(
                 onPressed: () {
-                  role == 'Supervisor'
-                      ? Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const SupervisorHome()))
-                      : Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const FieldOfficerHome()));
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const FieldOfficerHome()));
                 },
                 icon: const Icon(
                   Icons.arrow_back,
