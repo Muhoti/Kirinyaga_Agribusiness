@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/Stats.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
@@ -12,7 +13,6 @@ import '../Components/NavigationButton.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import '../Components/SuDrawer.dart';
 
 class SUPWorkPlanStats extends StatefulWidget {
   const SUPWorkPlanStats({super.key});
@@ -86,7 +86,7 @@ class _SUPWorkPlanStatsState extends State<SUPWorkPlanStats> {
           iconTheme: const IconThemeData(color: Colors.white),
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
-        drawer: const Drawer(child: SuDrawer()),
+        drawer: const Drawer(child: FODrawer()),
         body: Column(
           children: <Widget>[
             Padding(

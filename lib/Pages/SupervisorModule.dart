@@ -83,7 +83,6 @@ class _SupervisorModuleState extends State<SupervisorModule> {
           iconTheme: const IconThemeData(color: Colors.white),
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
-
         drawer: const Drawer(child: FODrawer()),
         body: Column(
           children: <Widget>[

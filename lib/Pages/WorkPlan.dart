@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_typing_uninitialized_variables, file_names, prefer_interpolation_to_compose_strings
+// ignore_for_file: file_names, prefer_typing_uninitialized_variables, prefer_interpolation_to_compose_strings
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -7,9 +7,6 @@ import 'package:http/http.dart';
 import 'package:kirinyaga_agribusiness/Components/ReportBar.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Pages/CreateReport.dart';
-import 'package:kirinyaga_agribusiness/Pages/FOWorkPlanStats.dart';
-import 'package:kirinyaga_agribusiness/Pages/MyReports.dart';
-import 'package:kirinyaga_agribusiness/Pages/MyWorkPlans.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 
@@ -30,10 +27,11 @@ class _WorkPlanState extends State<WorkPlan> {
   void initState() {
     setState(() {
       isloading = LoadingAnimationWidget.staggeredDotsWave(
-        color: Color.fromRGBO(0, 128, 0, 1),
+        color: const Color.fromRGBO(0, 128, 0, 1),
         size: 100,
       );
     });
+
     viewWork(widget.id);
 
     super.initState();
@@ -73,12 +71,7 @@ class _WorkPlanState extends State<WorkPlan> {
             Align(
               alignment: Alignment.centerRight,
               child: IconButton(
-                onPressed: () => {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const MyReports()))
-                },
+                onPressed: () => {Navigator.pop(context)},
                 icon: const Icon(Icons.arrow_back),
               ),
             ),

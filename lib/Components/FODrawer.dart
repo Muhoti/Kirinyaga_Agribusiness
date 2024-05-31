@@ -1,6 +1,6 @@
 import 'package:kirinyaga_agribusiness/Components/SearchFarmer.dart';
 import 'package:kirinyaga_agribusiness/Pages/Account.dart';
-import 'package:kirinyaga_agribusiness/Pages/FOWorkPlanStats.dart';
+import 'package:kirinyaga_agribusiness/Pages/WorkPlans&Reports.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
@@ -71,7 +71,7 @@ class FODrawer extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (_) => const FOWorkPlanStats()));
+                    MaterialPageRoute(builder: (_) => const WorkplansnReports()));
               },
             ),
             ListTile(
@@ -124,7 +124,7 @@ class FODrawer extends StatelessWidget {
                 style: style,
               ),
               onTap: () {
-                final store = new FlutterSecureStorage();
+                const store = FlutterSecureStorage();
                 store.deleteAll();
                 Navigator.pushReplacement(
                     context, MaterialPageRoute(builder: (_) => const Login()));

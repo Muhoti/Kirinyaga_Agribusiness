@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kirinyaga_agribusiness/Components/FMItem.dart';
 import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
-import 'package:kirinyaga_agribusiness/Components/SuDrawer.dart';
 import 'package:kirinyaga_agribusiness/Pages/FarmerDetails.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Pages/Summary.dart';
@@ -130,14 +129,7 @@ class _HomeState extends State<Home> {
           ),
         ),
         drawer: Drawer(
-          child: role == "Enumerator"
-              ? const FMDrawer()
-              : role == "Field Officer"
-                  ? const FODrawer()
-                  : role == "Supervisor"
-                      ? const SuDrawer()
-                      : null,
-        ),
+            child: role == "Enumerator" ? const FMDrawer() : const FODrawer()),
         body: Stack(children: [
           SingleChildScrollView(
             child: Padding(

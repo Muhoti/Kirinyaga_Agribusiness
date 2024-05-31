@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, prefer_typing_uninitialized_variables, non_constant_identifier_names
+// ignore_for_file: file_names, prefer_typing_uninitialized_variables, non_constant_identifier_names, prefer_interpolation_to_compose_strings
 
 import 'dart:async';
 import 'dart:convert';
@@ -292,7 +292,11 @@ class _SuReportBar extends State<SuReportBar> {
 
                             if (res.error == null) {
                               Timer(const Duration(seconds: 1), () {
-                                Navigator.pop(context);
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) =>
+                                            const SupervisorModule()));
                               });
                             }
                           },
@@ -350,7 +354,7 @@ Future<Message> sendReport(String id, String Remarks) async {
 Future<Message> rejectReport(String id) async {
   try {
     final response = await http.put(
-      Uri.parse("${getUrl()}workplan/${id}"),
+      Uri.parse("${getUrl()}workplan/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

@@ -8,7 +8,6 @@ import 'package:kirinyaga_agribusiness/Components/Stats.dart';
 import 'package:kirinyaga_agribusiness/Components/Utils.dart';
 import 'package:kirinyaga_agribusiness/Pages/CreateWorkPlan.dart';
 import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
-import 'package:kirinyaga_agribusiness/Pages/Home.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Scroll/FOScrollController.dart';
 import '../Components/NavigationButton.dart';
@@ -16,14 +15,14 @@ import '../Components/FODrawer.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class FOWorkPlanStats extends StatefulWidget {
-  const FOWorkPlanStats({super.key});
+class WorkplansnReports extends StatefulWidget {
+  const WorkplansnReports({super.key});
 
   @override
-  State<FOWorkPlanStats> createState() => _FOWorkPlanStatsState();
+  State<WorkplansnReports> createState() => _WorkplansnReportsState();
 }
 
-class _FOWorkPlanStatsState extends State<FOWorkPlanStats> {
+class _WorkplansnReportsState extends State<WorkplansnReports> {
   final storage = const FlutterSecureStorage();
   String name = '';
   String total_farmers = '';
@@ -51,7 +50,6 @@ class _FOWorkPlanStatsState extends State<FOWorkPlanStats> {
         name = decoded["Name"];
         id = decoded["UserID"];
       });
-      print("user id is : $id");
       countTasks(decoded["UserID"]);
     }
   }
@@ -169,7 +167,7 @@ class _FOWorkPlanStatsState extends State<FOWorkPlanStats> {
                           setState(() {
                             active = "Pending";
                             status = "Pending";
-                            countTasks(id);
+                            //countTasks(id);
                           });
                         },
                       )),
@@ -186,7 +184,7 @@ class _FOWorkPlanStatsState extends State<FOWorkPlanStats> {
                         setState(() {
                           active = "Complete";
                           status = "Complete";
-                          countTasks(id);
+                          //countTasks(id);
                         });
                       },
                     ),

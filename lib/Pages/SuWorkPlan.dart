@@ -77,12 +77,7 @@ class _SupWorkPlanState extends State<SupWorkPlan> {
             Align(
               alignment: Alignment.centerRight,
               child: IconButton(
-                onPressed: () => {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const SupervisorModule()))
-                },
+                onPressed: () => {Navigator.pop(context)},
                 icon: const Icon(Icons.arrow_back),
               ),
             ),

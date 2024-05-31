@@ -6,12 +6,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:kirinyaga_agribusiness/Components/SuDrawer.dart';
+import 'package:kirinyaga_agribusiness/Components/FODrawer.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
 import 'package:kirinyaga_agribusiness/Model/SearchItem.dart';
 import 'package:kirinyaga_agribusiness/Model/WorkplanItem.dart';
-import 'package:kirinyaga_agribusiness/Pages/FieldOfficerHome.dart';
 import 'package:kirinyaga_agribusiness/Pages/Login.dart';
 import 'package:kirinyaga_agribusiness/Pages/Schedule.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -166,7 +165,7 @@ class _CreateReportState extends State<SingleWP> {
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
           iconTheme: const IconThemeData(color: Colors.white),
         ),
-        drawer: const Drawer(child: SuDrawer()),
+        drawer: const Drawer(child: FODrawer()),
         body: Stack(
           children: [
             SingleChildScrollView(

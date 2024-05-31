@@ -10,7 +10,7 @@ import 'package:kirinyaga_agribusiness/Components/MyTextInput.dart';
 import 'package:kirinyaga_agribusiness/Components/SearchSupervisor.dart';
 import 'package:kirinyaga_agribusiness/Components/SubmitButton.dart';
 import 'package:kirinyaga_agribusiness/Components/TextOakar.dart';
-import 'package:kirinyaga_agribusiness/Pages/FOWorkPlanStats.dart';
+import 'package:kirinyaga_agribusiness/Pages/WorkPlans&Reports.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 
@@ -340,7 +340,7 @@ class _FarmerResourcesState extends State<CreateWorkPlan> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const FOWorkPlanStats()));
+                                        const WorkplansnReports()));
                           });
                         }
                       },

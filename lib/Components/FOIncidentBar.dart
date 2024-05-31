@@ -42,9 +42,10 @@ class _FOIncidentBar extends State<FOIncidentBar> {
                               )));
                 },
                 child: Container(
-                  padding: const EdgeInsets.fromLTRB(16, 6, 24, 6),                  child: Row(
+                  padding: const EdgeInsets.fromLTRB(16, 6, 24, 6),
+                  child: Row(
                     children: [
-                       Icon(
+                      Icon(
                         DateTime(
                                     int.parse(date.split("-")[0]),
                                     int.parse(date.split("-")[1]),

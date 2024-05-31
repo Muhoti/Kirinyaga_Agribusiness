@@ -1,5 +1,6 @@
+// ignore_for_file: file_names, prefer_interpolation_to_compose_strings
+
 import 'package:flutter/material.dart';
-import 'package:kirinyaga_agribusiness/Components/Map.dart';
 import 'package:kirinyaga_agribusiness/Components/ReviewMap.dart';
 
 class ReportBar extends StatefulWidget {
