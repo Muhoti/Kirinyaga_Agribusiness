@@ -24,7 +24,6 @@ import 'package:intl/intl.dart';
 import 'package:kirinyaga_agribusiness/Pages/SupervisorModule.dart';
 import 'package:kirinyaga_agribusiness/Pages/WorkPlan.dart';
 
-
 class FieldOfficerHome extends StatefulWidget {
   const FieldOfficerHome({super.key});
 
@@ -40,7 +39,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
   String total_farmers = '';
   String reached_farmers = '';
   String workplans = '';
-  String supervisor = 'x';
+  String supervisor = '-->';
   String active = 'Pending';
   String id = '';
   String status = 'Pending';
