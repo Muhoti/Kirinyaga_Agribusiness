@@ -30,7 +30,7 @@ class CreateActivity extends StatefulWidget {
 
 class _FarmerResourcesState extends State<CreateActivity> {
   String task = '';
-  String description = '';
+  String remarks = '';
   String venue = '';
   String duration = 'Less than 5hrs';
   String targetFarmers = '';
@@ -187,7 +187,7 @@ class _FarmerResourcesState extends State<CreateActivity> {
                       height: 24,
                     ),
                     MySelectInput(
-                      title: "Activity",
+                      title: "Activity (Farm Visit)",
                       onSubmit: (newValue) {
                         setState(() {
                           error = "";
@@ -195,9 +195,8 @@ class _FarmerResourcesState extends State<CreateActivity> {
                         });
                       },
                       entries: const [
-                        "Seminars & Workshop",
+                        "Advisory",
                         "Training",
-                        "Full Day"
                       ],
                       value: data == null ? "Seminars & Workshop" : type,
                     ),
@@ -256,12 +255,12 @@ class _FarmerResourcesState extends State<CreateActivity> {
                     ),
                     MyTextInput(
                       title: "Remarks",
-                      value: description,
+                      value: remarks,
                       type: TextInputType.text,
                       onSubmit: (value) {
                         setState(() {
                           error = "";
-                          description = value;
+                          remarks = value;
                         });
                       },
                       lines: 5,
@@ -277,15 +276,8 @@ class _FarmerResourcesState extends State<CreateActivity> {
                             size: 100,
                           );
                         });
-                        var res = await submitData(
-                            task,
-                            type,
-                            description,
-                            venue,
-                            duration,
-                            Latitude,
-                            Longitude,
-                            widget.userid);
+                        var res = await submitData(task, type, remarks, venue,
+                            duration, Latitude, Longitude, widget.userid);
 
                         setState(() {
                           isLoading = null;
@@ -323,14 +315,14 @@ class _FarmerResourcesState extends State<CreateActivity> {
 Future<Message> submitData(
   String task,
   String type,
-  String description,
+  String remarks,
   String venue,
   String duration,
   double latitude,
   double longitude,
   String userid,
 ) async {
-  if (task.isEmpty || type.isEmpty || description.isEmpty || duration.isEmpty) {
+  if (task.isEmpty || type.isEmpty || duration.isEmpty) {
     return Message(
         token: null, success: null, error: "All fields are required!");
   }
@@ -349,7 +341,7 @@ Future<Message> submitData(
       body: jsonEncode(<String, dynamic>{
         'Task': task,
         'Type': type,
-        'Description': description,
+        'Description': remarks,
         'Duration': duration,
         'Venue': venue,
         'Latitude': latitude,

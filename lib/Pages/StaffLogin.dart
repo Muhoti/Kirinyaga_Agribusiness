@@ -32,6 +32,37 @@ class _StaffLoginState extends State<StaffLogin> {
   String role = '';
   final storage = const FlutterSecureStorage();
   String nationalId = '';
+  Timer? logoutTimer;
+
+  @override
+  void dispose() {
+    logoutTimer?.cancel();
+    super.dispose();
+  }
+
+  void startLogoutTimer() {
+    DateTime now = DateTime.now();
+    DateTime fivePM = DateTime(now.year, now.month, now.day, 17, 0, 0);
+
+    if (now.isAfter(fivePM)) {
+      fivePM = fivePM.add(const Duration(days: 1));
+    }
+
+    Duration durationUntilFivePM = fivePM.difference(now);
+
+    logoutTimer?.cancel();
+    logoutTimer = Timer(durationUntilFivePM, () {
+      storage.deleteAll();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const StaffLogin()),
+      );
+    });
+  }
+
+  void stopLogoutTimer() {
+    logoutTimer?.cancel();
+  }
 
   checkFOActivity(String id) async {
     try {
@@ -136,7 +167,7 @@ class _StaffLoginState extends State<StaffLogin> {
                                 setState(() {
                                   isLoading =
                                       LoadingAnimationWidget.staggeredDotsWave(
-                                    color: Color.fromRGBO(0, 128, 0, 1),
+                                    color: const Color.fromRGBO(0, 128, 0, 1),
                                     size: 100,
                                   );
                                 });
@@ -155,6 +186,7 @@ class _StaffLoginState extends State<StaffLogin> {
                                   await storage.write(
                                       key: 'Type', value: 'Staff');
                                   checkRole(res.token);
+                                  startLogoutTimer();
                                 }
                               },
                             ),
@@ -206,6 +238,16 @@ class _StaffLoginState extends State<StaffLogin> {
 }
 
 Future<Message> login(String email, String password) async {
+  DateTime now = DateTime.now();
+  
+  if (now.hour < 8 || now.hour >= 9) {
+    return Message(
+      token: null,
+      success: null,
+      error: "Login is only allowed between 8 AM and 9 AM.",
+    );
+  }
+
   if (email.isEmpty || !EmailValidator.validate(email)) {
     return Message(
       token: null,
