@@ -238,8 +238,8 @@ class _StaffLoginState extends State<StaffLogin> {
 }
 
 Future<Message> login(String email, String password) async {
-  DateTime now = DateTime.now();
-  
+ DateTime now = DateTime.now();
+
   if (now.hour < 8 || now.hour >= 9) {
     return Message(
       token: null,
