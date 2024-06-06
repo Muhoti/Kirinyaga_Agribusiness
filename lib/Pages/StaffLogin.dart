@@ -238,13 +238,13 @@ class _StaffLoginState extends State<StaffLogin> {
 }
 
 Future<Message> login(String email, String password) async {
- DateTime now = DateTime.now();
+  DateTime now = DateTime.now();
 
-  if (now.hour < 8 || now.hour >= 9) {
+  if (now.hour >= 9) {
     return Message(
       token: null,
       success: null,
-      error: "Login is only allowed between 8 AM and 9 AM.",
+      error: "Login is only allowed between 12 AM and 9 AM.",
     );
   }
 
