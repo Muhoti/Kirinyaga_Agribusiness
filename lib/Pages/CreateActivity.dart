@@ -32,13 +32,13 @@ class _FarmerResourcesState extends State<CreateActivity> {
   String task = '';
   String remarks = '';
   String venue = '';
-  String duration = 'Less than 5hrs';
+  String duration = '-Select duration-';
   String targetFarmers = '';
   String error = '';
   var data;
   var isLoading;
   String check = '';
-  String type = 'Seminars & Workshop';
+  String type = '-Select Activity-';
   String Tally = '';
   String Phone = '';
   String Name = '';
@@ -195,6 +195,7 @@ class _FarmerResourcesState extends State<CreateActivity> {
                         });
                       },
                       entries: const [
+                        "-Select Activity-",
                         "Staff Capacity Building",
                         "Farmer Groups Training",
                         "Field Days",
@@ -210,7 +211,7 @@ class _FarmerResourcesState extends State<CreateActivity> {
                         "Revenue Collection",
                         "Review/Staff Meetings"
                       ],
-                      value: data == null ? "Seminars & Workshop" : type,
+                      value: type,
                     ),
                     MyTextInput(
                       title: "Activity Title",
@@ -232,8 +233,13 @@ class _FarmerResourcesState extends State<CreateActivity> {
                           duration = newValue;
                         });
                       },
-                      entries: const ["Less than 5hrs", "Half Day", "Full Day"],
-                      value: data == null ? "Less than 5hrs" : duration,
+                      entries: const [
+                        "-Select duration-",
+                        "Less than 5hrs",
+                        "Half Day",
+                        "Full Day"
+                      ],
+                      value: duration,
                     ),
                     // MySelectInput(
                     //   title: "Activity Type",
