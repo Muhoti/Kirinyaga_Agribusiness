@@ -195,8 +195,20 @@ class _FarmerResourcesState extends State<CreateActivity> {
                         });
                       },
                       entries: const [
-                        "Advisory",
-                        "Training",
+                        "Staff Capacity Building",
+                        "Farmer Groups Training",
+                        "Field Days",
+                        "Projects/Programmes M&E",
+                        "Onfarm Advisories & Demos",
+                        "Market Surveys",
+                        "Stakeholder forums",
+                        "Infrastructure/Capital Investments",
+                        "Inspections Cycles",
+                        "Diseases, Pest & Vector Surveillance and Control Cycles",
+                        "Input Subsidy Support",
+                        "Periodical Maintenance of Plants & Vehicles",
+                        "Revenue Collection",
+                        "Review/Staff Meetings"
                       ],
                       value: data == null ? "Seminars & Workshop" : type,
                     ),

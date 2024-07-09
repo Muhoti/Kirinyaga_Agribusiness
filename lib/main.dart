@@ -22,7 +22,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final storage = const FlutterSecureStorage();
  
-
   checkLogin() {
     Future.delayed(const Duration(seconds: 2), () {
                 storage.write(key: "login_option", value: "0");
