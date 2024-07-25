@@ -40,6 +40,7 @@ class _RegisterState extends State<Register> {
   final storage = const FlutterSecureStorage();
   String nationalId = '';
   dynamic data;
+  
   var levelList = {
     "Select Level": ["Select Level Name"],
     "County": ["Kirinyaga"],
@@ -50,6 +51,7 @@ class _RegisterState extends State<Register> {
       "Mwea West",
       "Kirinyaga Central"
     ],
+
     "Ward": [
       "Mutithi",
       "Kangai",
