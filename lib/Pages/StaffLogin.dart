@@ -238,9 +238,11 @@ class _StaffLoginState extends State<StaffLogin> {
 }
 
 Future<Message> login(String email, String password) async {
- DateTime now = DateTime.now();
+  DateTime now = DateTime.now();
+  int currentHour = now.hour;
 
-  if (now.hour >= 9 && now.hour <= 8) {
+  // Allow login only between 12 AM (00:00) and 9 AM (09:00)
+  if (currentHour < 0 || currentHour >= 9) {
     return Message(
       token: null,
       success: null,
@@ -266,7 +268,7 @@ Future<Message> login(String email, String password) async {
 
   print("email is: $email, password is: $password");
   try {
-    print("begining login");
+    print("beginning login");
     final response = await http.post(
       Uri.parse("${getUrl()}mobile/login"),
       headers: <String, String>{
