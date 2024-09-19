@@ -40,7 +40,7 @@ class _AccountState extends State<Account> {
 
   //Check for Login
   getToken() async {
-    var token = await storage.read(key: "erjwt");
+    var token = await storage.read(key: "kiriamisjwt");
     var decoded = parseJwt(token.toString());
     if (decoded["error"] == "Invalid token") {
       Navigator.pushReplacement(
@@ -88,7 +88,6 @@ class _AccountState extends State<Account> {
                           ),
                         ),
                       ),
-                      
                       Padding(
                         padding: const EdgeInsets.fromLTRB(24, 0, 16, 10),
                         child: Align(
@@ -221,7 +220,7 @@ class _AccountState extends State<Account> {
                             }
                           });
                           if (res.error == null) {
-                            await storage.write(key: 'erjwt', value: "");
+                            await storage.write(key: 'kiriamisjwt', value: "");
                             Timer(const Duration(seconds: 1), () {
                               Navigator.pushReplacement(
                                   context,

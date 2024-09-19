@@ -16,6 +16,7 @@ import 'package:kirinyaga_agribusiness/Pages/Register.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:email_validator/email_validator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class StaffLogin extends StatefulWidget {
   const StaffLogin({super.key});
@@ -27,6 +28,7 @@ class StaffLogin extends StatefulWidget {
 class _StaffLoginState extends State<StaffLogin> {
   String email = '';
   String password = '';
+  String appversion = '1';
   String error = '';
   var isLoading;
   String role = '';
@@ -115,6 +117,17 @@ class _StaffLoginState extends State<StaffLogin> {
     } catch (e) {}
   }
 
+  void _launchPlayStore() async {
+    final Uri url = Uri.parse(
+        'https://play.google.com/store/apps/details?id=ke.co.osl.kirinyaga_agribusiness&pcampaignid=web_share');
+
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -161,35 +174,48 @@ class _StaffLoginState extends State<StaffLogin> {
                                 });
                               },
                             ),
-                            SubmitButton(
-                              label: "Login",
-                              onButtonPressed: () async {
-                                setState(() {
-                                  isLoading =
-                                      LoadingAnimationWidget.staggeredDotsWave(
-                                    color: const Color.fromRGBO(0, 128, 0, 1),
-                                    size: 100,
-                                  );
-                                });
-                                var res = await login(email, password);
-                                setState(() {
-                                  isLoading = null;
-                                  if (res.error == null) {
-                                    error = res.success;
-                                  } else {
-                                    error = res.error;
-                                  }
-                                });
-                                if (res.error == null) {
-                                  await storage.write(
-                                      key: 'erjwt', value: res.token);
-                                  await storage.write(
-                                      key: 'Type', value: 'Staff');
-                                  checkRole(res.token);
-                                  startLogoutTimer();
-                                }
-                              },
-                            ),
+                            error == "Update App Version"
+                                ? SubmitButton(
+                                    label: "Update App Version",
+                                    onButtonPressed: _launchPlayStore,
+                                  )
+                                : SubmitButton(
+                                    label: "Login",
+                                    onButtonPressed: () async {
+                                      setState(() {
+                                        isLoading = LoadingAnimationWidget
+                                            .staggeredDotsWave(
+                                          color: const Color.fromRGBO(
+                                              0, 128, 0, 1),
+                                          size: 100,
+                                        );
+                                      });
+                                      var res = await login(
+                                          email, password, appversion);
+                                      setState(() {
+                                        isLoading = null;
+                                        if (res.error == null) {
+                                          error = res.success;
+                                        } else if (res.error ==
+                                            "App version incompatibility") {
+                                          setState(() {
+                                            error = "Update App Version";
+                                          });
+                                        } else {
+                                          error = res.error;
+                                        }
+                                      });
+                                      if (res.error == null) {
+                                        await storage.write(
+                                            key: 'kiriamisjwt',
+                                            value: res.token);
+                                        await storage.write(
+                                            key: 'Type', value: 'Staff');
+                                        checkRole(res.token);
+                                        startLogoutTimer();
+                                      }
+                                    },
+                                  ),
                             const SizedBox(
                               height: 16,
                             ),
@@ -237,7 +263,7 @@ class _StaffLoginState extends State<StaffLogin> {
   }
 }
 
-Future<Message> login(String email, String password) async {
+Future<Message> login(String email, String password, String appversion) async {
   DateTime now = DateTime.now();
   int currentHour = now.hour;
 
@@ -274,7 +300,11 @@ Future<Message> login(String email, String password) async {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{'Email': email, 'Password': password}),
+      body: jsonEncode(<String, String>{
+        'Email': email,
+        'Password': password,
+        'AppVersion': appversion
+      }),
     );
 
     print(response.body);

@@ -239,12 +239,14 @@ class _FarmerAddressState extends State<FarmerAddress> {
                         padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
                         child: SizedBox(
                             height: 250,
-                            child: oldlat != 0  ? MapEdit(
-                              lat: lat,
-                              lon: long,
-                              oldlat: oldlat,
-                              oldlong: oldlong,
-                            ): SizedBox()))
+                            child: oldlat != 0
+                                ? MapEdit(
+                                    lat: lat,
+                                    lon: long,
+                                    oldlat: oldlat,
+                                    oldlong: oldlong,
+                                  )
+                                : SizedBox()))
                     : Padding(
                         padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
                         child: SizedBox(
@@ -391,7 +393,7 @@ Future<Message> submitData(
 
   try {
     const storage = FlutterSecureStorage();
-    var token = await storage.read(key: "erjwt");
+    var token = await storage.read(key: "kiriamisjwt");
     var response;
     if (type) {
       if (updateLocation == "Yes") {

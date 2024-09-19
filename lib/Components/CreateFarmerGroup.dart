@@ -114,11 +114,10 @@ class _CreateFarmerGroup extends State<CreateFarmerGroup> {
                   });
 
                   if (res.error == null) {
-                   
                     Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const FarmerGroups()));
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const FarmerGroups()));
                   }
                 },
                 child: const Text('Submit'),
@@ -139,8 +138,8 @@ Future<Message> postFarmerGroups(
         token: null, success: null, error: "Farmer Group cannot be empty!");
   }
   try {
-      const storage = FlutterSecureStorage();
-    var token = await storage.read(key: "erjwt");
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: "kiriamisjwt");
     var response;
     response = await http.post(
       Uri.parse("${getUrl()}farmergroups"),

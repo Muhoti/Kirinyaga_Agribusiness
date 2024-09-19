@@ -375,7 +375,7 @@ Future<Message> submitData(
 
   try {
     const storage = FlutterSecureStorage();
-    var token = await storage.read(key: "erjwt");
+    var token = await storage.read(key: "kiriamisjwt");
     var response;
 
     response = await http.post(

@@ -217,7 +217,6 @@ class _FarmerResourcesState extends State<FarmerResources> {
                       });
 
                       if (res.error == null) {
-                 
                         Timer(const Duration(seconds: 2), () {
                           if (widget.editing) {
                             Navigator.pushReplacement(
@@ -261,14 +260,17 @@ Future<Message> submitData(
         token: null, success: null, error: "Total Acreage cannot be empty!");
   }
 
-  if (double.parse(totalAcreage) < double.parse(cropAcreage) + double.parse(livestockAcreage)) {
+  if (double.parse(totalAcreage) <
+      double.parse(cropAcreage) + double.parse(livestockAcreage)) {
     return Message(
-        token: null, success: null, error: "Total land in use exceeded total acreage of land provided");
+        token: null,
+        success: null,
+        error: "Total land in use exceeded total acreage of land provided");
   }
 
   try {
     const storage = FlutterSecureStorage();
-    var token = await storage.read(key: "erjwt");
+    var token = await storage.read(key: "kiriamisjwt");
     var response;
     print(
         "put data is $farmerID, $totalAcreage, $cropAcreage, $livestockAcreage, $irrigationType, $farmOwnership");

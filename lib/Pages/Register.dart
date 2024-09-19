@@ -22,7 +22,9 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  String name = '';
+  String fname = '';
+  String sname = '';
+
   String email = '';
   String phone = '';
   String department = '';
@@ -40,7 +42,7 @@ class _RegisterState extends State<Register> {
   final storage = const FlutterSecureStorage();
   String nationalId = '';
   dynamic data;
-  
+
   var levelList = {
     "Select Level": ["Select Level Name"],
     "County": ["Kirinyaga"],
@@ -51,7 +53,6 @@ class _RegisterState extends State<Register> {
       "Mwea West",
       "Kirinyaga Central"
     ],
-
     "Ward": [
       "Mutithi",
       "Kangai",
@@ -87,7 +88,6 @@ class _RegisterState extends State<Register> {
       "Office Administrator",
       "Driver"
     ],
-
     "Sub County": [
       "SCAO",
       "SCLPO",
@@ -97,7 +97,6 @@ class _RegisterState extends State<Register> {
       "Drivers",
       "Support Staff"
     ],
-    
     "Ward": ["WAEO", "WLPO", "WAHO", "Meat Inspector"],
   };
 
@@ -146,13 +145,24 @@ class _RegisterState extends State<Register> {
                         ),
                         const TextLarge(label: "Staff Registration"),
                         MyTextInput(
-                          title: 'Name',
+                          title: 'First Name',
                           lines: 1,
                           value: '',
                           type: TextInputType.name,
                           onSubmit: (value) {
                             setState(() {
-                              name = value;
+                              fname = value;
+                            });
+                          },
+                        ),
+                        MyTextInput(
+                          title: 'Second Name',
+                          lines: 1,
+                          value: '',
+                          type: TextInputType.name,
+                          onSubmit: (value) {
+                            setState(() {
+                              sname = value;
                             });
                           },
                         ),
@@ -303,7 +313,7 @@ class _RegisterState extends State<Register> {
                               );
                             });
                             var res = await submitData(
-                                name,
+                                "$fname $sname",
                                 email,
                                 phone,
                                 department,

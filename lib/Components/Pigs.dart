@@ -370,7 +370,7 @@ submitData(
 
   try {
     const storage = FlutterSecureStorage();
-    var token = await storage.read(key: "erjwt");
+    var token = await storage.read(key: "kiriamisjwt");
     var response;
 
     if (type) {
@@ -398,8 +398,7 @@ submitData(
             'PorkIncome': porkincome,
             'PorkCustomers': porkcustomers,
           }));
-
-    }else {
+    } else {
       response = await http.post(Uri.parse("${getUrl()}pigs"),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
@@ -424,7 +423,6 @@ submitData(
             'PorkIncome': porkincome,
             'PorkCustomers': porkcustomers,
           }));
-
     }
 
     if (response.statusCode == 200 || response.statusCode == 203) {

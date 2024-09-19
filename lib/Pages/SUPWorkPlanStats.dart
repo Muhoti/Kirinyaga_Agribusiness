@@ -13,7 +13,6 @@ import '../Components/NavigationButton.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-
 class SUPWorkPlanStats extends StatefulWidget {
   const SUPWorkPlanStats({super.key});
 
@@ -40,7 +39,7 @@ class _SUPWorkPlanStatsState extends State<SUPWorkPlanStats> {
   }
 
   Future<void> getDefaultValues() async {
-    var token = await storage.read(key: "erjwt");
+    var token = await storage.read(key: "kiriamisjwt");
     var decoded = parseJwt(token.toString());
     if (decoded["error"] == "Invalid token") {
       Navigator.pushReplacement(

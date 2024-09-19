@@ -47,7 +47,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
 
   getToken() async {
     try {
-      var token = await storage.read(key: "erjwt");
+      var token = await storage.read(key: "kiriamisjwt");
       var decoded = parseJwt(token.toString());
 
       setState(() {
@@ -67,7 +67,6 @@ class _FarmerDetailsState extends State<FarmerDetails> {
 
   editFarmerDetails(String id) async {
     try {
-
       final response = await get(
         Uri.parse("${getUrl()}farmerdetails/farmerid/$id"),
       );
@@ -84,7 +83,6 @@ class _FarmerDetailsState extends State<FarmerDetails> {
           age = body[0]["AgeGroup"];
           farmingType = body[0]["FarmingType"];
         });
-        
       }
     } catch (e) {}
   }
@@ -300,7 +298,7 @@ Future<Message> submitData(
 
   try {
     const storage = FlutterSecureStorage();
-    var token = await storage.read(key: "erjwt");
+    var token = await storage.read(key: "kiriamisjwt");
     var response;
     if (type) {
       response = await http.put(

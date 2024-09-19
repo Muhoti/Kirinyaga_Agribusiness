@@ -38,7 +38,7 @@ class _HomeState extends State<Home> {
 
   getToken() async {
     try {
-      var token = await storage.read(key: "erjwt");
+      var token = await storage.read(key: "kiriamisjwt");
       var decoded = parseJwt(token.toString());
 
       setState(() {

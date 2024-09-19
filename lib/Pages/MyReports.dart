@@ -36,7 +36,7 @@ class _MyReportsState extends State<MyReports> {
   }
 
   Future<void> getDefaultValues() async {
-    var token = await storage.read(key: "erjwt");
+    var token = await storage.read(key: "kiriamisjwt");
     var roles = await storage.read(key: 'role');
     print("reports for $roles");
 
@@ -69,10 +69,10 @@ class _MyReportsState extends State<MyReports> {
               alignment: Alignment.centerRight,
               child: IconButton(
                 onPressed: () {
-                Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const FieldOfficerHome()));
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const FieldOfficerHome()));
                 },
                 icon: const Icon(
                   Icons.arrow_back,
@@ -84,7 +84,6 @@ class _MyReportsState extends State<MyReports> {
           backgroundColor: const Color.fromRGBO(0, 128, 0, 1),
         ),
         drawer: const Drawer(child: FODrawer()),
-       
         body: Column(
           children: <Widget>[
             Flexible(

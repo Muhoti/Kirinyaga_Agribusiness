@@ -59,7 +59,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
   }
 
   Future<void> getDefaultValues() async {
-    var token = await storage.read(key: "erjwt");
+    var token = await storage.read(key: "kiriamisjwt");
     var decoded = parseJwt(token.toString());
 
     formattedDate = DateFormat('MMMM dd, yyyy').format(DateTime.now());
