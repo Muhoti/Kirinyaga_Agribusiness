@@ -196,12 +196,15 @@ class _StaffLoginState extends State<StaffLogin> {
                                         isLoading = null;
                                         if (res.error == null) {
                                           error = res.success;
-                                        } else if (res.error ==
-                                            "App version incompatibility") {
-                                          setState(() {
-                                            error = "Update App Version";
-                                          });
-                                        } else {
+                                        }
+                                        // else if (res.error ==
+                                        //     "App version incompatibility") {
+                                        //   setState(() {
+                                        //     error = "Update App Version";
+                                        //   });
+                                        // }
+
+                                        else {
                                           error = res.error;
                                         }
                                       });
