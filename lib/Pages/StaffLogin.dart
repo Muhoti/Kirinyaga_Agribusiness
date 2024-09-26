@@ -265,16 +265,17 @@ class _StaffLoginState extends State<StaffLogin> {
 
 Future<Message> login(String email, String password, String appversion) async {
   DateTime now = DateTime.now();
-  int currentHour = now.hour;
+
+  // int currentHour = now.hour;
 
   // Allow login only between 12 AM (00:00) and 9 AM (09:00)
-  if (currentHour < 0 || currentHour >= 9) {
-    return Message(
-      token: null,
-      success: null,
-      error: "Login is only allowed between 12 AM and 9 AM.",
-    );
-  }
+  // if (currentHour < 0 || currentHour >= 9) {
+  //   return Message(
+  //     token: null,
+  //     success: null,
+  //     error: "Login is only allowed between 12 AM and 9 AM.",
+  //   );
+  // }
 
   if (email.isEmpty || !EmailValidator.validate(email)) {
     return Message(
@@ -295,15 +296,19 @@ Future<Message> login(String email, String password, String appversion) async {
   print("email is: $email, password is: $password");
   try {
     print("beginning login");
+
+    // Construct the URI with the appversion as a query parameter
+    final uri = Uri.parse("${getUrl()}mobile/login")
+        .replace(queryParameters: {'AppVersion': appversion});
+
     final response = await http.post(
-      Uri.parse("${getUrl()}mobile/login"),
+      uri,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
         'Email': email,
         'Password': password,
-        'AppVersion': appversion
       }),
     );
 
@@ -318,7 +323,7 @@ Future<Message> login(String email, String password, String appversion) async {
       return Message(
         token: null,
         success: null,
-        error: "Connection to server failed!",
+        error: "Server unreachable",
       );
     }
   } catch (e) {

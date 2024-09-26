@@ -188,16 +188,19 @@ class _RegisterState extends State<Register> {
                             });
                           },
                         ),
-                        MyTextInput(
-                          title: 'Department',
-                          lines: 1,
-                          value: '',
-                          type: TextInputType.text,
+                        MySelectInput(
                           onSubmit: (value) {
                             setState(() {
                               department = value;
                             });
                           },
+                          entries: const [
+                            "--Select--",
+                            "Agriculture",
+                            "Livestock, Veternary and Fisheries"
+                          ],
+                          value: department,
+                          title: 'Department',
                         ),
                         MyTextInput(
                           title: 'Designation',
