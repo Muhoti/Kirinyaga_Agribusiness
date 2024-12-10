@@ -35,7 +35,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
   final storage = const FlutterSecureStorage();
   String name = '';
   String phone = '';
-  String station = '';
+//  String station = '';
   String total_farmers = '';
   String reached_farmers = '';
   String workplans = '';
@@ -72,7 +72,7 @@ class _FieldOfficerHomeState extends State<FieldOfficerHome> {
       setState(() {
         name = decoded["Name"];
         phone = decoded["Phone"];
-        station = decoded["Department"];
+     //   station = decoded["Department"];
         id = decoded["UserID"];
       });
 

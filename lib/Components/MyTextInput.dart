@@ -22,6 +22,9 @@ class MyTextInput extends StatefulWidget {
 
 class _MyTextInputState extends State<MyTextInput> {
   TextEditingController _controller = new TextEditingController();
+  String _value = "";
+
+  bool _obscureText = true;
 
   @override
   void initState() {
@@ -31,15 +34,8 @@ class _MyTextInputState extends State<MyTextInput> {
   @override
   void didUpdateWidget(covariant MyTextInput oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.value != "") {
-      setState(() {
-        _controller.value = TextEditingValue(
-          text: widget.value,
-          selection: TextSelection.fromPosition(
-            TextPosition(offset: widget.value.length),
-          ),
-        );
-      });
+    if (widget.value != oldWidget.value && widget.value != "null") {
+      _controller.text = widget.value;
     }
   }
 
@@ -57,6 +53,9 @@ class _MyTextInputState extends State<MyTextInput> {
           padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
           child: TextField(
               onChanged: (value) {
+                setState(() {
+                  _value = value;
+                });
                 widget.onSubmit(value);
               },
               keyboardType: widget.type,
@@ -64,8 +63,9 @@ class _MyTextInputState extends State<MyTextInput> {
               maxLines: widget.lines,
               style: const TextStyle(color: Colors.green),
               cursorColor: Colors.orange,
-              obscureText:
-                  widget.type == TextInputType.visiblePassword ? true : false,
+              obscureText: widget.type == TextInputType.visiblePassword
+                  ? _obscureText
+                  : false,
               enableSuggestions: true,
               autocorrect: false,
               decoration: InputDecoration(
@@ -82,6 +82,20 @@ class _MyTextInputState extends State<MyTextInput> {
                     widget.title.toString(),
                     style: const TextStyle(color: Colors.green),
                   ),
+                  suffixIcon: widget.type == TextInputType.visiblePassword
+                      ? IconButton(
+                          icon: Icon(
+                            _obscureText
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscureText = !_obscureText;
+                            });
+                          },
+                        )
+                      : null,
                   floatingLabelBehavior: FloatingLabelBehavior.auto))),
     );
   }

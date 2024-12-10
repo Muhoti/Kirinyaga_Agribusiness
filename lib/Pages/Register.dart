@@ -27,7 +27,7 @@ class _RegisterState extends State<Register> {
 
   String email = '';
   String phone = '';
-  String department = '';
+  String directorate = '';
   String designation = '';
   String deployment = '';
   String station = '';
@@ -191,7 +191,7 @@ class _RegisterState extends State<Register> {
                         MySelectInput(
                           onSubmit: (value) {
                             setState(() {
-                              department = value;
+                              directorate = value;
                             });
                           },
                           entries: const [
@@ -199,20 +199,20 @@ class _RegisterState extends State<Register> {
                             "Agriculture",
                             "Livestock, Veternary and Fisheries"
                           ],
-                          value: department,
-                          title: 'Department',
+                          value: directorate,
+                          title: 'Directorate',
                         ),
-                        MyTextInput(
-                          title: 'Designation',
-                          lines: 1,
-                          value: '',
-                          type: TextInputType.text,
-                          onSubmit: (value) {
-                            setState(() {
-                              designation = value;
-                            });
-                          },
-                        ),
+                        // MyTextInput(
+                        //   title: 'Designation',
+                        //   lines: 1,
+                        //   value: '',
+                        //   type: TextInputType.text,
+                        //   onSubmit: (value) {
+                        //     setState(() {
+                        //       designation = value;
+                        //     });
+                        //   },
+                        // ),
                         MyTextInput(
                           title: 'Deployment',
                           lines: 1,
@@ -224,17 +224,17 @@ class _RegisterState extends State<Register> {
                             });
                           },
                         ),
-                        MyTextInput(
-                          title: 'Duty Station',
-                          lines: 1,
-                          value: '',
-                          type: TextInputType.text,
-                          onSubmit: (value) {
-                            setState(() {
-                              station = value;
-                            });
-                          },
-                        ),
+                        // MyTextInput(
+                        //   title: 'Duty Station',
+                        //   lines: 1,
+                        //   value: '',
+                        //   type: TextInputType.text,
+                        //   onSubmit: (value) {
+                        //     setState(() {
+                        //       station = value;
+                        //     });
+                        //   },
+                        // ),
                         MySelectInput(
                           onSubmit: (value) {
                             setState(() {
@@ -267,21 +267,21 @@ class _RegisterState extends State<Register> {
                           value: data == null ? role : data["Role"],
                           title: 'Role',
                         ),
-                        MySelectInput(
-                          title: "Gender",
-                          onSubmit: (newValue) {
-                            setState(() {
-                              error = "";
-                              gender = newValue;
-                            });
-                          },
-                          entries: const [
-                            "--Select Gender--",
-                            "Male",
-                            "Female"
-                          ],
-                          value: gender,
-                        ),
+                        // MySelectInput(
+                        //   title: "Gender",
+                        //   onSubmit: (newValue) {
+                        //     setState(() {
+                        //       error = "";
+                        //       gender = newValue;
+                        //     });
+                        //   },
+                        //   entries: const [
+                        //     "--Select Gender--",
+                        //     "Male",
+                        //     "Female"
+                        //   ],
+                        //   value: gender,
+                        // ),
                         MyTextInput(
                           title: 'Password',
                           lines: 1,
@@ -319,7 +319,7 @@ class _RegisterState extends State<Register> {
                                 "$fname $sname",
                                 email,
                                 phone,
-                                department,
+                                directorate,
                                 designation,
                                 deployment,
                                 station,
@@ -362,7 +362,7 @@ Future<Message> submitData(
   String name,
   String email,
   String phone,
-  String department,
+  String directorate,
   String designation,
   String deployment,
   String station,
@@ -376,7 +376,7 @@ Future<Message> submitData(
   if (name.isEmpty ||
       email.isEmpty ||
       phone.isEmpty ||
-      department.isEmpty ||
+      directorate.isEmpty ||
       designation.isEmpty ||
       deployment.isEmpty ||
       station.isEmpty ||
@@ -405,7 +405,7 @@ Future<Message> submitData(
         'Name': name,
         'Email': email,
         'Phone': phone,
-        'Department': department,
+        'Directorate': directorate,
         'Position': designation,
         'Deployment': deployment,
         'DutyStation': station,
@@ -428,7 +428,7 @@ Future<Message> submitData(
       return Message(
         token: null,
         success: null,
-        error: "Connection to server failed!",
+        error: "Server Error! Contact Administrator for Assistance",
       );
     }
   } catch (e) {
