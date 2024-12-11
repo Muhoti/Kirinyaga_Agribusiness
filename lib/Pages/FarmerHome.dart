@@ -46,24 +46,26 @@ class _FarmerHomeState extends State<FarmerHome> {
 
     var id = await storage.read(key: "NationalID");
     farmerid = id!;
-    print(id);
+    print("farmer id: $id");
 
     try {
       final fdresponse = await http.get(
         Uri.parse("${getUrl()}farmerdetails/farmerid/$id"),
       );
       var fdbody = json.decode(fdresponse.body);
-      print(fdbody);
+      print("farmer details: $fdbody");
 
       final faresponse = await http.get(
         Uri.parse("${getUrl()}farmeraddress/$id"),
       );
       var fabody = json.decode(faresponse.body);
+      print("farmer fabody: $fabody");
 
       final frresponse = await http.get(
         Uri.parse("${getUrl()}farmerresources/$id"),
       );
       var frbody = json.decode(frresponse.body);
+      print("farmer frbody: $frbody");
 
       final fgresponse = await http.get(
         Uri.parse("${getUrl()}farmergroups/farmerid/$id"),
@@ -75,7 +77,7 @@ class _FarmerHomeState extends State<FarmerHome> {
         Uri.parse("${getUrl()}farmerdetails/valuechains/$id"),
       );
       var vcbody = json.decode(vcresponse.body);
-      print("the fgbody info now is $vcbody");
+      print("the vcbody info now is $vcbody");
       isLoading = null;
 
       setState(() {

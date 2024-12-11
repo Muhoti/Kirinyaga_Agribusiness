@@ -300,6 +300,7 @@ Future<Message> submitData(
     const storage = FlutterSecureStorage();
     var token = await storage.read(key: "kiriamisjwt");
     var response;
+    print("Type is: $type");
     if (type) {
       response = await http.put(
         Uri.parse("${getUrl()}farmerdetails/$nationalId"),
@@ -317,6 +318,7 @@ Future<Message> submitData(
         }),
       );
     } else {
+      print("executing create");
       response = await http.post(
         Uri.parse("${getUrl()}farmerdetails/create"),
         headers: <String, String>{
