@@ -28,13 +28,10 @@ class _RegisterState extends State<Register> {
   String email = '';
   String phone = '';
   String directorate = '';
-  String designation = '';
   String deployment = '';
-  String station = '';
   String level = '';
   String levelname = '';
   String role = '';
-  String gender = '';
   String password = '';
   String confirmpass = '';
   String error = '';
@@ -320,13 +317,10 @@ class _RegisterState extends State<Register> {
                                 email,
                                 phone,
                                 directorate,
-                                designation,
                                 deployment,
-                                station,
                                 level,
                                 levelname,
                                 role,
-                                gender,
                                 password,
                                 confirmpass);
                             setState(() {
@@ -363,13 +357,10 @@ Future<Message> submitData(
   String email,
   String phone,
   String directorate,
-  String designation,
   String deployment,
-  String station,
   String level,
   String levelname,
   String role,
-  String gender,
   String password,
   String confirmpass,
 ) async {
@@ -377,13 +368,10 @@ Future<Message> submitData(
       email.isEmpty ||
       phone.isEmpty ||
       directorate.isEmpty ||
-      designation.isEmpty ||
       deployment.isEmpty ||
-      station.isEmpty ||
       level.isEmpty ||
       levelname.isEmpty ||
       role.isEmpty ||
-      gender.isEmpty ||
       password.isEmpty) {
     return Message(
         token: null, success: null, error: "All fields are required!");
@@ -406,13 +394,10 @@ Future<Message> submitData(
         'Email': email,
         'Phone': phone,
         'Directorate': directorate,
-        'Position': designation,
         'Deployment': deployment,
-        'DutyStation': station,
         'Level': level,
         'LevelName': levelname,
         'Role': role,
-        'Gender': gender,
         'Password': password,
       }),
     );
